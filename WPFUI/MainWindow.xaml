@@ -7,6 +7,36 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock x:Name="TextBlock1"></TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label>First Name</Label>
+        <TextBox Name="FirstName" Grid.Column="1" Margin="0,0,0,10" />
+        <Label Grid.Row="1">Last Name</Label>
+        <TextBox Name="LastName" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
+        <Label Grid.Row="2">E-Mail</Label>
+        <TextBox Name="Email" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" />
+        <Label Grid.Row="3">Password</Label>
+        <PasswordBox Name="PasswordBox1" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
+        <Label Grid.Row="4">Confirm Password</Label>
+        <PasswordBox Name="PasswordBox2" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"/>
+
+        <Button Grid.Row="5" x:Name="btnRegister" Margin="0,5,0,0" Click="ButtonRegister_Click">
+            Register
+        </Button>
+
+        <Label Name="ErrorMessage" Grid.Row="6" Grid.Column="2"></Label>
     </Grid>
+
 </Window>

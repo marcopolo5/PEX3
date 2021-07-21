@@ -1,4 +1,6 @@
 ﻿using Domain;
+using Domain.Controllers;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,52 @@ namespace WPFUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        // Messy code
+        public void ButtonRegister_Click(object sender, RoutedEventArgs e)
+        {
+            string errorMessage = "";
+            // does not check existing user :)
+            bool validData = CheckConstraints(ref errorMessage);
+            if (validData)
+            {
+                var userRegisterModel = new UserRegisterModel
+                {
+                    Email = Email.Text, // No regex to check Email yet :(
+                    FirstName = FirstName.Text,
+                    LastName = LastName.Text,
+                    Password = PasswordBox1.Password // no hash, plain text !
+                };
+                ApplicationUserController.Register(userRegisterModel);
+                ErrorMessage.Content = "You have registered successfully!";
+            }
+            else
+            {
+                ErrorMessage.Content = errorMessage;
+            }
+        }
+
+        public bool CheckConstraints(ref string errorMessage)
+        {
+            if (FirstName.Text.Length == 0 || LastName.Text.Length == 0)
+            {
+                errorMessage = "Enter a valid Name";
+            }
+            else if (Email.Text.Length == 0)
+            {
+                errorMessage = "Enter a valid e-mail";
+            }
+            else if (PasswordBox1.Password.Length == 0 || PasswordBox2.Password.Length == 0)
+            {
+                errorMessage = "The password cannot be empty";
+            }
+            else if (PasswordBox1.Password != PasswordBox2.Password)
+            {
+                errorMessage = "Passwords don't match";
+            }
+
+            return errorMessage == "";
         }
     }
 }
