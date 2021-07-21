@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{B76D4424-839C-46AB-A2B7-57D2EE6253B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6EDB5877-6E5A-415D-A785-DE0C5F037F4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{963AB881-46DA-4370-8FE2-F9BEAD49A6FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFUI", "WPFUI\WPFUI.csproj", "{02811079-3167-4EF8-B526-C866A2CBBCC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountModule", "AccountModule\AccountModule.csproj", "{A83734E5-356F-4460-960B-CA75FD6B69F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatModule", "ChatModule\ChatModule.csproj", "{E90E002D-F463-4BFA-8327-5714E5231108}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProximityChatModule", "ProximityChatModule\ProximityChatModule.csproj", "{029EE05C-B1E9-4928-A732-077C261E6A58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{963AB881-46DA-4370-8FE2-F9BEAD49A6FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{963AB881-46DA-4370-8FE2-F9BEAD49A6FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{963AB881-46DA-4370-8FE2-F9BEAD49A6FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{963AB881-46DA-4370-8FE2-F9BEAD49A6FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02811079-3167-4EF8-B526-C866A2CBBCC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02811079-3167-4EF8-B526-C866A2CBBCC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02811079-3167-4EF8-B526-C866A2CBBCC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02811079-3167-4EF8-B526-C866A2CBBCC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83734E5-356F-4460-960B-CA75FD6B69F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83734E5-356F-4460-960B-CA75FD6B69F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83734E5-356F-4460-960B-CA75FD6B69F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83734E5-356F-4460-960B-CA75FD6B69F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E90E002D-F463-4BFA-8327-5714E5231108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90E002D-F463-4BFA-8327-5714E5231108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90E002D-F463-4BFA-8327-5714E5231108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90E002D-F463-4BFA-8327-5714E5231108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{029EE05C-B1E9-4928-A732-077C261E6A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{029EE05C-B1E9-4928-A732-077C261E6A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{029EE05C-B1E9-4928-A732-077C261E6A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{029EE05C-B1E9-4928-A732-077C261E6A58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{963AB881-46DA-4370-8FE2-F9BEAD49A6FA} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
+		{02811079-3167-4EF8-B526-C866A2CBBCC6} = {B76D4424-839C-46AB-A2B7-57D2EE6253B8}
+		{A83734E5-356F-4460-960B-CA75FD6B69F5} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
+		{E90E002D-F463-4BFA-8327-5714E5231108} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
+		{029EE05C-B1E9-4928-A732-077C261E6A58} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84135C19-AEB5-4633-8B14-E082F427EA2A}
+	EndGlobalSection
+EndGlobal
