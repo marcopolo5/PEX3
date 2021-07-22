@@ -12,33 +12,111 @@ namespace Domain.Controllers
 {
     public partial class ApplicationUserController
     {
-        private int token = 234123;
+        private string connectionString = "Server=DESKTOP-GPVJ6T8; Database=GeoChat_DB; Trusted_Connection=True;";
 
         public ApplicationUserController() 
         {
         
         }
 
-        public static void Register(UserRegisterModel userRegisterModel)
+        public bool Login(UserLoginModel userLoginModel)
         {
-            string connectionString = "Server=DESKTOP-GPVJ6T8; Database=GeoChat_DB; Trusted_Connection=True;";
-            string queryString = "INSERT INTO Users([first_name], [last_name], [email], [password], [token], [verified], [join_date]) VALUES ('"+ userRegisterModel.FirstName + "', '" + userRegisterModel.LastName + "', '" + userRegisterModel.Email + "', '" + userRegisterModel.Password + "', 'no_token', 0, CURRENT_TIMESTAMP);"; // open to SQL Injection (testing purpose tho)
+            string spName = @"dbo.[spLoginUser]";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(spName, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@email", SqlDbType.VarChar);
+                cmd.Parameters["@email"].Value = userLoginModel.Email;
+
+                cmd.Parameters.Add("@password", SqlDbType.VarChar);
+                cmd.Parameters["@password"].Value = userLoginModel.Password;
+
+                // RememberMe option - client side 
+
+                // in procedura stocata daca se incearca login cu parola gresita token-ul devine 0, asta inseamna ca se va deconecta clientul deja logat?
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string result = reader.GetString(0);
+                        if (result == "0")
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public bool Register(UserRegisterModel userRegisterModel)
+        {
+            if (UserExists(userRegisterModel.Email))
+            {
+                return false;
+            }
+
+            string spName = @"dbo.[spRegisterUser]";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(spName, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@email", SqlDbType.VarChar);
+                cmd.Parameters["@email"].Value = userRegisterModel.Email;
+
+                cmd.Parameters.Add("@password", SqlDbType.VarChar);
+                cmd.Parameters["@password"].Value = userRegisterModel.Password;
+
+                cmd.Parameters.Add("@firstName", SqlDbType.VarChar);
+                cmd.Parameters["@firstName"].Value = userRegisterModel.FirstName;
+
+                cmd.Parameters.Add("@lastName", SqlDbType.VarChar);
+                cmd.Parameters["@lastName"].Value = userRegisterModel.LastName;
+
+                int result = cmd.ExecuteNonQuery();
+                if(result == 0) // Query execution failed
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        private bool UserExists(string email)
+        {
+            string queryString = "SELECT [email] FROM [Users]";
 
             using(SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand(queryString, conn))
                 {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string result = reader.GetString(0);
+                            if(result == email)
+                            {
+                                return true;
+                            }
+
+                            reader.NextResult();
+                        }
+                    }
                 }
             }
-            
 
-
-            return;
+            return false;
         }
-
 
     }
 }
