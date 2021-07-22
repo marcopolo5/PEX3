@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFUI", "WPFUI\WPFUI.csproj", "{02811079-3167-4EF8-B526-C866A2CBBCC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountModule", "AccountModule\AccountModule.csproj", "{A83734E5-356F-4460-960B-CA75FD6B69F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountModule", "AccountModule\AccountModule.csproj", "{A83734E5-356F-4460-960B-CA75FD6B69F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatModule", "ChatModule\ChatModule.csproj", "{E90E002D-F463-4BFA-8327-5714E5231108}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatModule", "ChatModule\ChatModule.csproj", "{E90E002D-F463-4BFA-8327-5714E5231108}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProximityChatModule", "ProximityChatModule\ProximityChatModule.csproj", "{029EE05C-B1E9-4928-A732-077C261E6A58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProximityChatModule", "ProximityChatModule\ProximityChatModule.csproj", "{029EE05C-B1E9-4928-A732-077C261E6A58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "MainWindoww\UI.csproj", "{852047F0-3FD6-40E4-B067-24A4540A209B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{029EE05C-B1E9-4928-A732-077C261E6A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{029EE05C-B1E9-4928-A732-077C261E6A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{029EE05C-B1E9-4928-A732-077C261E6A58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{852047F0-3FD6-40E4-B067-24A4540A209B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{852047F0-3FD6-40E4-B067-24A4540A209B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{852047F0-3FD6-40E4-B067-24A4540A209B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{852047F0-3FD6-40E4-B067-24A4540A209B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{A83734E5-356F-4460-960B-CA75FD6B69F5} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
 		{E90E002D-F463-4BFA-8327-5714E5231108} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
 		{029EE05C-B1E9-4928-A732-077C261E6A58} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
+		{852047F0-3FD6-40E4-B067-24A4540A209B} = {B76D4424-839C-46AB-A2B7-57D2EE6253B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84135C19-AEB5-4633-8B14-E082F427EA2A}
