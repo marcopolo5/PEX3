@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Domain.Models
@@ -18,8 +19,10 @@ namespace Domain.Models
         public string Title { get; set; }
         public ConversationTypes Type { get; set; }
 
+        [Description("ignore")]
         public IEnumerable<User> Participants { get; set; }
 
+        [Description("ignore")]
         public IEnumerable<Message> Messages { get; set; }
     }
 }

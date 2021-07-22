@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+
 namespace Domain.Models
 {
 
@@ -26,7 +28,8 @@ namespace Domain.Models
 
         public DateTime LastUpdate { get; set; }
 
-
+        
+        [Description("ignore")]
         public Profile Profile { get; set; }
 
     }
