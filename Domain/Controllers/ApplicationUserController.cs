@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Domain.Models;
 using System.Data;
 using System.Data.SqlClient;
+using Domain.AccountContracts;
 
 namespace Domain.Controllers
 {
-    public partial class ApplicationUserController
+    public class ApplicationUserController 
     {
         private int token = 234123;
 
@@ -33,12 +34,9 @@ namespace Domain.Controllers
                     cmd.ExecuteNonQuery();
                 }
             }
-            
-
 
             return;
         }
-
 
     }
 }
