@@ -1,7 +1,6 @@
 ﻿using AccountModule.Controllers;
 using Domain;
 using Domain.AccountContracts;
-using Domain.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
