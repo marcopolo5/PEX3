@@ -9,9 +9,9 @@ using System.Data;
 using System.Data.SqlClient;
 using Domain.AccountContracts;
 
-namespace Domain.Controllers
+namespace AccountModule.Controllers
 {
-    public class ApplicationUserController 
+    public class ApplicationUserController : IAccountService
     {
         private int token = 234123;
 
@@ -20,7 +20,19 @@ namespace Domain.Controllers
         
         }
 
-        public static void Register(UserRegisterModel userRegisterModel)
+        public bool Login(UserLoginModel userLoginModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Logout()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        // need to change this
+        public bool Register(UserRegisterModel userRegisterModel)
         {
             string connectionString = "Server=DESKTOP-GPVJ6T8; Database=GeoChat_DB; Trusted_Connection=True;";
             string queryString = "INSERT INTO Users([first_name], [last_name], [email], [password], [token], [verified], [join_date]) VALUES ('"+ userRegisterModel.FirstName + "', '" + userRegisterModel.LastName + "', '" + userRegisterModel.Email + "', '" + userRegisterModel.Password + "', 'no_token', 0, CURRENT_TIMESTAMP);"; // open to SQL Injection (testing purpose tho)
@@ -35,7 +47,7 @@ namespace Domain.Controllers
                 }
             }
 
-            return;
+            return true;
         }
 
     }

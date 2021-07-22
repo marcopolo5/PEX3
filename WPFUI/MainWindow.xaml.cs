@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.AccountContracts;
 using Domain.Controllers;
 using Domain.Models;
 using System;
@@ -23,8 +24,11 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IAccountService _accountService;
+
+        public MainWindow(IAccountService accountService)
         {
+            _accountService = accountService;
             InitializeComponent();
         }
 
@@ -43,7 +47,7 @@ namespace WPFUI
                     LastName = LastName.Text,
                     Password = PasswordBox1.Password // no hash, plain text !
                 };
-                ApplicationUserController.Register(userRegisterModel);
+                _accountService.Register(userRegisterModel);
                 ErrorMessage.Content = "You have registered successfully!";
             }
             else
