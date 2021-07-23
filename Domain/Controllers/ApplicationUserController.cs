@@ -36,8 +36,6 @@ namespace Domain.Controllers
 
                 // RememberMe option - client side 
 
-                // in procedura stocata daca se incearca login cu parola gresita token-ul devine 0, asta inseamna ca se va deconecta clientul deja logat?
-
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
