@@ -47,7 +47,7 @@
         <Label Grid.Row="1" Grid.Column="2" Margin="0,0,0,10">Password</Label>
         <PasswordBox Grid.Row="1" Grid.Column="3" Name="loginPassword" Margin="0,0,0,10"></PasswordBox>
 
-        <Button Grid.Row="2" Grid.Column="3" x:Name="btnLogin" Margin="0, 0, 0, 10" Click="ButtonLogin_Click">
+        <Button Grid.Row="2" Grid.Column="3" x:Name="btnLogin" Margin="0,0,0,10" Click="ButtonLogin_Click">
             Login
         </Button>
 

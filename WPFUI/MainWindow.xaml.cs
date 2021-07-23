@@ -77,7 +77,7 @@ namespace WPFUI
                 }
                 else
                 {
-                    registerErrorMessage.Content = "User already taken";
+                    registerErrorMessage.Content = "E-mail already used";
                 }
             }
             else
