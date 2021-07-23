@@ -20,9 +20,9 @@ namespace Domain.Models
         public ConversationTypes Type { get; set; }
 
         [Description("ignore")]
-        public IEnumerable<User> Participants { get; set; }
+        public List<User> Participants { get; set; } = new();
 
         [Description("ignore")]
-        public IEnumerable<Message> Messages { get; set; }
+        public List<Message> Messages { get; set; } = new();
     }
 }

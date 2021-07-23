@@ -68,7 +68,7 @@ namespace Domain.RepositoryContracts
         
         //TODO: Create connection string in App.config file
         // Or give raw connection string as parameter
-        private SqlConnection SqlConnection() => new SqlConnection("Soon™"); 
+        private SqlConnection SqlConnection() => new SqlConnection(@"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True"); 
 
         protected IDbConnection CreateConnection()
         {
@@ -89,7 +89,10 @@ namespace Domain.RepositoryContracts
 
         private string GenerateInsertQuery()
         {
-            var insertQuery = new StringBuilder($"INSERT INTO {TableName} (");
+            var insertQuery = new StringBuilder($"INSERT INTO {TableName} ");
+
+            insertQuery.Append("(");
+
             var properties = GenerateListOfProperties(GetProperties);
             properties.ForEach(prop => { insertQuery.Append($"[{prop}],"); });
 

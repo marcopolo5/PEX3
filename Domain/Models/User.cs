@@ -14,12 +14,13 @@ namespace Domain.Models
     public class User
     {
         // Basic info:
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string FirstName { get; set; }
         
         public string LastName { get; set; }
         
+        public string Password { get; set; }
         public string Email { get; set; }
         
         public bool Verified { get; set; }
@@ -27,10 +28,10 @@ namespace Domain.Models
         public DateTime JoinDate { get; set; }
 
         public DateTime LastUpdate { get; set; }
-
-        
+ 
         [Description("ignore")]
         public Profile Profile { get; set; }
 
+        public string? Token { get; set; }
     }
 }

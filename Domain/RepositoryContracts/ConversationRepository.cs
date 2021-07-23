@@ -10,11 +10,33 @@ namespace Domain.RepositoryContracts
 {
     public class ConversationRepository : GenericRepository<Conversation>
     {
-        private readonly MessageRepository MessageRepository;
         private readonly UserRepository UserRepository;
         public ConversationRepository() : base("Conversations") {
-            MessageRepository = new();
             UserRepository = new();
+        }
+
+        public new async Task CreateAsync(Conversation conversation)
+        {
+            using (var connection = CreateConnection())
+            {
+                await base.CreateAsync(conversation);
+                foreach(User participant in conversation.Participants)
+                {
+                    string sql = $@"insert into Group_Members values({participant.Id},{conversation.Id})";
+                    await connection.QueryAsync(sql);
+                }
+            }
+        }
+
+        public new async Task<Conversation> ReadAsync(int id)
+        {
+            using (var connection = CreateConnection())
+            {
+                var conversation = await base.ReadAsync(id);
+                await BindConversationParticipants(conversation);
+                await BindConversationMessages(conversation);
+                return conversation;
+            }
         }
 
         public new async Task<IEnumerable<Conversation>> ReadAllAsync()
@@ -35,17 +57,16 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, int receiver_id, string message, DateTime created_at)>
-                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.Conversation_Id={conversation.Id} ORDER BY created_at ASC");
+                var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
+                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId={conversation.Id} ORDER BY createdat ASC");
                 foreach (var message in messages)
                 {
-                    conversation.Messages.Append(new Message
+                    conversation.Messages.Add(new Message
                     {
                         Id = message.id,
-                        Sender = await UserRepository.ReadAsync(message.sender_id),
-                        Conversation = conversation,
+                        SenderId = message.sender_id,
                         CreatedAt = message.created_at,
-                        TextMessage = message.message
+                        TextMessage = message.textmessage
                     });
                 }
             }
@@ -55,9 +76,9 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON User.Id=Group_Members.User_Id AND Group_Members.Conversation_Id={conversation.Id}");
+                var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId={conversation.Id}");
                 await UserRepository.BindUserProfilesAsync(participants);
-                conversation.Participants = participants;
+                conversation.Participants = (List<User>)participants;
             }
         }
     }

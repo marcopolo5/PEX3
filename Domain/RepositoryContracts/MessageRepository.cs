@@ -28,8 +28,7 @@ namespace Domain.RepositoryContracts
                     messages_result.Append(new Message
                     {
                         Id = message.id,
-                        Sender = await UserRepository.ReadAsync(message.sender_id),
-                        Conversation = await ConversationRepository.ReadAsync(message.conversation_id),
+                        SenderId = message.sender_id,
                         CreatedAt = message.created_at,
                         TextMessage = message.message
                     });
