@@ -21,7 +21,27 @@ namespace MainWindoww
     {
         public registerWindow()
         {
-            InitializeComponent();
+           InitializeComponent();
+        }
+
+        private void resetButton_Click(object sender, RoutedEventArgs e)
+        {
+            firstNameText.Clear();
+            lastNameText.Clear();
+            emailText.Clear();
+            password1Text.Clear();
+            password2Text.Clear();
+        }
+
+        private void returnButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            //mainWindow.Show()
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

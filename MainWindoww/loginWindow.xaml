@@ -6,7 +6,28 @@
         xmlns:local="clr-namespace:MainWindoww"
         mc:Ignorable="d"
         Title="loginWindow" Height="450" Width="800">
-    <Grid>
-        
+   
+    <Grid Background="#112152">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="36" Text="Register geoChat" Foreground="white" Grid.ColumnSpan="3" Margin="200,10,200,10"/>
     </Grid>
 </Window>

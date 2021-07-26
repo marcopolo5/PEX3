@@ -24,5 +24,19 @@ namespace MainWindoww
         {
             InitializeComponent();
         }
+
+        private void signupButton_Click(object sender, RoutedEventArgs e)
+        {
+            registerWindow register = new registerWindow();
+            this.Hide();
+            register.Show();
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            loginWindow login = new loginWindow();
+            this.Hide();
+            login.Show();
+        }
     }
 }
