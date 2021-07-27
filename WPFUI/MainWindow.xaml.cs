@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AccountModule.Controllers;
+using Domain;
 using Domain.AccountContracts;
 using Domain.Models;
 using System;

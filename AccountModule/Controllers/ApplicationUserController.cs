@@ -22,16 +22,6 @@ namespace AccountModule.Controllers
 
         public bool Login(UserLoginModel userLoginModel)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Logout()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Login(UserLoginModel userLoginModel)
-        {
             string spName = @"dbo.[spLoginUser]";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -61,6 +51,11 @@ namespace AccountModule.Controllers
             }
 
             return true;
+        }
+
+        public bool Logout()
+        {
+            throw new NotImplementedException();
         }
 
         public bool Register(UserRegisterModel userRegisterModel)

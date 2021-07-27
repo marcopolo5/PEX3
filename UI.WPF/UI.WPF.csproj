@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="close.png" />
 	  <None Remove="MicrosoftTeams-image.png" />
 	  <None Remove="MicrosoftTeams-imagine.png" />
 	</ItemGroup>
@@ -21,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="close.png" />
 	  <Resource Include="MicrosoftTeams-image.png" />
 	  <Resource Include="MicrosoftTeams-imagine.png" />
 	</ItemGroup>
@@ -47,6 +49,15 @@
 	  <Compile Update="registerWindow.xaml.cs">
 	    <DependentUpon>registerWindow.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Assets\close.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Assets\icons8-macos-close-96.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
