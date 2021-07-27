@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainWindoww"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200" >
+        Title="MainWindow" 
+        Height="800" 
+        Width="1200" 
+        WindowStyle = "None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
+    
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -101,44 +108,50 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Background="#FF112152">
+    <Border CornerRadius="52" BorderThickness="10" BorderBrush="white" >
+        <Border CornerRadius="35" BorderThickness="14" BorderBrush="#112152">
+            <Grid Background="#FF112152">
 
-        <Grid.ColumnDefinitions >
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>
-        <Label Grid.Row="1" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="70" Content="geoChat" Foreground="white" Margin="440,20,440,0" FontWeight="Bold" Grid.ColumnSpan="2" />
-        <Label Grid.Row="2" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="40" Content="Let those beeps fly" Foreground="#999a9e" Margin="400,0" Grid.ColumnSpan="2"/>
-        <Label Grid.Row="3" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="30"  Content="since 2021" Foreground="white" Margin="490,0" Grid.ColumnSpan="2"/>
-        <Button x:Name="loginButton" Content="Login" Grid.Column="1"
-Grid.Row="4" Background="#FF112152" Foreground="white" Width="300" Height="100" Margin="230,20,0,0" FontSize="30" FontWeight="Bold" FontFamily="Comic Sans MS" Style="{DynamicResource RoundedButtonStyle}" Click="loginButton_Click" BorderThickness="3">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="60"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button x:Name="signupButton" Content="Sign-up" Grid.Column="2"
-Grid.Row="4" Background="#FF112152" Foreground="white" Width="300" Height="100" Margin="0,20,230,0" FontSize="30" FontWeight="Bold" FontFamily="Comic Sans MS" Style="{DynamicResource ButtonStyle1}" Click="signupButton_Click" BorderThickness="3">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="60"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Image Grid.Column="1" Grid.Row="5" Width="300" Margin="100,40" Source="MicrosoftTeams-imagine.png" Grid.ColumnSpan="2"/>
-    </Grid>
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="1" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="70" Content="geoChat" Foreground="white" HorizontalAlignment="Center"  Margin="0,20" FontWeight="Bold" Grid.ColumnSpan="2" />
+                <Label Grid.Row="2" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="40" Content="Let those beeps fly" HorizontalAlignment="Center" Foreground="#999a9e"  Grid.ColumnSpan="2"/>
+                <Label Grid.Row="3" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="30"  Content="since 2021" HorizontalAlignment="Center" Margin="0,0,0,30" Foreground="white" Grid.ColumnSpan="2"/>
+                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.Row="4" Background="#FF112152" 
+                        Foreground="white" Width="300" Height="100" Margin="220,20,0,0" 
+                        FontSize="30" FontWeight="Bold" FontFamily="Comic Sans MS" 
+                        Style="{DynamicResource RoundedButtonStyle}" Click="loginButton_Click" BorderThickness="3">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="60"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="signupButton" Content="Sign-up" Grid.Column="2" Grid.Row="4" Background="#FF112152" 
+                        Foreground="white" Width="300" Height="100" Margin="60,20,230,0" FontSize="30" FontWeight="Bold" 
+                        FontFamily="Comic Sans MS" Style="{DynamicResource ButtonStyle1}" Click="signupButton_Click" BorderThickness="3">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="60"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Image Grid.Column="1" Grid.Row="5" Width="300" Margin="80,50"  HorizontalAlignment="Center" Source="MicrosoftTeams-imagine.png" Grid.ColumnSpan="2"/>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

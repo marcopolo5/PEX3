@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainWindoww"
         mc:Ignorable="d"
-        Title="registerWindow" Height="800" Width="1200">
+        Title="registerWindow" 
+        Height="800" 
+        Width="1200"
+        WindowStyle = "None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -25,7 +31,8 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+        
+        <Style x:Key="ButtonStyle3" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
@@ -44,47 +51,7 @@
                             <Trigger Property="IsDefaulted" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#112152"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="#112152"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#112152"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="#112152"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ButtonStyle2" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#112152"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="#112152"/>
-                            </Trigger>
+                            
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Background" TargetName="border" Value="#112152"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="#112152"/>
@@ -101,196 +68,219 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="#112152">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>
-
-        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="40" Text="Register geoChat" Foreground="white"  HorizontalAlignment="Center" Grid.ColumnSpan="3" Margin="0,40,0,0"/>
-        <Image Grid.Column="3" Grid.Row="1" Width="150" Margin="10,10" Source="MicrosoftTeams-imagine.png" />
-
-        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="30" Foreground="white" Text="First Name:" FontFamily="Segoe UI"  Margin="250 ,10,40,20"/>
-        <TextBox x:Name="firstNameText" Grid.Column="2" Grid.Row="2" FontSize="25" Width="400" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,10,0,20">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </TextBox.Resources>
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+    <Border CornerRadius="52" BorderThickness="10" BorderBrush="white" >
+        <Border CornerRadius="35" BorderThickness="14" BorderBrush="#112152">
 
 
-        <TextBlock Grid.Column="1" Grid.Row="3" FontSize="30" Foreground="white" Text="Last Name:" FontFamily="Segoe UI"  Margin="250 ,10,40,20"/>
-        <TextBox x:Name="lastNameText" Grid.Column="2" Grid.Row="3"  FontSize="25" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </TextBox.Resources>
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+            <Grid Background="#112152" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="1" Grid.Row="4" FontSize="30" Foreground="white" Text="E-mail:" FontFamily="Segoe UI"  Margin="250 ,10,40,20"/>
-        <TextBox x:Name="emailText" Grid.Column="2" Grid.Row="4" FontSize="25" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" FontSize="50" Text="Register" Foreground="white"  HorizontalAlignment="Center" 
+                           Grid.ColumnSpan="3" Margin="0,40,0,40" FontFamily="Comic Sans MS"  x:Name ="grid" PreviewMouseDown ="grid_PreviewMouseDown"/>
+                <Image Grid.Column="1" Grid.Row="1" Width="190" Margin="-270,0,0,0" Source="MicrosoftTeams-imagine.png" />
 
-                </Style>
-            </TextBox.Resources>
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TextBox.Style>
-
-        </TextBox>
-
-        <TextBlock Grid.Column="1" Grid.Row="5" FontSize="30" Foreground="white" Text="Password:" FontFamily="Segoe UI"  Margin="250 ,10,40,20"/>
-        <PasswordBox x:Name="password1Text" Grid.Column="2" Grid.Row="5" FontSize="25" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
-            <PasswordBox.Style>
-                <Style TargetType="PasswordBox">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Control}">
-                                <Border Name="Border"  Background="White" BorderThickness="1" CornerRadius="10">
-                                    <ScrollViewer x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-            </PasswordBox.Style>
-        </PasswordBox>
-
-        <TextBlock Grid.Column="1" Grid.Row="6" FontSize="30" Foreground="white" Text="Repeat password:" FontFamily="Segoe UI"  Margin="250 ,10,40,20"/>
-        <PasswordBox x:Name="password2Text" Grid.Column="2" FontSize="25" Grid.Row="6" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
-            <PasswordBox.Style>
-                <Style TargetType="PasswordBox">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Control}">
-                                <Border Name="Border"  Background="White" BorderThickness="1" CornerRadius="10">
-                                    <ScrollViewer x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-
-                        </Setter.Value>
-                    </Setter>
-
-                    <Setter Property="Background" >
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="White" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.0" />
-                            </LinearGradientBrush>
-
-                        </Setter.Value>
-                    </Setter>
+                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="30" Foreground="white" Text="First Name:" FontFamily="Comic Sans MS"  Margin="220 ,10,40,20"/>
+                <TextBox x:Name="firstNameText" Grid.Column="2" Grid.Row="2" FontSize="25" Width="400" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,10,0,20">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="white" Offset="0.0" />
+                                        <GradientStop Color="#FF838383" Offset="1.00" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
 
-                </Style>
+                <TextBlock Grid.Column="1" Grid.Row="3" FontSize="30" Foreground="white" Text="Last Name:" FontFamily="Comic Sans MS"  Margin="220 ,10,40,20"/>
+                <TextBox x:Name="lastNameText" Grid.Column="2" Grid.Row="3"  FontSize="25" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="white" Offset="0.0" />
+                                        <GradientStop Color="#FF838383" Offset="1.00" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-            </PasswordBox.Style>
-        </PasswordBox>
+                <TextBlock Grid.Column="1" Grid.Row="4" FontSize="30" Foreground="white" Text="E-mail:" FontFamily="Comic Sans MS"  Margin="220 ,10,40,20"/>
+                <TextBox x:Name="emailText" Grid.Column="2" Grid.Row="4" FontSize="25" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
 
-        <Button x:Name="registerButton" Content="Register" Grid.Column="1" Grid.Row="7" FontSize="30" Width="300" Height="70" Margin="250,10,0,20">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="60"/>
-                </Style>
-            </Button.Resources>
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+                        </Style>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="white" Offset="0.0" />
+                                        <GradientStop Color="#FF838383" Offset="1.00" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
 
-        <Button x:Name="resetButton" Content="Reset" Grid.Column="2" Grid.Row="7"  Grid.ColumnSpan="2" FontSize="30" Width="300" Height="70" Margin="0,10,100,20" Click="resetButton_Click" >
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="60"/>
-                </Style>
-            </Button.Resources>
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+                </TextBox>
 
-        <Button x:Name="loginButton" Content="I am already registered!" Grid.Column="1" Grid.Row="8" Background="#FF112152" Foreground="white"
-                Grid.ColumnSpan="2" FontSize="20" Width="220" Height="40" Margin="100,-80,200,20" BorderThickness="0" Style="{DynamicResource ButtonStyle1}" Click="loginButton_Click">
+                <TextBlock Grid.Column="1" Grid.Row="5" FontSize="30" Foreground="white" Text="Password:" FontFamily="Comic Sans MS"  Margin="220 ,10,40,20"/>
+                <PasswordBox x:Name="password1Text" Grid.Column="2" Grid.Row="5" FontSize="25" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20">
+                    <PasswordBox.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="White" Offset="0.0" />
+                            <GradientStop Color="#FF838383" Offset="1.0" />
 
-        </Button>
-        <Button x:Name="returnButton" Content="Return to home page" Grid.Column="2" Grid.Row="8" Background="#FF112152" Foreground="white"
-                Grid.ColumnSpan="2" FontSize="20" Width="220" Height="40" Margin="100,-80,200,20" BorderThickness="0" Style="{DynamicResource ButtonStyle2}" Click="returnButton_Click">
-        
-        </Button>
-        
-        
+                        </LinearGradientBrush>
 
-    </Grid>
+                    </PasswordBox.Background>
+                    <PasswordBox.Style>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Control}">
+                                        <Border Name="Border"
+                                                BorderThickness="1"
+                                                CornerRadius="10">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1"
+                                                                     StartPoint="0.5,0">
+                                                    <GradientStop Color="White" />
+                                                    <GradientStop Color="#FF999A9E"
+                                                                  Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <ScrollViewer x:Name="PART_ContentHost" />
+                                        </Border>
+                                    </ControlTemplate>
+
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </PasswordBox.Style>
+
+                </PasswordBox>
+
+                <TextBlock Grid.Column="1" Grid.Row="6" FontSize="30" Foreground="white" Text="Repeat password:" FontFamily="Comic Sans MS"  Margin="220 ,10,40,20"/>
+                <PasswordBox x:Name="password2Text" Grid.Column="2" FontSize="25" Grid.Row="6" Width="400"  HorizontalAlignment="Left" Margin="0,10,0,20" >
+                    <PasswordBox.Style>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Control}">
+                                        <Border Name="Border"
+                                                BorderThickness="1"
+                                                CornerRadius="10">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1"
+                                                                     StartPoint="0.5,0">
+                                                    <GradientStop Color="White" />
+                                                    <GradientStop Color="#FF999A9E"
+                                                                  Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <ScrollViewer x:Name="PART_ContentHost" />
+                                        </Border>
+                                    </ControlTemplate>
+
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </PasswordBox.Style>
+                </PasswordBox>
+
+                <Button x:Name="registerButton" Content="Register" Grid.Column="1" Grid.Row="7" FontSize="27" Width="300" Height="70" Margin="220,20,0,20"  FontFamily="Comic Sans MS" Foreground="#333333">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="60"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="white" Offset="0.0" />
+                                        <GradientStop Color="#FF838383" Offset="1.00" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="resetButton" Content="Reset" Grid.Column="2" Grid.Row="7"  Grid.ColumnSpan="2" FontSize="27" Width="300" Height="70" Margin="0,20,130,20" Click="resetButton_Click" FontFamily="Comic Sans MS" Foreground="#333333">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="60"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="white" Offset="0.0" />
+                                        <GradientStop Color="#FF838383" Offset="1.00" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <TextBlock x:Name ="loginTextBox"  PreviewMouseDown="loginTextBox_PreviewMouseDown" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" FontSize="20" Foreground="white" Text="I am already registered!" FontFamily="Comic Sans MS"  Margin="270,10,0,20"/>
+                <TextBlock x:Name ="returnTextBox" PreviewMouseDown ="returnTextBox_PreviewMouseDown" Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="2" FontSize="20" Foreground="white" Text="Return to home page" FontFamily="Comic Sans MS"  Margin="160 ,10,200,20"/>
+                <Button x:Name ="closeButton" Grid.Column="3" Grid.Row="1" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" Margin="150,0,0,100" Click="closeButton_Click" Style="{DynamicResource ButtonStyle3}" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
+                    </Button.Background>
+                </Button>
+
+            </Grid>
+        </Border>
+    </Border>
 </Window>

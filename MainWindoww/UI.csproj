@@ -114,5 +114,11 @@
   <ItemGroup>
     <Resource Include="MicrosoftTeams-imagine.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons8-macos-close-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\close.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
