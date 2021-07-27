@@ -8,13 +8,26 @@ using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
 {
+    /// <summary>
+    /// Data access layer class for 'Conversation' model. 
+    /// Corresponding to 'Conversations' table.
+    /// </summary>
     public class ConversationRepository : GenericRepository<Conversation>
     {
         private readonly UserRepository UserRepository;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ConversationRepository() : base("Conversations") {
             UserRepository = new();
         }
 
+
+        /// <summary>
+        /// Async method. Inserts a Conversation object into the database.
+        /// </summary>
+        /// <param name="conversation">Conversation to be inserted</param>
         public new async Task CreateAsync(Conversation conversation)
         {
             using (var connection = CreateConnection())
@@ -28,6 +41,14 @@ namespace Domain.RepositoryContracts
             }
         }
 
+
+        /// <summary>
+        /// Async method.
+        /// Reads a conversation from the database.
+        /// Maps it's participants and messages
+        /// </summary>
+        /// <param name="id">Conversation's ID</param>
+        /// <returns>Read conversation</returns>
         public new async Task<Conversation> ReadAsync(int id)
         {
             using (var connection = CreateConnection())
@@ -39,6 +60,13 @@ namespace Domain.RepositoryContracts
             }
         }
 
+
+        /// <summary>
+        /// Async method. 
+        /// Reads all conversations from the database.
+        /// Maps it's participants and messages.
+        /// </summary>
+        /// <returns>All conversations</returns>
         public new async Task<IEnumerable<Conversation>> ReadAllAsync()
         {
             using (var connection = CreateConnection())
@@ -53,6 +81,13 @@ namespace Domain.RepositoryContracts
             }
         }
 
+
+        /// <summary>
+        /// Async method.
+        /// Maps conversation's messages to itself.
+        /// </summary>
+        /// <param name="conversation">Conversation to be mapped</param>
+        /// <returns></returns>
         private async Task BindConversationMessages(Conversation conversation)
         {
             using (var connection = CreateConnection())
@@ -72,6 +107,13 @@ namespace Domain.RepositoryContracts
             }
         }
 
+
+        /// <summary>
+        /// Async method.
+        /// Maps a conversation's participants to itself.
+        /// </summary>
+        /// <param name="conversation"></param>
+        /// <returns></returns>
         private async Task BindConversationParticipants(Conversation conversation)
         {
             using (var connection = CreateConnection())

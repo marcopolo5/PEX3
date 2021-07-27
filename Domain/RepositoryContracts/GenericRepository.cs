@@ -11,16 +11,27 @@ using System.ComponentModel;
 
 namespace Domain.RepositoryContracts
 {
-    public abstract class GenericRepository<T> :IGenericRepository<T> where T: class
+    /// <summary>
+    /// Generic data access layer class for database transactions.
+    /// </summary>
+    /// <typeparam name="T">Domain level class</typeparam>
+    /// <see cref="IGenericRepository{T}"/> for undocumented methods
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly string TableName;
         
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="tablename">Table's name in the database</param>
         protected GenericRepository(string tablename)
         {
             TableName = tablename;
         }
 
 
+        #region Interface defined methods.
         public async Task CreateAsync(T t)
         {
             var insertQuery = GenerateInsertQuery();
@@ -29,7 +40,6 @@ namespace Domain.RepositoryContracts
                 await connection.ExecuteAsync(insertQuery, t);
             }
         }
-
         public async Task<IEnumerable<T>> ReadAllAsync()
         {
             using (var connection = CreateConnection())
@@ -37,7 +47,6 @@ namespace Domain.RepositoryContracts
                 return await connection.QueryAsync<T>($"SELECT * FROM {TableName}");
             }
         }
-
         public async Task<T> ReadAsync(int id)
         {
             using(var connection = CreateConnection())
@@ -48,7 +57,6 @@ namespace Domain.RepositoryContracts
                 return entity;
             }
         }
-
         public async Task UpdateAsync(T t)
         {
             var updateQuery = GenerateUpdateQuery();
@@ -57,7 +65,6 @@ namespace Domain.RepositoryContracts
                 await connection.ExecuteAsync(updateQuery, t);
             }
         }
-
         public async Task DeleteAsync(int id)
         {
             using (var connection = CreateConnection())
@@ -65,11 +72,40 @@ namespace Domain.RepositoryContracts
                 await connection.ExecuteAsync($"DELETE FROM {TableName} WHERE ID={id}");
             }
         }
-        
-        //TODO: Create connection string in App.config file
-        // Or give raw connection string as parameter
+        #endregion
+
+
+        /// <summary>
+        /// Async method. Gets the next availalbe id for 'TableName' table in the database.
+        /// Table's 'Id' column (PK) must be set to identity.
+        /// </summary>
+        /// <returns>Next available id</returns>
+        public async Task<int> GetAvailableId()
+        {
+            string sql = $"SELECT IDENT_CURRENT('{TableName}')+1";
+            using (var connection = CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<int>(sql);
+            }
+        }
+
+
+        /// <summary>
+        /// Creates and returns a new SqlConnection object.
+        /// </summary>
+        /// <returns>SqlConnection object referring to the specified connection string</returns>
+        /// <remarks>
+        /// TODO:
+        /// Create connection string in App.config file
+        /// or give raw connection string as parameter
+        /// </remarks>
         private SqlConnection SqlConnection() => new SqlConnection(@"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True"); 
 
+
+        /// <summary>
+        /// Opens a new SqlConnection.
+        /// </summary>
+        /// <returns>SqlConnection object with an opened connection</returns>
         protected IDbConnection CreateConnection()
         {
             var connection = SqlConnection();
@@ -77,8 +113,19 @@ namespace Domain.RepositoryContracts
             return connection;
         }
 
+
+        /// <summary>
+        /// Generates an IEnumerable<PropertyInfo> with a generic class entity's properties.
+        /// </summary>
         private IEnumerable<PropertyInfo> GetProperties => typeof(T).GetProperties();
 
+
+        /// <summary>
+        /// Transforms a IEnumerable of PropertyInfo objects containing an entity's properties
+        /// into a list.
+        /// </summary>
+        /// <param name="listOfProperties"></param>
+        /// <returns></returns>
         private static List<string> GenerateListOfProperties(IEnumerable<PropertyInfo> listOfProperties)
         {
             return (from prop in listOfProperties
@@ -87,6 +134,11 @@ namespace Domain.RepositoryContracts
                     select prop.Name).ToList();
         }
 
+
+        /// <summary>
+        /// Generates an insert query.
+        /// </summary>
+        /// <returns>Insert query string</returns>
         private string GenerateInsertQuery()
         {
             var insertQuery = new StringBuilder($"INSERT INTO {TableName} ");
@@ -94,6 +146,7 @@ namespace Domain.RepositoryContracts
             insertQuery.Append("(");
 
             var properties = GenerateListOfProperties(GetProperties);
+            properties.Remove("Id");
             properties.ForEach(prop => { insertQuery.Append($"[{prop}],"); });
 
             insertQuery
@@ -109,6 +162,11 @@ namespace Domain.RepositoryContracts
             return insertQuery.ToString();
         }
 
+        
+        /// <summary>
+        /// Generates an update query.
+        /// </summary>
+        /// <returns>Update query string</returns>
         private string GenerateUpdateQuery()
         {
             var updateQuery = new StringBuilder($"UPDATE {TableName} SET ");
@@ -127,6 +185,5 @@ namespace Domain.RepositoryContracts
 
             return updateQuery.ToString();
         }
-
     }
 }

@@ -8,15 +8,22 @@ using Domain.Models;
 
 namespace Domain.RepositoryContracts
 {
-    class MessageRepository:GenericRepository<Message>
-    {
-        private readonly UserRepository UserRepository;
-        private readonly ConversationRepository ConversationRepository;
-        public MessageRepository() : base("Messages") {
-            UserRepository = new();
-            ConversationRepository = new();
-        }
+    /// <summary>
+    /// Data access layer class for 'Message' model. 
+    /// Corresponding to 'Messages' table.
+    /// </summary>
+    class MessageRepository : GenericRepository<Message> { 
+    
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public MessageRepository() : base("Messages") { }
 
+
+        /// <summary>
+        /// Async method. Reads all messages from the database.
+        /// </summary>
+        /// <returns>IEnumerable of messages</returns>
         public new async Task<IEnumerable<Message>> ReadAllAsync()
         {
             using (var connection = CreateConnection()) {
