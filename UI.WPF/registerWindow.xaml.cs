@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.AccountContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MainWindoww
 {
@@ -19,9 +21,17 @@ namespace MainWindoww
     /// </summary>
     public partial class registerWindow : Window
     {
+        /// <summary>
+        /// Can be used for login, register and logout
+        /// </summary>
+        private readonly IAccountService _accountService;
+
         public registerWindow()
         {
            InitializeComponent();
+
+            // Getting the service from DI
+            _accountService = DependencyInjectionHelper.ServiceProvider.GetService<IAccountService>();
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,4 @@
-﻿using AccountModule.Controllers;
-using Domain.AccountContracts;
+﻿using Domain.AccountContracts;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,30 +14,11 @@ namespace MainWindoww
     /// </summary>
     public partial class App : Application
     {
-        // Dependency Injection Provider:
-        private readonly ServiceProvider _serviceProvider;
-
         public App()
         {
-            // setting up the dependency injection:
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            // initializing dependency injection helper
+            DependencyInjectionHelper.Initialize();
         }
-
-        /// <summary>
-        /// You can add new dependencies in this method
-        /// </summary>
-        /// <param name="services">Use this argument to add the dependencies</param>
-        private void ConfigureServices(IServiceCollection services)
-        {
-            // Adding the main window as a singleton
-            services.AddSingleton<MainWindow>();
-
-            // Adding  ApplicationUserController as scoped
-            services.AddScoped<IAccountService, ApplicationUserController>();
-        }
-
 
         /// <summary>
         /// This is executed when the app is started.
@@ -46,7 +26,7 @@ namespace MainWindoww
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
+            var mainWindow = DependencyInjectionHelper.ServiceProvider.GetService<MainWindow>();
             mainWindow.Show();
         }
 
