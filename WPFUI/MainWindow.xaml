@@ -10,6 +10,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -21,22 +23,36 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label>First Name</Label>
+        <!-- Register Form -->
+        <Label Margin="0,0,0,10">First Name</Label>
         <TextBox Name="FirstName" Grid.Column="1" Margin="0,0,0,10" />
-        <Label Grid.Row="1">Last Name</Label>
+        <Label Grid.Row="1" Margin="0,0,0,10">Last Name</Label>
         <TextBox Name="LastName" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
-        <Label Grid.Row="2">E-Mail</Label>
+        <Label Grid.Row="2" Margin="0,0,0,10">E-Mail</Label>
         <TextBox Name="Email" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" />
-        <Label Grid.Row="3">Password</Label>
+        <Label Grid.Row="3" Margin="0,0,0,10">Password</Label>
         <PasswordBox Name="PasswordBox1" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
-        <Label Grid.Row="4">Confirm Password</Label>
+        <Label Grid.Row="4" Margin="0,0,0,10">Confirm Password</Label>
         <PasswordBox Name="PasswordBox2" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"/>
 
-        <Button Grid.Row="5" x:Name="btnRegister" Margin="0,5,0,0" Click="ButtonRegister_Click">
+        <Button Grid.Row="5" Grid.Column="1" x:Name="btnRegister" Margin="0,0,0,10" Click="ButtonRegister_Click" >
             Register
         </Button>
 
-        <Label Name="ErrorMessage" Grid.Row="6" Grid.Column="2"></Label>
+        <Label Name="registerErrorMessage" Grid.Row="6" Grid.Column="1" Foreground="Red"></Label>
+        
+        <!-- Login Form -->
+        <Label Grid.Row="0" Grid.Column="2" Margin="0,0,0,10">Email</Label>
+        <TextBox Name="loginEmail" Grid.Row="0" Grid.Column="3" Margin="0,0,0,10"></TextBox>
+        <Label Grid.Row="1" Grid.Column="2" Margin="0,0,0,10">Password</Label>
+        <PasswordBox Grid.Row="1" Grid.Column="3" Name="loginPassword" Margin="0,0,0,10"></PasswordBox>
+
+        <Button Grid.Row="2" Grid.Column="3" x:Name="btnLogin" Margin="0,0,0,10" Click="ButtonLogin_Click">
+            Login
+        </Button>
+
+        <Label Name="loginErrorMessage" Grid.Row="3" Grid.Column="3" Foreground="Red"></Label>
+
     </Grid>
 
 </Window>
