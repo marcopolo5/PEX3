@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.AccountContracts
+namespace Domain.HelpersContracts
 {
     public interface ITokenFileSaver
     {
+        bool IsTokenSaved { get; }
         bool SaveToken(string token);
-        bool DeleteToken();
-        string GetToken(string token);
+        void DeleteToken();
+        string GetToken(string token);  
     }
 }

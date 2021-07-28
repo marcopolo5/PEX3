@@ -3,6 +3,7 @@ using Domain.AccountContracts;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace MainWindoww
@@ -10,7 +11,6 @@ namespace MainWindoww
     public static class DependencyInjectionHelper
     {
         public static IServiceProvider ServiceProvider;
-
         public static void Initialize()
         {
             // check if service provider wasnt already initialized
@@ -18,6 +18,7 @@ namespace MainWindoww
             {
                 throw new Exception("DependencyInjectionHelper was already initialized.");
             }
+
 
             // setting up the dependency injection:
             var serviceCollection = new ServiceCollection();
@@ -31,12 +32,16 @@ namespace MainWindoww
         /// <param name="services">Use this argument to add the dependencies</param>
         private static void ConfigureServices(IServiceCollection services)
         {
+            // Adding configuration
+
 
             // Adding the main window as a singleton
             services.AddSingleton<MainWindow>();
 
             // Adding  ApplicationUserController as scoped
             services.AddScoped<IAccountService, ApplicationUserController>();
+
+
 
         }
     }

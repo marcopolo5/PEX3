@@ -54,6 +54,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="token.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Page Update="loginWindow.xaml">
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
