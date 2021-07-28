@@ -19,6 +19,11 @@ namespace Domain.Controllers
         
         }
 
+        /// <summary>
+        /// Searches and logs in the user if the credentials are valid
+        /// </summary>
+        /// <param name="userLoginModel">The data received from the login form</param>
+        /// <returns>Returns false if wrong credentials, true otherwise - meaning the user logged in successfully</returns>
         public bool Login(UserLoginModel userLoginModel)
         {
             string spName = @"dbo.[spLoginUser]";
@@ -52,6 +57,11 @@ namespace Domain.Controllers
             return true;
         }
 
+        /// <summary>
+        /// Create and insert a new user into database
+        /// </summary>
+        /// <param name="userRegisterModel">The data received from the registration form</param>
+        /// <returns>Returns false if creating the user failed, else true - meaning registration was successful</returns>
         public bool Register(UserRegisterModel userRegisterModel)
         {
             if (UserExists(userRegisterModel.Email))

@@ -29,6 +29,12 @@ namespace WPFUI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Called by the loginButton
+        /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of login
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             string _loginErrorMessage = "";
@@ -57,6 +63,12 @@ namespace WPFUI
             }
         }
 
+        /// <summary>
+        /// Called by the registerButton
+        /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of registration
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
             string _registerErrorMessage = "";
@@ -86,6 +98,11 @@ namespace WPFUI
             }
         }
 
+        /// <summary>
+        /// Executes a check for the purpose of data validation on the login form
+        /// </summary>
+        /// <param name="_loginErrorMessage">Parameter which accumulates the error message</param>
+        /// <returns>true - if all rules are passed, false - otherwise</returns>
         public bool CheckLoginConstraints(ref string _loginErrorMessage)
         {
             if(loginEmail.Text.Length == 0)
@@ -102,6 +119,11 @@ namespace WPFUI
             return _loginErrorMessage == "";
         }
 
+        /// <summary>
+        /// Executes a check for the purpose of data validation on the registration form
+        /// </summary>
+        /// <param name="_registerErrorMessage">Parameter which accumulates the error message</param>
+        /// <returns>true - if all rules are passed, false - otherwise</returns>
         public bool CheckRegisterConstraints(ref string _registerErrorMessage)
         {
             if (FirstName.Text.Length == 0 || LastName.Text.Length == 0)
@@ -126,6 +148,13 @@ namespace WPFUI
             else if (PasswordBox1.Password != PasswordBox2.Password)
             {
                 _registerErrorMessage = "Passwords don't match";
+            }
+            else if(!Regex.IsMatch(
+                                    PasswordBox1.Password, 
+                                    @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
+                )
+            {
+                _registerErrorMessage = "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character";
             }
 
             return _registerErrorMessage == "";
