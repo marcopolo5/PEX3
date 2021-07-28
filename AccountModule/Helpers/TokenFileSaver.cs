@@ -33,7 +33,7 @@ namespace AccountModule.Helpers
             IsTokenSaved = false;
         }
 
-        public string GetToken(string token)
+        public string GetToken()
         {
             var result = File.ReadAllText(_appConfiguration.GetTokenFileLocation());
             return result;
@@ -42,7 +42,9 @@ namespace AccountModule.Helpers
         public bool SaveToken(string token)
         {
             var path = _appConfiguration.GetTokenFileLocation();
-            if (IsTokenSaved == true || File.ReadAllText(path) != "0")
+            if (IsTokenSaved == true ||
+                token ==  "0" ||
+                File.ReadAllText(path) != "0")
             {
                 return false;
             }
