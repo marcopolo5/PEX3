@@ -16,6 +16,15 @@ namespace AccountModule.Helpers
         public TokenFileSaver(IAppConfiguration appConfiguration)
         {
             _appConfiguration = appConfiguration;
+            var token = File.ReadAllText(_appConfiguration.GetTokenFileLocation());
+            if (token == "0")
+            {
+                IsTokenSaved = false;
+            }
+            else
+            {
+                IsTokenSaved = true;
+            }
         }
 
         public void DeleteToken()
