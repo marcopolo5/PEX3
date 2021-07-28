@@ -12,7 +12,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
-    
+
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -107,6 +107,41 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="Button.Static.Border3" Color="#FF707070"/>
+        <Style x:Key="ButtonStyle2" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#FF112152"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF112152"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Border CornerRadius="52" BorderThickness="10" BorderBrush="white" >
         <Border CornerRadius="35" BorderThickness="14" BorderBrush="#112152">
@@ -129,7 +164,8 @@
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="1" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="70" Content="geoChat" Foreground="white" HorizontalAlignment="Center"  Margin="0,20" FontWeight="Bold" Grid.ColumnSpan="2" />
-                <Label Grid.Row="2" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="40" Content="Let those beeps fly" HorizontalAlignment="Center" Foreground="#999a9e"  Grid.ColumnSpan="2"/>
+                <Label Grid.Row="2" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="40" Content="Let those beeps fly" HorizontalAlignment="Center" Foreground="#999a9e"  Grid.ColumnSpan="2"
+                       x:Name ="grid" PreviewMouseDown ="grid_PreviewMouseDown"/>
                 <Label Grid.Row="3" Grid.Column="1" FontFamily="Comic Sans MS" FontSize="30"  Content="since 2021" HorizontalAlignment="Center" Margin="0,0,0,30" Foreground="white" Grid.ColumnSpan="2"/>
                 <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.Row="4" Background="#FF112152" 
                         Foreground="white" Width="300" Height="100" Margin="220,20,0,0" 
@@ -151,6 +187,12 @@
                     </Button.Resources>
                 </Button>
                 <Image Grid.Column="1" Grid.Row="5" Width="300" Margin="80,50"  HorizontalAlignment="Center" Source="MicrosoftTeams-imagine.png" Grid.ColumnSpan="2"/>
+                <Button x:Name ="closeButton" Grid.Column="2" Grid.Row="1" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" Margin="542,0,0,110" Click="closeButton_Click" Style="{DynamicResource ButtonStyle2}" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
+                    </Button.Background>
+                </Button>
+
             </Grid>
         </Border>
     </Border>
