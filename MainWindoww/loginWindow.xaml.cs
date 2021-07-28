@@ -23,5 +23,16 @@ namespace MainWindoww
         {
             InitializeComponent();
         }
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            registerWindow register = new registerWindow();
+            this.Hide();
+            register.Show();
+        }
     }
 }
