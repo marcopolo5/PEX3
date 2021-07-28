@@ -8,24 +8,23 @@ namespace Domain.AccountContracts
     public interface IAccountService
     {
         /// <summary>
-        /// Tries to login the user. If login is successful it'll save the user's token to CurrentUser. 
-        /// If remember_me is true it'll save a copy of the token in a local file
+        /// Searches and logs in the user if the credentials are valid
         /// </summary>
-        /// <param name="userToLogInModel">Contains the details about the user(email/password/remember_me)</param>
-        /// <returns>True if login was successful, false otherwise.</returns>
+        /// <param name="userLoginModel">The data received from the login form</param>
+        /// <returns>Returns false if wrong credentials, true otherwise - meaning the user logged in successfully</returns>
         bool Login(UserLoginModel userLoginModel);
 
 
         /// <summary>
-        /// This method will create a new user and it'll add it to the DB
+        /// Create and insert a new user into database
         /// </summary>
-        /// <param name="userRegisterModel">User to be created</param>
-        /// <returns>True if creation was successful, false otherwise</returns>
+        /// <param name="userRegisterModel">The data received from the registration form</param>
+        /// <returns>Returns false if creating the user failed, else true - meaning registration was successful</returns>
         bool Register(UserRegisterModel userRegisterModel);
 
 
         /// <summary>
-        /// Deletes all the information about the CurrentUser
+        /// Deletes all the information from ram and file about the CurrentUser
         /// </summary>
         /// <returns>True if logout was successful, false otherwise</returns>
         bool Logout();

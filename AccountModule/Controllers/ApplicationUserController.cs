@@ -20,11 +20,6 @@ namespace AccountModule.Controllers
         
         }
 
-        /// <summary>
-        /// Searches and logs in the user if the credentials are valid
-        /// </summary>
-        /// <param name="userLoginModel">The data received from the login form</param>
-        /// <returns>Returns false if wrong credentials, true otherwise - meaning the user logged in successfully</returns>
         public bool Login(UserLoginModel userLoginModel)
         {
             string spName = @"dbo.[spLoginUser]";
