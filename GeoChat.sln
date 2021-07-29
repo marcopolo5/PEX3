@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProximityChatModule", "Prox
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI.WPF", "UI.WPF\UI.WPF.csproj", "{48A0A2C1-08C3-453A-8283-5D223E9E57D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountModule.Tests", "AccountModule.Tests\AccountModule.Tests.csproj", "{51ADC106-8E40-4788-B8DF-8291A1DBBA19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountModule.Tests", "AccountModule.Tests\AccountModule.Tests.csproj", "{51ADC106-8E40-4788-B8DF-8291A1DBBA19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
