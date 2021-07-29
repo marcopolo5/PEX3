@@ -13,7 +13,7 @@ namespace AccountModule.Controllers
 {
     public class ApplicationUserController : IAccountService
     {
-        private string connectionString = "Server=DESKTOP-GPVJ6T8; Database=GeoChat_DB; Trusted_Connection=True;";
+        private string connectionString = "Server=LAPTOP-4N0OHM4L; Database=GeoChat_DB; Trusted_Connection=True;";
 
         public ApplicationUserController() 
         {
@@ -96,9 +96,9 @@ namespace AccountModule.Controllers
 
         private bool UserExists(string email)
         {
-            string queryString = "SELECT [email] FROM [Users]";
+            string queryString = "SELECT [email] FROM [Users] WHERE email='" + email + "'";
 
-            using(SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand(queryString, conn))
