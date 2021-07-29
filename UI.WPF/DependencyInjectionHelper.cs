@@ -40,10 +40,12 @@ namespace MainWindoww
             services.AddSingleton<MainWindow>();
 
             // Adding AppConfiguration as a singleton
-            services.AddSingleton<IAppConfiguration, AppConfiguration>();
+            // services.AddSingleton<IAppConfiguration, AppConfiguration>();
+            services.AddSingleton<IAppConfiguration, FakeAppConfig>();/////////////////
 
             // Adding TokenFileSaver as a singleton
-            services.AddSingleton<ITokenFileSaver, TokenFileSaver>();
+            // services.AddSingleton<ITokenFileSaver, TokenFileSaver>();
+            services.AddSingleton<ITokenFileSaver, FakeTokenFileSaver>();/////////////////
 
             // Adding ApplicationUserController as scoped
             services.AddScoped<IAccountService, ApplicationUserController>();
