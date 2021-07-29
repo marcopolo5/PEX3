@@ -8,16 +8,17 @@ using Domain.Models;
 using System.Data;
 using System.Data.SqlClient;
 using Domain.AccountContracts;
+using Domain;
 
 namespace AccountModule.Controllers
 {
     public class ApplicationUserController : IAccountService
     {
         private string connectionString = "Server=LAPTOP-4N0OHM4L; Database=GeoChat_DB; Trusted_Connection=True;";
-
-        public ApplicationUserController() 
+        private readonly CurrentUser _currentUser;
+        public ApplicationUserController(CurrentUser currentUser) 
         {
-        
+            _currentUser = currentUser;
         }
 
         public bool Login(UserLoginModel userLoginModel)
