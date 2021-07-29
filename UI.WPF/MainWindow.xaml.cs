@@ -38,5 +38,16 @@ namespace MainWindoww
             this.Hide();
             login.Show();
         }
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            this.Close();
+            
+        }
+        private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
     }
 }
