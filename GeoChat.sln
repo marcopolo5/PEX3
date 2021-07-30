@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI.WPF", "UI.WPF\UI.WPF.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountModule.Tests", "AccountModule.Tests\AccountModule.Tests.csproj", "{51ADC106-8E40-4788-B8DF-8291A1DBBA19}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Tests", "DAL.Tests\DAL.Tests.csproj", "{0AAA6B76-2C39-4637-B2E5-D8338805828F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{51ADC106-8E40-4788-B8DF-8291A1DBBA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51ADC106-8E40-4788-B8DF-8291A1DBBA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51ADC106-8E40-4788-B8DF-8291A1DBBA19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AAA6B76-2C39-4637-B2E5-D8338805828F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AAA6B76-2C39-4637-B2E5-D8338805828F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AAA6B76-2C39-4637-B2E5-D8338805828F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AAA6B76-2C39-4637-B2E5-D8338805828F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,7 +69,6 @@ Global
 		{029EE05C-B1E9-4928-A732-077C261E6A58} = {80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}
 		{48A0A2C1-08C3-453A-8283-5D223E9E57D2} = {B76D4424-839C-46AB-A2B7-57D2EE6253B8}
 		{51ADC106-8E40-4788-B8DF-8291A1DBBA19} = {6EDB5877-6E5A-415D-A785-DE0C5F037F4C}
-		{0AAA6B76-2C39-4637-B2E5-D8338805828F} = {6EDB5877-6E5A-415D-A785-DE0C5F037F4C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84135C19-AEB5-4633-8B14-E082F427EA2A}

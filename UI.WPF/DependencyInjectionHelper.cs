@@ -1,5 +1,8 @@
 ﻿using AccountModule.Controllers;
+using AccountModule.Helpers;
+using Domain;
 using Domain.AccountContracts;
+using Domain.HelpersContracts;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -32,16 +35,21 @@ namespace MainWindoww
         /// <param name="services">Use this argument to add the dependencies</param>
         private static void ConfigureServices(IServiceCollection services)
         {
-            // Adding configuration
-
 
             // Adding the main window as a singleton
             services.AddSingleton<MainWindow>();
 
-            // Adding  ApplicationUserController as scoped
+            // Adding AppConfiguration as a singleton
+            services.AddSingleton<IAppConfiguration, AppConfiguration>();
+
+            // Adding TokenFileSaver as a singleton
+            services.AddSingleton<ITokenFileSaver, TokenFileSaver>();
+
+            // Adding ApplicationUserController as scoped
             services.AddScoped<IAccountService, ApplicationUserController>();
 
-
+            // Adding CurrentUser as a singleton
+            services.AddSingleton<CurrentUser>();
 
         }
     }

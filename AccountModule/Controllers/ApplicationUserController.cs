@@ -22,7 +22,7 @@ namespace AccountModule.Controllers
 
         public ApplicationUserController() 
         {
-        
+            _currentUser = currentUser;
         }
 
         public bool Login(UserLoginModel userLoginModel)

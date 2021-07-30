@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.HelpersContracts;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,5 +18,12 @@ namespace Domain
 
         public Settings Settings { get; set; }
         public byte[] LoginToken { get; set; }
+
+        private readonly ITokenFileSaver _tokenFileSaver;
+        public CurrentUser(ITokenFileSaver tokenFileSaver)
+        {
+            _tokenFileSaver = tokenFileSaver;
+        }
+
     }
 }

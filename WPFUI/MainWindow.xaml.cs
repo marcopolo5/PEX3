@@ -51,7 +51,7 @@ namespace WPFUI
                     Password = loginPassword.Password,
                     RememberMe = false  // Feature not implemented yet
                 };
-                if(new ApplicationUserController().Login(userLoginModel))
+                if(new ApplicationUserController(null).Login(userLoginModel)) ///////am adaugat null aici doar sa scap de eroare
                 {
                     loginErrorMessage.Foreground = System.Windows.Media.Brushes.Green;
                     loginErrorMessage.Content = "Logged in successfully";
@@ -86,7 +86,7 @@ namespace WPFUI
                     LastName = LastName.Text,
                     Password = PasswordBox1.Password // Mai e nevoie de un regex pentru constrangerea parolei
                 };
-                if (new ApplicationUserController().Register(userRegisterModel))
+                if (new ApplicationUserController(null).Register(userRegisterModel)) ///////am adaugat null aici doar sa scap de eroare
                 {
                     registerErrorMessage.Foreground = System.Windows.Media.Brushes.Green;
                     registerErrorMessage.Content = "You have registered successfully!";
