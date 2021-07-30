@@ -38,7 +38,23 @@ namespace AccountModule.Controllers
 
         public bool Logout()
         {
-            throw new NotImplementedException();
+            string queryString = "UPDATE [Users] SET token='0' WHERE id="+_currentUser.Id;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(queryString, conn);
+                int result = cmd.ExecuteNonQuery();
+                if (result == 0) // Query execution failed
+                {
+                    return false;
+                }
+            }
+
+            if (_currentUser.ClearData())
+                return true;
+
+            return false;
         }
 
         public bool Register(UserRegisterModel userRegisterModel)
