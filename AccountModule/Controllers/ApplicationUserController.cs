@@ -27,6 +27,7 @@ namespace AccountModule.Controllers
 
         public bool Login(UserLoginModel userLoginModel)
         {
+            //TODO
             (int id, string token) = userRepository.ValidateCredentials(userLoginModel).Result;
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
                 return false;
@@ -42,6 +43,7 @@ namespace AccountModule.Controllers
 
         public bool Register(UserRegisterModel userRegisterModel)
         {
+            //TODO
             if (UserExists(userRegisterModel.Email))
             {
                 return false;
@@ -78,6 +80,7 @@ namespace AccountModule.Controllers
 
         private bool UserExists(string email)
         {
+            //TODO
             string queryString = "SELECT [email] FROM [Users] WHERE email='" + email + "'";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
