@@ -8,14 +8,19 @@ using Domain.Models;
 using System.Data;
 using System.Data.SqlClient;
 using Domain.AccountContracts;
+using Domain.RepositoryContracts;
+using AccountModule.Helpers;
 using Domain;
 
 namespace AccountModule.Controllers
 {
     public class ApplicationUserController : IAccountService
     {
-        private string connectionString = "Server=LAPTOP-4N0OHM4L; Database=GeoChat_DB; Trusted_Connection=True;";
+        private string connectionString = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True";
+        private readonly UserRepository userRepository = new();
+        private readonly static AppConfiguration appConfiguration = new();
         private readonly CurrentUser _currentUser;
+
         public ApplicationUserController(CurrentUser currentUser) 
         {
             _currentUser = currentUser;
@@ -23,34 +28,11 @@ namespace AccountModule.Controllers
 
         public bool Login(UserLoginModel userLoginModel)
         {
-            string spName = @"dbo.[spLoginUser]";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(spName, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add("@email", SqlDbType.VarChar);
-                cmd.Parameters["@email"].Value = userLoginModel.Email;
-
-                cmd.Parameters.Add("@password", SqlDbType.VarChar);
-                cmd.Parameters["@password"].Value = userLoginModel.Password;
-
-                // RememberMe option - client side 
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string result = reader.GetString(0);
-                        if (result == "0")
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-
+            //TODO
+            (int id, string token) = userRepository.ValidateCredentials(userLoginModel).Result;
+            if (string.IsNullOrEmpty(token) || token.Equals("0"))
+                return false;
+            //var currentUser = userRepository.ReadCurrentUserAsync(id).Result; // TODO: poor guy remains unused
             return true;
         }
 
@@ -61,6 +43,7 @@ namespace AccountModule.Controllers
 
         public bool Register(UserRegisterModel userRegisterModel)
         {
+            //TODO
             if (UserExists(userRegisterModel.Email))
             {
                 return false;
@@ -97,6 +80,7 @@ namespace AccountModule.Controllers
 
         private bool UserExists(string email)
         {
+            //TODO
             string queryString = "SELECT [email] FROM [Users] WHERE email='" + email + "'";
 
             using (SqlConnection conn = new SqlConnection(connectionString))

@@ -8,7 +8,15 @@ namespace Domain.HelpersContracts
 {
     public interface IAppConfiguration
     {
+        /// <summary>
+        /// Returns the conn string from appsettings.json
+        /// </summary>
+        /// <returns>DB connection string</returns>
         string GetConnectionString();
-        string GetTokenFileLocation();
+
+
+        string GetToken();
+        bool SaveToken();
+        bool RemoveToken();
     }
 }

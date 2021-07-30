@@ -23,6 +23,14 @@ namespace Domain.RepositoryContracts
 
 
         /// <summary>
+        /// Parameterized constructor. Used in DAL.Tests project.
+        /// </summary>
+        /// <param name="tablename">Database's table name</param>
+        /// <param name="connectionstring">Database's connection string</param>
+        public UserRepository(string tablename, string connectionstring) : base(tablename, connectionstring) { }
+
+
+        /// <summary>
         /// Async method. Inserts a user into the database.
         /// </summary>
         /// <param name="user">User type entity to be inserted into the database</param>
@@ -113,7 +121,52 @@ namespace Domain.RepositoryContracts
 
 
         /// <summary>
-        /// Async user<-profile mapper
+        /// Checks if an user with userLoginModel's credentials exists
+        /// </summary>
+        /// <param name="userLoginModel">reference entity to look for in Database's 'Users' table</param>
+        /// <returns>User's login token: "0" if login false, valid token otherwise.</returns>
+        /// TOOD: Fix async
+        public async Task<(int,string)> ValidateCredentials(UserLoginModel userLoginModel)
+        {
+            using (var connection = CreateConnection())
+            {
+                string sqlLogIn = $@"exec spLoginUser @Email, @Password";
+                string sqlGetId = $@"select id from Users where Users.Email=@Email";
+                return (
+                    connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email }).Result,
+                    connection.QueryFirstOrDefaultAsync<string>(sqlLogIn, new { userLoginModel.Email, userLoginModel.Password }).Result
+                    );
+            }
+        }
+
+
+        /// <summary>
+        /// Reads an user by it's ID. Maps CurrentUser's attributes.
+        /// </summary>
+        /// <param name="id">User's id</param>
+        /// <returns>CurrentUser entity</returns>
+        /// TODO: Fix asnync
+        public async Task<CurrentUser> ReadCurrentUserAsync(int id)
+        {
+            using (var connection = CreateConnection())
+            {
+                string sql = $@"select Users.*,Profiles.*,Settings.* from Users 
+                                 inner join Profiles on Profiles.UserId=@Id 
+                                  inner join Settings on Settings.UserId=@Id";
+                //select FriendId from Friends where UserId={id};
+                //select SenderId from Friend_Requests where ReceiverId={id};
+                //select BlockedUserId from Blocked_Users where UserId={id};
+                //select ConversationId from Group_Members where UserId={id}";
+                //TODO: map all attritubtes. soon™
+
+                var currentUser = connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sql,
+                    (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id }).Result.First();
+                return currentUser;
+            }
+        }
+
+        /// <summary>
+        /// Async user-profile mapper
         /// </summary>
         /// <param name="users">IEnumerable of users to be mapped</param>
         public async Task BindUserProfilesAsync(IEnumerable<User> users) {

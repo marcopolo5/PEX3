@@ -10,7 +10,7 @@ namespace Domain.RepositoryContracts
     /// Data access layer class for 'FriendRequest' model. 
     /// Corresponding to 'Friend_Requests' table.
     /// </summary>
-    class FriendRequestRepository : GenericRepository<Models.FriendRequest>
+    public class FriendRequestRepository : GenericRepository<Models.FriendRequest>
     {
         /// <summary>
         /// Constructor

@@ -1,32 +1,32 @@
-﻿using Domain;
-using Domain.HelpersContracts;
+﻿using Domain.HelpersContracts;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AccountModule.Helpers
 {
     public class AppConfiguration : IAppConfiguration
     {
-        private readonly AppSettings _appSettings;
-        public AppConfiguration()
-        {
-            var rawJson = File.ReadAllText("applicationsettings.json");
-            _appSettings = JsonSerializer.Deserialize<AppSettings>(rawJson);
-        }
-
         public string GetConnectionString()
         {
-            return _appSettings.ConnectionString;
+            throw new NotImplementedException();
         }
 
-        public string GetTokenFileLocation()
+        public string GetToken()
         {
-            return _appSettings.FileLocation;
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveToken()
+        {
+            throw new NotImplementedException();
         }
     }
 }
