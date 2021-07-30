@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Domain.AccountContracts;
 using Domain.RepositoryContracts;
 using AccountModule.Helpers;
+using Domain;
 
 namespace AccountModule.Controllers
 {
@@ -19,8 +20,9 @@ namespace AccountModule.Controllers
         private readonly UserRepository userRepository = new();
         private readonly static AppConfiguration appConfiguration = new();
         private readonly TokenFileSaver tokenFileSaver = new(appConfiguration);
+        private readonly CurrentUser _currentUser;
 
-        public ApplicationUserController() 
+        public ApplicationUserController(CurrentUser currentUser) 
         {
             _currentUser = currentUser;
         }
@@ -31,7 +33,7 @@ namespace AccountModule.Controllers
             (int id, string token) = userRepository.ValidateCredentials(userLoginModel).Result;
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
                 return false;
-            var currentUser = userRepository.ReadCurrentUserAsync(id).Result; // TODO: poor guy remains unused
+            //var currentUser = userRepository.ReadCurrentUserAsync(id).Result; // TODO: poor guy remains unused
             tokenFileSaver.SaveToken(token);
             return true;
         }

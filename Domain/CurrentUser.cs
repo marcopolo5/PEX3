@@ -19,11 +19,22 @@ namespace Domain
         public Settings Settings { get; set; }
         public byte[] LoginToken { get; set; }
 
-        private readonly ITokenFileSaver _tokenFileSaver;
-        public CurrentUser(ITokenFileSaver tokenFileSaver)
+
+        private readonly IAppConfiguration _appConfiguration;
+
+        public CurrentUser(IAppConfiguration appConfiguration)
         {
-            _tokenFileSaver = tokenFileSaver;
+            _appConfiguration = appConfiguration;
+
         }
 
+        /// <summary>
+        /// Resets all the fields and deletes the token from the file
+        /// </summary>
+        /// <returns></returns>
+        public bool ClearData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

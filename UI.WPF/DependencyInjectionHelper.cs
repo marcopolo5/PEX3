@@ -42,9 +42,6 @@ namespace MainWindoww
             // Adding AppConfiguration as a singleton
             services.AddSingleton<IAppConfiguration, AppConfiguration>();
 
-            // Adding TokenFileSaver as a singleton
-            services.AddSingleton<ITokenFileSaver, TokenFileSaver>();
-
             // Adding ApplicationUserController as scoped
             services.AddScoped<IAccountService, ApplicationUserController>();
 
