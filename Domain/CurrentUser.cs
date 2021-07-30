@@ -11,19 +11,30 @@ namespace Domain
     /// </summary>
     public class CurrentUser : User 
     {
-        public IEnumerable<User> Friends { get; set; } = new List<User>();
-        public IEnumerable<FriendRequest> FriendRequests { get; set; } = new List<FriendRequest>();
-        public IEnumerable<Conversation> Conversations { get; set; } = new List<Conversation>();
-        public IEnumerable<User> BlockedUsers { get; set; } = new List<User>();
+        public List<User> Friends { get; set; } = new();
+        public List<FriendRequest> FriendRequests { get; set; } = new();
+        public List<Conversation> Conversations { get; set; } = new();
+        public List<User> BlockedUsers { get; set; } = new();
 
         public Settings Settings { get; set; }
         public byte[] LoginToken { get; set; }
 
-        private readonly ITokenFileSaver _tokenFileSaver;
-        public CurrentUser(ITokenFileSaver tokenFileSaver)
+
+        private readonly IAppConfiguration _appConfiguration;
+
+        public CurrentUser(IAppConfiguration appConfiguration)
         {
-            _tokenFileSaver = tokenFileSaver;
+            _appConfiguration = appConfiguration;
+
         }
 
+        /// <summary>
+        /// Resets all the fields and deletes the token from the file
+        /// </summary>
+        /// <returns></returns>
+        public bool ClearData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

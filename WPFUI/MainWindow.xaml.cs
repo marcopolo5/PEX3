@@ -41,6 +41,7 @@ namespace WPFUI
         /// <param name="e"></param>
         public void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
+            //TODO
             string _loginErrorMessage = "";
             bool validData = CheckLoginConstraints(ref _loginErrorMessage);
             if (validData)
@@ -51,7 +52,7 @@ namespace WPFUI
                     Password = loginPassword.Password,
                     RememberMe = false  // Feature not implemented yet
                 };
-                if(new ApplicationUserController(null).Login(userLoginModel)) ///////am adaugat null aici doar sa scap de eroare
+                if(new ApplicationUserController().Login(userLoginModel))
                 {
                     loginErrorMessage.Foreground = System.Windows.Media.Brushes.Green;
                     loginErrorMessage.Content = "Logged in successfully";
@@ -75,6 +76,7 @@ namespace WPFUI
         /// <param name="e"></param>
         public void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
+            //TODO
             string _registerErrorMessage = "";
             bool validData = CheckRegisterConstraints(ref _registerErrorMessage);
             if (validData)
@@ -86,7 +88,7 @@ namespace WPFUI
                     LastName = LastName.Text,
                     Password = PasswordBox1.Password // Mai e nevoie de un regex pentru constrangerea parolei
                 };
-                if (new ApplicationUserController(null).Register(userRegisterModel)) ///////am adaugat null aici doar sa scap de eroare
+                if (new ApplicationUserController().Register(userRegisterModel))
                 {
                     registerErrorMessage.Foreground = System.Windows.Media.Brushes.Green;
                     registerErrorMessage.Content = "You have registered successfully!";
@@ -109,6 +111,7 @@ namespace WPFUI
         /// <returns>true - if all rules are passed, false - otherwise</returns>
         public bool CheckLoginConstraints(ref string _loginErrorMessage)
         {
+            //TODO
             if(loginEmail.Text.Length == 0)
             {
                 loginEmail.Select(0, loginEmail.Text.Length);
@@ -130,6 +133,7 @@ namespace WPFUI
         /// <returns>true - if all rules are passed, false - otherwise</returns>
         public bool CheckRegisterConstraints(ref string _registerErrorMessage)
         {
+            //TODO
             if (FirstName.Text.Length == 0 || LastName.Text.Length == 0)
             {
                 _registerErrorMessage = "Enter a valid Name";

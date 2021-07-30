@@ -28,14 +28,14 @@ namespace MainWindoww
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
             registerWindow register = new registerWindow();
-            this.Hide();
+            this.Close();
             register.Show();
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             loginWindow login = new loginWindow();
-            this.Hide();
+            this.Close();
             login.Show();
         }
         private void closeButton_Click(object sender, RoutedEventArgs e)
