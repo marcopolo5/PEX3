@@ -47,14 +47,14 @@ namespace MainWindoww
         {
             loginWindow login = new loginWindow();
             login.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void returnTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             MainWindow main = new MainWindow();
             main.Show();
-            this.Hide();
+            this.Close();
         }
         private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -64,6 +64,7 @@ namespace MainWindoww
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            
         }
     }
 }

@@ -31,7 +31,7 @@ namespace MainWindoww
         private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             registerWindow register = new registerWindow();
-            this.Hide();
+            this.Close();
             register.Show();
         }
     }
