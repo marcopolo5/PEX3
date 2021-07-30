@@ -51,7 +51,8 @@ namespace AccountModule.Controllers
                 }
             }
 
-
+            if (_currentUser.ClearData())
+                return true;
 
             return false;
         }
