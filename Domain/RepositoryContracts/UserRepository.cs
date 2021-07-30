@@ -2,6 +2,7 @@
 using Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -175,6 +176,28 @@ namespace Domain.RepositoryContracts
             {
                 user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
             }
+        }
+
+        /// <summary>
+        /// Logs out the user by resetting his/her token to 0
+        /// </summary>
+        /// <param name="id">User's id</param>
+        /// <returns>True if logout is successful, false otherwise</returns>
+        public bool LogoutUser(int id)
+        {
+            string queryString = "UPDATE [Users] SET token='0' WHERE id=" + id;
+
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(queryString, conn);
+                int result = cmd.ExecuteNonQuery();
+                if (result == 0) // Query execution failed
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -17,8 +17,7 @@ namespace AccountModule.Controllers
     public class ApplicationUserController : IAccountService
     {
         private string connectionString = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True";
-        private readonly UserRepository userRepository = new();
-        private readonly static AppConfiguration appConfiguration = new();
+        private readonly UserRepository _userRepository = new();
         private readonly CurrentUser _currentUser;
 
         public ApplicationUserController(CurrentUser currentUser) 
@@ -29,7 +28,7 @@ namespace AccountModule.Controllers
         public bool Login(UserLoginModel userLoginModel)
         {
             //TODO
-            (int id, string token) = userRepository.ValidateCredentials(userLoginModel).Result;
+            (int id, string token) = _userRepository.ValidateCredentials(userLoginModel).Result;
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
                 return false;
             //var currentUser = userRepository.ReadCurrentUserAsync(id).Result; // TODO: poor guy remains unused
@@ -38,23 +37,29 @@ namespace AccountModule.Controllers
 
         public bool Logout()
         {
-            string queryString = "UPDATE [Users] SET token='0' WHERE id="+_currentUser.Id;
+            // moved to user repository
+            //string queryString = "UPDATE [Users] SET token='0' WHERE id="+_currentUser.Id;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(queryString, conn);
-                int result = cmd.ExecuteNonQuery();
-                if (result == 0) // Query execution failed
-                {
-                    return false;
-                }
-            }
+            //using (SqlConnection conn = new SqlConnection(connectionString))
+            //{
+            //    conn.Open();
+            //    SqlCommand cmd = new SqlCommand(queryString, conn);
+            //    int result = cmd.ExecuteNonQuery();
+            //    if (result == 0) // Query execution failed
+            //    {
+            //        return false;
+            //    }
+            //}
 
-            if (_currentUser.ClearData())
-                return true;
+            // deleting token from DB:
+            if (_userRepository.LogoutUser(_currentUser.Id) == false)
+                return false;
 
-            return false;
+            // deleting token from disk and memory:
+            if (_currentUser.ClearData() == false)
+                return false;
+
+            return true;
         }
 
         public bool Register(UserRegisterModel userRegisterModel)
