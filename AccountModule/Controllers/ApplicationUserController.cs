@@ -19,7 +19,6 @@ namespace AccountModule.Controllers
         private string connectionString = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True";
         private readonly UserRepository userRepository = new();
         private readonly static AppConfiguration appConfiguration = new();
-        private readonly TokenFileSaver tokenFileSaver = new(appConfiguration);
         private readonly CurrentUser _currentUser;
 
         public ApplicationUserController(CurrentUser currentUser) 
@@ -34,7 +33,6 @@ namespace AccountModule.Controllers
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
                 return false;
             //var currentUser = userRepository.ReadCurrentUserAsync(id).Result; // TODO: poor guy remains unused
-            tokenFileSaver.SaveToken(token);
             return true;
         }
 

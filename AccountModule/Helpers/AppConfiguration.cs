@@ -9,17 +9,24 @@ namespace AccountModule.Helpers
 {
     public class AppConfiguration : IAppConfiguration
     {
-        //TODO
-        private readonly string _connString = " ";
-        private readonly string _tokenLocation = "token.txt";
         public string GetConnectionString()
         {
             throw new NotImplementedException();
         }
 
-        public string GetTokenFileLocation()
+        public string GetToken()
         {
-            return _tokenLocation;
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveToken()
+        {
+            throw new NotImplementedException();
         }
     }
 }
