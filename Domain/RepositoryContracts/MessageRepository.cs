@@ -12,7 +12,7 @@ namespace Domain.RepositoryContracts
     /// Data access layer class for 'Message' model. 
     /// Corresponding to 'Messages' table.
     /// </summary>
-    class MessageRepository : GenericRepository<Message> { 
+    public class MessageRepository : GenericRepository<Message> { 
     
         /// <summary>
         /// Constructor
@@ -21,26 +21,25 @@ namespace Domain.RepositoryContracts
 
 
         /// <summary>
+        /// Parameterized constructor. Used in DAL.Tests project.
+        /// </summary>
+        /// <param name="tablename">Database's table name</param>
+        /// <param name="connectionstring">Database's connection string</param>
+        public MessageRepository(string tablename, string connectionstring) : base(tablename, connectionstring) { }
+
+
+
+        /// <summary>
         /// Async method. Reads all messages from the database.
         /// </summary>
         /// <returns>IEnumerable of messages</returns>
         public new async Task<IEnumerable<Message>> ReadAllAsync()
         {
-            using (var connection = CreateConnection()) {
-                List<Message> messages_result = new();
-                var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, int receiver_id, string message, DateTime created_at)>
-                    ($"SELECT * FROM Messages ORDER BY Created_At ASC");
-                foreach(var message in messages)
-                {
-                    messages_result.Append(new Message
-                    {
-                        Id = message.id,
-                        SenderId = message.sender_id,
-                        CreatedAt = message.created_at,
-                        TextMessage = message.message
-                    });
-                }
-                return messages_result;
+            string sql = "SELECT * FROM Messages ORDER BY CreatedAt ASC";
+            using (var connection = CreateConnection())
+            {
+                var messages = await connection.QueryAsync<Message>(sql);
+                return messages;
             }
         }
     }

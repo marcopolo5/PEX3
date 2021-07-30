@@ -19,15 +19,17 @@ namespace Domain.RepositoryContracts
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly string TableName;
-        
+        protected readonly string ConnectionString;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="tablename">Table's name in the database</param>
-        protected GenericRepository(string tablename)
+        /// <param name="connectionstring">Database's connection string. Defaulted to local db.</param>
+        protected GenericRepository(string tablename, string connectionstring = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True")
         {
             TableName = tablename;
+            ConnectionString = connectionstring;
         }
 
 
@@ -99,7 +101,7 @@ namespace Domain.RepositoryContracts
         /// Create connection string in App.config file
         /// or give raw connection string as parameter
         /// </remarks>
-        private SqlConnection SqlConnection() => new SqlConnection(@"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True"); 
+        private SqlConnection SqlConnection() => new SqlConnection(ConnectionString); 
 
 
         /// <summary>
@@ -174,14 +176,14 @@ namespace Domain.RepositoryContracts
 
             properties.ForEach(property =>
             {
-                if (!property.Equals("ID")){
+                if (!property.Equals("Id")){
                     updateQuery.Append($"{property}=@{property},");
                 }
             });
 
             updateQuery
                 .Remove(updateQuery.Length - 1, 1)
-                .Append(" WHERE ID=@ID");
+                .Append(" WHERE Id=@Id");
 
             return updateQuery.ToString();
         }

@@ -25,6 +25,14 @@ namespace Domain.RepositoryContracts
 
 
         /// <summary>
+        /// Parameterized constructor. Used in DAL.Tests project.
+        /// </summary>
+        /// <param name="tablename">Database's table name</param>
+        /// <param name="connectionstring">Database's connection string</param>
+        public ConversationRepository(string tablename, string connectionstring) : base(tablename, connectionstring) { }
+
+
+        /// <summary>
         /// Async method. Inserts a Conversation object into the database.
         /// </summary>
         /// <param name="conversation">Conversation to be inserted</param>
