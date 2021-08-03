@@ -15,22 +15,15 @@ using System.Text.RegularExpressions;
 
 namespace AccountModule.Controllers
 {
-    public class ApplicationUserController : IAccountService
+    public class ApplicationUserController : IApplicationUserController
     {
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
-        private CurrentUser _currentUser;
+        public static CurrentUser CurrentUser;
 
 
         public ApplicationUserController()
         {
-
-        }
-
-        // why?
-        public ApplicationUserController(CurrentUser currentUser)
-        {
-            _currentUser = currentUser;
         }
 
         public async Task<bool> Login(string email, string password, bool rememberMe)
@@ -48,13 +41,13 @@ namespace AccountModule.Controllers
                 return false;
             }
 
-            //_currentUser.rememberMe = rememberMe;
+            //CurrentUser.rememberMe = rememberMe;
 
             // initialize user's attributes
             User user = await _userRepository.ReadAsync(email);
             // ReadCurrentUserAsync needs inspection
             /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
-            _currentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
+            CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
 
             return true;
         }
@@ -76,11 +69,11 @@ namespace AccountModule.Controllers
             //}
 
             // deleting token from DB:
-            if (_userRepository.LogoutUser(_currentUser.Id) == false)
+            if (_userRepository.LogoutUser(CurrentUser.Id) == false)
                 return false;
 
             // deleting token from disk and memory:
-            if (_currentUser.ClearData() == false)
+            if (CurrentUser.ClearData() == false)
                 return false;
 
             return true;

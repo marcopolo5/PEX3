@@ -25,16 +25,12 @@ namespace MainWindoww
         /// <summary>
         /// Can be used for login, register and logout
         /// </summary>
-        private readonly IAccountService _accountService;
         private readonly ApplicationUserController _applicationUserController = new();
 
 
         public registerWindow()
         {
            InitializeComponent();
-
-            // Getting the service from DI
-            _accountService = DependencyInjectionHelper.ServiceProvider.GetService<IAccountService>();
         }
 
         // TODO: fix documentation (no longer matches the functionality)

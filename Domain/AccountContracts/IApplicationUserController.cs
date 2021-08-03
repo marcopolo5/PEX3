@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Domain.AccountContracts
 {
     // TODO: update documentation
-    public interface IAccountService
+    public interface IApplicationUserController
     {
         /// <summary>
         /// Searches and logs in the user if the credentials are valid
