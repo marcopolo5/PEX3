@@ -17,7 +17,7 @@ namespace Domain
         public List<User> BlockedUsers { get; set; } = new();
 
         public Settings Settings { get; set; }
-        public byte[] LoginToken { get; set; }
+        public string LoginToken { get; set; }
 
 
         private readonly IAppConfiguration _appConfiguration;
