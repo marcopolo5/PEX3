@@ -113,9 +113,9 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                var entity = await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {TableName} WHERE {TableName}.Email='{email}'");
-                if (entity == null)
-                    throw new KeyNotFoundException($"User with email {email} was not found.");
+                var entity = await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {TableName} WHERE Email=@Email", new { Email = email });
+                //if (entity == null)
+                //    throw new KeyNotFoundException($"User with email {email} was not found."); //TODO: Unhandled in UI
                 return entity;
             }
         }
@@ -125,9 +125,9 @@ namespace Domain.RepositoryContracts
         /// Checks if an user with userLoginModel's credentials exists
         /// </summary>
         /// <param name="userLoginModel">reference entity to look for in Database's 'Users' table</param>
-        /// <returns>User's login token: "0" if login false, valid token otherwise.</returns>
+        /// <returns>Tuple of user's id and login token: (0,"0") if login false, (id,valid_token) otherwise.</returns>
         /// TOOD: Fix async
-        public async Task<(int,string)> ValidateCredentials(UserLoginModel userLoginModel)
+        public async Task<(int, string)> ValidateCredentials(UserLoginModel userLoginModel)
         {
             using (var connection = CreateConnection())
             {
@@ -146,18 +146,16 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="id">User's id</param>
         /// <returns>CurrentUser entity</returns>
-        /// TODO: Fix asnync
+        /// TODO: Fix async
         public async Task<CurrentUser> ReadCurrentUserAsync(int id)
         {
             using (var connection = CreateConnection())
             {
-                string sql = $@"select Users.*,Profiles.*,Settings.* from Users 
-                                 inner join Profiles on Profiles.UserId=@Id 
-                                  inner join Settings on Settings.UserId=@Id";
-                //select FriendId from Friends where UserId={id};
-                //select SenderId from Friend_Requests where ReceiverId={id};
-                //select BlockedUserId from Blocked_Users where UserId={id};
-                //select ConversationId from Group_Members where UserId={id}";
+                string sql = @"exec spViewUser @Id";
+                //select FriendId from Friends where UserId=@Id;
+                //select SenderId from Friend_Requests where ReceiverId=@Id;
+                //select BlockedUserId from Blocked_Users where UserId=@Id;
+                //select ConversationId from Group_Members where UserId=@Id";
                 //TODO: map all attritubtes. soon™
 
                 var currentUser = connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sql,
@@ -166,17 +164,20 @@ namespace Domain.RepositoryContracts
             }
         }
 
+
         /// <summary>
         /// Async user-profile mapper
         /// </summary>
         /// <param name="users">IEnumerable of users to be mapped</param>
-        public async Task BindUserProfilesAsync(IEnumerable<User> users) {
+        public async Task BindUserProfilesAsync(IEnumerable<User> users)
+        {
             var profiles = await ProfileRepository.ReadAllAsync();
-            foreach(User user in users)
+            foreach (User user in users)
             {
                 user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
             }
         }
+
 
         /// <summary>
         /// Logs out the user by resetting his/her token to 0
@@ -192,7 +193,8 @@ namespace Domain.RepositoryContracts
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(queryString, conn);
                 int result = cmd.ExecuteNonQuery();
-                if (result == 0) // Query execution failed
+                // Query execution failed
+                if (result == 0) 
                 {
                     return false;
                 }

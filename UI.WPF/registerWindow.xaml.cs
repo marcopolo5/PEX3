@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Extensions.DependencyInjection;
+using AccountModule.Controllers;
 
 namespace MainWindoww
 {
@@ -25,6 +26,8 @@ namespace MainWindoww
         /// Can be used for login, register and logout
         /// </summary>
         private readonly IAccountService _accountService;
+        private readonly ApplicationUserController _applicationUserController = new();
+
 
         public registerWindow()
         {
@@ -32,6 +35,36 @@ namespace MainWindoww
 
             // Getting the service from DI
             _accountService = DependencyInjectionHelper.ServiceProvider.GetService<IAccountService>();
+        }
+
+        // TODO: fix documentation (no longer matches the functionality)
+        /// <summary>
+        /// Called by the registerButton
+        /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of registration
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonRegisterClick(object sender, RoutedEventArgs e)
+        {
+            string _registerErrorMessage = _applicationUserController.CheckRegisterConstraints(firstNameText.Text, lastNameText.Text, emailText.Text, password1Text.Password, password2Text.Password);
+            bool validData = (_registerErrorMessage == "");
+            if (validData)
+            {
+                if (await _applicationUserController.Register(
+                    firstNameText.Text, lastNameText.Text, emailText.Text, password1Text.Password))
+                {
+                    registerErrorMessage.Foreground = Brushes.Green;
+                    registerErrorMessage.Content = "You have registered successfully!";
+                }
+                else
+                {
+                    registerErrorMessage.Content = "This e-mail has already been used";
+                }
+            }
+            else
+            {
+                registerErrorMessage.Content = _registerErrorMessage;
+            }
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
@@ -56,6 +89,7 @@ namespace MainWindoww
             main.Show();
             this.Close();
         }
+
         private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();

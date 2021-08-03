@@ -25,36 +25,37 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IAccountService _accountService;
+        private readonly ApplicationUserController _applicationUserController = new();
 
-        public MainWindow(IAccountService accountService)
+        public MainWindow()
         {
-            _accountService = accountService;
             InitializeComponent();
         }
 
+        // TODO: fix documentation (no longer matches the functionality)
         /// <summary>
         /// Called by the loginButton
         /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of login
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        public async void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
-            string _loginErrorMessage = "";
-            bool validData = CheckLoginConstraints(ref _loginErrorMessage);
+            string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
+            bool validData = (_loginErrorMessage == "");
             if (validData)
             {
-                var userLoginModel = new UserLoginModel
+                /*var userLoginModel = new UserLoginModel
                 {
                     Email = loginEmail.Text,
                     Password = loginPassword.Password,
-                    RememberMe = false  // Feature not implemented yet
-                };
-                if(new ApplicationUserController().Login(userLoginModel))
+                    // Obs: no check-box for remember me option
+                    RememberMe = false  
+                };*/
+                if (await _applicationUserController.Login(
+                    loginEmail.Text, loginPassword.Password, false)) // rememberMe default = false (missing check-box in UI)
                 {
-                    loginErrorMessage.Foreground = System.Windows.Media.Brushes.Green;
+                    loginErrorMessage.Foreground = Brushes.Green;
                     loginErrorMessage.Content = "Logged in successfully";
                 }
                 else
@@ -68,104 +69,34 @@ namespace WPFUI
             }
         }
 
+        // TODO: fix documentation (no longer matches the functionality)
         /// <summary>
         /// Called by the registerButton
         /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of registration
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ButtonRegister_Click(object sender, RoutedEventArgs e)
+        public async void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
-            string _registerErrorMessage = "";
-            bool validData = CheckRegisterConstraints(ref _registerErrorMessage);
+            string _registerErrorMessage = _applicationUserController.CheckRegisterConstraints(firstName.Text, lastName.Text, registerEmail.Text, passwordBox1.Password, passwordBox2.Password);
+            bool validData = (_registerErrorMessage == "");
             if (validData)
             {
-                var userRegisterModel = new UserRegisterModel
+                if (await _applicationUserController.Register(
+                    firstName.Text, lastName.Text, registerEmail.Text, passwordBox1.Password))
                 {
-                    Email = Email.Text,
-                    FirstName = FirstName.Text,
-                    LastName = LastName.Text,
-                    Password = PasswordBox1.Password // Mai e nevoie de un regex pentru constrangerea parolei
-                };
-                if (new ApplicationUserController().Register(userRegisterModel))
-                {
-                    registerErrorMessage.Foreground = System.Windows.Media.Brushes.Green;
+                    registerErrorMessage.Foreground = Brushes.Green;
                     registerErrorMessage.Content = "You have registered successfully!";
                 }
                 else
                 {
-                    registerErrorMessage.Content = "E-mail already used";
+                    registerErrorMessage.Content = "This e-mail has already been used";
                 }
             }
             else
             {
                 registerErrorMessage.Content = _registerErrorMessage;
             }
-        }
-
-        /// <summary>
-        /// Executes a check for the purpose of data validation on the login form
-        /// </summary>
-        /// <param name="_loginErrorMessage">Parameter which accumulates the error message</param>
-        /// <returns>true - if all rules are passed, false - otherwise</returns>
-        public bool CheckLoginConstraints(ref string _loginErrorMessage)
-        {
-            //TODO
-            if(loginEmail.Text.Length == 0)
-            {
-                loginEmail.Select(0, loginEmail.Text.Length);
-                loginEmail.Focus();
-                _loginErrorMessage = "Enter e-mail";
-            }
-            else if(loginPassword.Password.Length == 0)
-            {
-                loginPassword.Focus();
-                _loginErrorMessage = "Enter password";
-            }
-            return _loginErrorMessage == "";
-        }
-
-        /// <summary>
-        /// Executes a check for the purpose of data validation on the registration form
-        /// </summary>
-        /// <param name="_registerErrorMessage">Parameter which accumulates the error message</param>
-        /// <returns>true - if all rules are passed, false - otherwise</returns>
-        public bool CheckRegisterConstraints(ref string _registerErrorMessage)
-        {
-            //TODO
-            if (FirstName.Text.Length == 0 || LastName.Text.Length == 0)
-            {
-                _registerErrorMessage = "Enter a valid Name";
-            }
-            else if (
-                    !Regex.IsMatch(
-                        Email.Text, 
-                        @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$") 
-                    || 
-                        Email.Text.Length == 0)
-            {
-                _registerErrorMessage = "Enter a valid e-mail";
-                Email.Select(0, Email.Text.Length);
-                Email.Focus();
-            }
-            else if (PasswordBox1.Password.Length == 0 || PasswordBox2.Password.Length == 0)
-            {
-                _registerErrorMessage = "The password cannot be empty";
-            }
-            else if (PasswordBox1.Password != PasswordBox2.Password)
-            {
-                _registerErrorMessage = "Passwords don't match";
-            }
-            else if(!Regex.IsMatch(
-                                    PasswordBox1.Password, 
-                                    @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-                )
-            {
-                _registerErrorMessage = "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character";
-            }
-
-            return _registerErrorMessage == "";
         }
     }
 }

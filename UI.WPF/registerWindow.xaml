@@ -228,7 +228,10 @@
                     </PasswordBox.Style>
                 </PasswordBox>
 
-                <Button x:Name="registerButton" Content="Register" Grid.Column="1" Grid.Row="7" FontSize="27" Width="300" Height="70" Margin="220,20,0,20"  FontFamily="Comic Sans MS" Foreground="#333333">
+                <!-- error message on sign up (do your magic by styling it) -->
+                <Label Name="registerErrorMessage" Grid.Row="7" Grid.Column="2"  Grid.ColumnSpan="1" Foreground="Red"></Label>
+
+                <Button x:Name="registerButton" Content="Register" Grid.Column="1" Grid.Row="7" FontSize="27" Width="300" Height="70" Margin="220,20,0,20"  FontFamily="Comic Sans MS" Foreground="#333333" Click="ButtonRegisterClick">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="60"/>
