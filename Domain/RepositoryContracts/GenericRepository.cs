@@ -26,11 +26,16 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="tablename">Table's name in the database</param>
         /// <param name="connectionstring">Database's connection string. Defaulted to local db.</param>
-        protected GenericRepository(string tablename, string connectionstring = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True")
+        protected GenericRepository(string tablename, string connectionstring = @"Data Source=DESKTOP-CBF6VS1;Initial Catalog=GeoChat_DB;Integrated Security=True")
         {
             TableName = tablename;
             ConnectionString = connectionstring;
         }
+        /*protected GenericRepository(string tablename, string connectionstring = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True")
+        {
+            TableName = tablename;
+            ConnectionString = connectionstring;
+        }*/
 
 
         #region Interface defined methods.

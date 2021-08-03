@@ -25,15 +25,15 @@
 
         <!-- Register Form -->
         <Label Margin="0,0,0,10">First Name</Label>
-        <TextBox Name="FirstName" Grid.Column="1" Margin="0,0,0,10" />
+        <TextBox Name="firstName" Grid.Column="1" Margin="0,0,0,10" />
         <Label Grid.Row="1" Margin="0,0,0,10">Last Name</Label>
-        <TextBox Name="LastName" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
+        <TextBox Name="lastName" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
         <Label Grid.Row="2" Margin="0,0,0,10">E-Mail</Label>
-        <TextBox Name="Email" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" />
+        <TextBox Name="registerEmail" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" />
         <Label Grid.Row="3" Margin="0,0,0,10">Password</Label>
-        <PasswordBox Name="PasswordBox1" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
+        <PasswordBox Name="passwordBox1" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
         <Label Grid.Row="4" Margin="0,0,0,10">Confirm Password</Label>
-        <PasswordBox Name="PasswordBox2" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"/>
+        <PasswordBox Name="passwordBox2" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"/>
 
         <Button Grid.Row="5" Grid.Column="1" x:Name="btnRegister" Margin="0,0,0,10" Click="ButtonRegister_Click" >
             Register

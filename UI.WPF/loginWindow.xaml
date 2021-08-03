@@ -169,8 +169,11 @@
                         </Style>
                     </PasswordBox.Style>
                 </PasswordBox>
+                
+                <!-- error message on login (do your magic by styling it) -->
+                <Label Name="loginErrorMessage" Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3" Foreground="Red"></Label>
 
-                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="6" Width="300" Height="60" Margin="0,80,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333">
+                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="6" Width="300" Height="60" Margin="0,80,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333" Click="ButtonLoginClick">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="60"/>

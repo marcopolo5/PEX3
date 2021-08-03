@@ -1,5 +1,6 @@
 ﻿using Domain.HelpersContracts;
 using Domain.Models;
+using Domain.RepositoryContracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,9 +16,11 @@ namespace Domain
         public List<FriendRequest> FriendRequests { get; set; } = new();
         public List<Conversation> Conversations { get; set; } = new();
         public List<User> BlockedUsers { get; set; } = new();
+        public Profile Profile { get; set; }
 
         public Settings Settings { get; set; }
         public string LoginToken { get; set; }
+        public bool rememberMe { get; set; }
 
 
         private readonly IAppConfiguration _appConfiguration;
@@ -26,6 +29,20 @@ namespace Domain
         {
             _appConfiguration = appConfiguration;
 
+        }
+
+        public void InitializeFields(Profile profile, Settings settings)
+        {
+
+            // TODO: 
+            // initialize Friends
+            // initialize FriendRequests
+            // initialize Conversations
+            // initialize BlockedUsers
+            // OBS: not finished yet in UserRepository (see  UserRepository.ReadCurrentUserAsync(int id)  )
+            // soon™
+            Profile = profile;
+            Settings = settings;
         }
 
         /// <summary>

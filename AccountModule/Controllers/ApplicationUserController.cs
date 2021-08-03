@@ -11,31 +11,55 @@ using Domain.AccountContracts;
 using Domain.RepositoryContracts;
 using AccountModule.Helpers;
 using Domain;
+using System.Text.RegularExpressions;
 
 namespace AccountModule.Controllers
 {
     public class ApplicationUserController : IAccountService
     {
-        private string connectionString = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True";
         private readonly UserRepository _userRepository = new();
-        private readonly CurrentUser _currentUser;
+        private readonly ProfileRepository _profileRepository = new();
+        private CurrentUser _currentUser;
 
-        public ApplicationUserController(CurrentUser currentUser) 
+
+        public ApplicationUserController()
+        {
+
+        }
+
+        // why?
+        public ApplicationUserController(CurrentUser currentUser)
         {
             _currentUser = currentUser;
         }
 
-        public bool Login(UserLoginModel userLoginModel)
+        public async Task<bool> Login(string email, string password, bool rememberMe)
         {
-            //TODO
+            UserLoginModel userLoginModel = new UserLoginModel
+            {
+                Email = email,
+                Password = password,
+                RememberMe = rememberMe
+            };
+
             (int id, string token) = _userRepository.ValidateCredentials(userLoginModel).Result;
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
+            {
                 return false;
-            //var currentUser = userRepository.ReadCurrentUserAsync(id).Result; // TODO: poor guy remains unused
+            }
+
+            //_currentUser.rememberMe = rememberMe;
+
+            // initialize user's attributes
+            User user = await _userRepository.ReadAsync(email);
+            // ReadCurrentUserAsync needs inspection
+            /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
+            _currentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
+
             return true;
         }
 
-        public bool Logout()
+        public async Task<bool> Logout()
         {
             // moved to user repository
             //string queryString = "UPDATE [Users] SET token='0' WHERE id="+_currentUser.Id;
@@ -62,71 +86,88 @@ namespace AccountModule.Controllers
             return true;
         }
 
-        public bool Register(UserRegisterModel userRegisterModel)
+        public async Task<bool> Register(string firstName, string lastName, string email, string password)
         {
-            //TODO
-            if (UserExists(userRegisterModel.Email))
+            UserRegisterModel userRegisterModel = new UserRegisterModel
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Password = password
+            };
+
+            if (await UserExists(userRegisterModel.Email))
             {
                 return false;
             }
-
-            string spName = @"dbo.[spRegisterUser]";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            else
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(spName, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add("@email", SqlDbType.VarChar);
-                cmd.Parameters["@email"].Value = userRegisterModel.Email;
-
-                cmd.Parameters.Add("@password", SqlDbType.VarChar);
-                cmd.Parameters["@password"].Value = userRegisterModel.Password;
-
-                cmd.Parameters.Add("@firstName", SqlDbType.VarChar);
-                cmd.Parameters["@firstName"].Value = userRegisterModel.FirstName;
-
-                cmd.Parameters.Add("@lastName", SqlDbType.VarChar);
-                cmd.Parameters["@lastName"].Value = userRegisterModel.LastName;
-
-                int result = cmd.ExecuteNonQuery();
-                if(result == 0) // Query execution failed
+                await _userRepository.CreateAsync(userRegisterModel);
+                Profile profile = new Profile
                 {
-                    return false;
-                }
+                    UserId = (await _userRepository.GetAvailableId()) - 1,
+                    DisplayName = firstName + " " + lastName,
+                    Status = UserStatus.Offline,
+                    // TODO: a default path for a default profile picture is needed
+                    Image = "default_user_profile_picture.img"
+                };
+                await _profileRepository.CreateAsync(profile);
+                return true;
             }
-            
+        }
+
+        private async Task<bool> UserExists(string email)
+        {
+            var user = await _userRepository.ReadAsync(email);
+            // email has not been used already -> user does not exist
+            if (user == null)
+                return false;
             return true;
         }
 
-        private bool UserExists(string email)
+        public string CheckLoginConstraints(string email, string password)
         {
-            //TODO
-            string queryString = "SELECT [email] FROM [Users] WHERE email='" + email + "'";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (email.Length == 0)
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand(queryString, conn))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string result = reader.GetString(0);
-                            if(result == email)
-                            {
-                                return true;
-                            }
-
-                            reader.NextResult();
-                        }
-                    }
-                }
+                return "Enter e-mail";
             }
-
-            return false;
+            else if (password.Length == 0)
+            {
+                return "Enter password";
+            }
+            return "";
         }
 
+        public string CheckRegisterConstraints(string firstName, string lastName, string email, string password, string retypedPassword)
+        {
+            if (firstName.Length == 0 || lastName.Length == 0)
+            {
+                return "Enter a valid Name";
+            }
+            else if (
+                    !Regex.IsMatch(email,
+                                    @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$")
+                    ||
+                        email.Length == 0)
+            {
+                return "Enter a valid e-mail";
+            }
+            else if (password.Length == 0 || retypedPassword.Length == 0)
+            {
+                return "The password cannot be empty";
+            }
+            else if (password != retypedPassword)
+            {
+                return "Passwords don't match";
+            }
+            else if (!Regex.IsMatch(
+                                    password,
+                                    @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$")
+                )
+            {
+                return "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character";
+            }
+            return "";
+        }
     }
 }
