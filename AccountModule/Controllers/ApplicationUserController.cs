@@ -9,7 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Domain.AccountContracts;
 using Domain.RepositoryContracts;
-using AccountModule.Helpers;
+using Domain.Helpers;
 using Domain;
 using System.Text.RegularExpressions;
 
@@ -19,6 +19,7 @@ namespace AccountModule.Controllers
     {
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
+        private readonly AppConfiguration _appConfiguration = new();
         public static CurrentUser CurrentUser;
 
 
@@ -40,6 +41,13 @@ namespace AccountModule.Controllers
             {
                 return false;
             }
+
+            // save token to file
+            if (rememberMe)
+            {
+                _appConfiguration.SaveToken(token);
+            }
+
 
             //CurrentUser.rememberMe = rememberMe;
 
