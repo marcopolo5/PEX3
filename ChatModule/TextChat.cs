@@ -1,23 +1,31 @@
 ﻿using Domain.ChatContracts;
 using Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace ChatModule
 {
     public class TextChat : ITextChat
     {
-        public Task InitializeConnection(int userId, string token)
+        private readonly HubConnection connection;
+        public event Action<Message> MessageReceived;
+
+        public TextChat(HubConnection _connection)
         {
-            throw new NotImplementedException();
+            connection = _connection;
+            connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
         }
 
-        public Task SendMessage(Message message)
+        public async Task InitializeConnection(int userId)
         {
-            throw new NotImplementedException();
+            await connection.StartAsync();
+        }
+
+        public async Task SendMessage(Message message)
+        {
+            await connection.SendAsync("SendMessage", message);
         }
     }
 }

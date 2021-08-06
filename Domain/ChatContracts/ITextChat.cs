@@ -11,8 +11,8 @@ namespace Domain.ChatContracts
     {
         // maybe change Message to primitive types
         Task SendMessage(Message message);
-        Task InitializeConnection(int userId, string token);
+        Task InitializeConnection(int userId);
 
-        ///// todo: create some kind of event
+        ///// todo: create some kinda of event
     }
 }
