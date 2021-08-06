@@ -10,8 +10,8 @@ namespace Domain.ChatContracts
     public interface ITextChat
     {
         // maybe change Message to primitive types
-        Task SendMessage(Message message, string token);
-        Task InitializeConnection(int userId);
+        Task SendMessage(Message message);
+        Task InitializeConnection(int userId, string token);
 
         ///// todo: create some kinda of event
     }

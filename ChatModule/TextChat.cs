@@ -9,23 +9,24 @@ namespace ChatModule
 {
     public class TextChat : ITextChat
     {
-        private readonly HubConnection connection;
+        private HubConnection _connection;
         public event Action<Message> MessageReceived;
 
-        public TextChat(HubConnection _connection)
+        public async Task InitializeConnection(int userId, string token)
         {
-            connection = _connection;
-            connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
-        }
+            var url = "10.0.2.162:5002"; 
 
-        public async Task InitializeConnection(int userId)
-        {
-            await connection.StartAsync();
+            _connection = new HubConnectionBuilder()
+                .WithUrl($"http://{url}/chat?id={userId}&loginToken={token}")
+                .Build();
+
+            await _connection.StartAsync();
+            _connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
         }
 
         public async Task SendMessage(Message message)
         {
-            await connection.SendAsync("SendMessage", message);
+            await _connection.SendAsync("SendMessage", message);
         }
     }
 }
