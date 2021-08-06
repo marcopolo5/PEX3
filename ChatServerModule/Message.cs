@@ -12,8 +12,5 @@ namespace ChatServerModule
         public int ConversationId { get; set; }
         public DateTime CreatedAt { get; set; } 
         public string TextMessage { get; set; }
-
-
-        public IEnumerable<int> ListOfReceivers { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace ChatServerModule.Hubs
     {
 
         /// <summary>
-        /// key - user id
+        /// key - user id;
         /// value - connection
         /// </summary>
         private static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
@@ -28,7 +28,7 @@ namespace ChatServerModule.Hubs
         {
             // Client side:
             //var connection = new HubConnectionBuilder()
-            //.WithUrl($"http://10.0.2.162:5002/connection?id={id}&loginToken={token}")
+            //.WithUrl($"http://10.0.2.162:5002/chat?id={id}&loginToken={token}")
             //.WithConsoleLogger()
             //.WithMessagePackProtocol()
             //.WithTransport(TransportType.WebSockets)
@@ -45,14 +45,18 @@ namespace ChatServerModule.Hubs
                 .Request
                 .Query["loginToken"]
                 .ToString();
-
-            if (_tokenValidator.IsValid(token) == false)
+            
+            if (int.TryParse(stringId, out int id) == false)
             {
-                return; // if token isnt valid dont send the message
+                return;
+            }
+            
+            if (_tokenValidator.IsValid(id, token) == false)
+            {
+                return;
             }
 
-            if (int.TryParse(stringId, out int id))
-                ConnectedUsers[id] = Context.ConnectionId;
+            ConnectedUsers[id] = Context.ConnectionId;
             await base.OnConnectedAsync();
         }
 
@@ -67,8 +71,9 @@ namespace ChatServerModule.Hubs
 
         public async Task SendMessage(Message message)
         {
+            IList<int> userIds = new List<int>();
 
-            foreach(var userId in message.ListOfReceivers)
+            foreach(var userId in userIds)
             {
                 // check if the user is connected
                 if (ConnectedUsers.ContainsKey(userId) == false)

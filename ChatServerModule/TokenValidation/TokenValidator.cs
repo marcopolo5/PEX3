@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace ChatServerModule.TokenValidation
 {
     public class TokenValidator : ITokenValidator
     {
-        public bool IsValid(string token)
+        private readonly string _connectionString;
+        public bool IsValid(int userId, string token)
         {
-            throw new NotImplementedException();
+            string sql = $"SELECT COUNT(*) FROM [USERS] WHERE id={userId} AND token={token}";
+
+            using (var conn  = new SqlConnection(_connectionString))
+            {
+                var count = conn.QueryFirst<int>(sql);
+                if (count == 1)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
