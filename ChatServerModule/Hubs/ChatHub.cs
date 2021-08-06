@@ -6,6 +6,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatServerModule.Models;
+using ChatServerModule.MiniRepo;
 
 namespace ChatServerModule.Hubs
 {
@@ -16,12 +18,15 @@ namespace ChatServerModule.Hubs
         /// key - user id;
         /// value - connection
         /// </summary>
-        private static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
-        private readonly ITokenValidator _tokenValidator;
+        public static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
 
-        public ChatHub(ITokenValidator tokenValidator)
+
+        private readonly ITokenValidator _tokenValidator;
+        private readonly IConversationRepo _conversationRepo;
+        public ChatHub(ITokenValidator tokenValidator, IConversationRepo conversationRepo)
         {
             _tokenValidator = tokenValidator;
+            _conversationRepo = conversationRepo;
         }
 
         public override async Task OnConnectedAsync()
@@ -34,18 +39,28 @@ namespace ChatServerModule.Hubs
             //.WithTransport(TransportType.WebSockets)
             //.Build();
 
-            string stringId = Context.
-                GetHttpContext()
+            //string stringId = Context.
+            //    GetHttpContext()
+            //    .Request
+            //    .Query["id"]
+            //    .ToString();
+
+            //string token = Context
+            //    .GetHttpContext()
+            //    .Request
+            //    .Query["loginToken"]
+            //    .ToString();
+
+            string stringId = Context
+                .GetHttpContext()
                 .Request
-                .Query["id"]
-                .ToString();
+                .Headers["userId"];
 
             string token = Context
                 .GetHttpContext()
                 .Request
-                .Query["loginToken"]
-                .ToString();
-            
+                .Headers["loginToken"];
+
             if (int.TryParse(stringId, out int id) == false)
             {
                 return;
@@ -71,7 +86,7 @@ namespace ChatServerModule.Hubs
 
         public async Task SendMessage(Message message)
         {
-            IList<int> userIds = new List<int>();
+            IEnumerable<int> userIds = _conversationRepo.GetUserIds(message.ConversationId);
 
             foreach(var userId in userIds)
             {

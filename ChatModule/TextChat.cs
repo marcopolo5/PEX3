@@ -12,19 +12,24 @@ namespace ChatModule
         private HubConnection _connection;
         public event Action<Message> MessageReceived;
 
-        public async Task InitializeConnection(int userId, string token)
+        public async Task InitializeConnectionAsync(int userId, string token)
         {
-            var url = "10.0.2.162:5002"; 
+            var url = "http://localhost:5000/chat";
 
             _connection = new HubConnectionBuilder()
-                .WithUrl($"http://{url}/chat?id={userId}&loginToken={token}")
+                .WithUrl("http://localhost:5000/chat", options =>
+                {
+                    options.Headers.Add("userId", userId.ToString());
+                    options.Headers.Add("loginToken", token);
+                })
                 .Build();
 
-            await _connection.StartAsync();
             _connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
+
+            await _connection.StartAsync();
         }
 
-        public async Task SendMessage(Message message)
+        public async Task SendMessageAsync(Message message)
         {
             await _connection.SendAsync("SendMessage", message);
         }
