@@ -16,19 +16,8 @@ namespace MainWindoww
     {
         public App()
         {
-            // initializing dependency injection helper
-            DependencyInjectionHelper.Initialize();
         }
 
-        /// <summary>
-        /// This is executed when the app is started.
-        /// This method receives the MainWindow object from the dependency container and displays it
-        /// </summary>
-        private void OnStartup(object sender, StartupEventArgs e)
-        {
-            var mainWindow = DependencyInjectionHelper.ServiceProvider.GetService<MainWindow>();
-            mainWindow.Show();
-        }
 
     }
 }

@@ -19,8 +19,8 @@ namespace Domain
         public Profile Profile { get; set; }
 
         public Settings Settings { get; set; }
-        public byte[] LoginToken { get; set; }
-        public bool rememberMe { get; set; }
+        public string LoginToken { get; set; }
+        public bool RememberMe { get; set; }
 
 
         private readonly IAppConfiguration _appConfiguration;

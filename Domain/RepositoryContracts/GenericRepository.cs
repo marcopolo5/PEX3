@@ -8,6 +8,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.ComponentModel;
+using Domain.HelpersContracts;
+using Domain.Helpers;
 
 namespace Domain.RepositoryContracts
 {
@@ -19,13 +21,21 @@ namespace Domain.RepositoryContracts
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly string TableName;
-        protected readonly string ConnectionString = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True";
+        protected readonly string ConnectionString;
+        protected readonly IAppConfiguration _appConfiguration;
 
+        
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="tablename">Table's name in the database</param>
         /// <param name="connectionstring">Database's connection string. Defaulted to local db.</param>
+        protected GenericRepository(string tablename)
+        {
+            _appConfiguration = new AppConfiguration();
+            TableName = tablename;
+            ConnectionString = _appConfiguration.GetConnectionString();
+        }
 
 
         //protected GenericRepository(string tablename, string connectionstring = @"Data Source=DESKTOP-CBF6VS1;Initial Catalog=GeoChat_DB;Integrated Security=True")
@@ -33,8 +43,6 @@ namespace Domain.RepositoryContracts
         //    TableName = tablename;
         //    ConnectionString = connectionstring;
         //}
-
-
         protected GenericRepository(string tablename, string connectionstring = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True")
         {
             TableName = tablename;

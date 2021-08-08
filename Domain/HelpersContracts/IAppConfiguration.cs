@@ -16,7 +16,7 @@ namespace Domain.HelpersContracts
 
 
         string GetToken();
-        bool SaveToken();
-        bool RemoveToken();
+        bool SaveToken(string token);
+        bool ResetToken();
     }
 }

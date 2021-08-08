@@ -36,7 +36,7 @@ namespace WPFUI
         {
             // Adding the main window as a singleton
             services.AddSingleton<MainWindow>();
-            services.AddScoped<IAccountService, ApplicationUserController>();
+            services.AddScoped<IApplicationUserController, ApplicationUserController>();
         }
 
 
