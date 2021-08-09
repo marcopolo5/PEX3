@@ -48,14 +48,5 @@ namespace ChatModule
             await _connection.SendAsync("SendMessage", message);
         }
 
-        public Task SendMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task InitializeConnection(int userId, string token)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
