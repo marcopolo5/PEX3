@@ -1,4 +1,5 @@
-﻿using ChatServerModule.Models;
+﻿using ChatServerModule.MiniRepo;
+using ChatServerModule.Models;
 using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -17,33 +18,41 @@ namespace ChatServerModule.Hubs
         /// key - user id
         /// value - connection
         /// </summary>
-        private static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
-        private readonly ITokenValidator _tokenValidator;
+        public static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
 
-        public ChatHub(ITokenValidator tokenValidator)
+
+        private readonly ITokenValidator _tokenValidator;
+        private readonly IConversationRepo _conversationRepo;
+        public ChatHub(ITokenValidator tokenValidator, IConversationRepo conversationRepo)
         {
             _tokenValidator = tokenValidator;
+            _conversationRepo = conversationRepo;
         }
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
-            // Client side:
-            //var connection = new HubConnectionBuilder()
-            //.WithUrl($"http://10.0.2.162:5002/connection?id={id}")
-            //.WithConsoleLogger()
-            //.WithMessagePackProtocol()
-            //.WithTransport(TransportType.WebSockets)
-            //.Build();
-
-            string stringId = Context.
-                GetHttpContext()
+            string stringId = Context
+                .GetHttpContext()
                 .Request
-                .Query["id"]
-                .ToString();
+                .Headers["userId"];
 
-            if(int.TryParse(stringId, out int id))
-                ConnectedUsers[id] = Context.ConnectionId;
-            return base.OnConnectedAsync();
+            string token = Context
+                .GetHttpContext()
+                .Request
+                .Headers["loginToken"];
+
+            if (int.TryParse(stringId, out int id) == false)
+            {
+                return;
+            }
+            
+            if (_tokenValidator.IsValid(id, token) == false)
+            {
+                return;
+            }
+
+           ConnectedUsers[id] = Context.ConnectionId;
+            await base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
@@ -55,13 +64,11 @@ namespace ChatServerModule.Hubs
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendMessage(Message message, string token)
+        public async Task SendMessage(Message message)
         {
-            if (_tokenValidator.IsValid(token) == false)
-            {
-                return; // if token isnt valid dont send the message
-            }
-            foreach(var userId in message.ListOfReceivers)
+            IEnumerable<int> userIds = _conversationRepo.GetUserIds(message.ConversationId);
+
+            foreach(var userId in userIds)
             {
                 // check if the user is connected
                 if (ConnectedUsers.ContainsKey(userId) == false)

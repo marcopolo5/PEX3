@@ -57,7 +57,7 @@ namespace ConsoleApp.TEST
         static async Task StartChat(int userId)
         {
             chat = new TextChat();
-            await chat.InitializeConnectionAsync(userId, new Guid().ToString());
+            await chat.InitializeConnectionAsync(userId, (new Guid()).ToString());
             chat.MessageReceived += MessageReceived;
         }
     }
