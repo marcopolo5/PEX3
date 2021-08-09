@@ -1,4 +1,5 @@
-﻿using ChatServerModule.TokenValidation;
+﻿using ChatServerModule.Models;
+using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -6,8 +7,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatServerModule.Models;
-using ChatServerModule.MiniRepo;
 
 namespace ChatServerModule.Hubs
 {
@@ -15,7 +14,7 @@ namespace ChatServerModule.Hubs
     {
 
         /// <summary>
-        /// key - user id;
+        /// key - user id
         /// value - connection
         /// </summary>
         public static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
@@ -29,7 +28,7 @@ namespace ChatServerModule.Hubs
             _conversationRepo = conversationRepo;
         }
 
-        public override async Task OnConnectedAsync()
+        public override Task OnConnectedAsync()
         {
             string stringId = Context
                 .GetHttpContext()
@@ -51,8 +50,9 @@ namespace ChatServerModule.Hubs
                 return;
             }
 
-            ConnectedUsers[id] = Context.ConnectionId;
-            await base.OnConnectedAsync();
+            if(int.TryParse(stringId, out int id))
+                ConnectedUsers[id] = Context.ConnectionId;
+            return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
