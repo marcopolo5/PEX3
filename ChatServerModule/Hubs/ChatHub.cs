@@ -31,26 +31,6 @@ namespace ChatServerModule.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            // Client side:
-            //var connection = new HubConnectionBuilder()
-            //.WithUrl($"http://10.0.2.162:5002/chat?id={id}&loginToken={token}")
-            //.WithConsoleLogger()
-            //.WithMessagePackProtocol()
-            //.WithTransport(TransportType.WebSockets)
-            //.Build();
-
-            //string stringId = Context.
-            //    GetHttpContext()
-            //    .Request
-            //    .Query["id"]
-            //    .ToString();
-
-            //string token = Context
-            //    .GetHttpContext()
-            //    .Request
-            //    .Query["loginToken"]
-            //    .ToString();
-
             string stringId = Context
                 .GetHttpContext()
                 .Request
