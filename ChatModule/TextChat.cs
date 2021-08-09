@@ -4,12 +4,17 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
+using Domain.RepositoryContracts;
+using AccountModule.Controllers;
 
 namespace ChatModule
 {
     public class TextChat : ITextChat
     {
         private HubConnection _connection;
+
+        private readonly MessageRepository messageRepository;
+
         public event Action<Message> MessageReceived;
 
         public async Task InitializeConnectionAsync(int userId, string token)
@@ -29,9 +34,28 @@ namespace ChatModule
             await _connection.StartAsync();
         }
 
-        public async Task SendMessageAsync(Message message)
+        public async Task SendMessageAsync(int conversationID, string textMessage)
         {
+            var message = new Message
+            {
+                SenderId = ApplicationUserController.CurrentUser.Id,
+                ConversationId = conversationID,
+                TextMessage = textMessage
+            };
+
+            await messageRepository.CreateAsync(message);
+
             await _connection.SendAsync("SendMessage", message);
+        }
+
+        public Task SendMessage(Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task InitializeConnection(int userId, string token)
+        {
+            throw new NotImplementedException();
         }
     }
 }
