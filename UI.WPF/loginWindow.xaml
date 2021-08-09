@@ -118,6 +118,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="20"/>
@@ -172,8 +173,10 @@
                 
                 <!-- error message on login (do your magic by styling it) -->
                 <Label Name="loginErrorMessage" Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3" Foreground="Red"></Label>
-
-                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="6" Width="300" Height="60" Margin="0,80,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333" Click="ButtonLoginClick">
+                <CheckBox x:Name ="rememberMeCheckBox" IsChecked="True" Grid.Row="6" Grid.Column="2" Margin="50,10" >
+                    <TextBlock Foreground="White" FontSize="25" FontFamily="Comic Sans MS"> Remember me </TextBlock>
+                </CheckBox>
+                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="7" Width="300" Height="60" Margin="0,0,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333" Click="ButtonLoginClick">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="60"/>
@@ -193,13 +196,34 @@
                         </Style>
                     </Button.Style>
                 </Button>
+
+                <Image Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="7" Width ="60" Height="60" Source="/Assets/google-logo.png" Stretch="Fill" Margin="140,37,0,0">
+                    <Image.ToolTip>
+                        <ToolTip>
+                            <Image Source="/Assets/btn_google_signin_light.png"/>
+                        </ToolTip>
+                        
+                    </Image.ToolTip>
+                </Image>
+
+                <!--<StackPanel Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" Margin="0,20,30,0">
+                    <Image  Width ="50" Height="50" Source="/Assets/google-logo.png" Stretch="Fill" Margin="150,10,0,0"/>
+                    <TextBlock x:Name ="signinGoogle" FontSize="25" Foreground="white" Text="Sign in with Google"  FontFamily="Comic Sans MS" Margin="520,-40,20,40"/>
+                </StackPanel>-->
+               
+
+
+                <TextBlock x:Name ="goToRegisterButton" PreviewMouseDown ="goToRegisterButton_PreviewMouseDown" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" FontSize="25" Foreground="white" Text="I don't have an account" FontFamily="Comic Sans MS"  Margin="180,40,0,0" HorizontalAlignment="Center"/>
+                
+                
+                
                 <Button x:Name ="closeButton" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" Margin="800,-10,0,100" Click="closeButton_Click" Style="{DynamicResource ButtonStyle1}" >
                     <Button.Background>
                         <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
 
-                <TextBlock x:Name ="goToRegisterButton" PreviewMouseDown ="goToRegisterButton_PreviewMouseDown" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="4" FontSize="20" Foreground="white" Text="I don't have an account" FontFamily="Comic Sans MS"  Margin="0,30,0,0" HorizontalAlignment="Center"/>
+                
             </Grid>
         </Border>
     </Border>
