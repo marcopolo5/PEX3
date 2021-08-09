@@ -30,6 +30,7 @@ namespace UI.WPF
             RegisterWindow register = new RegisterWindow();
             this.Close();
             register.Show();
+            
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
