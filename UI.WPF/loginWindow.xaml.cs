@@ -13,16 +13,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MainWindoww
+namespace UI.WPF
 {
     /// <summary>
     /// Interaction logic for loginWindow.xaml
     /// </summary>
-    public partial class loginWindow : Window
+    public partial class LoginWindow : Window
     {
         private readonly ApplicationUserController _applicationUserController = new();
 
-        public loginWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace MainWindoww
         }
         private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            registerWindow register = new registerWindow();
+            RegisterWindow register = new RegisterWindow();
             this.Close();
             register.Show();
         }
