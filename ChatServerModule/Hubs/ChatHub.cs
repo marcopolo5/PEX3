@@ -1,4 +1,5 @@
-﻿using ChatServerModule.Models;
+﻿using ChatServerModule.MiniRepo;
+using ChatServerModule.Models;
 using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -28,7 +29,7 @@ namespace ChatServerModule.Hubs
             _conversationRepo = conversationRepo;
         }
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             string stringId = Context
                 .GetHttpContext()
@@ -50,9 +51,8 @@ namespace ChatServerModule.Hubs
                 return;
             }
 
-            if(int.TryParse(stringId, out int id))
-                ConnectedUsers[id] = Context.ConnectionId;
-            return base.OnConnectedAsync();
+           ConnectedUsers[id] = Context.ConnectionId;
+            await base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
