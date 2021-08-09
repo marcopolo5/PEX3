@@ -8,7 +8,7 @@ namespace ConsoleApp.TEST
 {
     public class Program
     {
-        private static ITextChat chat;
+        private static TextChat chat;
         public static void Main(string[] args)
         {
             MainAsync().GetAwaiter().GetResult();
@@ -40,14 +40,14 @@ namespace ConsoleApp.TEST
         }
         static async Task SendMessage(string msg)
         {
-            Message message = new()
-            {
-                SenderId = 1,
-                TextMessage = msg,
-                ConversationId = 1,
-                Id = 1
-            };
-            await chat.SendMessageAsync(message);
+            //Message message = new()
+            //{
+            //    SenderId = 1,
+            //    TextMessage = msg,
+            //    ConversationId = 1,
+            //    Id = 1
+            //};
+            await chat.SendMessageAsync(1, msg);
         }
 
         static void MessageReceived(Message message)
