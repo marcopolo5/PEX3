@@ -6,6 +6,7 @@ using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
 using Domain.RepositoryContracts;
 using AccountModule.Controllers;
+using System.Linq;
 
 namespace ChatModule
 {
@@ -32,7 +33,15 @@ namespace ChatModule
                 .Build();
 
             _connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
-            _connection.On<StatusModel>("ChangeStatus", (status)=> StatusChanged?.Invoke(status));
+            _connection.On<StatusModel>("ChangeStatus", (status) =>
+            {
+                var friend = ApplicationUserController.CurrentUser.Friends.Where(f => f.Id == status.FriendId).FirstOrDefault();
+                if(friend!=null)
+                {
+                    friend.Profile.Status = status.NewStatus;
+                    StatusChanged?.Invoke(status);
+                }
+            });
 
             await _connection.StartAsync();
         }
