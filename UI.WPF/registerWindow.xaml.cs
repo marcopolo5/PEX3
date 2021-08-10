@@ -15,12 +15,12 @@ using System.Windows.Shapes;
 using Microsoft.Extensions.DependencyInjection;
 using AccountModule.Controllers;
 
-namespace MainWindoww
+namespace UI.WPF
 {
     /// <summary>
     /// Interaction logic for registerWindow.xaml
     /// </summary>
-    public partial class registerWindow : Window
+    public partial class RegisterWindow : Window
     {
         /// <summary>
         /// Can be used for login, register and logout
@@ -28,7 +28,7 @@ namespace MainWindoww
         private readonly ApplicationUserController _applicationUserController = new();
 
 
-        public registerWindow()
+        public RegisterWindow()
         {
            InitializeComponent();
         }
@@ -74,16 +74,16 @@ namespace MainWindoww
 
         private void loginTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            loginWindow login = new loginWindow();
-            login.Show();
-            this.Close();
+            Hide();
+            new LoginWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void returnTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindow main = new MainWindow();
-            main.Show();
-            this.Close();
+            Hide();
+            new MainWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -93,8 +93,8 @@ namespace MainWindoww
       
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-            
+            Environment.Exit(0);
+
         }
     }
 }

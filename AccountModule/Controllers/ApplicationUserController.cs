@@ -17,6 +17,7 @@ namespace AccountModule.Controllers
 {
     public class ApplicationUserController : IApplicationUserController
     {
+        private readonly GoogleAuthenticatorController _googleAuthenticatorController = new();
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
         private readonly AppConfiguration _appConfiguration = new();
@@ -106,7 +107,7 @@ namespace AccountModule.Controllers
                 await _userRepository.CreateAsync(userRegisterModel);
                 Profile profile = new Profile
                 {
-                    UserId = (await _userRepository.GetAvailableId()) - 1,
+                    UserId = (await _userRepository.GetAvailableId()) - 1,  //TODO: Buggy in this version. Should read the object from DB.
                     DisplayName = firstName + " " + lastName,
                     Status = UserStatus.Offline,
                     // TODO: a default path for a default profile picture is needed
@@ -169,6 +170,20 @@ namespace AccountModule.Controllers
                 return "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character";
             }
             return "";
+        }
+
+
+        /// <summary>
+        /// Registers (if necessary) and logs in an user
+        /// with their Google account data. (email, first name, last name)
+        /// </summary>
+        /// <param name="rememberMe">Remember me option</param>
+        public async Task AuthenticateWithGoogle(bool rememberMe)
+        {
+            Dictionary<string,string> userInfo = await _googleAuthenticatorController.GetGoogleAccountInfo();
+            if(await _userRepository.ReadAsync(userInfo["email"])==null)
+                await Register(userInfo["given_name"], userInfo["family_name"], userInfo["email"], null);
+            await Login(userInfo["email"], null, rememberMe);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ChatModule
 {
     public class TextChat : ITextChat
     {
-        public Task InitializeConnection(int userId)
+        public Task InitializeConnection(int userId, string token)
         {
             throw new NotImplementedException();
         }

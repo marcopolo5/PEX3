@@ -24,11 +24,11 @@ namespace ChatServerModule.Hubs
             _tokenValidator = tokenValidator;
         }
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             // Client side:
             //var connection = new HubConnectionBuilder()
-            //.WithUrl($"http://10.0.2.162:5002/connection?id={id}")
+            //.WithUrl($"http://10.0.2.162:5002/connection?id={id}&loginToken={token}")
             //.WithConsoleLogger()
             //.WithMessagePackProtocol()
             //.WithTransport(TransportType.WebSockets)
@@ -40,9 +40,20 @@ namespace ChatServerModule.Hubs
                 .Query["id"]
                 .ToString();
 
-            if(int.TryParse(stringId, out int id))
+            string token = Context
+                .GetHttpContext()
+                .Request
+                .Query["loginToken"]
+                .ToString();
+
+            if (_tokenValidator.IsValid(token) == false)
+            {
+                return; // if token isnt valid dont send the message
+            }
+
+            if (int.TryParse(stringId, out int id))
                 ConnectedUsers[id] = Context.ConnectionId;
-            return base.OnConnectedAsync();
+            await base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
@@ -54,12 +65,9 @@ namespace ChatServerModule.Hubs
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendMessage(Message message, string token)
+        public async Task SendMessage(Message message)
         {
-            if (_tokenValidator.IsValid(token) == false)
-            {
-                return; // if token isnt valid dont send the message
-            }
+
             foreach(var userId in message.ListOfReceivers)
             {
                 // check if the user is connected

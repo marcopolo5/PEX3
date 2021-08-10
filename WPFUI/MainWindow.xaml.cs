@@ -135,6 +135,7 @@ namespace WPFUI
                 }
                 else
                 {
+                    loginErrorMessage.Foreground = Brushes.Red;
                     loginErrorMessage.Content = "Incorrect e-mail or password";
                 }
             }
@@ -165,6 +166,7 @@ namespace WPFUI
                 }
                 else
                 {
+                    registerErrorMessage.Foreground = Brushes.Red;
                     registerErrorMessage.Content = "This e-mail has already been used";
                 }
             }

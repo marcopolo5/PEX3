@@ -8,11 +8,11 @@
 
 	<ItemGroup>
 	  <None Remove="Assets\close.png" />
-	  <None Remove="Assets\icons8-macos-close-96.png" />
-	  <None Remove="MicrosoftTeams-image.png" />
-	  <None Remove="MicrosoftTeams-imagine.png" />
+	  <None Remove="Assets\logo.png" />
+	  <None Remove="Assets\profilepic.png" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="FluentWPF" Version="0.9.0" />
 		<PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -27,9 +27,8 @@
 
 	<ItemGroup>
 	  <Resource Include="Assets\close.png" />
-	  <Resource Include="Assets\icons8-macos-close-96.png" />
-	  <Resource Include="MicrosoftTeams-image.png" />
-	  <Resource Include="MicrosoftTeams-imagine.png" />
+	  <Resource Include="Assets\logo.png" />
+	  <Resource Include="Assets\profilepic.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,7 +51,7 @@
 	    <DependentUpon>MainWindow.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="registerWindow.xaml.cs">
-	    <DependentUpon>registerWindow.xaml</DependentUpon>
+	    <DependentUpon>RegisterWindow.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -71,7 +70,7 @@
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
-	  <Page Update="registerWindow.xaml">
+	  <Page Update="RegisterWindow.xaml">
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
