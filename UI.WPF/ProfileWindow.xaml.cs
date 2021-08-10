@@ -26,7 +26,14 @@ namespace UI.WPF
         }
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Environment.Exit(0);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new HomeWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void photoButton_Click(object sender, RoutedEventArgs e)
