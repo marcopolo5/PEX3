@@ -9,8 +9,11 @@
 	<ItemGroup>
 	  <None Remove="Assets\close.png" />
 	  <None Remove="Assets\logo.png" />
+	  <None Remove="Assets\profilepic.png" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="FluentWPF" Version="0.9.0" />
+		<PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
 	</ItemGroup>
@@ -24,6 +27,7 @@
 	<ItemGroup>
 	  <Resource Include="Assets\close.png" />
 	  <Resource Include="Assets\logo.png" />
+	  <Resource Include="Assets\profilepic.png" />
 	</ItemGroup>
 
 	<ItemGroup>

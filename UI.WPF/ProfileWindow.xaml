@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.WPF"
         mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        fw:AcrylicWindow.Enabled="False"
         Title="ProfileWindow" 
         Height="800" 
         Width="1200"
@@ -14,15 +17,32 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column ="0" CornerRadius="45" BorderThickness="7" BorderBrush="white" Background="#112152" >
-            <Grid>
-                <Image Grid.Column="1" Grid.Row="1" Width="190" VerticalAlignment="Top"  Source="/Assets/logo.png" Margin="0,30" />
+        <Border Grid.Column ="0" CornerRadius="45" BorderThickness="2" BorderBrush="white" Background="#112152" Opacity="0.9" >
+           
+            <Grid fw:PointerTracker.Enabled="True">
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Foreground="Black"
+                                Background="{x:Null}"
+                                BorderBrush="{x:Null}"
+                                Click="Button_Click">
+                            <materialDesign:PackIcon Kind="ArrowLeft"
+                                                     Width="30"
+                                                     Height="30" />
+                        </Button>
+                    </StackPanel>
+                    <Image Grid.Column="0"
+                           Width="200"
+                           Margin="15,30,15,15"
+                           Source="/Assets/logo.png" />
+                </StackPanel>
             </Grid>
         </Border>
-        <Border Grid.Column ="1" CornerRadius="45" BorderThickness="7" BorderBrush="white" Background="#112152">
+        <Border Grid.Column ="1" CornerRadius="45" BorderThickness="2" BorderBrush="white" Background="#112152">
             <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="20" />

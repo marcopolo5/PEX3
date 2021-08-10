@@ -29,13 +29,13 @@ namespace UI.WPF
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Environment.Exit(0);
         }
         private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            RegisterWindow register = new RegisterWindow();
-            this.Close();
-            register.Show();
+            Hide();
+            new RegisterWindow().ShowDialog();
+            ShowDialog();
         }
 
         // TODO: fix documentation (no longer matches the functionality)
@@ -47,7 +47,7 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
-            string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
+            /*string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
             bool validData = (_loginErrorMessage == "");
             if (validData)
             {
@@ -56,6 +56,7 @@ namespace UI.WPF
                 {
                     loginErrorMessage.Foreground = Brushes.Green;
                     loginErrorMessage.Content = "Logged in successfully";
+                   
                 }
                 else
                 {
@@ -65,7 +66,10 @@ namespace UI.WPF
             else
             {
                 loginErrorMessage.Content = _loginErrorMessage;
-            }
+            }*/
+            Hide();
+            new HomeWindow().ShowDialog();
+            ShowDialog();
         }
 
 

@@ -27,21 +27,21 @@ namespace UI.WPF
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindow register = new RegisterWindow();
-            this.Close();
-            register.Show();
+            Hide();
+            new RegisterWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow login = new LoginWindow();
-            this.Close();
-            login.Show();
+            Hide();
+            new LoginWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Environment.Exit(0);
         } 
 
         private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)

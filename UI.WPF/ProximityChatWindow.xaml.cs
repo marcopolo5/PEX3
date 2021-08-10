@@ -15,24 +15,13 @@ using System.Windows.Shapes;
 namespace UI.WPF
 {
     /// <summary>
-    /// Interaction logic for ProfileWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class ProfileWindow : Window
+    public partial class Window1 : Window
     {
-        public ProfileWindow()
+        public Window1()
         {
             InitializeComponent();
-        }
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            new HomeWindow().ShowDialog();
-            ShowDialog();
         }
     }
 }
