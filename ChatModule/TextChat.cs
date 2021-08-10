@@ -17,6 +17,8 @@ namespace ChatModule
 
         public event Action<Message> MessageReceived;
 
+        public event Action<StatusModel> StatusChanged;
+
         public async Task InitializeConnectionAsync(int userId, string token)
         {
             var url = "http://localhost:5000/chat";
@@ -30,6 +32,7 @@ namespace ChatModule
                 .Build();
 
             _connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
+            _connection.On<StatusModel>("ChangeStatus", (status)=> StatusChanged?.Invoke(status));
 
             await _connection.StartAsync();
         }
