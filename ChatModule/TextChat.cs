@@ -6,7 +6,6 @@ using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
 using Domain.RepositoryContracts;
 using AccountModule.Controllers;
-using System.Linq;
 
 namespace ChatModule
 {
@@ -31,23 +30,16 @@ namespace ChatModule
                 .Build();
 
             _connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
-            _connection.On<StatusModel>("ChangeStatus", (status)=>
-            {
-                var friend = ApplicationUserController.CurrentUser.Friends.Where(f => f.Id == status.FriendId).FirstOrDefault();
-                friend.Profile.Status = status.NewStatus;
-                StatusChanged?.Invoke(status);
-            });
 
             await _connection.StartAsync();
         }
 
         public async Task SendMessageAsync(int conversationID, string textMessage)
         {
-            var message = new Message()
+            var message = new Message
             {
                 SenderId = ApplicationUserController.CurrentUser.Id,
                 ConversationId = conversationID,
-                CreatedAt = DateTime.Now,
                 TextMessage = textMessage
             };
 
@@ -56,5 +48,14 @@ namespace ChatModule
             await _connection.SendAsync("SendMessage", message);
         }
 
+        public Task SendMessage(Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task InitializeConnection(int userId, string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
