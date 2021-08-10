@@ -54,11 +54,18 @@ namespace ConsoleApp.TEST
         {
             Console.WriteLine(message.TextMessage);
         }
+
+        static void StatusChanged(StatusModel status)
+        {
+            Console.WriteLine(status.FriendId + " " + status.NewStatus);
+        }
+
         static async Task StartChat(int userId)
         {
             chat = new TextChat();
             await chat.InitializeConnectionAsync(userId, (new Guid()).ToString());
             chat.MessageReceived += MessageReceived;
+            chat.StatusChanged += StatusChanged;
         }
     }
 }
