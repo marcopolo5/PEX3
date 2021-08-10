@@ -209,7 +209,7 @@
                     </Image.ToolTip>
                 </Image>-->
                 <DockPanel Grid.Column="3" Grid.Row="7" Width="350" Height="70" Margin="-170,0,0,131" Grid.RowSpan="2">
-                    <Border CornerRadius="50"  BorderThickness="0" DockPanel.Dock="Top">
+                    <Border CornerRadius="50"  BorderThickness="0" DockPanel.Dock="Top" MouseLeftButtonDown="ButtonAuthenticateWithGoogle_Click" >
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Color="white" Offset="0"/>
