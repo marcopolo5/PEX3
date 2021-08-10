@@ -26,7 +26,7 @@ namespace WPFUI
     public partial class MainWindow : Window
     {
         private readonly ApplicationUserController _applicationUserController = new();
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -60,6 +60,7 @@ namespace WPFUI
                 }
                 else
                 {
+                    loginErrorMessage.Foreground = Brushes.Red;
                     loginErrorMessage.Content = "Incorrect e-mail or password";
                 }
             }
@@ -90,6 +91,7 @@ namespace WPFUI
                 }
                 else
                 {
+                    registerErrorMessage.Foreground = Brushes.Red;
                     registerErrorMessage.Content = "This e-mail has already been used";
                 }
             }

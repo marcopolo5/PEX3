@@ -13,16 +13,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MainWindoww
+namespace UI.WPF
 {
     /// <summary>
     /// Interaction logic for loginWindow.xaml
     /// </summary>
-    public partial class loginWindow : Window
+    public partial class LoginWindow : Window
     {
         private readonly ApplicationUserController _applicationUserController = new();
 
-        public loginWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace MainWindoww
         }
         private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            registerWindow register = new registerWindow();
+            RegisterWindow register = new RegisterWindow();
             this.Close();
             register.Show();
         }
@@ -65,6 +65,31 @@ namespace MainWindoww
             else
             {
                 loginErrorMessage.Content = _loginErrorMessage;
+            }
+        }
+
+
+        //TODO: @frontend create a "Sign in with Google" button using the pictures from Assets
+        // and bind it to this method.
+        private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await _applicationUserController.AuthenticateWithGoogle(true);
+                loginErrorMessage.Foreground = Brushes.Green;
+                loginErrorMessage.Content = "Logged in successfully";
+            }
+            catch(Domain.Exceptions.GoogleAuthenticationException exception)
+            {
+                loginErrorMessage.Foreground = Brushes.Red;
+                loginErrorMessage.Content = exception.Message;
+            }
+            //catch(Exception exception) { } Commented - Not catching unexpected exceptions while in development
+            finally
+            {
+                //Since .Activate() or .Focus() dont always bring to top
+                Topmost = true;
+                Topmost = false;
             }
         }
     }

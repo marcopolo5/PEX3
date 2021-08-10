@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MainWindoww
+namespace UI.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -27,14 +27,15 @@ namespace MainWindoww
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-            registerWindow register = new registerWindow();
+            RegisterWindow register = new RegisterWindow();
             this.Close();
             register.Show();
+            
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            loginWindow login = new loginWindow();
+            LoginWindow login = new LoginWindow();
             this.Close();
             login.Show();
         }
