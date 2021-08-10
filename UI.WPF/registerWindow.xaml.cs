@@ -80,16 +80,16 @@ namespace UI.WPF
 
         private void loginTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            LoginWindow login = new LoginWindow();
-            login.Show();
-            this.Close();
+            Hide();
+            new LoginWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void returnTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindow main = new MainWindow();
-            main.Show();
-            this.Close();
+            Hide();
+            new MainWindow().ShowDialog();
+            ShowDialog();
         }
 
         private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -99,8 +99,8 @@ namespace UI.WPF
       
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-            
+            Environment.Exit(0);
+
         }
     }
 }
