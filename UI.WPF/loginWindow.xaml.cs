@@ -48,6 +48,7 @@ namespace MainWindoww
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
             string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
+            // If login error message is empty, that means the data from the form is valid
             bool validData = (_loginErrorMessage == "");
             if (validData)
             {

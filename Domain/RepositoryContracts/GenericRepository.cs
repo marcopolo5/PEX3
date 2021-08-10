@@ -25,7 +25,6 @@ namespace Domain.RepositoryContracts
         protected readonly IAppConfiguration _appConfiguration;
 
 
-
         protected GenericRepository(string tablename)
         {
             _appConfiguration = new AppConfiguration();
@@ -43,6 +42,7 @@ namespace Domain.RepositoryContracts
             TableName = tablename;
             ConnectionString = connectionstring;
         }
+
         /*protected GenericRepository(string tablename, string connectionstring = @"Data Source=.\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True")
         {
             TableName = tablename;

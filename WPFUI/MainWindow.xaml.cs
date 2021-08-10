@@ -4,6 +4,7 @@ using Domain.AccountContracts;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,12 +27,86 @@ namespace WPFUI
     public partial class MainWindow : Window
     {
         private readonly ApplicationUserController _applicationUserController = new();
+        private readonly FriendController _friendController = new();
+        public ObservableCollection<FriendUI> Friends { get; set; }
+           
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
+
+            ShowFriends();
         }
 
+
+        public void ShowFriends()
+        {
+            Friends = new();
+            // hardcoded data
+            FriendUI friend1 = new FriendUI
+            {
+                StatusColor = "",
+                DisplayName = "Friend Test 1",
+                Status = UserStatus.Online,
+                ImagePath = "Assets/Images/user_default.png",
+                StatusMessage = "some status message ... "
+            };
+            friend1.UpdateStatusColor();
+
+            FriendUI friend2 = new FriendUI
+            {
+                StatusColor = "",
+                DisplayName = "Friend Test 2",
+                Status = UserStatus.Away,
+                ImagePath = "Assets/Images/user_default.png",
+                StatusMessage = "some status message ... "
+            };
+            friend2.UpdateStatusColor();
+
+            FriendUI friend3 = new FriendUI
+            {
+                StatusColor = "",
+                DisplayName = "Friend Test 3",
+                Status = UserStatus.Offline,
+                ImagePath = "Assets/Images/user_default.png",
+                StatusMessage = "some status message ... "
+            };
+            friend3.UpdateStatusColor();
+
+            FriendUI friend4 = new FriendUI
+            {
+                StatusColor = "",
+                DisplayName = "Friend Test 3",
+                Status = UserStatus.Online,
+                ImagePath = "Assets/Images/user_default.png",
+                StatusMessage = "some status message ... "
+            };
+            friend4.UpdateStatusColor();
+
+            Friends.Add(friend1);
+            Friends.Add(friend2);
+            Friends.Add(friend1);
+            Friends.Add(friend4);
+            Friends.Add(friend3);
+            Friends.Add(friend3);
+
+            FriendList.ItemsSource = Friends;
+        }
+        
+        public async void SendFriendRequestClick(object sender, RoutedEventArgs e)
+        {
+            bool friendRequestFlag = await _friendController.SendFriendRequest(senderEmail.Text, receiverEmail.Text);
+            if(friendRequestFlag == false)
+            {
+                friendRequestErrorMessage.Content = "Erroareeee";
+            }
+            else
+            {
+                friendRequestErrorMessage.Content = "Success";
+            }
+        }
+        
         // TODO: fix documentation (no longer matches the functionality)
         /// <summary>
         /// Called by the loginButton
@@ -98,5 +173,38 @@ namespace WPFUI
                 registerErrorMessage.Content = _registerErrorMessage;
             }
         }
+
+        public class FriendUI
+        {
+            public string StatusColor { get; set; }
+            public string DisplayName { get; set; }
+            public string StatusMessage { get; set; }
+            public string ImagePath { get; set; }
+            public UserStatus Status { get; set; }
+
+            public FriendUI()
+            {
+                UpdateStatusColor();
+            }
+
+            public void UpdateStatusColor()
+            {
+                switch (Status)
+                {
+                    case UserStatus.Online:
+                        StatusColor = "GreenYellow";
+                        break;
+                    case UserStatus.Away:
+                        // pale orange
+                        StatusColor = "#FFC074";
+                        break;
+                    default:
+                        // gray
+                        StatusColor = "#6E7582";
+                        break;
+                }
+            }
+        }
+
     }
 }
