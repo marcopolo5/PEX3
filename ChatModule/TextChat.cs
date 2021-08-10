@@ -36,10 +36,11 @@ namespace ChatModule
 
         public async Task SendMessageAsync(int conversationID, string textMessage)
         {
-            var message = new Message
+            var message = new Message()
             {
                 SenderId = ApplicationUserController.CurrentUser.Id,
                 ConversationId = conversationID,
+                CreatedAt = DateTime.Now,
                 TextMessage = textMessage
             };
 
