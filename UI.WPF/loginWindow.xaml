@@ -325,15 +325,13 @@
                 </PasswordBox>
 
                 <!-- error message on login (do your magic by styling it) -->
-
-                <Label Name="loginErrorMessage" Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3" Foreground="Red"></Label>
+                
                 <CheckBox x:Name ="rememberMeCheckBox" Grid.Row="6" Grid.Column="2" Margin="55,10" >
                     <CheckBox.LayoutTransform>
                         <ScaleTransform ScaleX="2" ScaleY="2" />
                     </CheckBox.LayoutTransform>
                     <TextBlock Foreground="White" FontFamily="Comic Sans MS"> Remember me</TextBlock>
                 </CheckBox>
-                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" Width="350" Height="70" Margin="80,0,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333" Click="ButtonLoginClick">
 
                 <Label Name="loginErrorMessage"
                        Grid.Row="6"

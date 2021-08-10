@@ -79,6 +79,7 @@ namespace UI.WPF
 
                 loginErrorMessage.Content = _loginErrorMessage;
             }
+            */
             Hide();
             new HomeWindow().ShowDialog();
             ShowDialog();

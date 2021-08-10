@@ -1,4 +1,5 @@
 {
+  // "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
   "ConnectionString": "Data Source=DESKTOP-RI8OBR6;Initial Catalog=GeoChat_DB;Integrated Security=True",
   "Token": ""
 }
