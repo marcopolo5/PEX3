@@ -26,7 +26,7 @@ namespace UI.WPF
         /// Can be used for login, register and logout
         /// </summary>
         private readonly ApplicationUserController _applicationUserController = new();
-
+        //private CustomMessageBox messageBox = new CustomMessageBox();
 
         public RegisterWindow()
         {
@@ -49,17 +49,23 @@ namespace UI.WPF
                 if (await _applicationUserController.Register(
                     firstNameText.Text, lastNameText.Text, emailText.Text, password1Text.Password))
                 {
-                    registerErrorMessage.Foreground = Brushes.Green;
-                    registerErrorMessage.Content = "You have registered successfully!";
+                    //registerErrorMessage.Foreground = Brushes.Green;
+                    //registerErrorMessage.Content = "You have registered successfully!";                  
+                    CustomMessageBox messageBox = new CustomMessageBox();
+                    messageBox.Show("You have registered successfully!");
                 }
                 else
                 {
-                    registerErrorMessage.Content = "This e-mail has already been used";
+                    CustomMessageBox messageBox = new CustomMessageBox();                   
+                    //registerErrorMessage.Content = "This e-mail has already been used";
+                    messageBox.Show("This e-mail has already been used");
                 }
             }
             else
             {
-                registerErrorMessage.Content = _registerErrorMessage;
+                CustomMessageBox messageBox = new CustomMessageBox();
+                messageBox.Show(_registerErrorMessage);
+                //registerErrorMessage.Content = _registerErrorMessage;
             }
         }
 

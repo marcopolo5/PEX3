@@ -52,19 +52,26 @@ namespace UI.WPF
             if (validData)
             {
                 if (await _applicationUserController.Login(
-                    loginEmail.Text, loginPassword.Password, false)) // rememberMe default = false (missing check-box in UI)
+                    loginEmail.Text, loginPassword.Password, false)) //remeber me from UI
                 {
-                    loginErrorMessage.Foreground = Brushes.Green;
-                    loginErrorMessage.Content = "Logged in successfully";
+                    //loginErrorMessage.Foreground = Brushes.Green;
+                    //loginErrorMessage.Content = "Logged in successfully";
+                    CustomMessageBox messageBox = new CustomMessageBox();
+                    messageBox.Show("Logged in successfully");
                 }
                 else
                 {
-                    loginErrorMessage.Content = "Incorrect e-mail or password";
+                    //loginErrorMessage.Content = "Incorrect e-mail or password";
+                    CustomMessageBox messageBox = new CustomMessageBox();
+                    messageBox.Show("Incorrect e-mail or password");
                 }
             }
             else
             {
-                loginErrorMessage.Content = _loginErrorMessage;
+                //loginErrorMessage.Content = _loginErrorMessage;
+                CustomMessageBox messageBox = new CustomMessageBox();
+                messageBox.Show(_loginErrorMessage);
+
             }
         }
 

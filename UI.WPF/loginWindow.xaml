@@ -173,7 +173,7 @@
 
                 <!-- error message on login (do your magic by styling it) -->
                 <Label Name="loginErrorMessage" Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3" Foreground="Red"></Label>
-                <CheckBox x:Name ="rememberMeCheckBox" IsChecked="True" Grid.Row="6" Grid.Column="2" Margin="55,10" >
+                <CheckBox x:Name ="rememberMeCheckBox" Grid.Row="6" Grid.Column="2" Margin="55,10" >
                     <CheckBox.LayoutTransform>
                         <ScaleTransform ScaleX="2" ScaleY="2" />
                     </CheckBox.LayoutTransform>
