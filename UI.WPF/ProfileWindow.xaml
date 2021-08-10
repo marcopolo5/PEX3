@@ -14,7 +14,7 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Column ="0" CornerRadius="45" BorderThickness="7" BorderBrush="white" Background="#112152" >
@@ -81,7 +81,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <TextBlock Grid.Column="1" Grid.Row="3" FontSize="25" Foreground="white" Text="Name" FontFamily="Comic Sans MS" Grid.ColumnSpan="3" Margin="225 ,10,40,0"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" FontSize="25" Foreground="white" Text="Name" FontFamily="Comic Sans MS" Grid.ColumnSpan="3" Margin="255 ,10,40,0"/>
                 <TextBox x:Name="displayNameText" Grid.Column="1" Grid.Row="4" FontSize="25" Width="400" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,5,0,20">
                     <TextBox.Resources>
                         <Style TargetType="Border">
@@ -101,7 +101,7 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
-                <TextBlock Grid.Column="1" Grid.Row="5" FontSize="25" Foreground="white" Text="About" FontFamily="Comic Sans MS" Grid.ColumnSpan="3" Margin="225 ,10,40,0"/>
+                <TextBlock Grid.Column="1" Grid.Row="5" FontSize="25" Foreground="white" Text="About" FontFamily="Comic Sans MS" Grid.ColumnSpan="3" Margin="255 ,10,40,0"/>
                 <TextBox x:Name="aboutText" Grid.Column="1" Grid.Row="6" FontSize="25" Width="400" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,5,0,20">
                     <TextBox.Resources>
                         <Style TargetType="Border">
