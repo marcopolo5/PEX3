@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatServerModule.MiniRepo;
 using Dapper;
 
 namespace ChatServerModule.TokenValidation
 {
-    public class TokenValidator : ITokenValidator
+    // TODO: fix some naming issues/maybe move to mini repos folder
+    public class TokenValidator : GenericRepo, ITokenValidator
     {
-        private readonly string _connectionString;
         public bool IsValid(int userId, string token)
         {
             string sql = $"SELECT COUNT(*) FROM [Users] WHERE id={userId} AND token={token}";

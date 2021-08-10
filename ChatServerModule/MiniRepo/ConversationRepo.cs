@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace ChatServerModule.MiniRepo
 {
-    public class ConversationRepo : IConversationRepo
+    public class ConversationRepo : GenericRepo, IConversationRepo
     {
 
-        private readonly string _connectionString;
-        public ConversationRepo()
-        {
-        }
         public IEnumerable<int> GetUserIds(int conversationId)
         {
             IEnumerable<int> result;
-            string sql = $"SELECT userid FROM Group_Members WHERE conversationid = {conversationId};";
+            string sql = $"SELECT userid FROM [Group_Members] WHERE conversationid = {conversationId};";
 
             using (var conn = new SqlConnection(_connectionString))
             {

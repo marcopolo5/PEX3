@@ -60,6 +60,8 @@ namespace ChatServerModule.Hubs
             }
 
             ConnectedUsers[id] = Context.ConnectionId;
+            // update status in DB
+            _usersRepo.ChangeUserStatus(id, UserStatus.Online);
 
             // update status for friends
             await UpdateStatus(id, UserStatus.Online);
@@ -76,6 +78,9 @@ namespace ChatServerModule.Hubs
         {
             // get the userId
             var userId = ConnectedUsers.FirstOrDefault(cd => cd.Value == Context.ConnectionId).Key;
+
+            // update user status in DB:
+            _usersRepo.ChangeUserStatus(userId, UserStatus.Online);
 
             // update status for friends
             await UpdateStatus(userId, UserStatus.Offline);
