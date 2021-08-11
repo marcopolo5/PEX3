@@ -165,7 +165,7 @@ namespace Domain.RepositoryContracts
                 string sqlFriends = @"select FriendId from Friends where UserId=@Id";
                 string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
                 string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
-                string sqlConversations = @"select * from Conversations left join on Group_Members where UserId=@Id";
+                string sqlConversations = @"select * from Conversations inner join on Group_Members where UserId=@Id";
 
                 var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
                     (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
