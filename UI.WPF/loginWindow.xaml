@@ -118,6 +118,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="20"/>
@@ -169,14 +170,19 @@
                         </Style>
                     </PasswordBox.Style>
                 </PasswordBox>
-                
+
                 <!-- error message on login (do your magic by styling it) -->
                 <Label Name="loginErrorMessage" Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3" Foreground="Red"></Label>
-
-                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="6" Width="300" Height="60" Margin="0,80,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333" Click="ButtonLoginClick">
+                <CheckBox x:Name="rememberMeCheckBox" IsChecked="True" Grid.Row="6" Grid.Column="2" Margin="55,10" >
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                    <TextBlock Foreground="White" FontFamily="Comic Sans MS"> Remember me</TextBlock>
+                </CheckBox>
+                <Button x:Name="loginButton" Content="Login" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" Width="350" Height="70" Margin="80,0,0,0" FontSize="30" FontFamily="Comic Sans MS" HorizontalAlignment="Center" Foreground="#333333" Click="ButtonLoginClick">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="60"/>
+                            <Setter Property="CornerRadius" Value="50"/>
                         </Style>
                     </Button.Resources>
 
@@ -193,13 +199,48 @@
                         </Style>
                     </Button.Style>
                 </Button>
+
+
+                <!--<Image Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="7" Width ="60" Height="60" Source="/Assets/google-logo.png" Stretch="Fill" Margin="140,0,0,0">
+                    <Image.ToolTip>
+                        <ToolTip>
+                            <Image Source="/Assets/btn_google_signin_light.png"/>
+                        </ToolTip>
+                    </Image.ToolTip>
+                </Image>-->
+                <DockPanel Grid.Column="3" Grid.Row="7" Width="350" Height="70" Margin="-170,0,0,131" Grid.RowSpan="2">
+                    <Border CornerRadius="50"  BorderThickness="0" DockPanel.Dock="Top" MouseLeftButtonDown="ButtonAuthenticateWithGoogle_Click" >
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="white" Offset="0"/>
+                                <GradientStop Color="#FF838383" Offset="1.00"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel >
+                            <Image  Width ="50" Height="50" Source="/Assets/google-logo.png" Stretch="Fill" Margin="0,10,260,0"/>
+                            <TextBlock x:Name ="signinGoogle" FontSize="27" Foreground="#333333" Text="Sign in with Google"  FontFamily="Comic Sans MS" Margin="80,-45,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <!--<DockPanel.ToolTip>
+                        <ToolTip>
+                            <Image Source="/Assets/btn_google_signin_light.png"/>
+                        </ToolTip>
+                    </DockPanel.ToolTip>-->
+                </DockPanel>
+
+
+
+                <TextBlock x:Name ="goToRegisterButton" PreviewMouseDown ="goToRegisterButton_PreviewMouseDown" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="4" FontSize="25" Foreground="white" Text="I don't have an account" FontFamily="Comic Sans MS"  Margin="90,0,0,0" HorizontalAlignment="Center"/>
+
+
+
                 <Button x:Name ="closeButton" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" Margin="800,-10,0,100" Click="closeButton_Click" Style="{DynamicResource ButtonStyle1}" >
                     <Button.Background>
                         <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
 
-                <TextBlock x:Name ="goToRegisterButton" PreviewMouseDown ="goToRegisterButton_PreviewMouseDown" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="4" FontSize="20" Foreground="white" Text="I don't have an account" FontFamily="Comic Sans MS"  Margin="0,30,0,0" HorizontalAlignment="Center"/>
+
             </Grid>
         </Border>
     </Border>

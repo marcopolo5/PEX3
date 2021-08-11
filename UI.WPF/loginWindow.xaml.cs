@@ -29,13 +29,13 @@ namespace UI.WPF
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Environment.Exit(0);
         }
         private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            RegisterWindow register = new RegisterWindow();
-            this.Close();
-            register.Show();
+            Hide();
+            new RegisterWindow().ShowDialog();
+            ShowDialog();
         }
 
         // TODO: fix documentation (no longer matches the functionality)
@@ -47,25 +47,43 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
-            string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
+            /*string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
+            // If login error message is empty, that means the data from the form is valid
             bool validData = (_loginErrorMessage == "");
             if (validData)
             {
                 if (await _applicationUserController.Login(
-                    loginEmail.Text, loginPassword.Password, false)) // rememberMe default = false (missing check-box in UI)
+                    loginEmail.Text, loginPassword.Password, false)) //remeber me from UI
                 {
-                    loginErrorMessage.Foreground = Brushes.Green;
-                    loginErrorMessage.Content = "Logged in successfully";
+
+                    //loginErrorMessage.Foreground = Brushes.Green;
+                    //loginErrorMessage.Content = "Logged in successfully";
+                    CustomMessageBox messageBox = new CustomMessageBox();
+                    messageBox.Show("Logged in successfully");
                 }
                 else
                 {
-                    loginErrorMessage.Content = "Incorrect e-mail or password";
+                    //loginErrorMessage.Content = "Incorrect e-mail or password";
+                    CustomMessageBox messageBox = new CustomMessageBox();
+                    messageBox.Show("Incorrect e-mail or password");
                 }
             }
             else
             {
+
+                //loginErrorMessage.Content = _loginErrorMessage;
+                CustomMessageBox messageBox = new CustomMessageBox();
+                messageBox.Show(_loginErrorMessage);
+
+            }
+
                 loginErrorMessage.Content = _loginErrorMessage;
             }
+            */
+            Hide();
+            new HomeWindow().ShowDialog();
+            ShowDialog();
+
         }
 
 

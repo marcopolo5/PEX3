@@ -1,0 +1,253 @@
+﻿<Window x:Class="UI.WPF.AddFriendsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.WPF"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        fw:AcrylicWindow.Enabled="False"
+        MouseDown="Window_MouseDown"
+        Title="AddFriendsWindow"
+        Height="800"
+        Width="1200"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0"
+                CornerRadius="45"
+                BorderThickness="1"
+                BorderBrush="white"
+                Background="#999a9e"
+                Opacity="0.9">
+            <Grid fw:PointerTracker.Enabled="True">
+                <StackPanel>
+                    <Image Grid.Column="0"
+                           Width="200"
+                           Margin="15,35,15,15"
+                           Source="/Assets/logo.png" />
+
+                    <ListView FontSize="15">
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected_3">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Home"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Home"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected_4">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Profile"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountMultipleOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Friends"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected_2">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountAddOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Add friends"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="MessageOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Chat"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="MapMarkerOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Proximity Chat"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="SettingsOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Settings"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Logout"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Sign out"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </Border>
+       
+        <Border Grid.Column="1"
+                CornerRadius="45"
+                BorderThickness="1"
+                BorderBrush="white"
+                Background="#112152">
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Horizontal"
+                            Height="100"
+                            VerticalAlignment="Top" >
+                    <StackPanel.Effect>
+                        <DropShadowEffect BlurRadius="30"
+                                          ShadowDepth="1" />
+                    </StackPanel.Effect>
+                    <TextBox Margin="20 10"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Search..."
+                             Foreground="White"
+                             FontSize="25"
+                             FontWeight="Bold"
+                             Width="650"
+                             Height="70" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="2"
+                CornerRadius="45"
+                BorderThickness="1"
+                BorderBrush="white"
+                Background="#999a9e"
+                Opacity="0.9">
+        <StackPanel>
+            <Button HorizontalAlignment="Right" Margin="10" Style="{StaticResource MaterialDesignFlatButton}" Click="Close_Click">
+                <materialDesign:PackIcon Kind="Close"/>
+            </Button>
+
+                <Border Width="150"
+                        Height="150"
+                        CornerRadius="80"
+                        BorderThickness="1"
+                        BorderBrush="#112152">
+                <Border.Background>
+                        <ImageBrush/>
+                        <!-- aici o sa apara poza utilizatorului selectat -->
+                </Border.Background>
+            </Border>
+
+                <TextBlock Text="Username"
+                           HorizontalAlignment="Center"
+                           Margin="0 10 0 0"
+                           Foreground="#112152"
+                           FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Complete Name"
+                           FontSize="13"
+                           Foreground="#112152"
+                           HorizontalAlignment="Center" Opacity="0.8"/>
+                <TextBlock Text="Description/Status of the selectetd user"
+                           FontSize="8"
+                           Foreground="#112152"
+                           HorizontalAlignment="Center" Opacity="0.8"/>
+
+                <StackPanel Margin="20">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 3">
+                        <materialDesign:PackIcon Kind="Location"
+                                                 Foreground="#112152" />
+                        <TextBlock Text="Location/Street of the user"
+                                   Margin="10 0"
+                                   Foreground="#112152" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 3">
+                        <materialDesign:PackIcon Kind="Cellphone"
+                                                 Foreground="#112152" />
+                        <TextBlock Text="Phone number of the user"
+                                   Margin="10 0"
+                                   Foreground="#112152" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 3">
+                        <materialDesign:PackIcon Kind="Email"
+                                                 Foreground="#112152" />
+                        <TextBlock Text="Email of the user"
+                                   Margin="10 0"
+                                   Foreground="#112152"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 0">
+                <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                    <Border.Background>
+                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                    </Border.Background>
+                </Border>
+                <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                    <Border.Background>
+                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                    </Border.Background>
+                </Border>
+                <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                    <Border.Background>
+                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                    </Border.Background>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+        </Border>
+    </Grid>
+
+</Window>

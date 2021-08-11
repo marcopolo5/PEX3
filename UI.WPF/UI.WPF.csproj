@@ -7,12 +7,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\btn_google_signin_dark.png" />
+	  <None Remove="Assets\btn_google_signin_light.png" />
+	  <None Remove="Assets\btn_google_signin_light_rounded.png" />
 	  <None Remove="Assets\close.png" />
+	  <None Remove="Assets\google-logo.png" />
+	  <None Remove="Assets\google.png" />
 	  <None Remove="Assets\logo.png" />
 	  <None Remove="Assets\profile.png" />
+	  <None Remove="Assets\profilepic.png" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="FluentWPF" Version="0.9.0" />
+		<PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
 	</ItemGroup>
 	<ItemGroup>
@@ -23,9 +32,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="Assets\btn_google_signin_dark.png" />
+	  <Resource Include="Assets\btn_google_signin_light.png" />
+	  <Resource Include="Assets\btn_google_signin_light_rounded.png" />
 	  <Resource Include="Assets\close.png" />
+	  <Resource Include="Assets\google-logo.png" />
+	  <Resource Include="Assets\google.png" />
 	  <Resource Include="Assets\logo.png" />
 	  <Resource Include="Assets\profile.png" />
+	  <Resource Include="Assets\profilepic.png" />
 	</ItemGroup>
 
 	<ItemGroup>
