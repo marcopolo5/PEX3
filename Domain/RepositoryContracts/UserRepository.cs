@@ -126,16 +126,27 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="userLoginModel">reference entity to look for in Database's 'Users' table</param>
         /// <returns>Tuple of user's id and login token: (0,"0") if login false, (id,valid_token) otherwise.</returns>
-        /// TOOD: Fix async
         public async Task<(int, string)> ValidateCredentials(UserLoginModel userLoginModel)
         {
             using (var connection = CreateConnection())
             {
                 string sqlLogIn = $@"exec spLoginUser @Email, @Password";
                 string sqlGetId = $@"select id from Users where Users.Email=@Email";
+
+                //TODO: Set DB to allow multiple connection threads from the same user
+                //see https://stackoverflow.com/questions/6062192/there-is-already-an-open-datareader-associated-with-this-command-which-must-be-c
+                
+                //var idTask = connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email });
+                //var tokenTask = connection.QueryFirstOrDefaultAsync<string>(sqlLogIn, new { userLoginModel.Email, userLoginModel.Password });
+
+                //await Task.WhenAll(idTask, tokenTask);
+
+                //int task = await idTask;
+                //string token = await tokenTask;
+
                 return (
-                    connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email }).Result,
-                    connection.QueryFirstOrDefaultAsync<string>(sqlLogIn, new { userLoginModel.Email, userLoginModel.Password }).Result
+                    await connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email }),
+                    await connection.QueryFirstOrDefaultAsync<string>(sqlLogIn, new { userLoginModel.Email, userLoginModel.Password })
                     );
             }
         }
@@ -146,20 +157,49 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="id">User's id</param>
         /// <returns>CurrentUser entity</returns>
-        /// TODO: Fix async
         public async Task<CurrentUser> ReadCurrentUserAsync(int id)
         {
             using (var connection = CreateConnection())
             {
-                string sql = @"exec spViewUser @Id";
-                //select FriendId from Friends where UserId=@Id;
-                //select SenderId from Friend_Requests where ReceiverId=@Id;
-                //select BlockedUserId from Blocked_Users where UserId=@Id;
-                //select ConversationId from Group_Members where UserId=@Id";
-                //TODO: map all attritubtes. soon™
+                string sqlViewUser = @"exec spViewUser @Id";
+                string sqlFriends = @"select FriendId from Friends where UserId=@Id";
+                string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
+                string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
+                string sqlConversations = @"select * from Conversations left join on Group_Members where UserId=@Id";
 
-                var currentUser = connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sql,
-                    (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id }).Result.First();
+                var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
+                    (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
+                var currentUser = currentUserArray.First();
+
+                var friendIds = await connection.QueryAsync(sqlFriends, new { Id = id });
+                foreach (var friendId in friendIds)
+                {
+                    var friend = await ReadAsync(friendId);
+                    friend.Password = null;
+                    friend.Token = null;
+                    currentUser.Friends.Add(friend);
+                }
+
+                var friendRequests = await connection.QueryAsync<FriendRequest>(sqlFriendRequests, new { Id = id });
+                foreach (var friendRequest in friendRequests)
+                {
+                    currentUser.FriendRequests.Add(friendRequest);
+                }
+
+                var blockedUsers = await connection.QueryAsync<User>(sqlBlockedUsers, new { Id = id });
+                foreach (var blockedUser in blockedUsers)
+                {
+                    blockedUser.Password = null;
+                    blockedUser.Token = null;
+                    currentUser.BlockedUsers.Add(blockedUser);
+                }
+
+                var conversations = await connection.QueryAsync<Conversation>(sqlConversations, new { Id = id });
+                foreach(var conversation in conversations)
+                {
+                    currentUser.Conversations.Add(conversation);
+                }
+                
                 return currentUser;
             }
         }
@@ -176,30 +216,6 @@ namespace Domain.RepositoryContracts
             {
                 user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
             }
-        }
-
-
-        /// <summary>
-        /// Logs out the user by resetting his/her token to 0
-        /// </summary>
-        /// <param name="id">User's id</param>
-        /// <returns>True if logout is successful, false otherwise</returns>
-        public bool LogoutUser(int id)
-        {
-            string queryString = "UPDATE [Users] SET token='0' WHERE id=" + id;
-
-            using (SqlConnection conn = new SqlConnection(ConnectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(queryString, conn);
-                int result = cmd.ExecuteNonQuery();
-                // Query execution failed
-                if (result == 0) 
-                {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }
