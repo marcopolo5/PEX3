@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0"
                 CornerRadius="45"
-                BorderThickness="1"
+                BorderThickness="2"
                 BorderBrush="white"
                 Background="#999a9e"
                 Opacity="0.9">
@@ -87,8 +87,7 @@
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Padding="1">
-                            <StackPanel Orientation="Horizontal"
-                                        MouseDown="StackPanel_MouseDown">
+                            <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="MessageOutline"
                                                          Width="30"
                                                          Height="30"
@@ -140,13 +139,18 @@
                 </StackPanel>
             </Grid>
         </Border>
+
         <Border Grid.Column="1"
                 CornerRadius="45"
-                BorderThickness="1"
+                BorderThickness="2"
                 BorderBrush="white"
-                Background="White">
+                Background="#112152">
             <Grid>
-
+                <Button x:Name ="closeButton" Grid.Column="3" Grid.Row="1" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,20,20,30" Click="CloseButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/close.png" Stretch="Uniform"/>
+                    </Button.Background>
+                </Button>
             </Grid>
         </Border>
     </Grid>

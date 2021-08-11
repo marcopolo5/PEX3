@@ -85,10 +85,12 @@
                     <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
                 </Button.Background>
             </Button>
-            <Label x:Name="messageLabel" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" 
-                       Margin="0,20" Grid.ColumnSpan="2"
+            <TextBlock x:Name="messageText" Grid.Column="1" Grid.Row="2" 
+                       Grid.ColumnSpan="2"
                        Grid.RowSpan="2"
-                       Content="Message show" Foreground="white" FontSize="25"/>
+                       TextAlignment="Center"
+                       TextWrapping="WrapWithOverflow"
+                       Text="Message show" Foreground="white" FontSize="25"/>
         </Grid>
     </Border>
 </Window>
