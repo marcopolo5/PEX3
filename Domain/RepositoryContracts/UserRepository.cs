@@ -52,10 +52,10 @@ namespace Domain.RepositoryContracts
             {
                 var u = new UserRegisterModel
                 {
-                    FirstName=user.FirstName,
-                    LastName=user.LastName,
-                    Email=user.Email,
-                    Password=user.Password
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Password = user.Password
                 };
                 string query = @"exec spRegisterUser @Email, @Password, @FirstName, @LastName";
                 await connection.QueryAsync(query, u);
@@ -135,7 +135,7 @@ namespace Domain.RepositoryContracts
 
                 //TODO: Set DB to allow multiple connection threads from the same user
                 //see https://stackoverflow.com/questions/6062192/there-is-already-an-open-datareader-associated-with-this-command-which-must-be-c
-                
+
                 //var idTask = connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email });
                 //var tokenTask = connection.QueryFirstOrDefaultAsync<string>(sqlLogIn, new { userLoginModel.Email, userLoginModel.Password });
 
@@ -165,7 +165,7 @@ namespace Domain.RepositoryContracts
                 string sqlFriends = @"select FriendId from Friends where UserId=@Id";
                 string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
                 string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
-                string sqlConversations = @"select * from Conversations inner join on Group_Members where UserId=@Id";
+                string sqlConversations = @"select Conversations.* from Conversations inner join Group_Members on Group_Members.UserId=@Id";
 
                 var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
                     (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
@@ -195,11 +195,30 @@ namespace Domain.RepositoryContracts
                 }
 
                 var conversations = await connection.QueryAsync<Conversation>(sqlConversations, new { Id = id });
-                foreach(var conversation in conversations)
+                foreach (var conversation in conversations)
                 {
+                    //Map messages
+                    var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
+                                ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId={conversation.Id} ORDER BY createdat ASC");
+                    foreach (var message in messages)
+                    {
+                        conversation.Messages.Add(new Message
+                        {
+                            Id = message.id,
+                            SenderId = message.sender_id,
+                            CreatedAt = message.created_at,
+                            TextMessage = message.textmessage
+                        });
+                    }
+
+                    //Map participants
+                    var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId={conversation.Id}");
+                    await MapUserProfilesAsync(participants);
+                    conversation.Participants = (List<User>)participants;
+
                     currentUser.Conversations.Add(conversation);
                 }
-                
+
                 return currentUser;
             }
         }
@@ -209,7 +228,7 @@ namespace Domain.RepositoryContracts
         /// Async user-profile mapper
         /// </summary>
         /// <param name="users">IEnumerable of users to be mapped</param>
-        public async Task BindUserProfilesAsync(IEnumerable<User> users)
+        public async Task MapUserProfilesAsync(IEnumerable<User> users)
         {
             var profiles = await ProfileRepository.ReadAllAsync();
             foreach (User user in users)
