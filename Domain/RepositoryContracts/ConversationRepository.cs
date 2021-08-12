@@ -18,10 +18,7 @@ namespace Domain.RepositoryContracts
         /// <summary>
         /// Constructor
         /// </summary>
-        public ConversationRepository() : base("Conversations")
-        {
-            UserRepository = new();
-        }
+        public ConversationRepository() : base("Conversations") { }
 
 
         /// <summary>
