@@ -25,9 +25,9 @@ namespace UI.WPF
             InitializeComponent();
         }
 
-        public void Show(string messageText)
+        public void Show(string message)
         {
-            messageLabel.Content = messageText;
+            messageText.Text = message;
             this.Show();
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e)

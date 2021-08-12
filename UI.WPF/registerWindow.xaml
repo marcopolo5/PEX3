@@ -375,12 +375,13 @@
                 </PasswordBox>
 
                 <!-- error message on sign up (do your magic by styling it) -->
+                <!--
                 <Label Name="registerErrorMessage"
                        Grid.Row="7"
                        Grid.Column="2"
                        Grid.ColumnSpan="1"
                        Foreground="Red"></Label>
-
+                -->
                 <Button x:Name="registerButton"
                         Content="Register"
                         Grid.Column="1"
