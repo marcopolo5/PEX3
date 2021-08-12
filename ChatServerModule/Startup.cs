@@ -22,12 +22,13 @@ namespace ChatServerModule
         {
 
             // real deal
-            //services.AddSingleton<ITokenValidator, TokenValidator>();
-            //services.AddSingleton<IConversationRepo, ConversationRepo>();
+            services.AddSingleton<ITokenValidator, TokenValidator>();
+            services.AddSingleton<IConversationRepo, ConversationRepo>();
+            services.AddSingleton<IUsersRepo, UsersRepo>();
 
             // fake stuff used for testing
-            services.AddSingleton<ITokenValidator, FakeTokenValidator>();
-            services.AddSingleton<IConversationRepo, FakeConversationRepo>();
+            //services.AddSingleton<ITokenValidator, FakeTokenValidator>();
+            //services.AddSingleton<IConversationRepo, FakeConversationRepo>();
 
 
             // cors and signalr

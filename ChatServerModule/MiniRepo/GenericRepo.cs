@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace ChatServerModule.MiniRepo
     public class GenericRepo
     {
         protected readonly string _connectionString;
-        public GenericRepo()
+        public GenericRepo(IConfiguration configuration)
         {
-            // TODO init the conn string
+            _connectionString = configuration.GetConnectionString("DbConn");
         }
     }
 }
