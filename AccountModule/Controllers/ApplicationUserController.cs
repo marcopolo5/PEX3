@@ -20,8 +20,9 @@ namespace AccountModule.Controllers
         private readonly GoogleAuthenticatorController _googleAuthenticatorController = new();
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
+        private readonly SettingsRepository _settingsRepository = new();
         private readonly AppConfiguration _appConfiguration = new();
-        public static CurrentUser CurrentUser;
+        public static CurrentUser CurrentUser = new();
 
 
         public ApplicationUserController()
@@ -100,7 +101,14 @@ namespace AccountModule.Controllers
                     // TODO: a default path for a default profile picture is needed
                     Image = "default_user_profile_picture.img"
                 };
+                Settings settings = new Settings
+                {
+                    Id = await _settingsRepository.GetAvailableId(),
+                    UserId = await _userRepository.GetAvailableId()-1, //TODO: Buggy in this version. Should read the object from DB.
+                    Anonymity = true
+                };
                 await _profileRepository.CreateAsync(profile);
+                await _settingsRepository.CreateAsync(settings);
                 return true;
             }
         }

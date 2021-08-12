@@ -10,7 +10,7 @@ namespace Domain.RepositoryContracts
     /// Data access layer class for 'Settings' model. 
     /// Corresponding to 'Settings' table.
     /// </summary>
-    class SettingsRepository : GenericRepository<Models.Settings>
+    public class SettingsRepository : GenericRepository<Models.Settings>
     {
         /// <summary>
         /// Constructor

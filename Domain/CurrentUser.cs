@@ -23,6 +23,8 @@ namespace Domain
 
         private readonly IAppConfiguration _appConfiguration;
 
+        public CurrentUser() { }
+
         public CurrentUser(IAppConfiguration appConfiguration)
         {
             _appConfiguration = appConfiguration;
