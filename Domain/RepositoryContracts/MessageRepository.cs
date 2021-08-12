@@ -35,7 +35,7 @@ namespace Domain.RepositoryContracts
         /// <returns>IEnumerable of messages</returns>
         public new async Task<IEnumerable<Message>> ReadAllAsync()
         {
-            string sql = "SELECT * FROM Messages ORDER BY CreatedAt ASC";
+            string sql = @"SELECT * FROM Messages ORDER BY CreatedAt ASC";
             using (var connection = CreateConnection())
             {
                 var messages = await connection.QueryAsync<Message>(sql);

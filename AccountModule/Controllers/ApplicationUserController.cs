@@ -37,7 +37,7 @@ namespace AccountModule.Controllers
                 RememberMe = rememberMe
             };
 
-            (int id, string token) = _userRepository.ValidateCredentials(userLoginModel).Result;
+            (int id, string token) = await _userRepository.ValidateCredentials(userLoginModel);
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
             {
                 return false;
@@ -58,28 +58,15 @@ namespace AccountModule.Controllers
             /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
             CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
 
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
+
             return true;
         }
 
         public async Task<bool> Logout()
         {
-            // moved to user repository
-            //string queryString = "UPDATE [Users] SET token='0' WHERE id="+_currentUser.Id;
-
-            //using (SqlConnection conn = new SqlConnection(connectionString))
-            //{
-            //    conn.Open();
-            //    SqlCommand cmd = new SqlCommand(queryString, conn);
-            //    int result = cmd.ExecuteNonQuery();
-            //    if (result == 0) // Query execution failed
-            //    {
-            //        return false;
-            //    }
-            //}
-
-            // deleting token from DB:
-            if (_userRepository.LogoutUser(CurrentUser.Id) == false)
-                return false;
+            CurrentUser.Token = "0";
+            await _userRepository.UpdateAsync(CurrentUser);
 
             // deleting token from disk and memory:
             if (CurrentUser.ClearData() == false)
