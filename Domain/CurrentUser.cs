@@ -17,8 +17,6 @@ namespace Domain
         public List<FriendRequest> FriendRequests { get; set; } = new();
         public List<Conversation> Conversations { get; set; } = new();
         public List<User> BlockedUsers { get; set; } = new();
-        public Profile Profile { get; set; }
-
         public Settings Settings { get; set; }
         public string LoginToken { get; set; }
         public bool RememberMe { get; set; }

@@ -91,8 +91,6 @@ namespace UI.WPF
         }
 
 
-        //TODO: @frontend create a "Sign in with Google" button using the pictures from Assets
-        // and bind it to this method.
         private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -116,7 +114,6 @@ namespace UI.WPF
             //catch(Exception exception) { } Commented - Not catching unexpected exceptions while in development
             finally
             {
-                //Since .Activate() or .Focus() dont always bring to top
                 Topmost = true;
                 Topmost = false;
             }
