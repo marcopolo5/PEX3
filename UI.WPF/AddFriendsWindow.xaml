@@ -150,11 +150,9 @@
             <Grid Grid.Column="1">
                 <StackPanel Orientation="Horizontal"
                             Height="100"
-                            VerticalAlignment="Top" >
-                    <StackPanel.Effect>
-                        <DropShadowEffect BlurRadius="30"
-                                          ShadowDepth="1" />
-                    </StackPanel.Effect>
+                            VerticalAlignment="Top"
+                            >
+               
                     <TextBox Margin="20 10"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              materialDesign:HintAssist.Hint="Search..."

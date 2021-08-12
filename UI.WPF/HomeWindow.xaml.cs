@@ -29,11 +29,6 @@ namespace UI.WPF
             DragMove();
         }
 
-        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void ListViewItem_Selected(object sender, RoutedEventArgs e)
         {
             Hide();
@@ -53,6 +48,10 @@ namespace UI.WPF
             Hide();
             new AddFriendsWindow().ShowDialog();
             ShowDialog();
+        }
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

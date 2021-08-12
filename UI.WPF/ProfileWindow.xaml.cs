@@ -46,5 +46,27 @@ namespace UI.WPF
             }
 
         }
+        private void ListViewItem_Selected(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new HomeWindow().ShowDialog();
+            ShowDialog();
+        }
+
+        private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new ProfileWindow().ShowDialog();
+            ShowDialog();
+        }
+
+        private void ListViewItem_Selected_2(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new AddFriendsWindow().ShowDialog();
+            ShowDialog();
+        }
+
+        
     }
 }

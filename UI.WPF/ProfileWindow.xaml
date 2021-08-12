@@ -59,25 +59,120 @@
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column ="0" CornerRadius="45" BorderThickness="2" BorderBrush="white" Background="#112152" Opacity="0.9" >
-           
+        <Border Grid.Column="0"
+                CornerRadius="45"
+                BorderThickness="2"
+                BorderBrush="white"
+                Background="#999a9e"
+                Opacity="0.9">
             <Grid fw:PointerTracker.Enabled="True">
-
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Foreground="Black"
-                                Background="{x:Null}"
-                                BorderBrush="{x:Null}"
-                                Click="Button_Click">
-                            <materialDesign:PackIcon Kind="ArrowLeft"
-                                                     Width="30"
-                                                     Height="30" />
-                        </Button>
-                    </StackPanel>
                     <Image Grid.Column="0"
                            Width="200"
-                           Margin="15,30,15,15"
+                           Margin="15,35,15,15"
                            Source="/Assets/logo.png" />
+
+                    <ListView FontSize="15">
+                        <ListViewItem Padding="1" Selected="ListViewItem_Selected">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Home"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Home"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected_1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Profile"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountMultipleOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Friends"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected_2">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountAddOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Add friends"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="MessageOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Chat"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="MapMarkerOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Proximity Chat"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="SettingsOutline"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Settings"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Logout"
+                                                         Width="30"
+                                                         Height="30"
+                                                         Margin="15"
+                                                         Foreground="#112152" />
+                                <TextBlock Text="Sign out"
+                                           VerticalAlignment="Center"
+                                           Foreground="#112152" />
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
                 </StackPanel>
             </Grid>
         </Border>

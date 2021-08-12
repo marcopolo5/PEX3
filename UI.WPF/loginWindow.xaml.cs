@@ -47,7 +47,8 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
-            /*string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
+            CustomMessageBox messageBox = new CustomMessageBox();
+            string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
             // If login error message is empty, that means the data from the form is valid
             bool validData = (_loginErrorMessage == "");
             if (validData)
@@ -58,13 +59,17 @@ namespace UI.WPF
 
                     //loginErrorMessage.Foreground = Brushes.Green;
                     //loginErrorMessage.Content = "Logged in successfully";
-                    CustomMessageBox messageBox = new CustomMessageBox();
-                    messageBox.Show("Logged in successfully");
+                    //CustomMessageBox messageBox = new CustomMessageBox();
+                    //messageBox.Show("Logged in successfully");
+                    Hide();
+                    new HomeWindow().ShowDialog();
+                    ShowDialog();
+                    
                 }
                 else
                 {
                     //loginErrorMessage.Content = "Incorrect e-mail or password";
-                    CustomMessageBox messageBox = new CustomMessageBox();
+                    //CustomMessageBox messageBox = new CustomMessageBox();
                     messageBox.Show("Incorrect e-mail or password");
                 }
             }
@@ -72,17 +77,16 @@ namespace UI.WPF
             {
 
                 //loginErrorMessage.Content = _loginErrorMessage;
-                CustomMessageBox messageBox = new CustomMessageBox();
+                //CustomMessageBox messageBox = new CustomMessageBox();
                 messageBox.Show(_loginErrorMessage);
 
             }
-
-                loginErrorMessage.Content = _loginErrorMessage;
-            }
-            */
-            Hide();
-            new HomeWindow().ShowDialog();
-            ShowDialog();
+            
+            messageBox.Show(_loginErrorMessage);
+           // loginErrorMessage.Content = _loginErrorMessage;
+            
+            
+            
 
         }
 
@@ -91,13 +95,20 @@ namespace UI.WPF
         {
             try
             {
-                await _applicationUserController.AuthenticateWithGoogle((bool)rememberMeCheckBox.IsChecked);
-                var messageBox = new CustomMessageBox();
+                await _applicationUserController.AuthenticateWithGoogle(true);
+                //loginErrorMessage.Foreground = Brushes.Green;
+                //loginErrorMessage.Content = "Logged in successfully";
+                CustomMessageBox messageBox = new CustomMessageBox();
                 messageBox.Show("Logged in successfully");
+                Hide();
+                new HomeWindow().ShowDialog();
+                ShowDialog();
             }
             catch(Domain.Exceptions.GoogleAuthenticationException exception)
             {
-                var messageBox = new CustomMessageBox();
+                //loginErrorMessage.Foreground = Brushes.Red;
+                //loginErrorMessage.Content = exception.Message;
+                CustomMessageBox messageBox = new CustomMessageBox();
                 messageBox.Show(exception.Message);
             }
             //catch(Exception exception) { } Commented - Not catching unexpected exceptions while in development
