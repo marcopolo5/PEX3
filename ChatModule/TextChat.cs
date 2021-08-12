@@ -14,7 +14,7 @@ namespace ChatModule
     {
         private HubConnection _connection;
 
-        private readonly MessageRepository messageRepository;
+        private readonly MessageRepository _messageRepository = new();
 
         public event Action<Message> MessageReceived;
 
@@ -25,7 +25,7 @@ namespace ChatModule
             var url = "http://localhost:5000/chat";
 
             _connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/chat", options =>
+                .WithUrl(url, options =>
                 {
                     options.Headers.Add("userId", userId.ToString());
                     options.Headers.Add("loginToken", token);
@@ -56,7 +56,7 @@ namespace ChatModule
                 TextMessage = textMessage
             };
 
-            await messageRepository.CreateAsync(message);
+            await _messageRepository.CreateAsync(message);
 
             await _connection.SendAsync("SendMessage", message);
         }
