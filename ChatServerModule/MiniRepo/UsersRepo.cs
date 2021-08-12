@@ -12,8 +12,10 @@ namespace ChatServerModule.MiniRepo
     {
         public void ChangeUserStatus(int userId, UserStatus newUserStatus)
         {
-            string sql = $"SELECT friendid FROM Friends WHERE userid = {userId};";
 
+            var profileId = GetProfileId(userId);
+            byte status = (byte)newUserStatus;
+            string sql = $"UPDATE [Profiles] SET status={status} WHERE id={profileId}";
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Execute(sql);
@@ -23,7 +25,7 @@ namespace ChatServerModule.MiniRepo
         public IEnumerable<int> GetFriendsIds(int userId)
         {
             IEnumerable<int> result;
-            string sql = $"SELECT friendid FROM [Friends] WHERE userid = {userId};";
+            string sql = $"SELECT friendid FROM [Friends] WHERE userid={userId};";
 
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -34,8 +36,7 @@ namespace ChatServerModule.MiniRepo
 
         private int GetProfileId(int userId)
         {
-            /////// TODO 
-            string sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE id={userId} ";//////////
+            string sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE u.id={userId} ";//////////
             int profileId;
 
             using (var conn = new SqlConnection(_connectionString))

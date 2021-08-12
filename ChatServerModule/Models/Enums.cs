@@ -14,9 +14,9 @@ namespace ChatServerModule.Models
     /// </summary>
     public enum UserStatus
     {
-        Online,
+        Offline,
         Away,
-        Offline
+        Online
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using Domain.HelpersContracts;
+﻿using Domain.Helpers;
+using Domain.HelpersContracts;
 using Domain.Models;
 using Domain.RepositoryContracts;
 using System;
@@ -25,9 +26,9 @@ namespace Domain
 
         private readonly IAppConfiguration _appConfiguration;
 
-        public CurrentUser(IAppConfiguration appConfiguration)
+        public CurrentUser()
         {
-            _appConfiguration = appConfiguration;
+            _appConfiguration = new AppConfiguration();
 
         }
 
@@ -51,7 +52,12 @@ namespace Domain
         /// <returns></returns>
         public bool ClearData()
         {
-            throw new NotImplementedException();
+            if (_appConfiguration.ResetToken() == false)
+            {
+                return false;
+            }
+            // TODO: reset the fields
+            return true;
         }
     }
 }
