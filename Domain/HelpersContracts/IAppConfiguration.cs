@@ -17,6 +17,11 @@ namespace Domain.HelpersContracts
 
         string GetToken();
         bool SaveToken(string token);
+
+        /// <summary>
+        /// Reset the token from the json file by setting it to "0"
+        /// </summary>
+        /// <returns>True if the token was reset, false if the token was already set to "0"</returns>
         bool ResetToken();
     }
 }

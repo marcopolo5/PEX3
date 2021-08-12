@@ -7,8 +7,8 @@ namespace Domain.Models
     public class Settings
     {
         public int Id { get; set; }
-        public User User { get; set; }
-        public bool IsAnonymous { get; set; }
+        public int UserId { get; set; }
+        public bool Anonymity { get; set; }
 
     }
 }

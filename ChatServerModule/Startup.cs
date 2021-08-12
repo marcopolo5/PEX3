@@ -1,4 +1,7 @@
 using ChatServerModule.Hubs;
+using ChatServerModule.MiniRepo;
+using ChatServerModule.Mocks;
+using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +20,17 @@ namespace ChatServerModule
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // real deal
+            //services.AddSingleton<ITokenValidator, TokenValidator>();
+            //services.AddSingleton<IConversationRepo, ConversationRepo>();
+
+            // fake stuff used for testing
+            services.AddSingleton<ITokenValidator, FakeTokenValidator>();
+            services.AddSingleton<IConversationRepo, FakeConversationRepo>();
+
+
+            // cors and signalr
             services.AddCors();
             services.AddSignalR(options => options.MaximumReceiveMessageSize = 102400000);
         }
@@ -30,12 +44,12 @@ namespace ChatServerModule
             }
 
             app.UseRouting();
-            app.UseCors(builder => builder
-                //.AllowAnyOrigin()
-                .WithOrigins("null")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials());
+            //app.UseCors(builder => builder
+            //    //.AllowAnyOrigin()
+            //    .WithOrigins("null")
+            //    .AllowAnyHeader()
+            //    .AllowAnyMethod()
+            //    .AllowCredentials());
 
             app.UseEndpoints(endpoints =>
             {

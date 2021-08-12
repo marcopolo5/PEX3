@@ -20,8 +20,9 @@ namespace AccountModule.Controllers
         private readonly GoogleAuthenticatorController _googleAuthenticatorController = new();
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
+        private readonly SettingsRepository _settingsRepository = new();
         private readonly AppConfiguration _appConfiguration = new();
-        public static CurrentUser CurrentUser;
+        public static CurrentUser CurrentUser = new();
 
 
         public ApplicationUserController()
@@ -37,7 +38,7 @@ namespace AccountModule.Controllers
                 RememberMe = rememberMe
             };
 
-            (int id, string token) = _userRepository.ValidateCredentials(userLoginModel).Result;
+            (int id, string token) = await _userRepository.ValidateCredentials(userLoginModel);
             if (string.IsNullOrEmpty(token) || token.Equals("0"))
             {
                 return false;
@@ -58,28 +59,15 @@ namespace AccountModule.Controllers
             /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
             CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
 
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
+
             return true;
         }
 
         public async Task<bool> Logout()
         {
-            // moved to user repository
-            //string queryString = "UPDATE [Users] SET token='0' WHERE id="+_currentUser.Id;
-
-            //using (SqlConnection conn = new SqlConnection(connectionString))
-            //{
-            //    conn.Open();
-            //    SqlCommand cmd = new SqlCommand(queryString, conn);
-            //    int result = cmd.ExecuteNonQuery();
-            //    if (result == 0) // Query execution failed
-            //    {
-            //        return false;
-            //    }
-            //}
-
-            // deleting token from DB:
-            if (_userRepository.LogoutUser(CurrentUser.Id) == false)
-                return false;
+            CurrentUser.Token = "0";
+            await _userRepository.UpdateAsync(CurrentUser);
 
             // deleting token from disk and memory:
             if (CurrentUser.ClearData() == false)
@@ -113,7 +101,14 @@ namespace AccountModule.Controllers
                     // TODO: a default path for a default profile picture is needed
                     Image = "default_user_profile_picture.img"
                 };
+                Settings settings = new Settings
+                {
+                    Id = await _settingsRepository.GetAvailableId(),
+                    UserId = await _userRepository.GetAvailableId()-1, //TODO: Buggy in this version. Should read the object from DB.
+                    Anonymity = true
+                };
                 await _profileRepository.CreateAsync(profile);
+                await _settingsRepository.CreateAsync(settings);
                 return true;
             }
         }

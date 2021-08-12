@@ -24,7 +24,7 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                var entity = await connection.QuerySingleOrDefaultAsync<FriendRequest>($"SELECT * FROM {TableName} WHERE SenderId={senderId} AND ReceiverID={receiverId}");
+                var entity = await connection.QuerySingleOrDefaultAsync<FriendRequest>($"SELECT * FROM {TableName} WHERE SenderId=@SenderId AND ReceiverID=@ReceiverId", new { SenderId = senderId, ReceiverId = receiverId });
                 return entity;
             }
         }
