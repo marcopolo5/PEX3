@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace UI.WPF
 {
     /// <summary>
-    /// Interaction logic for HomeWindow.xaml
+    /// Interaction logic for ChatWindow.xaml
     /// </summary>
-    public partial class HomeWindow : Window
+    public partial class ChatWindow : Window
     {
-        public HomeWindow()
+        public ChatWindow()
         {
             InitializeComponent();
         }
@@ -49,16 +48,25 @@ namespace UI.WPF
             new AddFriendsWindow().ShowDialog();
             ShowDialog();
         }
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
         private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
         {
             Hide();
             new ChatWindow().ShowDialog();
             ShowDialog();
+        }
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void sendMessage_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addConversation_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

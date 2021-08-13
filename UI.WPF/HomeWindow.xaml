@@ -86,7 +86,8 @@
                                            Foreground="#112152" />
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Padding="1">
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected_3">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="MessageOutline"
                                                          Width="30"
