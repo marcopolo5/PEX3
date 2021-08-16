@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:UC="clr-namespace:UI.WPF.View"
         fw:AcrylicWindow.Enabled="False"
         MouseDown="Window_MouseDown"
         Title="loggedInWindow"
@@ -17,11 +18,12 @@
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    <Grid>
+    <Grid x:Name="homeGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
         <Border Grid.Column="0"
                 CornerRadius="45"
                 BorderThickness="2"
@@ -36,7 +38,8 @@
                            Source="/Assets/logo.png" />
 
                     <ListView FontSize="15">
-                        <ListViewItem Padding="1">
+                        <ListViewItem Padding="1"
+                                      Selected="HomeContent_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Home"
                                                          Width="30"
@@ -49,7 +52,7 @@
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Padding="1"
-                                      Selected="ListViewItem_Selected_1">
+                                      Selected="ProfileContent_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountOutline"
                                                          Width="30"
@@ -61,7 +64,8 @@
                                            Foreground="#112152" />
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Padding="1">
+                        <ListViewItem Padding="1"
+                                      Selected="FriendList_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountMultipleOutline"
                                                          Width="30"
@@ -74,7 +78,7 @@
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Padding="1"
-                                      Selected="ListViewItem_Selected_2">
+                                      Selected="AddFriendContent_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountAddOutline"
                                                          Width="30"
@@ -141,12 +145,16 @@
             </Grid>
         </Border>
 
+
         <Border Grid.Column="1"
                 CornerRadius="45"
                 BorderThickness="2"
                 BorderBrush="white"
-                Background="#112152">
+                Background="#112152"
+                Margin="-2,0,0,0">
             <Grid>
+                <ContentControl x:Name="mainContentControl"/>
+
                 <Button x:Name ="closeButton" Grid.Column="3" Grid.Row="1" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,20,20,30" Click="CloseButton_Click">
                     <Button.Background>
                         <ImageBrush ImageSource="/Assets/close.png" Stretch="Uniform"/>
@@ -154,5 +162,97 @@
                 </Button>
             </Grid>
         </Border>
+
+        <!-- Drawer Effect Border -->
+        <Border x:Name="DrawerEffectBorder"
+                Grid.Column="1"
+                CornerRadius="45"
+                BorderThickness="2"
+                BorderBrush="White"
+                Background="Black"
+                Margin="-2,0,0,0"
+                Opacity="0.7"
+                MouseLeftButtonDown="DrawerEffectBorder_MouseLeftButtonDown"
+                Visibility="Hidden"
+                Style="{StaticResource DrawerEffectStyle}"/>
+        
+        <!-- FriendList Grid -->
+        <Grid   x:Name="FriendListGrid"
+                Grid.Column="1"
+                Visibility="Hidden"
+                Style="{StaticResource DrawerWidthEffectStyle}"
+                >
+            <Border x:Name="FriendListBorder"
+                    Width="300"
+                    Background="{StaticResource YellowTheme}" 
+                    CornerRadius="45,4,4,45"
+                    HorizontalAlignment="Left"
+                    Margin="-2,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect Direction="0" 
+                                      BlurRadius="10" 
+                                      Opacity="0.5"
+                                      Color="DimGray"
+                                  />
+                </Border.Effect>
+            </Border>
+            <!-- Friend List -->
+            <ListView x:Name="FriendList"
+                      Style="{StaticResource FriendListView}"
+                      >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Grid Style="{StaticResource ProfilePictureGrid}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Style="{StaticResource ProfilePicture}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding ImagePath}"/>
+                                    </Border.Background>
+                                </Border>
+
+                                <Border Width="Auto" 
+                                            Height="10" 
+                                            VerticalAlignment="Bottom" 
+                                            Margin="5" 
+                                            HorizontalAlignment="Right" 
+                                            CornerRadius="15" 
+                                            Background="White"/>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding DisplayName}" 
+                                                   Margin="10 0"
+                                                   Foreground="White"
+                                                   FontSize="14"
+                                                   FontWeight="DemiBold"/>
+                                    <TextBlock Text="{Binding StatusMessage}" 
+                                                   Margin="10 0" 
+                                                   TextTrimming="CharacterEllipsis" 
+                                                   Opacity="0.6"
+                                                   Foreground="White"
+                                                   FontSize="11"/>
+                                </StackPanel>
+                                <Border Grid.Column="2" 
+                                            Width="10" 
+                                            Height="10" 
+                                            CornerRadius="15" 
+                                            Background="{Binding StatusColor}" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center" 
+                                            Margin="5">
+                                </Border>
+
+                            </Grid>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
     </Grid>
 </Window>

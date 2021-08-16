@@ -4,9 +4,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
+        xmlns:testUC="clr-namespace:WPFUI.TEST.View"
+        
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200">
     <Window.Resources>
+
+        <!-- UNUSED -->
         <Style x:Key="FriendRequestGrid" TargetType="{x:Type Grid}">
             <Setter Property="Margin" Value="10"/>
             <Style.Resources>
@@ -16,8 +22,10 @@
                 </Style>
             </Style.Resources>
         </Style>
+
+        <CollectionViewSource  x:Key="FriendsCVS" x:Name="ContanctsCVS"/>
+
     </Window.Resources>
-    
 
     <Grid Margin="0,10,10,10">
 
@@ -27,6 +35,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- FriendList testing grid -->
@@ -41,9 +52,9 @@
                                       Opacity="0.5"/>
                 </Border.Effect>
             </Border>
-
+            
             <!-- Friend List -->
-            <ListView Name="FriendList"
+            <ListView Name="FriendList1"
                       Style="{StaticResource FriendListView}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -82,8 +93,6 @@
                                                Foreground="White"
                                                FontSize="11"/>
                                 </StackPanel>
-
-                                <!-- TODO: study conditionals in xaml -->
                                 <Border Grid.Column="2" 
                                         Width="10" 
                                         Height="10" 
@@ -92,11 +101,6 @@
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center" 
                                         Margin="5">
-                                    <!--TextBlock FontSize="11" 
-                                               Text="2" 
-                                               Foreground="Gray" 
-                                               HorizontalAlignment="Center" 
-                                               VerticalAlignment="Center"/-->
                                 </Border>
 
                             </Grid>
@@ -104,7 +108,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
+            
+            
         </Grid>
 
         <!-- Login & SignUp testing grid -->
@@ -191,6 +196,51 @@
 
             </Grid>
         </Grid>
+            
+        <!-- Animation testing grid -->
+        <Grid Grid.Row="1" 
+              Grid.ColumnSpan="2">
+
+            <!--
+            <Grid x:Name="FriendListRoot">
+                <testUC:FriendListUserControl/>
+            </Grid>
+            -->
+            <testUC:FriendListUserControl/>
+
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <materialDesign:DrawerHost>
+                <Button
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="4"
+                            Content="{materialDesign:PackIcon Kind=ArrowLeft}" />
+            </materialDesign:DrawerHost>
+        </Grid>
+
+
+        
+        <!--#region -->
+        <Border x:Name="FakeDrawerSimulator"
+                Grid.ColumnSpan="3" 
+                Grid.RowSpan="3"
+                Width="1200"
+                Height="800"
+                Background="Black"
+                Opacity="0.7"
+                Visibility="Visible"
+                MouseLeftButtonDown="FadeBorderClick"
+                Style="{StaticResource DrawerEffectStyle}"
+                >
+            
+        </Border>
+                
+        <!--#endregion-->
+
 
     </Grid>
 </Window>

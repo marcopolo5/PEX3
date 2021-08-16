@@ -32,6 +32,7 @@ namespace UI.WPF
         {
             Environment.Exit(0);
         }
+
         private void ListViewItem_Selected(object sender, RoutedEventArgs e)
         {
             Hide();
