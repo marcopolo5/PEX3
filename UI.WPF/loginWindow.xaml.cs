@@ -47,6 +47,7 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
+            /*
             CustomMessageBox messageBox = new CustomMessageBox();
             string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
             // If login error message is empty, that means the data from the form is valid
@@ -83,11 +84,13 @@ namespace UI.WPF
             }
             
             messageBox.Show(_loginErrorMessage);
-           // loginErrorMessage.Content = _loginErrorMessage;
-            
-            
-            
+            // loginErrorMessage.Content = _loginErrorMessage;
+            */
 
+
+            Hide();
+            new HomeWindow().ShowDialog();
+            ShowDialog();
         }
 
 

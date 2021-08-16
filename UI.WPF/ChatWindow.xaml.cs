@@ -15,22 +15,17 @@ using System.Windows.Shapes;
 namespace UI.WPF
 {
     /// <summary>
-    /// Interaction logic for AddFriendsWindow.xaml
+    /// Interaction logic for ChatWindow.xaml
     /// </summary>
-    public partial class AddFriendsWindow : Window
+    public partial class ChatWindow : Window
     {
-        public AddFriendsWindow()
+        public ChatWindow()
         {
             InitializeComponent();
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
         }
 
         private void ListViewItem_Selected(object sender, RoutedEventArgs e)
@@ -53,19 +48,25 @@ namespace UI.WPF
             new AddFriendsWindow().ShowDialog();
             ShowDialog();
         }
-
         private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
         {
             Hide();
-            new HomeWindow().ShowDialog();
+            new ChatWindow().ShowDialog();
             ShowDialog();
         }
-
-        private void ListViewItem_Selected_4(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
-            new ProfileWindow().ShowDialog();
-            ShowDialog();
+            Environment.Exit(0);
+        }
+
+        private void sendMessage_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addConversation_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

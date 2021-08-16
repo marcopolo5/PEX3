@@ -17,15 +17,37 @@
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
+    
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/AddFriendControler.xaml, therefore will be removed -->
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
+
         <Border Grid.Column="0"
                 CornerRadius="45"
-                BorderThickness="1"
+                BorderThickness="2"
                 BorderBrush="white"
                 Background="#999a9e"
                 Opacity="0.9">
@@ -141,18 +163,28 @@
                 </StackPanel>
             </Grid>
         </Border>
-       
+
+
         <Border Grid.Column="1"
-                CornerRadius="45"
-                BorderThickness="1"
+                CornerRadius="45,0,0,45"
+                BorderThickness="2"
                 BorderBrush="white"
-                Background="#112152">
+                Background="#112152"
+                Margin="-2,0,0,0">
             <Grid Grid.Column="1">
-                <StackPanel Orientation="Horizontal"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+                
+                
+                
+                <StackPanel 
+                            Orientation="Horizontal"
                             Height="100"
                             VerticalAlignment="Top"
                             >
-               
+
                     <TextBox Margin="20 10"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              materialDesign:HintAssist.Hint="Search..."
@@ -162,90 +194,94 @@
                              Width="650"
                              Height="70" />
                 </StackPanel>
-            </Grid>
-        </Border>
 
-        <Border Grid.Column="2"
-                CornerRadius="45"
-                BorderThickness="1"
+                <Border Grid.Column="2"
+                CornerRadius="0,45,45,0"
+                BorderThickness="2"
                 BorderBrush="white"
                 Background="#999a9e"
-                Opacity="0.9">
-        <StackPanel>
-            <Button HorizontalAlignment="Right" Margin="10" Style="{StaticResource MaterialDesignFlatButton}" Click="Close_Click">
-                <materialDesign:PackIcon Kind="Close"/>
-            </Button>
+                Opacity="0.9"
+                Margin="-2,0,0,0">
+                    <StackPanel>
+                        <Button HorizontalAlignment="Right" Margin="10" Style="{StaticResource MaterialDesignFlatButton}" Click="Close_Click">
+                            <materialDesign:PackIcon Kind="Close"/>
+                        </Button>
 
-                <Border Width="150"
+                        <Border Width="150"
                         Height="150"
                         CornerRadius="80"
                         BorderThickness="1"
                         BorderBrush="#112152">
-                <Border.Background>
-                        <ImageBrush/>
-                        <!-- aici o sa apara poza utilizatorului selectat -->
-                </Border.Background>
-            </Border>
+                            <Border.Background>
+                                <ImageBrush/>
+                                <!-- aici o sa apara poza utilizatorului selectat -->
+                            </Border.Background>
+                        </Border>
 
-                <TextBlock Text="Username"
+                        <TextBlock Text="Username"
                            HorizontalAlignment="Center"
                            Margin="0 10 0 0"
                            Foreground="#112152"
                            FontSize="18" FontWeight="Bold"/>
-                <TextBlock Text="Complete Name"
+                        <TextBlock Text="Complete Name"
                            FontSize="13"
                            Foreground="#112152"
                            HorizontalAlignment="Center" Opacity="0.8"/>
-                <TextBlock Text="Description/Status of the selectetd user"
+                        <TextBlock Text="Description/Status of the selectetd user"
                            FontSize="8"
                            Foreground="#112152"
                            HorizontalAlignment="Center" Opacity="0.8"/>
 
-                <StackPanel Margin="20">
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Margin="20">
+                            <StackPanel Orientation="Horizontal"
                                 Margin="0 3">
-                        <materialDesign:PackIcon Kind="Location"
+                                <materialDesign:PackIcon Kind="Location"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Location/Street of the user"
+                                <TextBlock Text="Location/Street of the user"
                                    Margin="10 0"
                                    Foreground="#112152" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal"
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
                                 Margin="0 3">
-                        <materialDesign:PackIcon Kind="Cellphone"
+                                <materialDesign:PackIcon Kind="Cellphone"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Phone number of the user"
+                                <TextBlock Text="Phone number of the user"
                                    Margin="10 0"
                                    Foreground="#112152" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal"
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
                                 Margin="0 3">
-                        <materialDesign:PackIcon Kind="Email"
+                                <materialDesign:PackIcon Kind="Email"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Email of the user"
+                                <TextBlock Text="Email of the user"
                                    Margin="10 0"
                                    Foreground="#112152"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="20 0">
+                            <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="20 0">
-                <Border Width="50" Height="50" CornerRadius="30" Margin="5">
-                    <Border.Background>
-                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
-                    </Border.Background>
                 </Border>
-                <Border Width="50" Height="50" CornerRadius="30" Margin="5">
-                    <Border.Background>
-                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
-                    </Border.Background>
-                </Border>
-                <Border Width="50" Height="50" CornerRadius="30" Margin="5">
-                    <Border.Background>
-                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
-                    </Border.Background>
-                </Border>
-            </StackPanel>
-        </StackPanel>
+
+            </Grid>
         </Border>
+
+
     </Grid>
 
 </Window>
