@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:UC="clr-namespace:UI.WPF.View"
         fw:AcrylicWindow.Enabled="False"
         Title="ProfileWindow" 
         Height="800" 
@@ -15,6 +16,28 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
+
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+    <!-- The content of this file has been moved to View/ProfileControler.xaml, therefore will be removed -->
+
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -177,7 +200,7 @@
             </Grid>
         </Border>
         <Border Grid.Column ="1" CornerRadius="45" BorderThickness="2" BorderBrush="white" Background="#112152">
-            <Grid>
+           <!-- <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="auto" />
@@ -309,7 +332,10 @@
                         <ImageBrush ImageSource="/Assets/close.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-            </Grid>
+            </Grid>-->
+
+            <UC:ProfileControl/>
+
         </Border>
     </Grid>
 </Window>

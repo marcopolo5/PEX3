@@ -25,7 +25,7 @@ namespace Domain.Helpers
         public AppConfiguration()
         {
             var appSettings = GetAppSettings();
-            if (appSettings.EncryptedToken == "")
+            if (appSettings.EncryptedToken == "" || appSettings.EncryptedToken == null)
                 SetTokenToZero(appSettings);
         }
 

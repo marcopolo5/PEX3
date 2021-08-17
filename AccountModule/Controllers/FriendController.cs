@@ -29,6 +29,8 @@ namespace AccountModule.Controllers
 
         public async Task<bool> SendFriendRequest(string senderEmail, string receiverEmail)
         {
+            // TODO: modify existing check (should already be checked in the search friends method)
+
             var senderUser = await _userRepository.ReadAsync(senderEmail);
             if (senderUser == null)
             {
@@ -49,6 +51,7 @@ namespace AccountModule.Controllers
             };
             if (await FriendRequestExists(friendRequest))
             {
+                // TODO: friend request already sent
                 return false;
             }
             await _friendRequestRepository.CreateAsync(friendRequest);

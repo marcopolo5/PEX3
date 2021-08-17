@@ -42,7 +42,7 @@ namespace UI.WPF
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-               profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(openFileDialog.FileName)));
+              // profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(openFileDialog.FileName)));
             }
 
         }

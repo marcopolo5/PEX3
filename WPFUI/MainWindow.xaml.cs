@@ -5,6 +5,7 @@ using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,7 +39,6 @@ namespace WPFUI
 
             ShowFriends();
         }
-
 
         public void ShowFriends()
         {
@@ -91,7 +91,7 @@ namespace WPFUI
             Friends.Add(friend3);
             Friends.Add(friend3);
 
-            FriendList.ItemsSource = Friends;
+            //FriendList.ItemsSource = Friends;
         }
         
         public async void SendFriendRequestClick(object sender, RoutedEventArgs e)
@@ -176,6 +176,11 @@ namespace WPFUI
             }
         }
 
+        public void FadeBorderClick(object sender, RoutedEventArgs e)
+        {
+            FakeDrawerSimulator.Visibility = Visibility.Hidden;
+        }
+
         public class FriendUI
         {
             public string StatusColor { get; set; }
@@ -184,6 +189,8 @@ namespace WPFUI
             public string ImagePath { get; set; }
             public UserStatus Status { get; set; }
 
+            public ICollectionView fadsfds;
+
             public FriendUI()
             {
                 UpdateStatusColor();
@@ -191,20 +198,13 @@ namespace WPFUI
 
             public void UpdateStatusColor()
             {
-                switch (Status)
+                StatusColor = Status switch
                 {
-                    case UserStatus.Online:
-                        StatusColor = "GreenYellow";
-                        break;
-                    case UserStatus.Away:
-                        // pale orange
-                        StatusColor = "#FFC074";
-                        break;
-                    default:
-                        // gray
-                        StatusColor = "#6E7582";
-                        break;
-                }
+                    UserStatus.Online => "GreenYellow",
+                    UserStatus.Away => "#FFC074",// pale orange
+                    UserStatus.Offline => "#6E7582",// gray
+                    _ => "#6E7582",// gray
+                };
             }
         }
 

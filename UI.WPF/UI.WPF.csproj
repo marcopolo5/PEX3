@@ -6,6 +6,12 @@
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>DEBUG;TRACE</DefineConstants>
+	  <DebugType>full</DebugType>
+	  <DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
 	<ItemGroup>
 	  <None Remove="Assets\btn_google_signin_dark.png" />
 	  <None Remove="Assets\btn_google_signin_light.png" />
@@ -16,6 +22,11 @@
 	  <None Remove="Assets\logo.png" />
 	  <None Remove="Assets\profile.png" />
 	  <None Remove="Assets\profilepic.png" />
+	  <None Remove="Assets\warning.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Assets\warning.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FluentWPF" Version="0.9.0" />
@@ -85,6 +96,19 @@
 	  <Page Update="RegisterWindow.xaml">
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Themes\Animations.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Themes\ColorPallete.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	  </Page>
+	  <Page Update="Themes\Generic.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	  </Page>
+	  <Page Update="Themes\ListView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 	  </Page>
 	</ItemGroup>
 

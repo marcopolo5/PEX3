@@ -47,6 +47,7 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
+            /*
             CustomMessageBox messageBox = new CustomMessageBox();
             string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
             // If login error message is empty, that means the data from the form is valid
@@ -83,16 +84,16 @@ namespace UI.WPF
             }
             
             messageBox.Show(_loginErrorMessage);
-           // loginErrorMessage.Content = _loginErrorMessage;
-            
-            
-            
+            // loginErrorMessage.Content = _loginErrorMessage;
+            */
 
+
+            Hide();
+            new HomeWindow().ShowDialog();
+            ShowDialog();
         }
 
 
-        //TODO: @frontend create a "Sign in with Google" button using the pictures from Assets
-        // and bind it to this method.
         private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -116,7 +117,6 @@ namespace UI.WPF
             //catch(Exception exception) { } Commented - Not catching unexpected exceptions while in development
             finally
             {
-                //Since .Activate() or .Focus() dont always bring to top
                 Topmost = true;
                 Topmost = false;
             }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UI.WPF"
         mc:Ignorable="d"
         Title="CustomMessageBox" 
-        Height="170" 
+        Height="220" 
         Width="400"
         WindowStyle = "None"
         AllowsTransparency="True"
@@ -31,37 +31,8 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="CloseButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            
-                            
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
+            
     </Window.Resources>
     <Border CornerRadius="35" BorderThickness="5" BorderBrush="#fae12c" Background="#112152">
         <Grid >
@@ -77,20 +48,23 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
-            <Button x:Name ="closeButton" Style="{DynamicResource CloseButtonStyle}" Grid.Column="2" Grid.Row="1" BorderThickness="0" 
-                        Width="30" Height="30" Margin="310,-5,0,0" 
+            <Button x:Name ="closeButton" Grid.Column="2" Grid.Row="1" BorderThickness="0" 
+                        Width="30" Height="30" Margin="215,-5,0,0" 
                         Grid.ColumnSpan="4" 
                         Click="CloseButton_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
                 </Button.Background>
             </Button>
-            <TextBlock x:Name="messageText" Grid.Column="1" Grid.Row="2" 
-                       Grid.ColumnSpan="2"
-                       Grid.RowSpan="2"
+            <TextBlock x:Name="messageText" Grid.Column="2" Grid.Row="1" 
                        TextAlignment="Center"
                        TextWrapping="WrapWithOverflow"
-                       Text="Message show" Foreground="white" FontSize="25"/>
+                       VerticalAlignment="Center"
+                       Grid.RowSpan="2"
+                       Margin ="0,0,0,0"
+                       Text="Message show" Foreground="white" FontSize="20"/>
+            <Image Grid.Column="1" Grid.Row="2" Source="/Assets/warning.png" Width="100" Margin="0,0,0,30"/>
+
         </Grid>
     </Border>
 </Window>

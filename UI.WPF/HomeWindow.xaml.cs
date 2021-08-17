@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.WPF.View;
 
 namespace UI.WPF
 {
@@ -20,10 +21,29 @@ namespace UI.WPF
     /// </summary>
     public partial class HomeWindow : Window
     {
+        private readonly ProfileControl _profileControl = new();
+        private readonly HomeControl _homeControl = new();
+        private readonly AddFriendControl _addFriendControl = new();
+        private bool closeButtonVisibilityFlag = true;
+        private bool showFriendListFlag = false;
+
         public HomeWindow()
         {
             InitializeComponent();
+
+            mainContentControl.Content = _homeControl;
+
+
+            /*MainModel mainModel = new MainModel();
+            MenuViewModel menuViewModel = new MenuViewModel(mainModel);
+
+            ProfileControl profileControl = new ProfileControl();
+            profileControl.DataContext = menuViewModel;
+
+            mainModel.ContentWindow = profileControl;
+            DataContext = mainModel*/;
         }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -36,22 +56,77 @@ namespace UI.WPF
             ShowDialog();
         }
 
-        private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
+        private void HomeContent_Selected(object sender, RoutedEventArgs e)
         {
-            Hide();
-            new ProfileWindow().ShowDialog();
-            ShowDialog();
+            mainContentControl.Content = _homeControl;
+            closeButtonVisibilityFlag = true;
+            ShowHideElements();
         }
 
-        private void ListViewItem_Selected_2(object sender, RoutedEventArgs e)
+        private void ProfileContent_Selected(object sender, RoutedEventArgs e)
         {
-            Hide();
-            new AddFriendsWindow().ShowDialog();
-            ShowDialog();
+            mainContentControl.Content = _profileControl;
+            closeButtonVisibilityFlag = true;
+            ShowHideElements();
         }
+
+        private void AddFriendContent_Selected(object sender, RoutedEventArgs e)
+        {
+            mainContentControl.Content = _addFriendControl;
+            closeButtonVisibilityFlag = false;
+            ShowHideElements();
+        }
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new ChatWindow().ShowDialog();
+            ShowDialog();
+        }
+
+        private void ShowHideElements()
+        {
+            if(closeButtonVisibilityFlag == true)
+                closeButton.Visibility = Visibility.Visible;
+            else
+                closeButton.Visibility = Visibility.Hidden;
+            HideFriendList();
+        }
+
+        private void DrawerEffectBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            HideFriendList();
+
+        }
+
+        private void FriendList_Selected(object sender, RoutedEventArgs e)
+        {
+            showFriendListFlag = !showFriendListFlag;
+            if (showFriendListFlag)
+                ShowFriendList();
+            else
+                HideFriendList();
+        }
+
+        private void HideFriendList()
+        {
+            DrawerEffectBorder.Visibility = Visibility.Hidden;
+            FriendListGrid.Visibility = Visibility.Hidden;
+            FriendListBorder.Visibility = Visibility.Hidden;
+            showFriendListFlag = false;
+        }
+
+        private void ShowFriendList()
+        {
+            DrawerEffectBorder.Visibility = Visibility.Visible;
+            FriendListGrid.Visibility = Visibility.Visible;
+            FriendListBorder.Visibility = Visibility.Visible;
+            showFriendListFlag = true;
         }
     }
 }

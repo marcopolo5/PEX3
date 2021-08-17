@@ -14,14 +14,11 @@ namespace Domain.RepositoryContracts
     /// </summary>
     public class ConversationRepository : GenericRepository<Conversation>
     {
-        private readonly UserRepository UserRepository;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ConversationRepository() : base("Conversations") {
-            UserRepository = new();
-        }
+        public ConversationRepository() : base("Conversations") { }
 
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 await base.CreateAsync(conversation);
-                foreach(User participant in conversation.Participants)
+                foreach (User participant in conversation.Participants)
                 {
                     string sql = $@"insert into Group_Members values({participant.Id},{conversation.Id})";
                     await connection.QueryAsync(sql);
@@ -62,8 +59,8 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 var conversation = await base.ReadAsync(id);
-                await BindConversationParticipants(conversation);
-                await BindConversationMessages(conversation);
+                await MapConversationParticipants(conversation);
+                await MapConversationMessages(conversation);
                 return conversation;
             }
         }
@@ -80,10 +77,10 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 var conversations = await base.ReadAllAsync();
-                foreach(Conversation conversation in conversations)
+                foreach (Conversation conversation in conversations)
                 {
-                    await BindConversationParticipants(conversation);
-                    await BindConversationMessages(conversation);
+                    await MapConversationParticipants(conversation);
+                    await MapConversationMessages(conversation);
                 }
                 return conversations;
             }
@@ -96,7 +93,7 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="conversation">Conversation to be mapped</param>
         /// <returns></returns>
-        private async Task BindConversationMessages(Conversation conversation)
+        private async Task MapConversationMessages(Conversation conversation)
         {
             using (var connection = CreateConnection())
             {
@@ -122,12 +119,16 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="conversation"></param>
         /// <returns></returns>
-        private async Task BindConversationParticipants(Conversation conversation)
+        private async Task MapConversationParticipants(Conversation conversation)
         {
             using (var connection = CreateConnection())
             {
-                var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId={conversation.Id}");
-                await UserRepository.BindUserProfilesAsync(participants);
+                var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id", new { Id = conversation.Id });
+                var profiles = await connection.QueryAsync<Profile>(@"SELECT * FROM Profiles");
+                foreach (User user in participants)
+                {
+                    user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
+                }
                 conversation.Participants = (List<User>)participants;
             }
         }

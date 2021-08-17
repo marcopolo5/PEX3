@@ -1,5 +1,4 @@
-﻿using Domain.Helpers;
-using Domain.HelpersContracts;
+﻿using Domain.HelpersContracts;
 using Domain.Models;
 using Domain.RepositoryContracts;
 using System;
@@ -17,7 +16,7 @@ namespace Domain
         public List<FriendRequest> FriendRequests { get; set; } = new();
         public List<Conversation> Conversations { get; set; } = new();
         public List<User> BlockedUsers { get; set; } = new();
-        public Profile Profile { get; set; }
+
 
         public Settings Settings { get; set; }
         public string LoginToken { get; set; }
@@ -26,9 +25,11 @@ namespace Domain
 
         private readonly IAppConfiguration _appConfiguration;
 
-        public CurrentUser()
+        public CurrentUser() { }
+
+        public CurrentUser(IAppConfiguration appConfiguration)
         {
-            _appConfiguration = new AppConfiguration();
+            _appConfiguration = appConfiguration;
 
         }
 
@@ -52,12 +53,7 @@ namespace Domain
         /// <returns></returns>
         public bool ClearData()
         {
-            if (_appConfiguration.ResetToken() == false)
-            {
-                return false;
-            }
-            // TODO: reset the fields
-            return true;
+            throw new NotImplementedException();
         }
     }
 }
