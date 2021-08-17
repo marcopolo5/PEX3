@@ -439,7 +439,13 @@
                 <ScrollViewer Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
                     <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
                         <!--chat conversation-->
-                        <ListView x:Name="chatConversation" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalAlignment="Bottom" Margin="10,0,30,0" >
+                        <ListView x:Name="chatConversation" 
+                                  Background="Transparent" 
+                                  BorderThickness="0" 
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                                  VerticalAlignment="Bottom" 
+                                  Margin="10,0,30,0" >
+                            
                             <ListViewItem>
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                                     <Grid.ColumnDefinitions>
