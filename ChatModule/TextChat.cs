@@ -32,7 +32,20 @@ namespace ChatModule
                 })
                 .Build();
 
-            _connection.On<Message>("ReceiveMessage", (message) => MessageReceived?.Invoke(message));
+            _connection.On<Message>("ReceiveMessage", (message) => {
+                var conversation = ApplicationUserController
+                        .CurrentUser
+                        .Conversations
+                        .FirstOrDefault(c => c.Id == message.ConversationId);
+                if (conversation == null)
+                {
+                    return;
+                }
+                conversation.Messages.Add(message);
+                MessageReceived?.Invoke(message);
+            });
+
+
             _connection.On<StatusModel>("ChangeStatus", (status) =>
             {
                 var friend = ApplicationUserController.CurrentUser.Friends.Where(f => f.Id == status.FriendId).FirstOrDefault();

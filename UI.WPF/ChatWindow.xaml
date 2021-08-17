@@ -360,44 +360,50 @@
                 </Button>
 
                 <ScrollViewer Grid.Row="2" Grid.RowSpan="2">
-                    <ListView x:Name="conversationList" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
-                        <ListViewItem Style="{DynamicResource ChangeColor}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="290"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                    <!--conversation list view Style="{DynamicResource ChangeColor}"-->
+                    <ListView x:Name="ConversationList" 
+                              Background="Transparent" 
+                              BorderThickness="0" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="290"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Border Width="50" Height="50" CornerRadius="60" HorizontalAlignment="Center">
-                                    <Border.Background>
-                                        <ImageBrush ImageSource="/Assets/profile.png"/>
-                                    </Border.Background>
-                                </Border>
+                                    <Border Width="50" Height="50" CornerRadius="60" HorizontalAlignment="Center">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="/Assets/profile.png"/>
+                                        </Border.Background>
+                                    </Border>
 
-                                <Border Width="Auto" 
-                                            Height="10" 
-                                            VerticalAlignment="Bottom" 
-                                            Margin="5" 
-                                            HorizontalAlignment="Right" 
-                                            CornerRadius="15" 
-                                            Background="White"/>
+                                    <Border Width="Auto" 
+                                                Height="10" 
+                                                VerticalAlignment="Bottom" 
+                                                Margin="5" 
+                                                HorizontalAlignment="Right" 
+                                                CornerRadius="15" 
+                                                Background="White"/>
 
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="Name" 
-                                                   Margin="10 0"
-                                                   Foreground="#fae12c"
-                                                   FontSize="17"
-                                                   FontWeight="DemiBold"/>
-                                    <TextBlock Text="LastMessage" 
-                                                   Margin="10,5,0,0" 
-                                                   TextTrimming="CharacterEllipsis" 
-                                                   Opacity="0.6"
-                                                   Foreground="#FF838383"
-                                                   FontSize="12"/>
-                                </StackPanel>
-                            </Grid>
-                        </ListViewItem>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding ConversationName}" 
+                                                       Margin="10 0"
+                                                       Foreground="#fae12c"
+                                                       FontSize="17"
+                                                       FontWeight="DemiBold"/>
+                                        <TextBlock Text="{Binding LastMessage}" 
+                                                       Margin="10,5,0,0" 
+                                                       TextTrimming="CharacterEllipsis" 
+                                                       Opacity="0.6"
+                                                       Foreground="#FF838383"
+                                                       FontSize="12"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </ScrollViewer>
 
@@ -432,6 +438,7 @@
 
                 <ScrollViewer Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
                     <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
+                        <!--chat conversation-->
                         <ListView x:Name="chatConversation" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalAlignment="Bottom" Margin="10,0,30,0" >
                             <ListViewItem>
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
