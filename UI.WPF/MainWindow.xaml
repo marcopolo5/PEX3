@@ -143,6 +143,7 @@
             </Setter>
         </Style>
     </Window.Resources>
+    
     <Border CornerRadius="52" BorderThickness="10" BorderBrush="white" >
         <Border CornerRadius="35" BorderThickness="14" BorderBrush="#112152">
             <Grid Background="#FF112152">
