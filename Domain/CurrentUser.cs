@@ -8,7 +8,7 @@ using System.Text;
 namespace Domain
 {
     /// <summary>
-    /// A singleton class that contains the information about the current logged in user.
+    /// A class that contains the information about the current logged in user.
     /// </summary>
     public class CurrentUser : User 
     {
@@ -22,6 +22,7 @@ namespace Domain
         public string LoginToken { get; set; }
         public bool RememberMe { get; set; }
 
+        public int CurrentConversationId { get; set; }
 
         private readonly IAppConfiguration _appConfiguration;
 
@@ -50,10 +51,15 @@ namespace Domain
         /// <summary>
         /// Resets all the fields and deletes the token from the file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if the data was cleared successfuly, false otherwise</returns>
         public bool ClearData()
         {
-            throw new NotImplementedException();
+            if (_appConfiguration.ResetToken() == false)
+            {
+                return false;
+            }
+            // TODO: reset the fields
+            return true;
         }
     }
 }
