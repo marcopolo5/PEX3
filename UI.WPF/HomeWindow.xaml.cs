@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UI.WPF.View;
+using UI.WPF.ViewModel;
 
 namespace UI.WPF
 {
@@ -23,6 +24,7 @@ namespace UI.WPF
     {
         private readonly ProfileControl _profileControl = new();
         private readonly HomeControl _homeControl = new();
+
         private readonly AddFriendControl _addFriendControl = new();
         private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
@@ -30,18 +32,7 @@ namespace UI.WPF
         public HomeWindow()
         {
             InitializeComponent();
-
             mainContentControl.Content = _homeControl;
-
-
-            /*MainModel mainModel = new MainModel();
-            MenuViewModel menuViewModel = new MenuViewModel(mainModel);
-
-            ProfileControl profileControl = new ProfileControl();
-            profileControl.DataContext = menuViewModel;
-
-            mainModel.ContentWindow = profileControl;
-            DataContext = mainModel*/;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -117,15 +108,14 @@ namespace UI.WPF
         {
             DrawerEffectBorder.Visibility = Visibility.Hidden;
             FriendListGrid.Visibility = Visibility.Hidden;
-            FriendListBorder.Visibility = Visibility.Hidden;
             showFriendListFlag = false;
+            MainMenuListView.SelectedItem = null;
         }
 
         private void ShowFriendList()
         {
             DrawerEffectBorder.Visibility = Visibility.Visible;
             FriendListGrid.Visibility = Visibility.Visible;
-            FriendListBorder.Visibility = Visibility.Visible;
             showFriendListFlag = true;
         }
     }
