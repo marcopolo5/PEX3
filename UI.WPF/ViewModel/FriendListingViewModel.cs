@@ -1,5 +1,4 @@
 ﻿using AccountModule.Controllers;
-using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,21 +39,9 @@ namespace UI.WPF.ViewModel
         }
 
         
-        private static IEnumerable<FriendViewModel> GetFriendViewModels()
+        private IEnumerable<FriendViewModel> GetFriendViewModels()
         {
-            foreach (User friend in ApplicationUserController.CurrentUser.Friends.ToList())
-            {
-                yield return new FriendViewModel(friend.LastName + friend.FirstName, friend.Email, "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", friend.Profile.Status);
-            }
-            // TODO: trebuie modificata baza de date sa stocheze imagini in loc de path
-            /*
-            yield return new FriendViewModel("Nume test 1", "test1@email.com", "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Nume test 2", "test2@email.com", "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Nume test 3", "test3@email.com", "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Nume test 2", "test2@email.com", "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Nume test 2", "test3@email.com", "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Nume test 2", "test2@email.com", "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", Domain.UserStatus.Online);
-            */
+            yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
         }
 
         private string _friendsFilter = string.Empty;
@@ -70,4 +57,3 @@ namespace UI.WPF.ViewModel
         }
     }
 }
-
