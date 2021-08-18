@@ -101,6 +101,27 @@ namespace Domain.RepositoryContracts
             }
         }
 
+        /// <summary>
+        /// Async method. Reads a single user from the database with 'id'
+        /// as their Id.
+        /// </summary>
+        /// <param name="id">Id to search for</param>
+        /// <returns>The user with specified email</returns>
+        /// <remarks>KeyNotFoundException is thrown if no such user exists</remarks>
+        public new async Task<User> ReadAsync(int id)
+        {
+            using (var connection = CreateConnection())
+            {
+                string sqlGetUser = @$"select * from {TableName} where Users.id=@Id";
+                string sqlGetProfile = @"select * from Profiles where Profiles.UserId=@Id";
+                var entity = await connection.QuerySingleOrDefaultAsync<User>(sqlGetUser, new { Id = id });
+                entity.Profile = await connection.QuerySingleOrDefaultAsync<Profile>(sqlGetProfile, new { Id = id });
+                //if (entity == null)
+                //    throw new KeyNotFoundException($"User with id {id} was not found"); //TODO: Unhandled in UI
+                return entity;
+            }
+        }
+
 
         /// <summary>
         /// Async method. Reads a single user from the database with 'email'
@@ -174,7 +195,7 @@ namespace Domain.RepositoryContracts
                 var friendIds = await connection.QueryAsync<int>(sqlFriends, new { Id = id });
                 foreach (var friendId in friendIds)
                 {
-                    var friend = await ReadAsync((int)friendId);
+                    var friend = await ReadAsync(friendId);
                     friend.Password = null;
                     friend.Token = null;
                     currentUser.Friends.Add(friend);
@@ -186,9 +207,10 @@ namespace Domain.RepositoryContracts
                     currentUser.FriendRequests.Add(friendRequest);
                 }
 
-                var blockedUsers = await connection.QueryAsync<User>(sqlBlockedUsers, new { Id = id });
-                foreach (var blockedUser in blockedUsers)
+                var blockedUsersIds = await connection.QueryAsync<int>(sqlBlockedUsers, new { Id = id });
+                foreach (var blockedUserId in blockedUsersIds)
                 {
+                    var blockedUser = await ReadAsync(blockedUserId);
                     blockedUser.Password = null;
                     blockedUser.Token = null;
                     currentUser.BlockedUsers.Add(blockedUser);
