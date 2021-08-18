@@ -40,7 +40,7 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public override async Task OnConnectedAsync()
         {
-            Console.WriteLine("Cineva incearca sa se conn");
+            Console.WriteLine("Someone's trying to connect");
             string stringId = Context
                 .GetHttpContext()
                 .Request

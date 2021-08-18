@@ -85,6 +85,8 @@ namespace UI.WPF
             if (ApplicationUserController.CurrentUser.CurrentConversationId != 0)
             {
                 Messages.Add(messageDto);
+                ChatScrollViewer.UpdateLayout();
+                ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
             }
         }
 
@@ -178,6 +180,10 @@ namespace UI.WPF
             var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
             var text = messageText.Text;
             messageText.Clear();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
             await _textChat.SendMessageAsync(currentConversationId, text);
         }
 
@@ -207,6 +213,8 @@ namespace UI.WPF
             ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);
             //FakePopulateMessages(item.ConversationId);
+            ChatScrollViewer.UpdateLayout();
+            ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
         }
 
         private void PopulateMessages(int conversationId)

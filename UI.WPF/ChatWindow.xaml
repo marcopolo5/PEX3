@@ -453,7 +453,9 @@
                     </Button.Content>
                 </Button>
 
-                <ScrollViewer Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
+                <ScrollViewer  x:Name="ChatScrollViewer" 
+                    VerticalScrollBarVisibility="Visible" AllowDrop="False"
+                    Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
                     <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
                         <!--chat conversation-->
                         <ListView x:Name="ChatConversation" 
