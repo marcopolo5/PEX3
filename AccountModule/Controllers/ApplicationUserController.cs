@@ -167,6 +167,7 @@ namespace AccountModule.Controllers
             return "";
         }
 
+
         /// <summary>
         /// Registers (if necessary) and logs in an user
         /// with their Google account data. (email, first name, last name)
