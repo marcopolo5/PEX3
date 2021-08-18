@@ -56,11 +56,6 @@ namespace UI.WPF
                 if (await _applicationUserController.Login(
                     loginEmail.Text, loginPassword.Password, false)) //remeber me from UI
                 {
-
-                    //loginErrorMessage.Foreground = Brushes.Green;
-                    //loginErrorMessage.Content = "Logged in successfully";
-                    //CustomMessageBox messageBox = new CustomMessageBox();
-                    //messageBox.Show("Logged in successfully");
                     Hide();
                     new HomeWindow().ShowDialog();
                     ShowDialog();
@@ -68,22 +63,13 @@ namespace UI.WPF
                 }
                 else
                 {
-                    //loginErrorMessage.Content = "Incorrect e-mail or password";
-                    //CustomMessageBox messageBox = new CustomMessageBox();
                     messageBox.Show("Incorrect e-mail or password");
                 }
             }
             else
             {
-
-                //loginErrorMessage.Content = _loginErrorMessage;
-                //CustomMessageBox messageBox = new CustomMessageBox();
                 messageBox.Show(_loginErrorMessage);
-
             }
-            
-            //messageBox.Show(_loginErrorMessage);
-            // loginErrorMessage.Content = _loginErrorMessage;
         }
 
 

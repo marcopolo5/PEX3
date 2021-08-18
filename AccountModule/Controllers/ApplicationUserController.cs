@@ -24,7 +24,6 @@ namespace AccountModule.Controllers
         private readonly AppConfiguration _appConfiguration = new();
         public static CurrentUser CurrentUser = new();
 
-
         public ApplicationUserController()
         {
         }
@@ -50,14 +49,13 @@ namespace AccountModule.Controllers
                 _appConfiguration.SaveToken(token);
             }
 
-
             //CurrentUser.rememberMe = rememberMe;
 
             // initialize user's attributes
             User user = await _userRepository.ReadAsync(email);
             // ReadCurrentUserAsync needs inspection
-            /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
-            CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
+            //var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
+            //CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings, viewUser.Friends);
 
             CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
 
@@ -103,7 +101,6 @@ namespace AccountModule.Controllers
                 };
                 Settings settings = new Settings
                 {
-                    Id = await _settingsRepository.GetAvailableId(),
                     UserId = await _userRepository.GetAvailableId()-1, //TODO: Buggy in this version. Should read the object from DB.
                     Anonymity = true
                 };

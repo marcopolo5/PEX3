@@ -31,19 +31,18 @@ namespace Domain
         public CurrentUser(IAppConfiguration appConfiguration)
         {
             _appConfiguration = appConfiguration;
-
         }
 
-        public void InitializeFields(Profile profile, Settings settings)
+        public void InitializeFields(Profile profile, Settings settings, List<User> friends)
         {
 
             // TODO: 
-            // initialize Friends
             // initialize FriendRequests
             // initialize Conversations
             // initialize BlockedUsers
             // OBS: not finished yet in UserRepository (see  UserRepository.ReadCurrentUserAsync(int id)  )
             // soon™
+            Friends = friends;
             Profile = profile;
             Settings = settings;
         }
