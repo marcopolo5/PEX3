@@ -26,6 +26,7 @@ namespace UI.WPF
     {
         private readonly TextChat _textChat = new();
         public ObservableCollection<ConversationPreviewDTO> ConversationPreviews { get; private set; } = new();
+        public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
 
         public ChatWindow()
         {
@@ -48,10 +49,14 @@ namespace UI.WPF
             // add the item source for our list (only after InitializeComponent() is called)
             ConversationList.ItemsSource = ConversationPreviews;
 
+
+            // add the item source for the current conversation
+            ChatConversation.ItemsSource = Messages;
+
             // tests:
-            ConversationPreviews.Add(new ConversationPreviewDTO { LastMessage = "test", ConversationId = 1, ConversationName = "test" });
-            ConversationPreviews.Add(new ConversationPreviewDTO { LastMessage = "test", ConversationId = 1, ConversationName = "test1" });
-            ConversationPreviews.Add(new ConversationPreviewDTO { LastMessage = "test", ConversationId = 1, ConversationName = "test2" });
+            //ConversationPreviews.Add(new ConversationPreviewDTO { LastMessage = "test", ConversationId = 1, ConversationName = "test" });
+            //ConversationPreviews.Add(new ConversationPreviewDTO { LastMessage = "test", ConversationId = 1, ConversationName = "test1" });
+            //ConversationPreviews.Add(new ConversationPreviewDTO { LastMessage = "test", ConversationId = 1, ConversationName = "test2" });
         }
 
 
@@ -65,6 +70,12 @@ namespace UI.WPF
             conversation.LastMessage = message.TextMessage;
 
             // TODO: update the list of messages in the opened chat
+            var messageDto = new MessageDTO
+            { 
+                TextMessage = message.TextMessage 
+            };
+
+            Messages.Add(messageDto);
         }
 
         /// <summary>
@@ -170,6 +181,48 @@ namespace UI.WPF
         {
             _textChat.MessageReceived -= OnMessageReceived;
             base.OnClosed(e);
+        }
+
+
+        // use this to change between convs
+        private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (ConversationPreviewDTO)ConversationList.SelectedItem;
+            ConversationTitle.Text = item.ConversationName;
+            ConversationStatus.Text = item.ConversationName; /// TODO: de schimbat cu status
+            Messages.Clear();
+            PopulateMessages(item.ConversationId);
+            //FakePopulateMessages(item.ConversationId);
+        }
+
+        private void PopulateMessages(int conversationId)
+        {
+            var conversation = ApplicationUserController.CurrentUser.Conversations.FirstOrDefault(c => c.Id == conversationId);
+            if (conversation == null)
+            {
+                return; ///// throw some err instead of this
+            }
+            foreach(var message in conversation.Messages.OrderBy(m => m.CreatedAt))
+            {
+                var messageDto = new MessageDTO 
+                { 
+                    IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
+                    TextMessage = message.TextMessage
+                };
+
+                Messages.Add(messageDto);
+            }
+        }
+
+        private void FakePopulateMessages(int conversationId)
+        {
+            Messages.Add(new MessageDTO { IsSent = true, TextMessage = "Hello" });
+            Messages.Add(new MessageDTO { IsSent = false, TextMessage = "How are you fam?" });
+            Messages.Add(new MessageDTO { IsSent = true, TextMessage = "Im pretty good ngl, wut bout u boii?" });
+            Messages.Add(new MessageDTO { IsSent = true, TextMessage = "how's the kids?" });
+            Messages.Add(new MessageDTO { IsSent = false, TextMessage = "good good..yours??" });
+            Messages.Add(new MessageDTO { IsSent = false, TextMessage = "dcfgvhjkl;'fwafwa??" });
+            Messages.Add(new MessageDTO { IsSent = true, TextMessage = "waresthrdtjfykghulji;ko" });
         }
     }
 }

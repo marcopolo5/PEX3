@@ -5,12 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatServerModule.MiniRepo;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 
 namespace ChatServerModule.TokenValidation
 {
     // TODO: fix some naming issues/maybe move to mini repos folder
     public class TokenValidator : GenericRepo, ITokenValidator
     {
+        public TokenValidator(IConfiguration configuration)
+            : base(configuration)
+        {
+            //empty ctor
+        }
         public bool IsValid(int userId, string token)
         {
             string sql = $"SELECT COUNT(*) FROM [Users] WHERE id={userId} AND token={token}";

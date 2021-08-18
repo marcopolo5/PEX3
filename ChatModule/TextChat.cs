@@ -73,6 +73,5 @@ namespace ChatModule
 
             await _connection.SendAsync("SendMessage", message);
         }
-
     }
 }

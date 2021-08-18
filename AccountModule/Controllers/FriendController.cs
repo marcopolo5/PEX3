@@ -14,6 +14,8 @@ namespace AccountModule.Controllers
         private readonly FriendRequestRepository _friendRequestRepository = new();
         private readonly FriendRepository _friendRepository = new();
 
+        private readonly ConversationRepository _conversationRepository = new();
+
         public async Task<bool> FriendRequestExists(FriendRequest request)
         {
             var friendRequest = await _friendRequestRepository.ReadAsync(request.SenderId, request.ReceiverId);
@@ -85,6 +87,9 @@ namespace AccountModule.Controllers
             // Delete the pending friend request from DB
             await _friendRequestRepository.DeleteAsync(friendRequest.Id);
 
+            // Create a conversation between users
+            await CreateConversation(friendRequest.ReceiverId, friendRequest.SenderId);
+
             return true;
         }
 
@@ -101,5 +106,22 @@ namespace AccountModule.Controllers
             return true;
         }
 
+
+
+        private async Task CreateConversation(int userIdOne, int userIdTwo)
+        {
+            var participants = new List<User>();
+
+            var conversation = new Conversation
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Title = "private conversation", /// no title needed, we can use the friend's name
+                Type = Domain.ConversationTypes.Private,
+                Participants = participants
+            };
+
+            await _conversationRepository.CreateAsync(conversation);
+        }
     }
 }

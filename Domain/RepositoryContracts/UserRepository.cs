@@ -171,10 +171,10 @@ namespace Domain.RepositoryContracts
                     (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
                 var currentUser = currentUserArray.First();
 
-                var friendIds = await connection.QueryAsync(sqlFriends, new { Id = id });
+                var friendIds = await connection.QueryAsync<int>(sqlFriends, new { Id = id });
                 foreach (var friendId in friendIds)
                 {
-                    var friend = await ReadAsync(friendId);
+                    var friend = await ReadAsync((int)friendId);
                     friend.Password = null;
                     friend.Token = null;
                     currentUser.Friends.Add(friend);

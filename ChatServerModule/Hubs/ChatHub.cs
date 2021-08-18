@@ -107,7 +107,7 @@ namespace ChatServerModule.Hubs
                 {
                     continue; // if not jump to the next user
                 }
-
+                Console.WriteLine($"From {message.SenderId} | To {message.ConversationId} | {message.TextMessage} | Date: {message.CreatedAt}");
                 var connectionId = ConnectedUsers[userId];
                 await Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             }

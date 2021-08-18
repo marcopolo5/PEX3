@@ -364,7 +364,7 @@
                     <ListView x:Name="ConversationList" 
                               Background="Transparent" 
                               BorderThickness="0" 
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="ConversationList_SelectionChanged" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -412,9 +412,17 @@
                         <ImageBrush ImageSource="/Assets/profile.png"/>
                     </Border.Background>
                 </Border>
-
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="Name" Margin="120,10,0,0" FontSize="20" Foreground="#fae12c" FontWeight="Bold" />
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="Status" Margin="120,5,0,0" FontSize="18" Foreground="#fae12c"  />
+                <!--conversation title-->
+                <TextBlock x:Name="ConversationTitle" 
+                           Grid.Column="1" Grid.Row="0" 
+                           Text="Name" Margin="120,10,0,0" 
+                           FontSize="20" Foreground="#fae12c" FontWeight="Bold" />
+                <!--conversation status-->
+                <TextBlock x:Name="ConversationStatus" 
+                           Grid.Column="1" Grid.Row="1" 
+                           Text="Status" 
+                           Margin="120,5,0,0"
+                           FontSize="18" Foreground="#fae12c"  />
 
                 <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Background="Transparent" Height="auto" Margin="20,0,20,0">
                     <Border Background="LightGray" Height="50" CornerRadius="25" HorizontalAlignment="Stretch">
@@ -439,13 +447,42 @@
                 <ScrollViewer Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
                     <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
                         <!--chat conversation-->
-                        <ListView x:Name="chatConversation" 
+                        <ListView x:Name="ChatConversation" 
                                   Background="Transparent" 
                                   BorderThickness="0" 
                                   ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
                                   VerticalAlignment="Bottom" 
                                   Margin="10,0,30,0" >
-                            
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="560"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Padding="5" Background="#112152" >
+                                            <Grid Background="#112152" >
+                                                <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="{Binding Alignment}">
+                                                    <TextBlock  VerticalAlignment="Center" 
+                                                                Background="#FF838383" 
+                                                                TextWrapping="Wrap" 
+                                                                Text="{Binding TextMessage}" 
+                                                                FontSize="15" 
+                                                                Foreground="white" 
+                                                                FontFamily="Comic Sans MS"/>
+                                                </Border>
+                                                <Polygon Points="{Binding Positioning}" 
+                                                         Fill="#FF838383"
+                                                         Margin="{Binding Margins}"
+                                                         HorizontalAlignment="{Binding Alignment}"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <!-- 
                             <ListViewItem>
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                                     <Grid.ColumnDefinitions>
@@ -487,6 +524,7 @@
                                     </Border>
                                 </Grid>
                             </ListViewItem>
+                            -->
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>

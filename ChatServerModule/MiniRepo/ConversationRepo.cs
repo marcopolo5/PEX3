@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,7 +10,11 @@ namespace ChatServerModule.MiniRepo
 {
     public class ConversationRepo : GenericRepo, IConversationRepo
     {
-
+        public ConversationRepo(IConfiguration configuration)
+            :base(configuration)
+        {
+            //empty ctor
+        }
         public IEnumerable<int> GetUserIds(int conversationId)
         {
             IEnumerable<int> result;
