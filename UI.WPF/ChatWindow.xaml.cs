@@ -77,13 +77,15 @@ namespace UI.WPF
             }
             conversation.LastMessage = message.TextMessage;
 
-            // TODO: update the list of messages in the opened chat
             var messageDto = new MessageDTO
             { 
+                IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                 TextMessage = message.TextMessage 
             };
-
-            Messages.Add(messageDto);
+            if (ApplicationUserController.CurrentUser.CurrentConversationId != 0)
+            {
+                Messages.Add(messageDto);
+            }
         }
 
         /// <summary>
@@ -171,7 +173,7 @@ namespace UI.WPF
             Environment.Exit(0);
         }
 
-        private async void sendMessage_Click(object sender, RoutedEventArgs e)
+        private async void SendMessage_Click(object sender, RoutedEventArgs e)
         {
             var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
             var text = messageText.Text;
@@ -194,6 +196,10 @@ namespace UI.WPF
         // use this to change between convs
         private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(SendMessageBtn.IsEnabled == false)
+            {
+                SendMessageBtn.IsEnabled = true;
+            }
             var item = (ConversationPreviewDTO)ConversationList.SelectedItem;
             ConversationTitle.Text = item.ConversationName;
             ConversationStatus.Text = item.ConversationName; /// TODO: de schimbat cu status

@@ -186,7 +186,7 @@ namespace Domain.RepositoryContracts
                 string sqlFriends = @"select FriendId from Friends where UserId=@Id";
                 string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
                 string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
-                string sqlConversations = @"select Conversations.* from Conversations inner join Group_Members on Group_Members.UserId=@Id";
+                string sqlConversations = @"select Conversations.* from Conversations inner join Group_Members on Group_Members.ConversationId = Conversations.Id where Group_Members.userid=@Id;";
 
                 var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
                     (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
@@ -221,7 +221,7 @@ namespace Domain.RepositoryContracts
                 {
                     //Map messages
                     var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
-                                ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId={conversation.Id} ORDER BY createdat ASC");
+                                ($"select Messages.* from Messages inner join Conversations on Messages.ConversationId = Conversations.id WHERE Conversations.id = @Id ORDER BY createdat ASC", new { Id = conversation.Id} );
                     foreach (var message in messages)
                     {
                         conversation.Messages.Add(new Message

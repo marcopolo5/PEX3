@@ -1,4 +1,5 @@
 ﻿using AccountModule.Controllers;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,10 +39,15 @@ namespace UI.WPF.ViewModel
             return false;
         }
 
-        
+
         private IEnumerable<FriendViewModel> GetFriendViewModels()
         {
-            yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
+            //yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
+            foreach (User friend in ApplicationUserController.CurrentUser.Friends.ToList())
+            {
+                yield return new FriendViewModel(friend.LastName + friend.FirstName, friend.Email, "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", friend.Profile.Status);
+
+            }
         }
 
         private string _friendsFilter = string.Empty;

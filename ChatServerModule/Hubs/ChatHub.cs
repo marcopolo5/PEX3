@@ -89,7 +89,7 @@ namespace ChatServerModule.Hubs
 
             // remove user from the connected user lists
             ConnectedUsers.Remove(userId, out string _); //discarding the out param
-            await OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
 
 
