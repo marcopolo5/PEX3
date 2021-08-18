@@ -358,7 +358,6 @@
                         <ImageBrush ImageSource="/Assets/close.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-
                 <ScrollViewer Grid.Row="2" Grid.RowSpan="2">
                     <!--conversation list view Style="{DynamicResource ChangeColor}"-->
                     <ListView x:Name="ConversationList" 
@@ -493,49 +492,6 @@
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
-                            <!-- 
-                            <ListViewItem>
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="560"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Border Padding="5" Background="#112152" >
-                                        <Grid Background="#112152" >
-                                            <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="Left">
-                                                <TextBlock  VerticalAlignment="Center" Background="#FF838383" TextWrapping="Wrap" Text="Hello!" FontSize="15" Foreground="white" FontFamily="Comic Sans MS"/>
-                                            </Border>
-                                            <Polygon Points="0,0 30 0 25,15" Fill="#FF838383" Margin="0,20,0,0"/>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </ListViewItem>
-                            <ListViewItem>
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="560"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    
-                                    <Border Padding="5" Background="#112152" >
-                                        <Grid Background="#112152">
-                                            <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="50,0,50,0" HorizontalAlignment="Right">
-                                                <TextBlock VerticalAlignment="Center" Text="Helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo" FontSize="15" Foreground="white" FontFamily="Comic Sans MS" TextWrapping="Wrap"/>
-                                            </Border>
-
-                                            <Polygon Points="0,0 30 0 0,15" Fill="#FF838383" HorizontalAlignment="Right" Margin="0,20,26,0"/>
-
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </ListViewItem>
-                            -->
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>

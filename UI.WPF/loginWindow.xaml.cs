@@ -95,7 +95,7 @@ namespace UI.WPF
                 //loginErrorMessage.Foreground = Brushes.Green;
                 //loginErrorMessage.Content = "Logged in successfully";
                 CustomMessageBox messageBox = new CustomMessageBox();
-                messageBox.Show("Logged in successfully");
+                //messageBox.Show("Logged in successfully");
                 Hide();
                 new HomeWindow().ShowDialog();
                 ShowDialog();
