@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountModule.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace UI.WPF.ViewModel
     {
         private readonly List<FriendViewModel> _friendViewModels;
         public ICollectionView FriendsCollectionView { get; }
+        
 
         public FriendListingViewModel()
         {
@@ -36,23 +38,9 @@ namespace UI.WPF.ViewModel
             return false;
         }
 
-        // Dummy data
+        
         private IEnumerable<FriendViewModel> GetFriendViewModels()
         {
-            yield return new FriendViewModel("Friend Test 1", "email1@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Friend Test 2", "email2@test.com", "Some status message dummy status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Friend Test 2", "email2@test.com", "Some status message dummy status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Friend Test 2", "email2@test.com", "Some status message dummy status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Friend Test 2", "email2@test.com", "Some status message dummy status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Friend Test 2", "email2@test.com", "Some status message dummy status message", "Assets/profile.png", Domain.UserStatus.Online);
-            yield return new FriendViewModel("Friend Test 3", "email3@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Away);
-            yield return new FriendViewModel("Friend Test 4", "email4@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Away);
-            yield return new FriendViewModel("Friend Test 5", "email5@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Away);
-            yield return new FriendViewModel("Friend Test 5", "email5@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Away);
-            yield return new FriendViewModel("Friend Test 6", "email6@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
-            yield return new FriendViewModel("Friend Test 7", "email7@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
-            yield return new FriendViewModel("Friend Test 7", "email7@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
-            yield return new FriendViewModel("Friend Test 6", "email6@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
             yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
         }
 

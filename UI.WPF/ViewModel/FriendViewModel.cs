@@ -19,12 +19,12 @@ namespace UI.WPF.ViewModel
 
         public FriendViewModel(string displayName, string email, string statusMessage, string imagePath, UserStatus status)
         {
+            _status = status;
+            UpdateStatusColor();
             _displayName = displayName;
             _email = email;
             _statusMessage = statusMessage;
             _imagePath = imagePath;
-            _status = status;
-            UpdateStatusColor();
         }
 
         public void UpdateStatusColor()
