@@ -39,6 +39,7 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public override async Task OnConnectedAsync()
         {
+            Console.WriteLine("Cineva incearca sa se conn");
             string stringId = Context
                 .GetHttpContext()
                 .Request
@@ -58,7 +59,7 @@ namespace ChatServerModule.Hubs
             {
                 return;
             }
-
+            Console.WriteLine($"OnConnected: {id} | {token}");
             ConnectedUsers[id] = Context.ConnectionId;
             // update status in DB
             _usersRepo.ChangeUserStatus(id, UserStatus.Online);

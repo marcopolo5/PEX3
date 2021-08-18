@@ -40,6 +40,7 @@ namespace UI.WPF
                 ConversationPreviews.Add(conversationPreview);
             }
 
+            Task.Run(() => _textChat.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token).Wait());
             // wire up event:
             _textChat.MessageReceived += OnMessageReceived;
 
@@ -163,13 +164,12 @@ namespace UI.WPF
             Environment.Exit(0);
         }
 
-        private void sendMessage_Click(object sender, RoutedEventArgs e)
+        private async void sendMessage_Click(object sender, RoutedEventArgs e)
         {
             var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
             var text = messageText.Text;
             messageText.Clear();
-            //todo: maybe add await
-            _textChat.SendMessageAsync(currentConversationId, text);
+            await _textChat.SendMessageAsync(currentConversationId, text);
         }
 
         private void addConversation_Click(object sender, RoutedEventArgs e)
@@ -191,6 +191,7 @@ namespace UI.WPF
             ConversationTitle.Text = item.ConversationName;
             ConversationStatus.Text = item.ConversationName; /// TODO: de schimbat cu status
             Messages.Clear();
+            ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);
             //FakePopulateMessages(item.ConversationId);
         }
