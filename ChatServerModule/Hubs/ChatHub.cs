@@ -28,6 +28,7 @@ namespace ChatServerModule.Hubs
             IConversationRepo conversationRepo,
             IUsersRepo usersRepo)
         {
+            Console.WriteLine("ChatHub init");
             _tokenValidator = tokenValidator;
             _conversationRepo = conversationRepo;
             _usersRepo = usersRepo;

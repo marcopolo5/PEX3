@@ -40,7 +40,14 @@ namespace UI.WPF
                 ConversationPreviews.Add(conversationPreview);
             }
 
-            Task.Run(() => _textChat.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token).Wait());
+            _textChat.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
+                .ContinueWith(task =>
+                {
+                    if (task.Exception != null)
+                    {
+                        MessageBox.Show(task.Exception.ToString());
+                    }
+                });
             // wire up event:
             _textChat.MessageReceived += OnMessageReceived;
 

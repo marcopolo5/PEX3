@@ -19,7 +19,7 @@ namespace ChatServerModule.TokenValidation
         }
         public bool IsValid(int userId, string token)
         {
-            string sql = $"SELECT COUNT(*) FROM [Users] WHERE id={userId} AND token={token}";
+            string sql = $"SELECT COUNT(*) FROM [Users] WHERE id={userId} AND token='{token}'";
 
             using (var conn  = new SqlConnection(_connectionString))
             {
