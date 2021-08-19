@@ -1,5 +1,6 @@
 ﻿using AccountModule.Controllers;
 using ChatModule;
+using Domain;
 using Domain.DTO;
 using Domain.Models;
 using System;
@@ -48,8 +49,10 @@ namespace UI.WPF
                         MessageBox.Show(task.Exception.ToString());
                     }
                 });
-            // wire up event:
+
+            // wire up events:
             _textChat.MessageReceived += OnMessageReceived;
+            _textChat.StatusChanged += OnUserChangedStatus;
 
             // initialize the window
             InitializeComponent();
@@ -70,24 +73,38 @@ namespace UI.WPF
 
         private void OnMessageReceived(Message message)
         {
-            var conversation = ConversationPreviews.FirstOrDefault(c => c.ConversationId == message.ConversationId);
-            if (conversation == null)
+            var conversationPreview = ConversationPreviews.FirstOrDefault(c => c.ConversationId == message.ConversationId);
+            if (conversationPreview == null)
             {
                 return;
             }
-            conversation.LastMessage = message.TextMessage;
+            //update the conversation preview:
+            conversationPreview.LastMessage = message.TextMessage;
+            if (conversationPreview.ConversationId != ApplicationUserController.CurrentUser.CurrentConversationId)
+            {
+                conversationPreview.UnreadMessage = true;
+            }
 
             var messageDto = new MessageDTO
             { 
                 IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                 TextMessage = message.TextMessage 
             };
+
             if (ApplicationUserController.CurrentUser.CurrentConversationId != 0)
             {
                 Messages.Add(messageDto);
                 ChatScrollViewer.UpdateLayout();
                 ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
             }
+        }
+        private void OnUserChangedStatus(StatusModel statusModel)
+        {
+            var conversation = ApplicationUserController.CurrentUser.Conversations
+                .Where(c => c.Participants.Count(u => u.Id == statusModel.FriendId) == 1)
+                .FirstOrDefault();
+            var conversationPreview = ConversationPreviews.FirstOrDefault(c => c.ConversationId == conversation.Id);
+            conversationPreview.UserStatus = statusModel.NewStatus;
         }
 
         /// <summary>
@@ -99,6 +116,7 @@ namespace UI.WPF
         {
             string lastTextMessage;
             string conversationName;
+            UserStatus userStatus = UserStatus.Away; /// momentan folosim away pt group chat
 
             // if the conversation is a group chat use its title as a conversation name
             if (conversation.Type == Domain.ConversationTypes.Group)
@@ -110,6 +128,7 @@ namespace UI.WPF
             {
                 var friend = conversation.Participants.FirstOrDefault(p => p.Id != ApplicationUserController.CurrentUser.Id);
                 conversationName = friend.Profile.DisplayName;
+                userStatus = friend.Profile.Status;
             }
             // if the conversation is a promiximity chat do nothing :)
             else
@@ -134,7 +153,8 @@ namespace UI.WPF
             {
                 ConversationId = conversation.Id,
                 ConversationName = conversationName,
-                LastMessage = lastTextMessage
+                LastMessage = lastTextMessage,
+                UserStatus = userStatus
             };
 
             return conversationPreview;
@@ -178,8 +198,8 @@ namespace UI.WPF
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
         {
             var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
-            var text = messageText.Text;
-            messageText.Clear();
+            var text = MessageText.Text;
+            MessageText.Clear();
             if (string.IsNullOrWhiteSpace(text))
             {
                 return;
@@ -195,6 +215,7 @@ namespace UI.WPF
         protected override void OnClosed(EventArgs e)
         {
             _textChat.MessageReceived -= OnMessageReceived;
+            _textChat.StatusChanged -= OnUserChangedStatus;
             base.OnClosed(e);
         }
 
@@ -207,8 +228,13 @@ namespace UI.WPF
                 SendMessageBtn.IsEnabled = true;
             }
             var item = (ConversationPreviewDTO)ConversationList.SelectedItem;
+            var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
+            conversationPreview.UnreadMessage = false;
+
             ConversationTitle.Text = item.ConversationName;
             ConversationStatus.Text = item.ConversationName; /// TODO: de schimbat cu status
+
+
             Messages.Clear();
             ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);

@@ -150,7 +150,7 @@ namespace ChatServerModule.Hubs
                 FriendId = userId,
                 NewStatus = newStatus
             };
-
+            _usersRepo.ChangeUserStatus(userId, newStatus);
             // get all online friends
             IReadOnlyList<string> allFriendsConnection = GetFriendsConnectionIds(userId);
 

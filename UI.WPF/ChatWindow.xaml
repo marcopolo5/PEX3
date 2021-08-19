@@ -207,7 +207,8 @@
                            Source="/Assets/logo.png" />
 
                     <ListView FontSize="15">
-                        <ListViewItem Padding="1">
+                        <ListViewItem Padding="1"
+                                      Selected="ListViewItem_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Home"
                                                          Width="30"
@@ -386,18 +387,19 @@
                                                 HorizontalAlignment="Right" 
                                                 CornerRadius="15" 
                                                 Background="White"/>
-
+                                    <!--Foreground="#fae12c"-->
+                                    <!--Foreground="#FF838383"-->
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding ConversationName}" 
                                                        Margin="10 0"
-                                                       Foreground="#fae12c"
+                                                       Foreground="{ Binding NameColour}"
                                                        FontSize="17"
                                                        FontWeight="DemiBold"/>
                                         <TextBlock Text="{Binding LastMessage}" 
                                                        Margin="10,5,0,0" 
+                                                       Foreground="{ Binding MessageColour }"
                                                        TextTrimming="CharacterEllipsis" 
                                                        Opacity="0.6"
-                                                       Foreground="#FF838383"
                                                        FontSize="12"/>
                                     </StackPanel>
                                 </Grid>
@@ -425,7 +427,7 @@
 
                 <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Background="Transparent" Height="auto" Margin="20,0,20,0">
                     <Border Background="LightGray" Height="50" CornerRadius="25" HorizontalAlignment="Stretch">
-                        <TextBox x:Name="messageText" Grid.Column="1" Grid.ColumnSpan="1" FontSize="25" HorizontalAlignment="Stretch"
+                        <TextBox x:Name="MessageText" Grid.Column="1" Grid.ColumnSpan="1" FontSize="25" HorizontalAlignment="Stretch"
                                              VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
                                              BorderThickness="0" Background="Transparent" Margin="10,0,100,0">
                         </TextBox>

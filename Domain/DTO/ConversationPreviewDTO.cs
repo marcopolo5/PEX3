@@ -78,6 +78,7 @@ namespace Domain.DTO
             {
                 _isMessageUnread = value;
                 OnPropertyChanged(nameof(UnreadMessage));
+                OnPropertyChanged(nameof(MessageColour));
             }
         }
 
@@ -91,6 +92,35 @@ namespace Domain.DTO
             {
                 _userStatus = value;
                 OnPropertyChanged(nameof(UserStatus));
+                OnPropertyChanged(nameof(NameColour));
+            }
+        }
+
+        public string NameColour
+        {
+            get
+            {
+                if (_userStatus == UserStatus.Offline)
+                {
+                    return "#FF838383";//gray
+                }
+                if (_userStatus == UserStatus.Online)
+                {
+                    return "#00FF00";//green
+                }
+                return "#fae12c"; //yellow
+            }
+        }
+
+        public string MessageColour
+        {
+            get
+            {
+                if (_isMessageUnread)
+                {
+                    return "#FFFFFF";//white
+                }
+                return "#FF838383";//gray
             }
         }
     }

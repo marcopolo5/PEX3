@@ -25,7 +25,7 @@ namespace ChatModule
             var url = @"http://localhost:5000/chat";
 
             _connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/chat", options =>
+                .WithUrl(url, options =>
                 {
                     options.Headers.Add("userId", userId.ToString());
                     options.Headers.Add("loginToken", token);
@@ -52,7 +52,7 @@ namespace ChatModule
             _connection.On<StatusModel>("ChangeStatus", (status) =>
             {
                 var friend = ApplicationUserController.CurrentUser.Friends.Where(f => f.Id == status.FriendId).FirstOrDefault();
-                if(friend!=null)
+                if(friend != null)
                 {
                     friend.Profile.Status = status.NewStatus;
                     StatusChanged?.Invoke(status);
