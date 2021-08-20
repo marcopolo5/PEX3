@@ -2,6 +2,7 @@
 using ChatServerModule.Models;
 using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
@@ -50,6 +51,12 @@ namespace ChatServerModule.Hubs
                 .GetHttpContext()
                 .Request
                 .Headers["loginToken"];
+
+            //////////////
+            var feat = Context.Features.Get<IHttpConnectionFeature>();
+            Console.WriteLine(feat.RemoteIpAddress);
+            /////////////
+
 
             if (int.TryParse(stringId, out int id) == false)
             {
