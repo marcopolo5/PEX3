@@ -236,11 +236,11 @@ namespace UI.WPF.View
             _textChat.StatusChanged -= OnUserChangedStatus;
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            _textChat.MessageReceived -= OnMessageReceived;
-            _textChat.StatusChanged -= OnUserChangedStatus;
-            Environment.Exit(0);
-        }
+        //private void CloseButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _textChat.MessageReceived -= OnMessageReceived;
+        //    _textChat.StatusChanged -= OnUserChangedStatus;
+        //    Environment.Exit(0);
+        //}
     }
 }

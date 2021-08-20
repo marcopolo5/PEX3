@@ -176,7 +176,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border Grid.Column="1" CornerRadius="45" BorderThickness="2" BorderBrush="white" Background="#112152">
+    <!--<Border Grid.Column="1" CornerRadius="45" BorderThickness="2" BorderBrush="white" Background="#112152">-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="370" />
@@ -216,12 +216,13 @@
                     <TextBlock Text="add"  />
                 </Button.Content>
             </Button>
-
+            <!--
             <Button x:Name ="closeButton" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" Margin="20,10,10,20" Click="CloseButton_Click" Style="{DynamicResource ButtonStyle1}" >
                 <Button.Background>
                     <ImageBrush ImageSource="/Assets/close.png" Stretch="Uniform"/>
                 </Button.Background>
             </Button>
+            -->
             <ScrollViewer Grid.Row="2" Grid.RowSpan="2">
                 <!--conversation list view Style="{DynamicResource ChangeColor}"-->
                 <ListView x:Name="ConversationList" 
@@ -361,5 +362,5 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-    </Border>
+    <!--</Border>-->
 </UserControl>

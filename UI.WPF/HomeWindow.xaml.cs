@@ -70,12 +70,15 @@ namespace UI.WPF
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            _chatControl.Dispose();
             Environment.Exit(0);
         }
 
-        private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
+        private void ChatContent_Selected(object sender, RoutedEventArgs e)
         {
+            closeButtonVisibilityFlag = true;
             mainContentControl.Content = _chatControl;
+            ShowHideElements();
             //Hide();
             //new ChatWindow().ShowDialog();
             //ShowDialog();

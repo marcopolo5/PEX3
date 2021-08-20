@@ -93,7 +93,7 @@
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Padding="1"
-                                      Selected="ListViewItem_Selected_3">
+                                      Selected="ChatContent_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="MessageOutline"
                                                          Width="30"
