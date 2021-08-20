@@ -1,19 +1,74 @@
 ﻿using ChatModule;
 using Domain.ChatContracts;
 using Domain.Models;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
 
 namespace ConsoleApp.TEST
 {
+    public class ApiResult
+    {
+        public string Ip { get; set; }
+        [JsonProperty(PropertyName = "continent_name")]
+        public string ContinentName { get; set; }
+        [JsonProperty(PropertyName = "country_name")]
+        public string CountryName { get; set; }
+        [JsonProperty(PropertyName = "region_name")]
+        public string RegionName { get; set; }
+        public string City { get; set; }
+        public string Zip { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+        public override string ToString()
+        {
+            return $"Ip: {Ip} | Continent: {ContinentName} | Country: {CountryName} | Region: {RegionName} | City: {City} | Coords: {Latitude} : {Longitude}";
+        }
+
+    }
     public class Program
     {
+
         private static TextChat chat;
         public static void Main(string[] args)
         {
-            MainAsync().GetAwaiter().GetResult();
+            var result = CallApi();
+            Console.WriteLine(result.ToString());
+            //MainAsync().GetAwaiter().GetResult();
         }
-        private static async Task MainAsync()
+        private static ApiResult CallApi()
+        {
+            ApiResult result = null;
+            string URL = "http://api.ipstack.com/check";
+            string urlParameters = "?access_key=745f0ee9cb257e0329e00017545b6ea0";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(URL);
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            
+            HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (response.IsSuccessStatusCode)
+            {
+                // Parse the response body.
+                result = response.Content.ReadAsAsync<ApiResult>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
+            }
+            else
+            {
+                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+            }
+            client.Dispose();
+            return result; // only for testing
+        }
+        
+    private static async Task MainAsync()
         {
             var userId = Login();
             await StartChat(userId);
