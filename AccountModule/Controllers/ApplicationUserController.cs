@@ -21,6 +21,7 @@ namespace AccountModule.Controllers
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
         private readonly SettingsRepository _settingsRepository = new();
+        private readonly StrikesRepository _strikesRepository = new();
         private readonly AppConfiguration _appConfiguration = new();
         public static CurrentUser CurrentUser = new();
 
@@ -106,8 +107,18 @@ namespace AccountModule.Controllers
                     UserId = await _userRepository.GetAvailableId()-1, //TODO: Buggy in this version. Should read the object from DB.
                     Anonymity = true
                 };
+                Strikes strikeobj = new Strikes
+                {
+                    Id = await _strikesRepository.GetAvailableId(),
+                    UserId = await _userRepository.GetAvailableId() - 1,
+                    FirstStrike = false,
+                    SecondStrike = false,
+                    ThirdStrike = false,
+                    UnbanDate = null
+                };
                 await _profileRepository.CreateAsync(profile);
                 await _settingsRepository.CreateAsync(settings);
+                await _strikesRepository.CreateAsync(strikeobj);
                 return true;
             }
         }
