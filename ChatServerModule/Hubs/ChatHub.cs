@@ -78,6 +78,7 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public override async Task OnDisconnectedAsync(Exception exception)
         {
+            Console.Write("\nOnDisconnected: ");
             // get the userId
             var userId = ConnectedUsers.FirstOrDefault(cd => cd.Value == Context.ConnectionId).Key;
 
@@ -89,6 +90,9 @@ namespace ChatServerModule.Hubs
 
             // remove user from the connected user lists
             ConnectedUsers.Remove(userId, out string _); //discarding the out param
+
+            Console.Write($"User {userId} with connection id {Context.ConnectionId} has disconnected at {DateTime.Now}");
+
             await base.OnDisconnectedAsync(exception);
         }
 

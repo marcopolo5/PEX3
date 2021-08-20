@@ -16,10 +16,10 @@ namespace ChatServerModule.MiniRepo
         IEnumerable<int> GetFriendsIds(int userId);
 
         /// <summary>
-        /// TODO
+        /// Change user status in db
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="userStatus"></param>
+        /// <param name="userId">User's id</param>
+        /// <param name="userStatus">New status</param>
         void ChangeUserStatus(int userId, UserStatus newUserStatus);
     }
 }

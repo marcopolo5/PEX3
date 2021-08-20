@@ -24,7 +24,7 @@ namespace UI.WPF
     {
         private readonly ProfileControl _profileControl = new();
         private readonly HomeControl _homeControl = new();
-
+        private readonly ChatControl _chatControl = new();
         private readonly AddFriendControl _addFriendControl = new();
         private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
@@ -75,9 +75,10 @@ namespace UI.WPF
 
         private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
         {
-            Hide();
-            new ChatWindow().ShowDialog();
-            ShowDialog();
+            mainContentControl.Content = _chatControl;
+            //Hide();
+            //new ChatWindow().ShowDialog();
+            //ShowDialog();
         }
 
         private void ShowHideElements()
