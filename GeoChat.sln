@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{80EE3A7D-1A32-40A4-BEE0-A021DF834DE4}"
-	ProjectSection(SolutionItems) = preProject
-		AccountModule\Controllers\ApplicationUserController.cs = AccountModule\Controllers\ApplicationUserController.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{B76D4424-839C-46AB-A2B7-57D2EE6253B8}"
 EndProject

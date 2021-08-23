@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp.TEST
+namespace Domain.Models
 {
     /// <summary>
     /// A simple model that encapsulates the data returned by the external API.
@@ -17,8 +17,10 @@ namespace ConsoleApp.TEST
         [JsonProperty(PropertyName = "continent_name")]
         public string ContinentName { get; set; }
 
+
         [JsonProperty(PropertyName = "country_name")]
         public string CountryName { get; set; }
+
 
         [JsonProperty(PropertyName = "region_name")]
         public string RegionName { get; set; }
