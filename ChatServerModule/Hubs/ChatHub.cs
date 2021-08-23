@@ -2,6 +2,7 @@
 using ChatServerModule.Models;
 using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
@@ -28,6 +29,7 @@ namespace ChatServerModule.Hubs
             IConversationRepo conversationRepo,
             IUsersRepo usersRepo)
         {
+            Console.WriteLine("ChatHub init");
             _tokenValidator = tokenValidator;
             _conversationRepo = conversationRepo;
             _usersRepo = usersRepo;
@@ -39,6 +41,7 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public override async Task OnConnectedAsync()
         {
+            Console.WriteLine("Someone's trying to connect");
             string stringId = Context
                 .GetHttpContext()
                 .Request
@@ -49,6 +52,12 @@ namespace ChatServerModule.Hubs
                 .Request
                 .Headers["loginToken"];
 
+            //////////////
+            var feat = Context.Features.Get<IHttpConnectionFeature>();
+            Console.WriteLine(feat.RemoteIpAddress);
+            /////////////
+
+
             if (int.TryParse(stringId, out int id) == false)
             {
                 return;
@@ -58,7 +67,7 @@ namespace ChatServerModule.Hubs
             {
                 return;
             }
-
+            Console.WriteLine($"OnConnected: {id} | {token}");
             ConnectedUsers[id] = Context.ConnectionId;
             // update status in DB
             _usersRepo.ChangeUserStatus(id, UserStatus.Online);
@@ -76,6 +85,7 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public override async Task OnDisconnectedAsync(Exception exception)
         {
+            Console.Write("\nOnDisconnected: ");
             // get the userId
             var userId = ConnectedUsers.FirstOrDefault(cd => cd.Value == Context.ConnectionId).Key;
 
@@ -87,7 +97,10 @@ namespace ChatServerModule.Hubs
 
             // remove user from the connected user lists
             ConnectedUsers.Remove(userId, out string _); //discarding the out param
-            await OnDisconnectedAsync(exception);
+
+            Console.Write($"User {userId} with connection id {Context.ConnectionId} has disconnected at {DateTime.Now}");
+
+            await base.OnDisconnectedAsync(exception);
         }
 
 
@@ -107,7 +120,7 @@ namespace ChatServerModule.Hubs
                 {
                     continue; // if not jump to the next user
                 }
-
+                Console.WriteLine($"From {message.SenderId} | To {message.ConversationId} | {message.TextMessage} | Date: {message.CreatedAt}");
                 var connectionId = ConnectedUsers[userId];
                 await Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             }
@@ -148,7 +161,7 @@ namespace ChatServerModule.Hubs
                 FriendId = userId,
                 NewStatus = newStatus
             };
-
+            _usersRepo.ChangeUserStatus(userId, newStatus);
             // get all online friends
             IReadOnlyList<string> allFriendsConnection = GetFriendsConnectionIds(userId);
 

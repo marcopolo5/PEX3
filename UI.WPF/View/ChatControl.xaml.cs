@@ -16,20 +16,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UI.WPF
+namespace UI.WPF.View
 {
     /// <summary>
-    /// Interaction logic for ChatWindow.xaml
+    /// Interaction logic for ChatControl.xaml
     /// </summary>
-    public partial class ChatWindow : Window
+    public partial class ChatControl : UserControl, IDisposable
     {
         private readonly TextChat _textChat = new();
         public ObservableCollection<ConversationPreviewDTO> ConversationPreviews { get; private set; } = new();
         public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
-
-        public ChatWindow()
+        public ChatControl()
         {
             // get user's conversations
             var conversations = ApplicationUserController.CurrentUser.Conversations;
@@ -86,9 +86,9 @@ namespace UI.WPF
             }
 
             var messageDto = new MessageDTO
-            { 
+            {
                 IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
-                TextMessage = message.TextMessage 
+                TextMessage = message.TextMessage
             };
 
             if (ApplicationUserController.CurrentUser.CurrentConversationId != 0)
@@ -159,41 +159,6 @@ namespace UI.WPF
 
             return conversationPreview;
         }
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void ListViewItem_Selected(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            new MainWindow().ShowDialog();
-            ShowDialog();
-        }
-
-        private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            new ProfileWindow().ShowDialog();
-            ShowDialog();
-        }
-
-        private void ListViewItem_Selected_2(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            new AddFriendsWindow().ShowDialog();
-            ShowDialog();
-        }
-        private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            new ChatWindow().ShowDialog();
-            ShowDialog();
-        }
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
 
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
         {
@@ -212,18 +177,10 @@ namespace UI.WPF
         }
 
 
-        protected override void OnClosed(EventArgs e)
-        {
-            _textChat.MessageReceived -= OnMessageReceived;
-            _textChat.StatusChanged -= OnUserChangedStatus;
-            base.OnClosed(e);
-        }
-
-
         // use this to change between convs
         private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(SendMessageBtn.IsEnabled == false)
+            if (SendMessageBtn.IsEnabled == false)
             {
                 SendMessageBtn.IsEnabled = true;
             }
@@ -250,10 +207,10 @@ namespace UI.WPF
             {
                 return; ///// throw some err instead of this
             }
-            foreach(var message in conversation.Messages.OrderBy(m => m.CreatedAt))
+            foreach (var message in conversation.Messages.OrderBy(m => m.CreatedAt))
             {
-                var messageDto = new MessageDTO 
-                { 
+                var messageDto = new MessageDTO
+                {
                     IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                     TextMessage = message.TextMessage
                 };
@@ -272,5 +229,18 @@ namespace UI.WPF
             Messages.Add(new MessageDTO { IsSent = false, TextMessage = "dcfgvhjkl;'fwafwa??" });
             Messages.Add(new MessageDTO { IsSent = true, TextMessage = "waresthrdtjfykghulji;ko" });
         }
+
+        public void Dispose()
+        {
+            _textChat.MessageReceived -= OnMessageReceived;
+            _textChat.StatusChanged -= OnUserChangedStatus;
+        }
+
+        //private void CloseButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _textChat.MessageReceived -= OnMessageReceived;
+        //    _textChat.StatusChanged -= OnUserChangedStatus;
+        //    Environment.Exit(0);
+        //}
     }
 }

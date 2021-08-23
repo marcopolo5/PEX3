@@ -55,6 +55,7 @@ namespace ChatServerModule
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHub<ProximityChatHub>("/proximityChat");
             });
         }
     }

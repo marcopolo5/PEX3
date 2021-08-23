@@ -1,5 +1,6 @@
 ﻿using ChatServerModule.Models;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,6 +11,11 @@ namespace ChatServerModule.MiniRepo
 {
     public class UsersRepo : GenericRepo, IUsersRepo
     {
+        public UsersRepo(IConfiguration configuration)
+            :base(configuration)
+        {
+            //empty ctor
+        }
         public void ChangeUserStatus(int userId, UserStatus newUserStatus)
         {
 
