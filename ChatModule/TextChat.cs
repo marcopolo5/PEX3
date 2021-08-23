@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ChatModule
 {
-    public class TextChat : ITextChat
+    public class TextChat : ITextChat, IAsyncDisposable
     {
         private HubConnection _connection;
 
@@ -74,6 +74,12 @@ namespace ChatModule
             await _messageRepository.CreateAsync(message);
 
             await _connection.SendAsync("SendMessage", message);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await _connection.StopAsync();
+            await _connection.DisposeAsync();
         }
     }
 }

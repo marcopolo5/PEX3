@@ -41,6 +41,7 @@ namespace UI.WPF
                 ConversationPreviews.Add(conversationPreview);
             }
 
+
             _textChat.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
                 .ContinueWith(task =>
                 {

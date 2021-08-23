@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Helpers;
+using Domain.HelpersContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AccountModule.Controllers;
+using Domain.RepositoryContracts;
+using Domain;
 
 namespace UI.WPF
 {
@@ -20,9 +25,29 @@ namespace UI.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IAppConfiguration _appConfig = new AppConfiguration();
+        private readonly UserRepository _userRepo;
         public MainWindow()
         {
             InitializeComponent();
+            _userRepo = new UserRepository();
+            var token = _appConfig.GetToken();
+            int id = _appConfig.GetId();
+            //int id = 2;
+            if (string.IsNullOrWhiteSpace(token) == false && token != "0" && id != 0)
+            //if(true)
+            {
+                Hide();
+                //_userRepo.ReadCurrentUserAsync(id).ContinueWith(task =>
+                //{
+                //    ApplicationUserController.CurrentUser = task.Result;
+
+                //});
+                ApplicationUserController.CurrentUser =  Task<CurrentUser>.Run(() => _userRepo.ReadCurrentUserAsync(id)).Result;
+                var homeWindow = new HomeWindow();
+                homeWindow.ShowDialog();
+                ShowDialog();
+            }
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)

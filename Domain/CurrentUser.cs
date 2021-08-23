@@ -1,4 +1,5 @@
-﻿using Domain.HelpersContracts;
+﻿using Domain.Helpers;
+using Domain.HelpersContracts;
 using Domain.Models;
 using Domain.RepositoryContracts;
 using System;
@@ -24,7 +25,7 @@ namespace Domain
 
         public int CurrentConversationId { get; set; }
 
-        private readonly IAppConfiguration _appConfiguration;
+        private readonly IAppConfiguration _appConfiguration = new AppConfiguration();
 
         public CurrentUser() { }
 
@@ -54,7 +55,7 @@ namespace Domain
         /// <returns>True if the data was cleared successfuly, false otherwise</returns>
         public bool ClearData()
         {
-            if (_appConfiguration.ResetToken() == false)
+            if (_appConfiguration.ResetToken() == false || _appConfiguration.ResetId() == false)
             {
                 return false;
             }

@@ -53,8 +53,9 @@ namespace UI.WPF
             bool validData = (_loginErrorMessage == "");
             if (validData)
             {
+                bool rememberMe = rememberMeCheckBox.IsChecked?? false;
                 if (await _applicationUserController.Login(
-                    loginEmail.Text, loginPassword.Password, false)) //remeber me from UI
+                    loginEmail.Text, loginPassword.Password, rememberMe)) //remeber me from UI
                 {
 
                     //loginErrorMessage.Foreground = Brushes.Green;

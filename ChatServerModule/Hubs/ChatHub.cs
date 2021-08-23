@@ -67,7 +67,7 @@ namespace ChatServerModule.Hubs
             {
                 return;
             }
-            Console.WriteLine($"OnConnected: {id} | {token}");
+            Console.WriteLine($"OnConnected: {id} | {token}\n");
             ConnectedUsers[id] = Context.ConnectionId;
             // update status in DB
             _usersRepo.ChangeUserStatus(id, UserStatus.Online);

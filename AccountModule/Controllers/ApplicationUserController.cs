@@ -47,6 +47,7 @@ namespace AccountModule.Controllers
             // save token to file
             if (rememberMe)
             {
+                _appConfiguration.SaveId(id);
                 _appConfiguration.SaveToken(token);
             }
 
@@ -60,14 +61,16 @@ namespace AccountModule.Controllers
             CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
 
             CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
-
+            
             return true;
         }
 
         public async Task<bool> Logout()
         {
-            CurrentUser.Token = "0";
-            await _userRepository.UpdateAsync(CurrentUser);
+            User user = CurrentUser;
+            user.Token = "0";
+            user.LastUpdate = DateTime.Now;
+            await _userRepository.UpdateAsync(user);
 
             // deleting token from disk and memory:
             if (CurrentUser.ClearData() == false)
