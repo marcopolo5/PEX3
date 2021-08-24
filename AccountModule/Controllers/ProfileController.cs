@@ -14,10 +14,15 @@ namespace AccountModule.Controllers
         private readonly ProfileRepository _profileRepository = new();
         private readonly SettingsRepository _settingsRepository = new();
         private readonly AppConfiguration _appConfiguration = new();
-        public static CurrentUser CurrentUser = new();
-        public async Task<bool> UpdateProfile(string displayName, string about, string photoPath)
+       
+        public async Task UpdateProfile(string displayName, string about, string photoPath)
         {
-            return true; // TO BE implemented soon
+            var userId = ApplicationUserController.CurrentUser.Id;
+            var user = await _profileRepository.ReadAsyncProfile(userId);
+            user.DisplayName = displayName;
+            //user.About = about;
+            user.Image = photoPath;
+            await _profileRepository.UpdateAsync(user);
         }
     }
 }

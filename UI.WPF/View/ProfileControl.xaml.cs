@@ -1,4 +1,5 @@
 ﻿using AccountModule.Controllers;
+using Domain;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,13 +26,16 @@ namespace UI.WPF.View
         /// ADD about you section in DB for profile
         /// </summary>
         private readonly ProfileController _profileController = new();
+        
         OpenFileDialog openFileDialog = new OpenFileDialog();
         public ProfileControl()
         {
             InitializeComponent();
-            string displayName = ApplicationUserController.CurrentUser.LastName; // + " " + ApplicationUserController.CurrentUser.LastName;
-            this.displayNameText.Text = displayName;
+        
+            this.displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName ;
             this.aboutText.Text = "Say something about you"; // this.aboutText.Text  = ApplicationUserController.CurrentUser.About; // add about column
+            //this.profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(ApplicationUserController.CurrentUser.Profile.Image)));
+            //this.ratingValueTextBLock.Text = ApplicationUserController.CurrentUser.Profile.Reputation;
         }
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -50,19 +54,9 @@ namespace UI.WPF.View
 
         }
 
-        private async void updateButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, openFileDialog.FileName))
-            {
-                CustomMessageBox messageBox = new CustomMessageBox();
-                messageBox.Show("Profile updated Succesfuly!");
-            }
-            else
-            {
-                CustomMessageBox messageBox = new CustomMessageBox();
-                messageBox.Show("There was a problem");
-            }
-            
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {          
+            await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, openFileDialog.FileName);
         }
     }
 }
