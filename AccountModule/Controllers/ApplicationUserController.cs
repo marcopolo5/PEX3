@@ -60,7 +60,7 @@ namespace AccountModule.Controllers
             /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
             CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
 
-            CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
             
             return true;
         }
@@ -199,7 +199,8 @@ namespace AccountModule.Controllers
         public async Task UpdateCurrentUserInformation()
         {
             int id = _appConfiguration.GetId();
-            CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
+            string token = _appConfiguration.GetToken();
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
         }
 
         /// <summary>
