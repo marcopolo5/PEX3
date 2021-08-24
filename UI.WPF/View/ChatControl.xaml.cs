@@ -195,7 +195,7 @@ namespace UI.WPF.View
             Messages.Clear();
             ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);
-            //FakePopulateMessages(item.ConversationId);
+            // FakePopulateMessages(item.ConversationId);
             ChatScrollViewer.UpdateLayout();
             ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
         }

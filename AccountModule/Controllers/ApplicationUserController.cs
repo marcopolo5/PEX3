@@ -170,6 +170,37 @@ namespace AccountModule.Controllers
             return "";
         }
 
+        /// <summary>
+        /// Check if remember me was active and checks if the token saved in the file matches the one in the DB
+        /// </summary>
+        /// <returns>Returns true if the token saved in the file matches the one in the DB, false otherwise</returns>
+        public async Task<bool> CheckIfUserIsLoggedIn()
+        {
+            var token = _appConfiguration.GetToken();
+            int id = _appConfiguration.GetId();
+            if (string.IsNullOrWhiteSpace(token) == true || token == "0" || id == 0)
+            {
+                return false;
+            }
+            var user = await _userRepository.ReadAsync(id);
+            if (user.Token != token)
+            {
+                _appConfiguration.ResetToken();
+                _appConfiguration.ResetId();
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Update the current user's information
+        /// </summary>
+        /// <returns>A task</returns>
+        public async Task UpdateCurrentUserInformation()
+        {
+            int id = _appConfiguration.GetId();
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
+        }
 
         /// <summary>
         /// Registers (if necessary) and logs in an user

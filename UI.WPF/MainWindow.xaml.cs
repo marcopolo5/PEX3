@@ -25,25 +25,16 @@ namespace UI.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IAppConfiguration _appConfig = new AppConfiguration();
-        private readonly UserRepository _userRepo;
+        private readonly ApplicationUserController _userController = new();
         public MainWindow()
         {
             InitializeComponent();
-            _userRepo = new UserRepository();
-            var token = _appConfig.GetToken();
-            int id = _appConfig.GetId();
-            //int id = 2;
-            if (string.IsNullOrWhiteSpace(token) == false && token != "0" && id != 0)
-            //if(true)
+
+            var isUserLoggedIn = Task<bool>.Run(() => _userController.CheckIfUserIsLoggedIn()).Result;
+            if (isUserLoggedIn)
             {
                 Hide();
-                //_userRepo.ReadCurrentUserAsync(id).ContinueWith(task =>
-                //{
-                //    ApplicationUserController.CurrentUser = task.Result;
-
-                //});
-                ApplicationUserController.CurrentUser =  Task<CurrentUser>.Run(() => _userRepo.ReadCurrentUserAsync(id)).Result;
+                Task.Run(() => _userController.UpdateCurrentUserInformation()).Wait();
                 var homeWindow = new HomeWindow();
                 homeWindow.ShowDialog();
                 ShowDialog();
