@@ -24,7 +24,7 @@ namespace AccountModule.Controllers
         private readonly AppConfiguration _appConfiguration = new();
         public static CurrentUser CurrentUser = new();
 
-
+        
         public ApplicationUserController()
         {
         }
@@ -166,7 +166,6 @@ namespace AccountModule.Controllers
             }
             return "";
         }
-
 
         /// <summary>
         /// Registers (if necessary) and logs in an user
