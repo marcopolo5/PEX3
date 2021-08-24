@@ -88,11 +88,11 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="displayname">Name to search for</param>
         /// <returns>All users with 'displayname' as substring</returns>
-        public async Task<IEnumerable<User>> ReadAllAsync(string displayname)
+        public async Task<IEnumerable<User>> ReadAllAsync(string displayname_or_email)
         {
             string sql = $@"select Users.*, Profiles.*
-                        from Users inner join Profiles
-                        on Users.Id=Profiles.UserId and Profiles.DisplayName like '%{displayname}%'";
+                             from Users inner join Profiles on Users.Id=Profiles.UserId 
+                              and (Profiles.DisplayName like '%@Email%' or Users.Email like '%rares%')";
             using (var connection = CreateConnection())
             {
                 var users = await connection.QueryAsync<User, Profile, User>(sql,
@@ -100,6 +100,7 @@ namespace Domain.RepositoryContracts
                 return users;
             }
         }
+
 
         /// <summary>
         /// Async method. Reads a single user from the database with 'id'
@@ -186,7 +187,9 @@ namespace Domain.RepositoryContracts
                 string sqlFriends = @"select FriendId from Friends where UserId=@Id";
                 string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
                 string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
-                string sqlConversations = @"select Conversations.* from Conversations inner join Group_Members on Group_Members.ConversationId = Conversations.Id where Group_Members.userid=@Id;";
+                string sqlConversations = @"select Conversations.* from Conversations 
+                                            inner join Group_Members on Group_Members.ConversationId = Conversations.Id
+                                            where Group_Members.userid=@Id";
 
                 var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
                     (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
@@ -221,7 +224,9 @@ namespace Domain.RepositoryContracts
                 {
                     //Map messages
                     var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
-                                ($"select Messages.* from Messages inner join Conversations on Messages.ConversationId = Conversations.id WHERE Conversations.id = @Id ORDER BY createdat ASC", new { Id = conversation.Id} );
+                                ($"select Messages.* from Messages inner join Conversations " +
+                                $"on Messages.ConversationId = Conversations.id" +
+                                $" WHERE Conversations.id = @Id ORDER BY createdat ASC", new { Id = conversation.Id });
                     foreach (var message in messages)
                     {
                         conversation.Messages.Add(new Message
@@ -234,7 +239,8 @@ namespace Domain.RepositoryContracts
                     }
 
                     //Map participants
-                    var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId={conversation.Id}");
+                    var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members" +
+                                $" ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id", new { Id = conversation.Id });
                     await MapUserProfilesAsync(participants);
                     conversation.Participants = (List<User>)participants;
 
@@ -250,7 +256,7 @@ namespace Domain.RepositoryContracts
         /// Async user-profile mapper
         /// </summary>
         /// <param name="users">IEnumerable of users to be mapped</param>
-        public async Task MapUserProfilesAsync(IEnumerable<User> users)
+        private async Task MapUserProfilesAsync(IEnumerable<User> users)
         {
             var profiles = await ProfileRepository.ReadAllAsync();
             foreach (User user in users)
