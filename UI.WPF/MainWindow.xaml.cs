@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Helpers;
+using Domain.HelpersContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AccountModule.Controllers;
+using Domain.RepositoryContracts;
+using Domain;
 
 namespace UI.WPF
 {
@@ -20,9 +25,20 @@ namespace UI.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ApplicationUserController _userController = new();
         public MainWindow()
         {
             InitializeComponent();
+
+            var isUserLoggedIn = Task<bool>.Run(() => _userController.CheckIfUserIsLoggedIn()).Result;
+            if (isUserLoggedIn)
+            {
+                Hide();
+                Task.Run(() => _userController.UpdateCurrentUserInformation()).Wait();
+                var homeWindow = new HomeWindow();
+                homeWindow.ShowDialog();
+                ShowDialog();
+            }
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)

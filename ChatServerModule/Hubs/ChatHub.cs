@@ -52,12 +52,6 @@ namespace ChatServerModule.Hubs
                 .Request
                 .Headers["loginToken"];
 
-            //////////////
-            var feat = Context.Features.Get<IHttpConnectionFeature>();
-            Console.WriteLine(feat.RemoteIpAddress);
-            /////////////
-
-
             if (int.TryParse(stringId, out int id) == false)
             {
                 return;
@@ -67,7 +61,7 @@ namespace ChatServerModule.Hubs
             {
                 return;
             }
-            Console.WriteLine($"OnConnected: {id} | {token}");
+            Console.WriteLine($"OnConnected: {id} | {token}\n");
             ConnectedUsers[id] = Context.ConnectionId;
             // update status in DB
             _usersRepo.ChangeUserStatus(id, UserStatus.Online);
@@ -111,7 +105,7 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public async Task SendMessage(Message message)
         {
-            IEnumerable<int> userIds = _conversationRepo.GetUserIds(message.ConversationId);
+            IEnumerable<int> userIds = _conversationRepo.GetConversationsParticipants(message.ConversationId);
 
             foreach(var userId in userIds)
             {
@@ -124,6 +118,10 @@ namespace ChatServerModule.Hubs
                 var connectionId = ConnectedUsers[userId];
                 await Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             }
+        }
+
+        public async Task CreateProximityConversation()
+        {
         }
 
 

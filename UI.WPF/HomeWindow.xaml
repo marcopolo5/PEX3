@@ -130,7 +130,7 @@
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Padding="1"
-                                      Selected="ListViewItem_Selected">
+                                      Selected="SignOut_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Logout"
                                                          Width="30"

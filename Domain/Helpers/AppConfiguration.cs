@@ -21,6 +21,7 @@ namespace Domain.Helpers
         {
             public string ConnectionString;
             public string EncryptedToken;
+            public int UserId;
         }
         public AppConfiguration()
         {
@@ -131,6 +132,34 @@ namespace Domain.Helpers
             return szOutStringBuild.ToString();
         }
 
+        public bool SaveId(int id)
+        {
+            var appSettings = GetAppSettings();
+            if (appSettings.UserId != 0)
+            {
+                return false;
+            }
+            appSettings.UserId = id;
+            SetAppSettings(appSettings);
+            return true;
+        }
 
+        public bool ResetId()
+        {
+            var appSettings = GetAppSettings();
+            if (appSettings.UserId == 0)
+            {
+                return false;
+            }
+            appSettings.UserId = 0;
+            SetAppSettings(appSettings);
+            return true;
+        }
+
+        public int GetId()
+        {
+            var appSettings = GetAppSettings();
+            return appSettings.UserId;
+        }
     }
 }

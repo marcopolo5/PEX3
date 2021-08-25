@@ -179,11 +179,11 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="id">User's id</param>
         /// <returns>CurrentUser entity</returns>
-        public async Task<CurrentUser> ReadCurrentUserAsync(int id)
+        public async Task<CurrentUser> ReadCurrentUserAsync(int id, string token)
         {
             using (var connection = CreateConnection())
             {
-                string sqlViewUser = @"exec spViewUser @Id";
+                string sqlViewUser = @"exec spViewUser @Id, @Token";
                 string sqlFriends = @"select FriendId from Friends where UserId=@Id";
                 string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
                 string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
@@ -192,8 +192,13 @@ namespace Domain.RepositoryContracts
                                             where Group_Members.userid=@Id";
 
                 var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
-                    (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id });
-                var currentUser = currentUserArray.First();
+                    (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id, Token = token });
+                var currentUser = currentUserArray.FirstOrDefault();
+
+                if (currentUser == null)
+                {
+                    throw new ArgumentException("Token isn't valid");
+                }
 
                 var friendIds = await connection.QueryAsync<int>(sqlFriends, new { Id = id });
                 foreach (var friendId in friendIds)

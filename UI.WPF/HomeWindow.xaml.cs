@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountModule.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace UI.WPF
         private readonly HomeControl _homeControl = new();
         private readonly ChatControl _chatControl = new();
         private readonly AddFriendControl _addFriendControl = new();
+        private readonly ApplicationUserController _userController = new();
         private readonly SettingsControl _settingsControl = new();
         private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
@@ -41,11 +43,13 @@ namespace UI.WPF
             DragMove();
         }
 
-        private void ListViewItem_Selected(object sender, RoutedEventArgs e)
+        private async void SignOut_Selected(object sender, RoutedEventArgs e)
         {
             Hide();
-            new MainWindow().ShowDialog();
-            ShowDialog();
+            await _userController.Logout();
+            await _chatControl.DisposeAsync();
+            //new MainWindow().ShowDialog();
+            //ShowDialog();
         }
 
         private void HomeContent_Selected(object sender, RoutedEventArgs e)
@@ -69,9 +73,9 @@ namespace UI.WPF
             ShowHideElements();
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private async void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            _chatControl.Dispose();
+            await _chatControl.DisposeAsync();
             Environment.Exit(0);
         }
 

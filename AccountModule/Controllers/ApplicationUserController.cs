@@ -47,6 +47,7 @@ namespace AccountModule.Controllers
             // save token to file
             if (rememberMe)
             {
+                _appConfiguration.SaveId(id);
                 _appConfiguration.SaveToken(token);
             }
 
@@ -59,15 +60,17 @@ namespace AccountModule.Controllers
             /*var viewUser = await _userRepository.ReadCurrentUserAsync(user.Id);
             CurrentUser.InitializeFields(viewUser.Profile, viewUser.Settings);*/
 
-            CurrentUser = await _userRepository.ReadCurrentUserAsync(id);
-
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
+            
             return true;
         }
 
         public async Task<bool> Logout()
         {
-            CurrentUser.Token = "0";
-            await _userRepository.UpdateAsync(CurrentUser);
+            User user = CurrentUser;
+            user.Token = "0";
+            user.LastUpdate = DateTime.Now;
+            await _userRepository.UpdateAsync(user);
 
             // deleting token from disk and memory:
             if (CurrentUser.ClearData() == false)
@@ -175,6 +178,39 @@ namespace AccountModule.Controllers
                 return "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character";
             }
             return "";
+        }
+
+        /// <summary>
+        /// Check if remember me was active and checks if the token saved in the file matches the one in the DB
+        /// </summary>
+        /// <returns>Returns true if the token saved in the file matches the one in the DB, false otherwise</returns>
+        public async Task<bool> CheckIfUserIsLoggedIn()
+        {
+            var token = _appConfiguration.GetToken();
+            int id = _appConfiguration.GetId();
+            if (string.IsNullOrWhiteSpace(token) == true || token == "0" || id == 0)
+            {
+                return false;
+            }
+            var user = await _userRepository.ReadAsync(id);
+            if (user.Token != token)
+            {
+                _appConfiguration.ResetToken();
+                _appConfiguration.ResetId();
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Update the current user's information
+        /// </summary>
+        /// <returns>A task</returns>
+        public async Task UpdateCurrentUserInformation()
+        {
+            int id = _appConfiguration.GetId();
+            string token = _appConfiguration.GetToken();
+            CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
         }
 
         /// <summary>

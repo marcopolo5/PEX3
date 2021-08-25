@@ -24,7 +24,7 @@ namespace UI.WPF.View
     /// <summary>
     /// Interaction logic for ChatControl.xaml
     /// </summary>
-    public partial class ChatControl : UserControl, IDisposable
+    public partial class ChatControl : UserControl, IAsyncDisposable
     {
         private readonly TextChat _textChat = new();
         public ObservableCollection<ConversationPreviewDTO> ConversationPreviews { get; private set; } = new();
@@ -195,7 +195,7 @@ namespace UI.WPF.View
             Messages.Clear();
             ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);
-            //FakePopulateMessages(item.ConversationId);
+            // FakePopulateMessages(item.ConversationId);
             ChatScrollViewer.UpdateLayout();
             ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
         }
@@ -230,10 +230,11 @@ namespace UI.WPF.View
             Messages.Add(new MessageDTO { IsSent = true, TextMessage = "waresthrdtjfykghulji;ko" });
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
             _textChat.MessageReceived -= OnMessageReceived;
             _textChat.StatusChanged -= OnUserChangedStatus;
+            await _textChat.DisposeAsync();
         }
 
         //private void CloseButton_Click(object sender, RoutedEventArgs e)
