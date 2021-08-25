@@ -1,4 +1,5 @@
 ﻿using AccountModule.Controllers;
+using ChatModule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace UI.WPF
     /// </summary>
     public partial class HomeWindow : Window
     {
+        private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         private readonly ProfileControl _profileControl = new();
         private readonly HomeControl _homeControl = new();
         private readonly ChatControl _chatControl = new();
@@ -35,6 +37,14 @@ namespace UI.WPF
         public HomeWindow()
         {
             InitializeComponent();
+            _signalRClient.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
+                .ContinueWith(task =>
+                {
+                    if (task.Exception != null)
+                    {
+                        MessageBox.Show(task.Exception.ToString());
+                    }
+                });
             mainContentControl.Content = _homeControl;
         }
 
@@ -48,6 +58,7 @@ namespace UI.WPF
             Hide();
             await _userController.Logout();
             await _chatControl.DisposeAsync();
+            await _signalRClient.DisposeAsync();
             //new MainWindow().ShowDialog();
             //ShowDialog();
         }
@@ -76,6 +87,7 @@ namespace UI.WPF
         private async void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             await _chatControl.DisposeAsync();
+            await _signalRClient.DisposeAsync();
             Environment.Exit(0);
         }
 

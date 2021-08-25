@@ -26,7 +26,7 @@ namespace UI.WPF.View
     /// </summary>
     public partial class ChatControl : UserControl, IAsyncDisposable
     {
-        private readonly TextChat _textChat = new();
+        private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         public ObservableCollection<ConversationPreviewDTO> ConversationPreviews { get; private set; } = new();
         public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
         public ChatControl()
@@ -41,18 +41,19 @@ namespace UI.WPF.View
                 ConversationPreviews.Add(conversationPreview);
             }
 
-            _textChat.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
-                .ContinueWith(task =>
-                {
-                    if (task.Exception != null)
-                    {
-                        MessageBox.Show(task.Exception.ToString());
-                    }
-                });
+            // initialize signalR client
+            //_signalRClient.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
+            //    .ContinueWith(task =>
+            //    {
+            //        if (task.Exception != null)
+            //        {
+            //            MessageBox.Show(task.Exception.ToString());
+            //        }
+            //    });
 
             // wire up events:
-            _textChat.MessageReceived += OnMessageReceived;
-            _textChat.StatusChanged += OnUserChangedStatus;
+            _signalRClient.MessageReceived += OnMessageReceived;
+            _signalRClient.StatusChanged += OnUserChangedStatus;
 
             // initialize the window
             InitializeComponent();
@@ -169,7 +170,7 @@ namespace UI.WPF.View
             {
                 return;
             }
-            await _textChat.SendMessageAsync(currentConversationId, text);
+            await _signalRClient.SendMessageAsync(currentConversationId, text);
         }
 
         private void addConversation_Click(object sender, RoutedEventArgs e)
@@ -230,11 +231,14 @@ namespace UI.WPF.View
             Messages.Add(new MessageDTO { IsSent = true, TextMessage = "waresthrdtjfykghulji;ko" });
         }
 
+        /// <summary>
+        /// TODO: CHANGE TO NORMAL DISPOSE PATTERN
+        /// </summary>
+        /// <returns></returns>
         public async ValueTask DisposeAsync()
         {
-            _textChat.MessageReceived -= OnMessageReceived;
-            _textChat.StatusChanged -= OnUserChangedStatus;
-            await _textChat.DisposeAsync();
+            _signalRClient.MessageReceived -= OnMessageReceived;
+            _signalRClient.StatusChanged -= OnUserChangedStatus;
         }
 
         //private void CloseButton_Click(object sender, RoutedEventArgs e)

@@ -14,7 +14,7 @@ namespace ConsoleApp.TEST
     public class Program
     {
 
-        private static TextChat chat;
+        private static SignalRClient chat;
         public static void Main(string[] args)
         {
             var result = CallApi();
@@ -97,7 +97,7 @@ namespace ConsoleApp.TEST
 
         static async Task StartChat(int userId)
         {
-            chat = new TextChat();
+            chat = new SignalRClient();
             await chat.InitializeConnectionAsync(userId, (new Guid()).ToString());
             chat.MessageReceived += MessageReceived;
             chat.StatusChanged += StatusChanged;

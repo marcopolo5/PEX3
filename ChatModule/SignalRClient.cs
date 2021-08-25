@@ -1,5 +1,4 @@
-﻿using Domain.ChatContracts;
-using Domain.Models;
+﻿using Domain.Models;
 using System;
 using System.Threading.Tasks;
 using System.Net;
@@ -10,8 +9,10 @@ using System.Linq;
 
 namespace ChatModule
 {
-    public class TextChat : ITextChat, IAsyncDisposable
+    public class SignalRClient : IAsyncDisposable
     {
+        private static SignalRClient _signalRClient;
+
         private HubConnection _connection;
 
         private readonly MessageRepository _messageRepository = new();
@@ -19,6 +20,21 @@ namespace ChatModule
         public event Action<Message> MessageReceived;
 
         public event Action<StatusModel> StatusChanged;
+
+        public static SignalRClient GetInstance()
+        {
+            if (_signalRClient == null)
+            {
+                _signalRClient = new SignalRClient();
+                return _signalRClient;
+            }
+            return _signalRClient;
+        }
+
+        private SignalRClient()
+        {
+           // SINGLETON 
+        }
 
         public async Task InitializeConnectionAsync(int userId, string token)
         {
@@ -80,6 +96,7 @@ namespace ChatModule
         {
             await _connection.StopAsync();
             await _connection.DisposeAsync();
+            _signalRClient = null;
         }
     }
 }

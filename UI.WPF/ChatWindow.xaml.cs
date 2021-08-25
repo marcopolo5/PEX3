@@ -25,7 +25,7 @@ namespace UI.WPF
     /// </summary>
     public partial class ChatWindow : Window
     {
-        private readonly TextChat _textChat = new();
+        private readonly SignalRClient _textChat = SignalRClient.GetInstance();
         public ObservableCollection<ConversationPreviewDTO> ConversationPreviews { get; private set; } = new();
         public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
 
