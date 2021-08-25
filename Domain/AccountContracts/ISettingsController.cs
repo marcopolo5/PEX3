@@ -8,10 +8,10 @@ namespace Domain.AccountContracts
 {
     public interface ISettingsController
     {
-        Task<bool> SetProximityRadius(int proximityRadius);
+        void SetProximityRadius(int proximityRadius);
 
-        Task<bool> SetAnonimity(bool anonimity);
+        void SetAnonimity(bool anonimity);
 
-        Task<bool> ChangePassword(string newPassword);
+        Task ChangePassword(string newPassword);
     }
 }

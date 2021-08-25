@@ -1,4 +1,5 @@
 ﻿using Domain.AccountContracts;
+using Domain.Models;
 using Domain.RepositoryContracts;
 using System;
 using System.Collections.Generic;
@@ -8,27 +9,59 @@ using System.Threading.Tasks;
 
 namespace AccountModule.Controllers
 {
-    class SettingsController: ISettingsController
+    public class SettingsController: ISettingsController
     {
         private readonly SettingsRepository _settingsRepository = new();
+        private readonly ApplicationUserController _userController = new();
 
         public SettingsController()
         {
         }
 
-        public Task<bool> ChangePassword(string newPassword)
+        public async Task<string> SaveChanges(string password, string newPassword, string newRetypedPassword)
         {
-            throw new NotImplementedException();
+            if(await _settingsRepository.CheckPassword(ApplicationUserController.CurrentUser.Email, password)==1)
+            {
+                string validationPasswordMessage = _userController.CheckPasswordConstraints(newPassword, newRetypedPassword);
+                if (validationPasswordMessage.Equals(""))
+                {
+                    await ChangePassword(newPassword);
+                }
+                return validationPasswordMessage;                
+            }
+            else if (await _settingsRepository.CheckPassword(ApplicationUserController.CurrentUser.Email, password) == 2)
+                return "google";
+            else
+                return "wrong";
         }
 
-        public Task<bool> SetAnonimity(bool anonimity)
+        public async Task ChangePassword(string newPassword)
         {
-            throw new NotImplementedException();
+            await _settingsRepository.ChangePassword(ApplicationUserController.CurrentUser.Id, newPassword);
         }
 
-        public Task<bool> SetProximityRadius(int proximityRadius)
+        public async void SetAnonimity(bool anonimity)
         {
-            throw new NotImplementedException();
+            Settings settings = new Settings
+            {
+                Id = ApplicationUserController.CurrentUser.Settings.Id,
+                UserId = ApplicationUserController.CurrentUser.Id,
+                Anonymity = anonimity,
+                ProximityRadius = ApplicationUserController.CurrentUser.Settings.ProximityRadius
+            };
+            await _settingsRepository.UpdateAsync(settings);
+        }
+
+        public async void SetProximityRadius(int proximityRadius)
+        {
+            Settings settings = new Settings
+            {
+                Id = ApplicationUserController.CurrentUser.Settings.Id,
+                UserId = ApplicationUserController.CurrentUser.Id,
+                Anonymity = ApplicationUserController.CurrentUser.Settings.Anonymity,
+                ProximityRadius = proximityRadius
+            };
+            await _settingsRepository.UpdateAsync(settings);
         }
     }
 }

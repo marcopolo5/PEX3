@@ -24,8 +24,19 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 string query = @"exec spUpdatePassword @userId, @newPassword";
-                await connection.QueryAsync(query);
+                await connection.QueryAsync(query, new { userId, newPassword });
             }
         }
+
+        public async Task<int> CheckPassword(string email, string password)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = @"exec spCheckPassword @email, @password";
+                return await connection.QueryFirstOrDefaultAsync<int>(query, new { email, password });
+            }
+        }
+
+
     }
 }

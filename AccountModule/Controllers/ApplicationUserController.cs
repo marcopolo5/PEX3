@@ -145,21 +145,9 @@ namespace AccountModule.Controllers
             return "";
         }
 
-        public string CheckRegisterConstraints(string firstName, string lastName, string email, string password, string retypedPassword)
+        public string CheckPasswordConstraints(string password, string retypedPassword)
         {
-            if (firstName.Length == 0 || lastName.Length == 0)
-            {
-                return "Enter a valid Name";
-            }
-            else if (
-                    !Regex.IsMatch(email,
-                                    @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$")
-                    ||
-                        email.Length == 0)
-            {
-                return "Enter a valid e-mail";
-            }
-            else if (password.Length == 0 || retypedPassword.Length == 0)
+            if (password.Length == 0 || retypedPassword.Length == 0)
             {
                 return "The password cannot be empty";
             }
@@ -175,6 +163,23 @@ namespace AccountModule.Controllers
                 return "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character";
             }
             return "";
+        }
+
+        public string CheckRegisterConstraints(string firstName, string lastName, string email, string password, string retypedPassword)
+        {
+            if (firstName.Length == 0 || lastName.Length == 0)
+            {
+                return "Enter a valid Name";
+            }
+            else if (
+                    !Regex.IsMatch(email,
+                                    @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$")
+                    ||
+                        email.Length == 0)
+            {
+                return "Enter a valid e-mail";
+            }
+            return CheckPasswordConstraints(password, retypedPassword);
         }
 
         /// <summary>
