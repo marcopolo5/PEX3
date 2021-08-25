@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using AccountModule.Controllers;
+using Domain;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,25 @@ namespace UI.WPF.View
 {
     /// <summary>
     /// Interaction logic for ProfileControl.xaml
-    /// </summary>
+    /// </summary>  
     public partial class ProfileControl : UserControl
     {
+        /// <summary>
+        /// TO DO
+        /// ADD about you section in DB for profile
+        /// </summary>
+        private readonly ProfileController _profileController = new();
+        
+        OpenFileDialog openFileDialog = new OpenFileDialog();
         public ProfileControl()
         {
             InitializeComponent();
+        
+            this.displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName ;
+            this.aboutText.Text = "Say something about you"; // this.aboutText.Text  = ApplicationUserController.CurrentUser.About; // add about column
+            //this.profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(ApplicationUserController.CurrentUser.Profile.Image)));
+            var reputation = ApplicationUserController.CurrentUser.Profile.Reputation;
+            this.ratingValueTextBLock.Text = reputation + "";
         }
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -31,7 +46,7 @@ namespace UI.WPF.View
 
         private void photoButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+           
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
@@ -40,5 +55,9 @@ namespace UI.WPF.View
 
         }
 
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {          
+            await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, openFileDialog.FileName);
+        }
     }
 }
