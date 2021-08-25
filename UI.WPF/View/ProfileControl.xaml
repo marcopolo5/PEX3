@@ -68,7 +68,7 @@
             </Ellipse.Fill>
         </Ellipse>
         <TextBlock x:Name="ratingValueTextBLock" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" 
-                       FontSize="20" FontFamily="Comic Sans MS" Margin="440,0,0,0">15</TextBlock>
+                       FontSize="20" FontFamily="Comic Sans MS" Margin="450,0,0,0"/> 
         <Button x:Name="photoButton" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" BorderThickness="0" Content="Change picture" 
                         FontSize="27" Width="300" Height="70" FontFamily="Comic Sans MS" Foreground="#333333" Margin="0,30"
                         Click="photoButton_Click">

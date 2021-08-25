@@ -35,7 +35,8 @@ namespace UI.WPF.View
             this.displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName ;
             this.aboutText.Text = "Say something about you"; // this.aboutText.Text  = ApplicationUserController.CurrentUser.About; // add about column
             //this.profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(ApplicationUserController.CurrentUser.Profile.Image)));
-            //this.ratingValueTextBLock.Text = ApplicationUserController.CurrentUser.Profile.Reputation;
+            var reputation = ApplicationUserController.CurrentUser.Profile.Reputation;
+            this.ratingValueTextBLock.Text = reputation + "";
         }
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
