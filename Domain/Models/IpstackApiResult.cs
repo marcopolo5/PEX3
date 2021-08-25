@@ -10,7 +10,7 @@ namespace Domain.Models
     /// <summary>
     /// A simple model that encapsulates the data returned by the external API.
     /// </summary>
-    public class ApiResult
+    public class IpstackApiResult
     {
         public string Ip { get; set; }
 

@@ -9,7 +9,7 @@ namespace ChatServerModule.Mocks
 {
     public class FakeConversationRepo : IConversationRepo
     {
-        public IEnumerable<int> GetUserIds(int conversationId)
+        public IEnumerable<int> GetConversationsParticipants(int conversationId)
         {
             foreach (var userId in ChatHub.ConnectedUsers.Keys)
             {

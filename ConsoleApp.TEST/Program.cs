@@ -21,9 +21,9 @@ namespace ConsoleApp.TEST
             Console.WriteLine(result.ToString());
             //MainAsync().GetAwaiter().GetResult();
         }
-        private static ApiResult CallApi()
+        private static IpstackApiResult CallApi()
         {
-            ApiResult result = null;
+            IpstackApiResult result = null;
             string URL = "http://api.ipstack.com/check";
             string urlParameters = "?access_key=745f0ee9cb257e0329e00017545b6ea0";
 
@@ -38,7 +38,7 @@ namespace ConsoleApp.TEST
             if (response.IsSuccessStatusCode)
             {
                 // Parse the response body.
-                result = response.Content.ReadAsAsync<ApiResult>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
+                result = response.Content.ReadAsAsync<IpstackApiResult>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
             }
             else
             {
