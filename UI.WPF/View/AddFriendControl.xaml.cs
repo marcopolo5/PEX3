@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
 {
@@ -20,9 +21,12 @@ namespace UI.WPF.View
     /// </summary>
     public partial class AddFriendControl : UserControl
     {
+        public PeopleListingViewModel PeopleListingViewModel { get; }
         public AddFriendControl()
         {
             InitializeComponent();
+            PeopleListingViewModel = new PeopleListingViewModel();
+            DataContext = PeopleListingViewModel;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
