@@ -26,6 +26,7 @@ namespace UI.WPF
         private readonly HomeControl _homeControl = new();
         private readonly ChatControl _chatControl = new();
         private readonly AddFriendControl _addFriendControl = new();
+        private readonly SettingsControl _settingsControl = new();
         private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
 
@@ -79,9 +80,11 @@ namespace UI.WPF
             closeButtonVisibilityFlag = true;
             mainContentControl.Content = _chatControl;
             ShowHideElements();
-            //Hide();
-            //new ChatWindow().ShowDialog();
-            //ShowDialog();
+        }
+
+        private void SettingsContent_Selected(object sender, RoutedEventArgs e)
+        {
+            mainContentControl.Content = _settingsControl;
         }
 
         private void ShowHideElements()

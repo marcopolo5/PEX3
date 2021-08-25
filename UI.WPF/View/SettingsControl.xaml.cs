@@ -1,7 +1,5 @@
-﻿using Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,22 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
 {
     /// <summary>
-    /// Interaction logic for FriendListControl.xaml
+    /// Interaction logic for SettingsControl.xaml
     /// </summary>
-    public partial class FriendListControl : UserControl
+    public partial class SettingsControl : UserControl
     {
-        public FriendListingViewModel FriendListingViewModel { get; }
-
-        public FriendListControl()
+        public SettingsControl()
         {
             InitializeComponent();
-                FriendListingViewModel = new FriendListingViewModel();
-            DataContext = FriendListingViewModel;
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }
