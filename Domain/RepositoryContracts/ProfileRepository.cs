@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Dapper;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,16 @@ namespace Domain.RepositoryContracts
         /// Constructor
         /// </summary>
         public ProfileRepository() : base("Profiles") { }
+        public async Task<Profile> ReadAsyncProfile(int userid)
+        {
+            using (var connection = CreateConnection())
+            {
+                var entity = await connection.QuerySingleOrDefaultAsync<Profile>($"SELECT * FROM {TableName} WHERE userid={userid}");
+                if (entity == null)
+                    throw new KeyNotFoundException($"{TableName} with id {userid} was not found");
+                return entity;
+            }
+        }
+        
     }
 }
