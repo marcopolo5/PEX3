@@ -40,6 +40,21 @@ namespace ChatServerModule.MiniRepo
             return result;
         }
 
+        public int GetProximityRadius(int userId)
+        {
+            var sql = "SELECT Settings.proximityRadius FROM [Settings] WHERE userid=@UserId";
+            int result = 5;
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                int? querryResult = conn.QueryFirstOrDefault<int?>(sql, new { UserId = userId });
+                if (querryResult != null)
+                {
+                    result = querryResult.Value;
+                }
+            }
+            return result;
+        }
+
         private int GetProfileId(int userId)
         {
             string sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE u.id={userId} ";//////////

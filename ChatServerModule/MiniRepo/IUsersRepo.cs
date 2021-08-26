@@ -21,5 +21,12 @@ namespace ChatServerModule.MiniRepo
         /// <param name="userId">User's id</param>
         /// <param name="userStatus">New status</param>
         void ChangeUserStatus(int userId, UserStatus newUserStatus);
+
+        /// <summary>
+        /// Returns the proximity radius saved in user's settings
+        /// </summary>
+        /// <param name="userId">User's id</param>
+        /// <returns>Proximity radius in km</returns>
+        int GetProximityRadius(int userId);      
     }
 }

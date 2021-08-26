@@ -44,12 +44,15 @@ namespace ChatServerModule.MiniRepo
             return conversations;
         }
 
-        public void CreateConversation(Conversation conversation)
+        public int? CreateConversation(Conversation conversation)
         {
-            var sql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location,longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
+            int? conversationId = null;
+
+            var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location,longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
+            var selectSql = "SELECT Conversations.id FROM [Conversations] WHERE createdat=@CreatedAt AND title=@Title AND type=@Type AND location=@Location AND longitude=@Longitude AND latitude=@Latitude";
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Execute(sql,
+                connection.Execute(insertSql,
                     new
                     {
                         CreatedAt = conversation.CreatedAt,
@@ -60,7 +63,18 @@ namespace ChatServerModule.MiniRepo
                         Longitude = conversation.Longitude,
                         Latitude = conversation.Latitude
                     });
+                conversationId = connection.QueryFirstOrDefault<int>(selectSql,
+                    new
+                    {
+                        CreatedAt = conversation.CreatedAt,
+                        Title = conversation.Title,
+                        Type = conversation.Type,
+                        Location = conversation.Location,
+                        Longitude = conversation.Longitude,
+                        Latitude = conversation.Latitude
+                    });
             }
+            return conversationId;
         }
 
         public void AddUserToConversation(int userId, int conversationId)
@@ -85,8 +99,37 @@ namespace ChatServerModule.MiniRepo
             }
         }
 
+        public void AddMessageToConversation(Message message)
+        {
+            var sql = "INSERT INTO [Messages](conversationid, senderid, textmessage, createdat) VALUES(@ConversationId, @SenderId, @TextMessage, @CreatedAt)";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(sql,
+                    new
+                    {
+                        ConversationId = message.ConversationId,
+                        SenderId = message.SenderId,
+                        TextMessage = message.TextMessage,
+                        CreatedAt = message.CreatedAt
+                    });
+            }
+        }
+
+        public IEnumerable<int> GetProximityConversationsByUserId(int userId)
+        {
+            var sql = "SELECT Conversations.id FROM [Conversations] JOIN [Group_Members] ON conversationid=Conversations.id WHERE userid=@UserId AND type=2";
+            IEnumerable<int> result;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                result = connection.Query<int>(sql, new { UserId = userId });
+            }
+            return result;
+        }
 
 
+
+        // private methods:
+        // ----------------
         /// <summary>
         /// Maps conversation's messages to itself.
         /// </summary>
@@ -124,20 +167,5 @@ namespace ChatServerModule.MiniRepo
             }
         }
 
-        public void AddMessageToConversation(Message message)
-        {
-            var sql = "INSERT INTO [Messages](conversationid, senderid, textmessage, createdat) VALUES(@ConversationId, @SenderId, @TextMessage, @CreatedAt)";
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Execute(sql, 
-                    new 
-                    { 
-                        ConversationId = message.ConversationId,
-                        SenderId = message.SenderId,
-                        TextMessage = message.TextMessage,
-                        CreatedAt = message.CreatedAt
-                    });
-            }
-        }
     }
 }

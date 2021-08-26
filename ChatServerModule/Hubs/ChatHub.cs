@@ -1,5 +1,7 @@
-﻿using ChatServerModule.MiniRepo;
+﻿using ChatServerModule.DTOs;
+using ChatServerModule.MiniRepo;
 using ChatServerModule.Models;
+using ChatServerModule.ProximityChatLogic;
 using ChatServerModule.TokenValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -16,7 +18,7 @@ namespace ChatServerModule.Hubs
     {
 
         /// <summary>
-        /// key - user id 
+        /// key - userid |
         /// value - connection
         /// </summary>
         public static readonly ConcurrentDictionary<int, string> ConnectedUsers = new();
@@ -42,6 +44,7 @@ namespace ChatServerModule.Hubs
         public override async Task OnConnectedAsync()
         {
             Console.WriteLine("Someone's trying to connect");
+            // getting data from headers
             string stringId = Context
                 .GetHttpContext()
                 .Request
@@ -52,6 +55,7 @@ namespace ChatServerModule.Hubs
                 .Request
                 .Headers["loginToken"];
 
+            // parsing the data
             if (int.TryParse(stringId, out int id) == false)
             {
                 return;
@@ -62,12 +66,18 @@ namespace ChatServerModule.Hubs
                 return;
             }
             Console.WriteLine($"OnConnected: {id} | {token}\n");
+
+            // add user to the concurrent dictionary
             ConnectedUsers[id] = Context.ConnectionId;
+
             // update status in DB
             _usersRepo.ChangeUserStatus(id, UserStatus.Online);
 
             // update status for friends
             await UpdateStatus(id, UserStatus.Online);
+
+            // ask the client to update the proximity chats from the server (by calling GetProximityConversationsList from the client side)
+            await Clients.Client(Context.ConnectionId).SendAsync("UpdateProximityChats");
 
             await base.OnConnectedAsync();
         }
@@ -92,11 +102,13 @@ namespace ChatServerModule.Hubs
             // remove user from the connected user lists
             ConnectedUsers.Remove(userId, out string _); //discarding the out param
 
+            // remove user from every proximity chat
+            RemoveUserFromAllProximityChats(userId); 
+
             Console.Write($"User {userId} with connection id {Context.ConnectionId} has disconnected at {DateTime.Now}");
 
             await base.OnDisconnectedAsync(exception);
         }
-
 
         /// <summary>
         /// This method can be called from client to send a message
@@ -105,6 +117,9 @@ namespace ChatServerModule.Hubs
         /// <returns>A task</returns>
         public async Task SendMessage(Message message)
         {
+            // add message to db
+            _conversationRepo.AddMessageToConversation(message);
+
             IEnumerable<int> userIds = _conversationRepo.GetConversationsParticipants(message.ConversationId);
 
             foreach(var userId in userIds)
@@ -115,15 +130,59 @@ namespace ChatServerModule.Hubs
                     continue; // if not jump to the next user
                 }
                 Console.WriteLine($"From {message.SenderId} | To {message.ConversationId} | {message.TextMessage} | Date: {message.CreatedAt}");
+
+
+                
                 var connectionId = ConnectedUsers[userId];
                 await Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             }
         }
 
-        public async Task CreateProximityConversation()
+        public void CreateProximityConversation(ConversationCreateDTO conversationDTO)
         {
+            // map dto to a model
+            var conversation = new Conversation 
+            { 
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Title = conversationDTO.Title,
+                Type = ConversationTypes.ProximityGroup,
+                Location = conversationDTO.Location,
+                Longitude = conversationDTO.Longitude,
+                Latitude = conversationDTO.Latitude
+            };
+
+            // create conversation:
+            int conversationId = _conversationRepo.CreateConversation(conversation).Value;
+            // add the creator to it:
+            _conversationRepo.AddUserToConversation(conversationDTO.CreatorsId, conversationId);
         }
 
+        public async Task GetProximityConversationsList(UserLocationDTO locationDTO)
+        {
+            var conversations = _conversationRepo.GetConversationsCloseToLocation(locationDTO.Location);
+            var conversationsFilteredByUserSettings = new List<Conversation>();
+            int userProximityRadius = _usersRepo.GetProximityRadius(locationDTO.UserId); // distance in km
+
+            foreach (var conversation in conversations)
+            {
+                // get distance in meters
+                var distance = DistanceCalculator.CalculateDistance(locationDTO.Latitude, locationDTO.Longitude,
+                                                                    conversation.Latitude, conversation.Longitude);
+                // calculate distance in km and check if its higher than userProximityRadius, if so go to the next conversation
+                if (distance / 1000 > userProximityRadius)
+                {
+                    continue;
+                }
+
+                // add current user to the conversation
+                _conversationRepo.AddUserToConversation(locationDTO.UserId, conversation.Id);
+                // add conversation to the result
+                conversationsFilteredByUserSettings.Add(conversation);
+            }
+            var connectionId = ConnectedUsers[locationDTO.UserId];
+            await Clients.Clients(connectionId).SendAsync("ReceiveConversations", conversationsFilteredByUserSettings);
+        }
 
         /// <summary>
         /// Get connection ids from all the user's friends(if they are connected) 
@@ -143,7 +202,6 @@ namespace ChatServerModule.Hubs
             }
             return result;
         }
-
 
         /// <summary>
         /// Update this user status for all connected friends
@@ -167,6 +225,15 @@ namespace ChatServerModule.Hubs
             if (allFriendsConnection.Count > 0)
             {
                 await Clients.Clients(allFriendsConnection).SendAsync("ChangeStatus", statusModel);
+            }
+        }
+
+        private void RemoveUserFromAllProximityChats(int userId)
+        {
+            var conversationsIds = _conversationRepo.GetProximityConversationsByUserId(userId);
+            foreach (var conversationId in conversationsIds)
+            {
+                _conversationRepo.RemoveUserFromConversation(userId, conversationId);
             }
         }
     }

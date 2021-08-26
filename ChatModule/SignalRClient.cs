@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Domain.RepositoryContracts;
 using AccountModule.Controllers;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using Domain.DTO;
 
 namespace ChatModule
 {
@@ -15,11 +18,12 @@ namespace ChatModule
 
         private HubConnection _connection;
 
-        private readonly MessageRepository _messageRepository = new();
-
         public event Action<Message> MessageReceived;
 
         public event Action<StatusModel> StatusChanged;
+
+        public event Action<IEnumerable<Conversation>> ConversationsReceived;
+
 
         public static SignalRClient GetInstance()
         {
@@ -50,7 +54,6 @@ namespace ChatModule
 
             await _connection.StartAsync();
 
-
             _connection.On<Message>("ReceiveMessage", (message) => {
                 var conversation = ApplicationUserController
                         .CurrentUser
@@ -75,6 +78,26 @@ namespace ChatModule
                 }
             });
 
+            _connection.On("UpdateProximityChats", async () => {
+                await UpdateProximityChats();
+            });
+
+            _connection.On<IEnumerable<Conversation>>("ReceiveConversations", (conversations) => {
+                // add convs to current user
+                ApplicationUserController.CurrentUser.Conversations.AddRange(conversations);
+                // trigger the event
+                ConversationsReceived?.Invoke(conversations);
+            });
+        }
+
+        public async Task UpdateProximityChats()
+        {
+            var id = ApplicationUserController.CurrentUser.Id;
+            UserLocationDTO userLocation = new UserLocationDTO
+            {
+                UserId = id,
+            };
+            await _connection.SendAsync("GetProximityConversationsList", userLocation);
         }
 
         public async Task SendMessageAsync(int conversationID, string textMessage)
@@ -86,8 +109,6 @@ namespace ChatModule
                 CreatedAt = DateTime.Now,
                 TextMessage = textMessage
             };
-
-            await _messageRepository.CreateAsync(message);
 
             await _connection.SendAsync("SendMessage", message);
         }
