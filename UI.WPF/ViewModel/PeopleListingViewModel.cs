@@ -12,7 +12,7 @@ namespace UI.WPF.ViewModel
 {
     public class PeopleListingViewModel: ViewModelBase
     {
-        private readonly List<FriendViewModel> _peopleViewModels;
+        private List<FriendViewModel> _peopleViewModels;
         private readonly UsersController _usersController = new();
         public ICollectionView FriendsCollectionView { get; }
         private string _friendsFilter = string.Empty;
@@ -26,21 +26,24 @@ namespace UI.WPF.ViewModel
                 FriendsCollectionView.Refresh();
             }
         }
-        public PeopleListingViewModel()
+        public  PeopleListingViewModel()
         {
             _peopleViewModels = new List<FriendViewModel>();
-            foreach (FriendViewModel friendViewModel in GetPersonViewModels())
-            {
-                _peopleViewModels.Add(friendViewModel);
-            }
-
+            UsersView().Wait();
             FriendsCollectionView = CollectionViewSource.GetDefaultView(_peopleViewModels);
-
+        }
+        public async Task UsersView()
+        {           
+            var users = await GetPersonViewModels();
+            foreach (FriendViewModel user in users)
+            {
+                _peopleViewModels.Add(user);
+            }
             //FriendsCollectionView.Filter = FilterFriends;
         }
-        private IEnumerable<FriendViewModel> GetPersonViewModels()
+        private async Task<IEnumerable<FriendViewModel>> GetPersonViewModels()
         {
-            var users = _usersController.SearchUsers("t").Result;
+            var users = await _usersController.SearchUsers("t");
             //yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
             foreach (User user in users)
             {

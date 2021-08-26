@@ -13,7 +13,7 @@ namespace AccountModule.Controllers
         private readonly UserRepository _userRepository = new();
         public async Task<List<User>> SearchUsers(string displayName_email)
         {
-            return await _userRepository.ReadAllAsync() as List<User>;
+            return await _userRepository.ReadAllAsync(displayName_email) as List<User>;
         }
      
     }

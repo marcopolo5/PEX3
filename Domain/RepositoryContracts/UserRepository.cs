@@ -88,15 +88,15 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="displayname">Name to search for</param>
         /// <returns>All users with 'displayname' as substring</returns>
-        public async Task<IEnumerable<User>> ReadAllAsync(string displayname_or_email)
+        public async Task<IEnumerable<User>> ReadAllAsync(string searchquery)
         {
-            string sql = $@"select Users.*, Profiles.*
+            const string sql = @"select Users.*, Profiles.*
                              from Users inner join Profiles on Users.Id=Profiles.UserId 
-                              and (Profiles.DisplayName like '%@Email%' or Users.Email like '%rares%')";
+                              and (Profiles.DisplayName like '%@Searchquery%' or Users.Email like '%Searchquery%')";
             using (var connection = CreateConnection())
             {
                 var users = await connection.QueryAsync<User, Profile, User>(sql,
-                    (user, profile) => { user.Profile = profile; return user; });
+                    (user, profile) => { user.Profile = profile; return user; }, new { Searchquery = searchquery });
                 return users;
             }
         }
