@@ -13,19 +13,31 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\Adina.jpg" />
 	  <None Remove="Assets\btn_google_signin_dark.png" />
 	  <None Remove="Assets\btn_google_signin_light.png" />
 	  <None Remove="Assets\btn_google_signin_light_rounded.png" />
 	  <None Remove="Assets\close.png" />
+	  <None Remove="Assets\Daniel.jpg" />
+	  <None Remove="Assets\Denis.jpeg" />
+	  <None Remove="Assets\Denisa.jpeg" />
 	  <None Remove="Assets\google-logo.png" />
 	  <None Remove="Assets\google.png" />
 	  <None Remove="Assets\logo.png" />
+	  <None Remove="Assets\Marco.jpeg" />
 	  <None Remove="Assets\profile.png" />
 	  <None Remove="Assets\profilepic.png" />
+	  <None Remove="Assets\Sorina.jpeg" />
 	  <None Remove="Assets\warning.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="Assets\Adina.jpg" />
+	  <Resource Include="Assets\Daniel.jpg" />
+	  <Resource Include="Assets\Denis.jpeg" />
+	  <Resource Include="Assets\Denisa.jpeg" />
+	  <Resource Include="Assets\Marco.jpeg" />
+	  <Resource Include="Assets\Sorina.jpeg" />
 	  <Resource Include="Assets\warning.png" />
 	</ItemGroup>
 	<ItemGroup>
