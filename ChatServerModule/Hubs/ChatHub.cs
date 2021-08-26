@@ -130,9 +130,6 @@ namespace ChatServerModule.Hubs
                     continue; // if not jump to the next user
                 }
                 Console.WriteLine($"From {message.SenderId} | To {message.ConversationId} | {message.TextMessage} | Date: {message.CreatedAt}");
-
-
-                
                 var connectionId = ConnectedUsers[userId];
                 await Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             }
@@ -154,6 +151,7 @@ namespace ChatServerModule.Hubs
 
             // create conversation:
             int conversationId = _conversationRepo.CreateConversation(conversation).Value;
+
             // add the creator to it:
             _conversationRepo.AddUserToConversation(conversationDTO.CreatorsId, conversationId);
         }
@@ -169,6 +167,7 @@ namespace ChatServerModule.Hubs
                 // get distance in meters
                 var distance = DistanceCalculator.CalculateDistance(locationDTO.Latitude, locationDTO.Longitude,
                                                                     conversation.Latitude, conversation.Longitude);
+
                 // calculate distance in km and check if its higher than userProximityRadius, if so go to the next conversation
                 if (distance / 1000 > userProximityRadius)
                 {

@@ -1,5 +1,4 @@
 ﻿using ChatModule;
-using Domain.ChatContracts;
 using Domain.Models;
 using Newtonsoft.Json;
 using System;
@@ -48,7 +47,7 @@ namespace ConsoleApp.TEST
             return result; // only for testing
         }
         
-    private static async Task MainAsync()
+        private static async Task MainAsync()
         {
             var userId = Login();
             await StartChat(userId);
@@ -97,7 +96,7 @@ namespace ConsoleApp.TEST
 
         static async Task StartChat(int userId)
         {
-            chat = new SignalRClient();
+            chat = SignalRClient.GetInstance();
             await chat.InitializeConnectionAsync(userId, (new Guid()).ToString());
             chat.MessageReceived += MessageReceived;
             chat.StatusChanged += StatusChanged;

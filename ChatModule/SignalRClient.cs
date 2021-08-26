@@ -16,6 +16,8 @@ namespace ChatModule
     {
         private static SignalRClient _signalRClient;
 
+        public readonly LocationAPIController _locationAPIController = new();
+
         private HubConnection _connection;
 
         public event Action<Message> MessageReceived;
@@ -93,9 +95,14 @@ namespace ChatModule
         public async Task UpdateProximityChats()
         {
             var id = ApplicationUserController.CurrentUser.Id;
+            IpstackApiResult apiResult = _locationAPIController.CallApi();
+            string location = $"{apiResult.CountryName}, {apiResult.RegionName}, {apiResult.City}";
             UserLocationDTO userLocation = new UserLocationDTO
             {
                 UserId = id,
+                Location = location,
+                Latitude = apiResult.Latitude,
+                Longitude = apiResult.Longitude
             };
             await _connection.SendAsync("GetProximityConversationsList", userLocation);
         }
