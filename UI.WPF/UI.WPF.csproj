@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\Adina.jpg" />
+	  <None Remove="Assets\Adinaa.jpg" />
 	  <None Remove="Assets\btn_google_signin_dark.png" />
 	  <None Remove="Assets\btn_google_signin_light.png" />
 	  <None Remove="Assets\btn_google_signin_light_rounded.png" />
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Assets\Adina.jpg" />
+	  <Resource Include="Assets\Adinaa.jpg" />
 	  <Resource Include="Assets\Daniel.jpg" />
 	  <Resource Include="Assets\Denis.jpeg" />
 	  <Resource Include="Assets\Denisa.jpeg" />

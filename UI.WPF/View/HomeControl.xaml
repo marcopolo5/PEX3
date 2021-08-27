@@ -97,7 +97,7 @@
                            Margin="0,40,0,0" />
                 <Ellipse Width="100"
                          Height="100"
-                         StrokeThickness="7"
+                         StrokeThickness="4"
                          Stroke="white"
                          HorizontalAlignment="Center"
                          Margin="0,20,0,5">
@@ -123,7 +123,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="170,10,30,0">
                         <Ellipse.Fill>
@@ -133,7 +133,7 @@
                     </Ellipse>
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="30,10,30,0">
                         <Ellipse.Fill>
@@ -143,7 +143,7 @@
                     </Ellipse>
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="30,10,30,0">
                         <Ellipse.Fill>
@@ -153,7 +153,7 @@
                     </Ellipse>
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="30,10,150,0">
                         <Ellipse.Fill>
@@ -191,7 +191,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="170,0,30,0">
                         <Ellipse.Fill>
@@ -201,7 +201,7 @@
                     </Ellipse>
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="30,0,30,0">
                         <Ellipse.Fill>
@@ -211,17 +211,17 @@
                     </Ellipse>
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="30,0,30,0">
                         <Ellipse.Fill>
-                            <ImageBrush ImageSource="../Assets/Adina.jpg"
+                            <ImageBrush ImageSource="../Assets/Adinaa.jpg"
                                         Stretch="Fill"></ImageBrush>
                         </Ellipse.Fill>
                     </Ellipse>
                     <Ellipse Width="100"
                              Height="100"
-                             StrokeThickness="7"
+                             StrokeThickness="4"
                              Stroke="white"
                              Margin="30,0,150,0">
                         <Ellipse.Fill>
