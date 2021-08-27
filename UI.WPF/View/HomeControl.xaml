@@ -115,7 +115,7 @@
                 <TextBlock FontSize="13"
                            Foreground="white"
                            Text="Thanks to the team that contributed to the achievement of this application."
-                           FontFamily="Comic Sans MS"
+                           FontFamily="Helvetica"
                            FontStyle="Italic"
                            TextAlignment="Center"
                            Margin="20,30,20,10" />
@@ -184,9 +184,9 @@
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Sorina Ioja"
-                               FontFamily="Comic Sans MS"
+                               FontFamily="Helvetica"
                                FontStyle="Italic"
-                               Margin="54,5,150,30" />
+                               Margin="57,5,150,30" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Ellipse Width="100"
@@ -234,27 +234,27 @@
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Denis-Adam Lenart"
-                               FontFamily="Comic Sans MS"
+                               FontFamily="Helvetica"
                                FontStyle="Italic"
-                               Margin="172,5,60,30" />
+                               Margin="182,5,60,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="David Merosiu"
-                               FontFamily="Comic Sans MS"
+                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="23,5,60,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Adina-Ioana Nistor"
-                               FontFamily="Comic Sans MS"
+                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="24,5,40,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Daniel Talpas"
-                               FontFamily="Comic Sans MS"
+                               FontFamily="Helvetica"
                                FontStyle="Italic"
-                               Margin="45,5,150,30" />
+                               Margin="52,5,150,30" />
                 </StackPanel>
             </StackPanel>
         </Grid>
