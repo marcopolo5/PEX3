@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Threading.Tasks;
 using Domain.Models;
-using System.Data;
-using System.Data.SqlClient;
 using Domain.AccountContracts;
 using Domain.RepositoryContracts;
 using Domain.Helpers;
 using Domain;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace AccountModule.Controllers
 {
     public class ApplicationUserController : IApplicationUserController
     {
+        private const string default_user_picture_path = "../../../Assets/profile.png";
         private readonly GoogleAuthenticatorController _googleAuthenticatorController = new();
         private readonly UserRepository _userRepository = new();
         private readonly ProfileRepository _profileRepository = new();
@@ -65,20 +62,6 @@ namespace AccountModule.Controllers
             return true;
         }
 
-        public async Task<bool> Logout()
-        {
-            User user = CurrentUser;
-            user.Token = "0";
-            user.LastUpdate = DateTime.Now;
-            await _userRepository.UpdateAsync(user);
-
-            // deleting token from disk and memory:
-            if (CurrentUser.ClearData() == false)
-                return false;
-
-            return true;
-        }
-
         public async Task<bool> Register(string firstName, string lastName, string email, string password)
         {
             UserRegisterModel userRegisterModel = new UserRegisterModel
@@ -101,8 +84,8 @@ namespace AccountModule.Controllers
                     UserId = (await _userRepository.GetAvailableId()) - 1,  //TODO: Buggy in this version. Should read the object from DB.
                     DisplayName = firstName + " " + lastName,
                     Status = UserStatus.Offline,
-                    // TODO: a default path for a default profile picture is needed
-                    Image = "default_user_profile_picture.img"
+                    Image = GetImageBytes(default_user_picture_path),
+                    StatusMessage = "Hi there!"
                 };
                 Settings settings = new Settings
                 {
@@ -126,7 +109,21 @@ namespace AccountModule.Controllers
             }
         }
 
-        private async Task<bool> UserExists(string email)
+        public async Task<bool> Logout()
+        {
+            User user = CurrentUser;
+            user.Token = "0";
+            user.LastUpdate = DateTime.Now;
+            await _userRepository.UpdateAsync(user);
+
+            // deleting token from disk and memory:
+            if (CurrentUser.ClearData() == false)
+                return false;
+
+            return true;
+        }
+
+        public async Task<bool> UserExists(string email)
         {
             var user = await _userRepository.ReadAsync(email);
             // email has not been used already -> user does not exist
@@ -146,6 +143,23 @@ namespace AccountModule.Controllers
                 return "Enter password";
             }
             return "";
+        }
+
+        public string CheckRegisterConstraints(string firstName, string lastName, string email, string password, string retypedPassword)
+        {
+            if (firstName.Length == 0 || lastName.Length == 0)
+            {
+                return "Enter a valid Name";
+            }
+            else if (
+                    !Regex.IsMatch(email,
+                                    @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$")
+                    ||
+                        email.Length == 0)
+            {
+                return "Enter a valid e-mail";
+            }
+            return CheckPasswordConstraints(password, retypedPassword);
         }
 
         public string CheckPasswordConstraints(string password, string retypedPassword)
@@ -168,27 +182,6 @@ namespace AccountModule.Controllers
             return "";
         }
 
-        public string CheckRegisterConstraints(string firstName, string lastName, string email, string password, string retypedPassword)
-        {
-            if (firstName.Length == 0 || lastName.Length == 0)
-            {
-                return "Enter a valid Name";
-            }
-            else if (
-                    !Regex.IsMatch(email,
-                                    @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$")
-                    ||
-                        email.Length == 0)
-            {
-                return "Enter a valid e-mail";
-            }
-            return CheckPasswordConstraints(password, retypedPassword);
-        }
-
-        /// <summary>
-        /// Check if remember me was active and checks if the token saved in the file matches the one in the DB
-        /// </summary>
-        /// <returns>Returns true if the token saved in the file matches the one in the DB, false otherwise</returns>
         public async Task<bool> CheckIfUserIsLoggedIn()
         {
             var token = _appConfiguration.GetToken();
@@ -207,10 +200,6 @@ namespace AccountModule.Controllers
             return true;
         }
 
-        /// <summary>
-        /// Update the current user's information
-        /// </summary>
-        /// <returns>A task</returns>
         public async Task UpdateCurrentUserInformation()
         {
             int id = _appConfiguration.GetId();
@@ -218,11 +207,6 @@ namespace AccountModule.Controllers
             CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
         }
 
-        /// <summary>
-        /// Registers (if necessary) and logs in an user
-        /// with their Google account data. (email, first name, last name)
-        /// </summary>
-        /// <param name="rememberMe">Remember me option</param>
         public async Task AuthenticateWithGoogle(bool rememberMe)
         {
             Dictionary<string,string> userInfo = await _googleAuthenticatorController.GetGoogleAccountInfo();
@@ -230,5 +214,22 @@ namespace AccountModule.Controllers
                 await Register(userInfo["given_name"], userInfo["family_name"], userInfo["email"], null);
             await Login(userInfo["email"], null, rememberMe);
         }
+
+        /// <summary>
+        /// Convert memory image into a binary array
+        /// </summary>
+        /// <param name="imagePath">Path to the image</param>
+        /// <returns>A binary array corresponding to the image</returns>
+        public static byte[] GetImageBytes(string imagePath)
+        {
+            byte[] _imageBytes = null;
+            using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            {
+                _imageBytes = new byte[fileStream.Length];
+                _ = fileStream.Read(_imageBytes, 0, System.Convert.ToInt32(fileStream.Length));
+            }
+            return _imageBytes;
+        }
     }
+    
 }

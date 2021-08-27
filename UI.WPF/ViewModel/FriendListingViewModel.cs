@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using UI.WPF.View;
 
 namespace UI.WPF.ViewModel
 {
@@ -33,8 +34,9 @@ namespace UI.WPF.ViewModel
         {
             if(obj is FriendViewModel friendViewModel)
             {
-                return friendViewModel.DisplayName.Contains(FriendsFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                    friendViewModel.Email.Contains(FriendsFilter, StringComparison.InvariantCultureIgnoreCase);
+                return  friendViewModel.DisplayName.Contains(FriendsFilter, StringComparison.InvariantCultureIgnoreCase) 
+                        ||
+                        friendViewModel.Email.Contains(FriendsFilter, StringComparison.InvariantCultureIgnoreCase);
             }
             return false;
         }
@@ -42,11 +44,9 @@ namespace UI.WPF.ViewModel
 
         private IEnumerable<FriendViewModel> GetFriendViewModels()
         {
-            //yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
             foreach (User friend in ApplicationUserController.CurrentUser.Friends.ToList())
             {
-                yield return new FriendViewModel(friend.LastName + friend.FirstName, friend.Email, "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", friend.Profile.Status);
-
+                yield return new FriendViewModel(friend.LastName + friend.FirstName, friend.Email, friend.Profile.StatusMessage, ProfileControl.LoadImage(friend.Profile.Image), friend.Profile.Status);
             }
         }
 

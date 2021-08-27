@@ -14,7 +14,7 @@
     </UserControl.Resources>
 
 
-    <Grid>
+    <Grid HorizontalAlignment="Left">
         <Border x:Name="FriendListBorder"
                     Width="300"
                     Background="{StaticResource YellowTheme}" 
@@ -38,7 +38,8 @@
                     HorizontalAlignment="Left"
                    />
 
-        <Grid Margin="25,45,25,0">
+        <Grid Margin="25,45,25,0"
+              >
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
@@ -75,74 +76,68 @@
             </Grid>
 
             <ListView   Grid.Row="1" 
-                        Margin="-18 4 -22 45"
+                        Margin="-18 4 -14 45"
                         ItemsSource="{Binding FriendsCollectionView}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         Background="{StaticResource BlueTheme}"
                         >
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
-                        <GridViewColumn Width="60">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Border Style="{StaticResource ProfilePicture}">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImagePath}"/>
-                                            </Border.Background>
-                                        </Border>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="30"/>
+                                </Grid.ColumnDefinitions>
 
-                                        <Border         Width="Auto" 
+                                <Grid Grid.Column="0">
+                                    <Border Style="{StaticResource ProfilePicture}">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding ProfilePicture}"/>
+                                        </Border.Background>
+                                    </Border>
+
+                                    <Border         Width="Auto" 
                                             Height="10" 
                                             VerticalAlignment="Bottom" 
                                             Margin="5" 
                                             HorizontalAlignment="Right" 
                                             CornerRadius="15" 
                                             Background="White"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="155">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding DisplayName}" 
+                                </Grid>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding DisplayName}" 
                                                    Margin="10 0"
                                                    Foreground="White"
                                                    FontSize="14"
                                                    FontWeight="DemiBold"/>
-                                        <TextBlock Text="{Binding StatusMessage}" 
+                                    <TextBlock Text="{Binding StatusMessage}" 
                                                    Margin="10 0" 
                                                    TextTrimming="CharacterEllipsis" 
                                                    Opacity="0.6"
                                                    Foreground="White"
                                                    FontSize="11"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid
-                                        VerticalAlignment="Center"
-                                        Width="40">
-                                        <Border 
-                                                Width="10" 
+                                </StackPanel>
+
+                                <Grid Grid.Column="2">
+                                    <Border     Width="10" 
                                                 Height="10" 
                                                 CornerRadius="15" 
-                                                Background="GreenYellow" 
-                                                HorizontalAlignment="Center" 
-                                                VerticalAlignment="Center" 
-                                                Margin="0">
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
+                                                Background="{Binding StatusColor}" 
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Margin="0 0 0 0"
+                                                />
+                                </Grid>
+                            </Grid>
+
+
+
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
         </Grid>

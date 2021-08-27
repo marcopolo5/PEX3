@@ -1,9 +1,7 @@
 {
-  "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
+  //"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
   //"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
   //"ConnectionString": "Data Source=DESKTOP-RI8OBR6;Initial Catalog=GeoChat_DB;Integrated Security=True",
-  //"ConnectionString": "Data Source=.\\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True",
-  //"ConnectionString": "Data Source=DESKTOP-CBF6VS1;Initial Catalog=GeoChat_DB;Integrated Security=True",
-  "EncryptedToken": "",
-  "UserId": 0
+  "ConnectionString": "Data Source=DESKTOP-CBF6VS1;Initial Catalog=GeoChat_DB;Integrated Security=True",
+  "EncryptedToken": ""
 }

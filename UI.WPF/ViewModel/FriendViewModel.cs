@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace UI.WPF.ViewModel
 {
@@ -14,17 +15,17 @@ namespace UI.WPF.ViewModel
         private string _displayName;
         private string _email;
         private string _statusMessage;
-        private string _imagePath;
+        private BitmapImage _profilePicture;
         private UserStatus _status;
 
-        public FriendViewModel(string displayName, string email, string statusMessage, string imagePath, UserStatus status)
+        public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status)
         {
             _status = status;
             UpdateStatusColor();
             _displayName = displayName;
             _email = email;
             _statusMessage = statusMessage;
-            _imagePath = imagePath;
+            _profilePicture = image;
         }
 
         public void UpdateStatusColor()
@@ -88,13 +89,13 @@ namespace UI.WPF.ViewModel
             }
         }
         
-        public string ImagePath
+        public BitmapImage ProfilePicture
         {
-            get { return _imagePath; }
+            get { return _profilePicture; }
             set
             {
-                _imagePath = value;
-                OnPropertyChanged(nameof(ImagePath));
+                _profilePicture = value;
+                OnPropertyChanged(nameof(ProfilePicture));
             }
         }
         

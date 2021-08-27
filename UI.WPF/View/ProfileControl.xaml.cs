@@ -1,16 +1,9 @@
 ﻿using AccountModule.Controllers;
-using Domain;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -21,43 +14,79 @@ namespace UI.WPF.View
     /// </summary>  
     public partial class ProfileControl : UserControl
     {
-        /// <summary>
-        /// TO DO
-        /// ADD about you section in DB for profile
-        /// </summary>
         private readonly ProfileController _profileController = new();
-        
-        OpenFileDialog openFileDialog = new OpenFileDialog();
+
+        private OpenFileDialog openFileDialog = new();
+
         public ProfileControl()
         {
             InitializeComponent();
-        
-            this.displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName ;
-            this.aboutText.Text = "Say something about you"; // this.aboutText.Text  = ApplicationUserController.CurrentUser.About; // add about column
-            //this.profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(ApplicationUserController.CurrentUser.Profile.Image)));
-            var reputation = ApplicationUserController.CurrentUser.Profile.Reputation;
-            this.ratingValueTextBLock.Text = reputation + "";
-        }
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
+
+            // Load profile informations
+            displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName;
+            aboutText.Text = ApplicationUserController.CurrentUser.Profile.StatusMessage;
+            BitmapImage bi_profilePicture = LoadImage(ApplicationUserController.CurrentUser.Profile.Image);
+            profilePicture.Fill = new ImageBrush(bi_profilePicture);
+            int reputation = ApplicationUserController.CurrentUser.Profile.Reputation;
+            ratingValueTextBLock.Text = reputation + "";
         }
 
-
-        private void photoButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Opens a file dialog and let user choose a new profile picture
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PhotoButton_Click(object sender, RoutedEventArgs e)
         {
-           
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
                 profilePicture.Fill = new ImageBrush(new BitmapImage(new Uri(openFileDialog.FileName)));
             }
-
         }
 
+        /// <summary>
+        /// Updates profile with the new informations:
+        /// - display name
+        /// - status message
+        /// - profile picture
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {          
-            await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, openFileDialog.FileName);
+        {
+            byte[] imageByteArray = ApplicationUserController.GetImageBytes(openFileDialog.FileName);
+            await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
+            CustomMessageBox messageBox = new CustomMessageBox();
+            messageBox.Show("Profile updated successfully");
         }
+
+        /// <summary>
+        /// Convert binary array into a BitmapImage
+        /// </summary>
+        /// <param name="imageData">The binary array with the image data</param>
+        /// <returns>BitmapImage corresponding to the binary array given</returns>
+        public static BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0)
+            {
+                return null;
+            }
+
+            BitmapImage bi_image = new BitmapImage();
+            using (MemoryStream memoryStream = new MemoryStream(imageData))
+            {
+                memoryStream.Position = 0;
+                bi_image.BeginInit();
+                bi_image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                bi_image.CacheOption = BitmapCacheOption.OnLoad;
+                bi_image.UriSource = null;
+                bi_image.StreamSource = memoryStream;
+                bi_image.EndInit();
+            }
+            bi_image.Freeze();
+            return bi_image;
+        }
+
     }
 }
