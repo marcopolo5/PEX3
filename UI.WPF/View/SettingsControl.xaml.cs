@@ -22,6 +22,7 @@ namespace UI.WPF.View
     public partial class SettingsControl : UserControl
     {
         private readonly SettingsController _settingsController = new();
+        private bool handle = true;
 
         public SettingsControl()
         {
@@ -54,5 +55,33 @@ namespace UI.WPF.View
         {
             _settingsController.SetAnonimity((bool)anonimityButton.IsChecked);
         }
+
+        private void FontFamilyComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            if (handle)
+            {
+                ApplyFontSelection();
+            }
+            handle = true;
+        }
+
+        private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cmb = sender as ComboBox;
+            handle = !cmb.IsDropDownOpen;
+            ApplyFontSelection();
+        }
+
+        private void ApplyFontSelection()
+        {
+            FontFamily fontFamily = (FontFamily)FontFamilyComboBox.SelectedItem;
+            if(fontFamily == null)
+            {
+                return;
+            }
+            Application.Current.Resources["GlobalFontFamily"] = new FontFamily(fontFamily.Source);
+        }
+
+
     }
 }

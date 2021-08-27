@@ -14,8 +14,8 @@ namespace UI.WPF.ViewModel
     public class FriendListingViewModel : ViewModelBase
     {
         private readonly List<FriendViewModel> _friendViewModels;
+
         public ICollectionView FriendsCollectionView { get; }
-        
 
         public FriendListingViewModel()
         {
@@ -40,7 +40,6 @@ namespace UI.WPF.ViewModel
             }
             return false;
         }
-
 
         private IEnumerable<FriendViewModel> GetFriendViewModels()
         {

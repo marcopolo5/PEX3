@@ -8,6 +8,12 @@
     <SolidColorBrush x:Key="YellowTheme" Color="#fae12c"/>
     <SolidColorBrush x:Key="WarmWhiteTheme" Color="#f5f5f5"/>
 
+    <Color x:Key="C_DarkerGreyTheme">#050424</Color>
+    <Color x:Key="C_BlueTheme">#112152</Color>
+    <Color x:Key="C_GreyTheme">#999a9e</Color>
+    <Color x:Key="C_YellowTheme">#fae12c</Color>
+    <Color x:Key="C_WarmWhiteTheme">#f5f5f5</Color>
+
     <!-- Button Effect Colors -->
     <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
     <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>

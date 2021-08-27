@@ -13,21 +13,7 @@ namespace AccountModule.Controllers
         private readonly UserRepository _userRepository = new();
         private readonly FriendRequestRepository _friendRequestRepository = new();
         private readonly FriendRepository _friendRepository = new();
-
         private readonly ConversationRepository _conversationRepository = new();
-
-        public async Task<bool> FriendRequestExists(FriendRequest request)
-        {
-            var friendRequest = await _friendRequestRepository.ReadAsync(request.SenderId, request.ReceiverId);
-            if (friendRequest == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
 
         public async Task<bool> SendFriendRequest(string senderEmail, string receiverEmail)
         {
@@ -59,6 +45,19 @@ namespace AccountModule.Controllers
             await _friendRequestRepository.CreateAsync(friendRequest);
 
             return true;
+        }
+
+        public async Task<bool> FriendRequestExists(FriendRequest request)
+        {
+            var friendRequest = await _friendRequestRepository.ReadAsync(request.SenderId, request.ReceiverId);
+            if (friendRequest == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public async Task<bool> AcceptFriendRequest(int requestId)
@@ -105,8 +104,6 @@ namespace AccountModule.Controllers
 
             return true;
         }
-
-
 
         private async Task CreateConversation(int userIdOne, int userIdTwo)
         {

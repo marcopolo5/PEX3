@@ -49,8 +49,6 @@ namespace AccountModule.Controllers
             }
 
 
-            //CurrentUser.rememberMe = rememberMe;
-
             // initialize user's attributes
             User user = await _userRepository.ReadAsync(email);
             // ReadCurrentUserAsync needs inspection

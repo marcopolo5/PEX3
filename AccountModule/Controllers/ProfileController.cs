@@ -12,8 +12,6 @@ namespace AccountModule.Controllers
     public class ProfileController
     {
         private readonly ProfileRepository _profileRepository = new();
-        private readonly SettingsRepository _settingsRepository = new();
-        private readonly AppConfiguration _appConfiguration = new();
        
         public async Task UpdateProfile(string displayName, string about, byte[] imageByteArray)
         {
