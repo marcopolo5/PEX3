@@ -33,5 +33,26 @@ namespace UI.WPF.View
         {
             Environment.Exit(0);
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            var users = AddFriendControl.SearchUsers();
+            Print(users);
+        }
+
+        private static object SearchUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Print(object users)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

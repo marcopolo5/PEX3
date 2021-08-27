@@ -26,30 +26,32 @@ namespace UI.WPF.ViewModel
                 FriendsCollectionView.Refresh();
             }
         }
-        public  PeopleListingViewModel()
+        public PeopleListingViewModel()
         {
             _peopleViewModels = new List<FriendViewModel>();
-            UsersView().Wait();
             FriendsCollectionView = CollectionViewSource.GetDefaultView(_peopleViewModels);
         }
-        public async Task UsersView()
-        {           
-            var users = await GetPersonViewModels();
+
+        public async Task UsersView(string searchquery)
+        {
+            var users = await GetPersonViewModels(searchquery);
             foreach (FriendViewModel user in users)
             {
                 _peopleViewModels.Add(user);
             }
             //FriendsCollectionView.Filter = FilterFriends;
         }
-        private async Task<IEnumerable<FriendViewModel>> GetPersonViewModels()
+
+        private async Task<IEnumerable<FriendViewModel>> GetPersonViewModels(string searchquery)
         {
-            var users = await _usersController.SearchUsers("t");
-            //yield return new FriendViewModel("Friend Test 8", "email8@test.com", "Some status message ...", "Assets/profile.png", Domain.UserStatus.Offline);
+            var users = await _usersController.SearchUsers(searchquery);
+            List<FriendViewModel> friendViewModels = new();
             foreach (User user in users)
             {
-                yield return new FriendViewModel(user.LastName + user.FirstName, user.Email, "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", user.Profile.Status);
-
+                friendViewModels.Add(new FriendViewModel(user.LastName + user.FirstName, user.Email, "Trebuie modificata baza de date sa suporte status message", "Assets/profile.png", user.Profile.Status));
             }
+
+            return friendViewModels;
         }
         private bool FilterFriends(object obj)
         {
