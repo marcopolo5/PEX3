@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
 {
@@ -27,7 +28,7 @@ namespace UI.WPF.View
     public partial class ChatControl : UserControl, IAsyncDisposable
     {
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
-        public ObservableCollection<ConversationPreviewDTO> ConversationPreviews { get; private set; } = new();
+        public ObservableCollection<ConversationPreviewViewModel> ConversationPreviews { get; private set; } = new();
         public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
         public ChatControl()
         {
@@ -40,16 +41,6 @@ namespace UI.WPF.View
                 var conversationPreview = GetPreviewFromConversation(conversation);
                 ConversationPreviews.Add(conversationPreview);
             }
-
-            // initialize signalR client
-            //_signalRClient.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
-            //    .ContinueWith(task =>
-            //    {
-            //        if (task.Exception != null)
-            //        {
-            //            MessageBox.Show(task.Exception.ToString());
-            //        }
-            //    });
 
             // wire up events:
             _signalRClient.MessageReceived += OnMessageReceived;
@@ -113,16 +104,19 @@ namespace UI.WPF.View
         /// </summary>
         /// <param name="conversation">Conversation that needs to be mapped to a preview</param>
         /// <returns>The conversation preview</returns>
-        private ConversationPreviewDTO GetPreviewFromConversation(Conversation conversation)
+        private ConversationPreviewViewModel GetPreviewFromConversation(Conversation conversation)
         {
             string lastTextMessage;
             string conversationName;
+            string statusMessage;
+            byte[] profilePictureArray = ApplicationUserController.GetImageBytes("../../../Assets/profile.png"); // maybe refactor this
             UserStatus userStatus = UserStatus.Away; /// momentan folosim away pt group chat
 
             // if the conversation is a group chat use its title as a conversation name
             if (conversation.Type == Domain.ConversationTypes.Group)
             {
                 conversationName = conversation.Title;
+                statusMessage = $"Number of participants: {conversation.Participants.Count()}";
             }
             // if the conversation is a private chat get the name of the other participant(friend) and use it as a conversation name
             else if (conversation.Type == Domain.ConversationTypes.Private)
@@ -130,11 +124,15 @@ namespace UI.WPF.View
                 var friend = conversation.Participants.FirstOrDefault(p => p.Id != ApplicationUserController.CurrentUser.Id);
                 conversationName = friend.Profile.DisplayName;
                 userStatus = friend.Profile.Status;
+                statusMessage = friend.Profile.StatusMessage;
+                profilePictureArray = friend.Profile.Image;
+                
             }
             // if the conversation is a promiximity chat do nothing :)
             else
             {
-                conversationName = "";
+                statusMessage = "ProximityChat";
+                conversationName = conversation.Title;
             }
 
 
@@ -150,12 +148,14 @@ namespace UI.WPF.View
             }
 
             // create the conversation preview
-            var conversationPreview = new ConversationPreviewDTO
+            var conversationPreview = new ConversationPreviewViewModel
             {
                 ConversationId = conversation.Id,
                 ConversationName = conversationName,
                 LastMessage = lastTextMessage,
-                UserStatus = userStatus
+                UserStatus = userStatus,
+                StatusMessage = statusMessage,
+                AccountProfilePictureArray = profilePictureArray
             };
 
             return conversationPreview;
@@ -185,13 +185,13 @@ namespace UI.WPF.View
             {
                 SendMessageBtn.IsEnabled = true;
             }
-            var item = (ConversationPreviewDTO)ConversationList.SelectedItem;
+            var item = (ConversationPreviewViewModel)ConversationList.SelectedItem;
             var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
             conversationPreview.UnreadMessage = false;
 
             ConversationTitle.Text = item.ConversationName;
-            ConversationStatus.Text = item.ConversationName; /// TODO: de schimbat cu status
-
+            ConversationStatus.Text = item.StatusMessage; /// TODO: de schimbat cu status
+            ProfilePicture.ImageSource = item.AccountProfilePicture;
 
             Messages.Clear();
             ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;

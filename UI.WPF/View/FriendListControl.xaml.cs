@@ -31,5 +31,10 @@ namespace UI.WPF.View
                 FriendListingViewModel = new FriendListingViewModel();
             DataContext = FriendListingViewModel;
         }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

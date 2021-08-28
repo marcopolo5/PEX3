@@ -85,7 +85,7 @@
                         Margin="-18 4 -15 45"
                         ItemsSource="{Binding FriendsCollectionView}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        Background="{StaticResource BlueTheme}"
+                        Background="{StaticResource BlueTheme}" SelectionChanged="ListView_SelectionChanged"
                         >
                 <ListView.ItemTemplate>
                     <DataTemplate>

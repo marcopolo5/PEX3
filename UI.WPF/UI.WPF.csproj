@@ -50,7 +50,9 @@
 	  <Resource Include="Assets\google-logo.png" />
 	  <Resource Include="Assets\google.png" />
 	  <Resource Include="Assets\logo.png" />
-	  <Resource Include="Assets\profile.png" />
+	  <Resource Include="Assets\profile.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
 	  <Resource Include="Assets\profilepic.png" />
 	</ItemGroup>
 

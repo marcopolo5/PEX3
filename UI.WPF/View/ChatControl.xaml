@@ -240,8 +240,9 @@
 
                                 <Border Width="50" Height="50" CornerRadius="60" HorizontalAlignment="Center">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="/Assets/profile.png"/>
-                                    </Border.Background>
+                                        <!--<ImageBrush ImageSource="/Assets/profile.png"/>-->
+                                    <ImageBrush ImageSource="{Binding AccountProfilePicture}"/>
+                                </Border.Background>
                                 </Border>
 
                                 <Border Width="Auto" 
@@ -263,7 +264,8 @@
                                                        Margin="10,5,0,0" 
                                                        Foreground="{ Binding MessageColour }"
                                                        TextTrimming="CharacterEllipsis" 
-                                                       Opacity="0.6"
+                                                       Opacity="0.8"
+                                                       FontWeight="DemiBold"
                                                        FontSize="12"/>
                                 </StackPanel>
                             </Grid>
@@ -274,7 +276,7 @@
 
             <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="60" Height="60" CornerRadius="60" HorizontalAlignment="Left" Margin="40,0,0,0">
                 <Border.Background>
-                    <ImageBrush ImageSource="/Assets/profile.png"/>
+                    <ImageBrush x:Name="ProfilePicture" ImageSource="/Assets/profile.png"/>
                 </Border.Background>
             </Border>
             <!--conversation title-->
