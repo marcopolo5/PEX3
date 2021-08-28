@@ -10,7 +10,8 @@ namespace Domain.Models
         public int UserId { get; set; }
         public string DisplayName { get; set; }
         public UserStatus Status { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public int Reputation { get; set; } = 0;
+        public string StatusMessage { get; set; }
     }
 }

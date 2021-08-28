@@ -31,6 +31,7 @@ namespace UI.WPF
         {
             Environment.Exit(0);
         }
+
         private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Hide();
@@ -73,7 +74,6 @@ namespace UI.WPF
 
             }
         }
-
 
         private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
         {

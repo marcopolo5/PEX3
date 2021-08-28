@@ -18,7 +18,7 @@
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    
+
     <Grid x:Name="homeGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
@@ -39,7 +39,8 @@
                            Source="/Assets/logo.png" />
 
                     <ListView   x:Name="MainMenuListView"
-                                FontSize="15">
+                                FontSize="15"
+                                >
                         <ListViewItem Padding="1"
                                       Selected="HomeContent_Selected">
                             <StackPanel Orientation="Horizontal">

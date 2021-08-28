@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:UI.WPF.View"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
@@ -14,6 +15,7 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         </Style>
         <Style x:Key="Label" TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
@@ -22,6 +24,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="0,0,45,0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         </Style>
         <Style x:Key="LabelLessImportant" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
@@ -29,6 +32,10 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="LightGray"/>
             <Setter Property="Margin" Value="0,0,45,0"/>
+            <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
+        </Style>
+        <Style x:Key="AppFontFamiliesComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
         </Style>
     </UserControl.Resources>
     
@@ -55,6 +62,7 @@
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="150"/>
                 <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
 
 
@@ -70,7 +78,9 @@
                       Style="{StaticResource MaterialDesignDiscreteSlider}"
                       TickFrequency="{Binding DiscreteHorizontal.TickFrequency}"
                       Foreground="{StaticResource YellowTheme}"
-                      TickPlacement="BottomRight" />
+                      TickPlacement="BottomRight" 
+                      ValueChanged="Slider_ValueChanged"
+                      Name="radiusSlider"/>
             <Border Grid.Row="0"
                     Grid.ColumnSpan="2"
                     Height="1"
@@ -87,8 +97,10 @@
                             Grid.Row="1"
                             Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
                             ToolTip="MaterialDesignSwitchDarkToggleButton"
-                            Foreground="{StaticResource YellowTheme}"
-                            HorizontalAlignment="Left"/>
+                            Background="{StaticResource YellowTheme}"
+                            HorizontalAlignment="Left"
+                            Name="anonimityButton"
+                            Click="Anonimity_ValueChanged"/>
             <Border Grid.Row="1"
                     Grid.ColumnSpan="2"
                     Height="1"
@@ -125,7 +137,8 @@
                     <PasswordBox Grid.Column="1"
                              Grid.Row="0"
                              Margin="0,10,0,10"
-                             VerticalContentAlignment="Center">
+                             VerticalContentAlignment="Center"
+                             Name="currentPassword">
                         <PasswordBox.Style>
                             <Style TargetType="PasswordBox">
                                 <Setter Property="Template">
@@ -155,7 +168,8 @@
                     <PasswordBox Grid.Column="1"
                                  Grid.Row="1"
                                  Margin="0,10,0,10"
-                                 VerticalContentAlignment="Center">
+                                 VerticalContentAlignment="Center"
+                                 Name="newPassword">
                         <PasswordBox.Style>
                             <Style TargetType="PasswordBox">
                                 <Setter Property="Template">
@@ -185,7 +199,8 @@
                     <PasswordBox Grid.Column="1"
                              Grid.Row="2"
                               Margin="0,10,0,10"
-                             VerticalContentAlignment="Center">
+                             VerticalContentAlignment="Center"
+                              Name="retypedPassword">
                         <PasswordBox.Style>
                             <Style TargetType="PasswordBox">
                                 <Setter Property="Template">
@@ -211,7 +226,7 @@
             </Grid>
 
             <Grid   Grid.Column="1"
-                    Grid.Row="4">
+                    Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="208"/>
                     <ColumnDefinition Width="Auto"/>
@@ -224,7 +239,8 @@
                             Height="35"
                             FontSize="14" 
                             HorizontalAlignment="Left"
-                            Foreground="#333333" >
+                            Foreground="#333333"
+                            Click="SaveChangesClick">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
@@ -246,6 +262,56 @@
                 </Button>
 
             </Grid>
+            <Border Grid.Row="3"
+                    Margin="0 0 0 10"
+                    Grid.ColumnSpan="2"
+                    Height="1"
+                    VerticalAlignment="Bottom"
+                    Background="{StaticResource GreyTheme}"
+                    />
+            
+            <TextBlock Grid.Column="0"
+                       Grid.Row="4"
+                       Style="{StaticResource Label}"
+                       VerticalAlignment="Center"
+                       Text="Change font family"/>
+            <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Row="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <Border BorderThickness="1.2 1.2 0 0" CornerRadius="3.2" BorderBrush="Black" Background="Yellow">
+                    <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="White" Padding="1">
+                        <ComboBox
+                            ItemsSource="{Binding Source={x:Static Member=Fonts.SystemFontFamilies}}"
+                            x:Name="FontFamilyComboBox"
+                            Style="{StaticResource MaterialDesignFilledComboBox}"
+                            IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+                            materialDesign:HintAssist.Hint="Select font family"
+                            Background="White"
+                            FontSize="14"
+                            Width="256"
+                            SelectionChanged="FontFamilyComboBox_SelectionChanged" 
+                            DropDownClosed="FontFamilyComboBox_DropDownClosed">
+
+                            <ComboBox.ItemTemplate >
+                                <DataTemplate>
+                                    <TextBlock 
+                                            Name="FontFamilySelected"
+                                            Text="{Binding}"
+                                            FontFamily="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Border>
+                </Border>
+               
+            </StackPanel>
 
         </Grid>
         

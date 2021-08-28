@@ -62,16 +62,48 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Ellipse x:Name="profilePicture" Grid.Column="1" Grid.Row="1" Width="200" Height="200" StrokeThickness="7" Stroke="white"  HorizontalAlignment="Center" Grid.ColumnSpan="3" Margin="20,20">
+        
+        <!-- Profile Picture -->
+        <Ellipse x:Name="profilePicture" 
+                 Grid.Column="1" 
+                 Grid.Row="1" 
+                 Width="200" 
+                 Height="200" 
+                 StrokeThickness="7" 
+                 Stroke="white"  
+                 HorizontalAlignment="Center" 
+                 Grid.ColumnSpan="3" 
+                 Margin="20,20">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="../Assets/profile.png" Stretch="Fill"></ImageBrush>
             </Ellipse.Fill>
         </Ellipse>
-        <TextBlock x:Name="ratingValueTextBLock" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" 
-                       FontSize="20" FontFamily="Comic Sans MS" Margin="450,0,0,0"/> 
-        <Button x:Name="photoButton" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" BorderThickness="0" Content="Change picture" 
-                        FontSize="27" Width="300" Height="70" FontFamily="Comic Sans MS" Foreground="#333333" Margin="0,30"
-                        Click="photoButton_Click">
+        
+        <!-- User Rating -->
+        <TextBlock x:Name="ratingValueTextBLock" 
+                   Grid.Column="1" 
+                   Grid.Row="2" 
+                   HorizontalAlignment="Center" 
+                   Foreground="White" 
+                   FontSize="20" 
+                   FontFamily="Comic Sans MS" 
+                   Margin="450,0,0,0"/> 
+        
+        <!-- File Dialog Button -->
+        <Button x:Name="photoButton" 
+                Grid.Column="1" 
+                Grid.Row="3" 
+                Grid.ColumnSpan="3" 
+                HorizontalAlignment="Center" 
+                BorderThickness="0" 
+                Content="Change picture" 
+                FontSize="27" 
+                Width="300" 
+                Height="70" 
+                FontFamily="Comic Sans MS" 
+                Foreground="#333333" 
+                Margin="0,30"
+                Click="PhotoButton_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="30"/>
@@ -100,8 +132,26 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock Grid.Column="1" Grid.Row="4" FontSize="25" Foreground="white" Text="Name" FontFamily="Comic Sans MS" Grid.ColumnSpan="3" Margin="255 ,10,40,0"/>
-        <TextBox x:Name="displayNameText" Grid.Column="1" Grid.Row="5" FontSize="25" Width="400" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,5,0,20">
+        
+        <!-- User Name Label -->
+        <TextBlock Grid.Column="1" 
+                   Grid.Row="4" 
+                   FontSize="25" 
+                   Foreground="white" 
+                   Text="Name" 
+                   FontFamily="Comic Sans MS" 
+                   Grid.ColumnSpan="3" 
+                   Margin="255 ,10,40,0"/>
+        
+        <!-- Input Display Name -->
+        <TextBox x:Name="displayNameText" 
+                 Grid.Column="1" 
+                 Grid.Row="5" 
+                 FontSize="25" 
+                 Width="400" 
+                 Grid.ColumnSpan="3" 
+                 HorizontalAlignment="Center" 
+                 Margin="0,5,0,20">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -120,8 +170,26 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <TextBlock Grid.Column="1" Grid.Row="6" FontSize="25" Foreground="white" Text="About" FontFamily="Comic Sans MS" Grid.ColumnSpan="3" Margin="255 ,10,40,0"/>
-        <TextBox x:Name="aboutText" Grid.Column="1" Grid.Row="7" FontSize="25" Width="400" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,5,0,20">
+        
+        <!-- About Label -->
+        <TextBlock Grid.Column="1" 
+                   Grid.Row="6" 
+                   FontSize="25" 
+                   Foreground="white" 
+                   Text="About" 
+                   FontFamily="Comic Sans MS" 
+                   Grid.ColumnSpan="3" 
+                   Margin="255 ,10,40,0"/>
+        
+        <!-- Input About -->
+        <TextBox x:Name="aboutText" 
+                 Grid.Column="1" 
+                 Grid.Row="7" 
+                 FontSize="25" 
+                 Width="400" 
+                 Grid.ColumnSpan="3" 
+                 HorizontalAlignment="Center" 
+                 Margin="0,5,0,20">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -140,8 +208,22 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Button x:Name="updateButton" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="3" HorizontalAlignment="Center" BorderThickness="0" Content="Save changes" FontSize="27" Width="300" Height="70" FontFamily="Comic Sans MS" Foreground="#333333" Margin="0,30"
-                    Click ="UpdateButton_Click">
+        
+        <!-- Update Button -->
+        <Button x:Name="updateButton" 
+                Grid.Column="1" 
+                Grid.Row="8" 
+                Grid.ColumnSpan="3" 
+                HorizontalAlignment="Center" 
+                BorderThickness="0" 
+                Content="Save changes" 
+                FontSize="27" 
+                Width="300" 
+                Height="70" 
+                FontFamily="Comic Sans MS" 
+                Foreground="#333333" 
+                Margin="0,30"
+                Click ="UpdateButton_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="30"/>

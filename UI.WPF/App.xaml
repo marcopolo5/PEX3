@@ -6,15 +6,20 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="Themes/ColorPallete.xaml"/>
                 <ResourceDictionary Source="Themes/ListView.xaml"/>
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="Themes/Animations.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <FontFamily x:Key="GlobalFontFamily">Helvetica</FontFamily>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
+            </Style>
 
             <Color x:Key="Primary50">#f3e5f5</Color>
             <Color x:Key="Primary50Foreground">#DD000000</Color>

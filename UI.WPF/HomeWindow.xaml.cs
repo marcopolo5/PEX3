@@ -33,9 +33,11 @@ namespace UI.WPF
         private readonly SettingsControl _settingsControl = new();
         private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
+        public string AppFontFamily { get; set; }
 
         public HomeWindow()
         {
+            AppFontFamily = "Times New Roman";
             InitializeComponent();
             _signalRClient.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
                 .ContinueWith(task =>
