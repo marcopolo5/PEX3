@@ -27,7 +27,8 @@ namespace UI.WPF
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         private readonly ProfileControl _profileControl = new();
         private readonly HomeControl _homeControl = new();
-        private readonly ChatControl _chatControl = new();
+        private readonly  ChatControl _chatControl = new();
+        private  readonly ProximityChatControl _proximityChatControl = new();
         private readonly AddFriendControl _addFriendControl = new();
         private readonly ApplicationUserController _userController = new();
         private readonly SettingsControl _settingsControl = new();
@@ -40,12 +41,13 @@ namespace UI.WPF
             AppFontFamily = "Times New Roman";
             InitializeComponent();
             _signalRClient.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
-                .ContinueWith(task =>
+                .ContinueWith(async task =>
                 {
                     if (task.Exception != null)
                     {
                         MessageBox.Show(task.Exception.ToString());
                     }
+                    await _signalRClient.UpdateProximityChats(); // get the proximity chats for the current settings and user
                 });
             mainContentControl.Content = _homeControl;
         }
@@ -59,7 +61,7 @@ namespace UI.WPF
         {
             Hide();
             await _userController.Logout();
-            await _chatControl.DisposeAsync();
+            _chatControl.Dispose();
             await _signalRClient.DisposeAsync();
             //new MainWindow().ShowDialog();
             //ShowDialog();
@@ -88,7 +90,7 @@ namespace UI.WPF
 
         private async void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            await _chatControl.DisposeAsync();
+            _chatControl.Dispose();
             await _signalRClient.DisposeAsync();
             Environment.Exit(0);
         }
@@ -98,6 +100,14 @@ namespace UI.WPF
             closeButtonVisibilityFlag = true;
             mainContentControl.Content = _chatControl;
             ShowHideElements();
+        }
+
+        private void ProximityChatContent_Selected(object sender, RoutedEventArgs e)
+        {
+            closeButtonVisibilityFlag = true;
+            mainContentControl.Content = _proximityChatControl;
+            ShowHideElements();
+
         }
 
         private void SettingsContent_Selected(object sender, RoutedEventArgs e)

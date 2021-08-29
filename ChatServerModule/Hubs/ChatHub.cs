@@ -161,7 +161,7 @@ namespace ChatServerModule.Hubs
             var conversations = _conversationRepo.GetConversationsCloseToLocation(locationDTO.Location);
             var conversationsFilteredByUserSettings = new List<Conversation>();
             int userProximityRadius = _usersRepo.GetProximityRadius(locationDTO.UserId); // distance in km
-
+            Console.WriteLine($"Id: {locationDTO.UserId} | {locationDTO.Location} | lat. {locationDTO.Latitude} | lon. {locationDTO.Longitude}");
             foreach (var conversation in conversations)
             {
                 // get distance in meters
@@ -233,6 +233,11 @@ namespace ChatServerModule.Hubs
             foreach (var conversationId in conversationsIds)
             {
                 _conversationRepo.RemoveUserFromConversation(userId, conversationId);
+                var participants = _conversationRepo.GetConversationsParticipants(conversationId);
+                if (participants.Count() == 0)
+                {
+                    _conversationRepo.RemoveConversation(conversationId);
+                }
             }
         }
     }

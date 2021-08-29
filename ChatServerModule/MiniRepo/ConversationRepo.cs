@@ -48,7 +48,7 @@ namespace ChatServerModule.MiniRepo
         {
             int? conversationId = null;
 
-            var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location,longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
+            var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location, longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
             var selectSql = "SELECT Conversations.id FROM [Conversations] WHERE createdat=@CreatedAt AND title=@Title AND type=@Type AND location=@Location AND longitude=@Longitude AND latitude=@Latitude";
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -79,6 +79,16 @@ namespace ChatServerModule.MiniRepo
 
         public void AddUserToConversation(int userId, int conversationId)
         {
+            var checkSql = "SELECT COUNT(*) FROM [Group_Members] WHERE userid=@UserId AND conversationid=@ConversationId";
+            var checkResult = 0;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+               checkResult = connection.QueryFirst<int>(checkSql, new { UserId = userId, ConversationId = conversationId });
+            }
+            if (checkResult != 0)
+            {
+                return;
+            }
             var sql = "INSERT INTO [Group_Members](userid, conversationid) VALUES(@UserId, @ConversationId)";
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -114,7 +124,19 @@ namespace ChatServerModule.MiniRepo
                     });
             }
         }
-
+        public void RemoveConversation(int id)
+        {
+            var msgsSql = "DELETE FROM [Messages] WHERE conversationid=@Id";
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Execute(msgsSql, new { Id = id });
+            }
+            var sql = "DELETE FROM [Conversations] WHERE id=@Id";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(sql, new { Id = id });
+            }
+        }
         public IEnumerable<int> GetProximityConversationsByUserId(int userId)
         {
             var sql = "SELECT Conversations.id FROM [Conversations] JOIN [Group_Members] ON conversationid=Conversations.id WHERE userid=@UserId AND type=2";

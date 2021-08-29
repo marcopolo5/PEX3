@@ -25,38 +25,23 @@ namespace UI.WPF.View
     /// <summary>
     /// Interaction logic for ChatControl.xaml
     /// </summary>
-    public partial class ChatControl : UserControl, IDisposable
+    public partial class ProximityChatControl : UserControl, IDisposable
     {
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         public ObservableCollection<ConversationPreviewViewModel> ConversationPreviews { get; private set; } = new();
         public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
-        public ChatControl()
+        public ProximityChatControl()
         {
-            // get user's conversations
-            var conversations = ApplicationUserController.CurrentUser.Conversations;
-
-            // add conversations previews to ConversationPreviews colection
-            foreach (var conversation in conversations)
-            {
-                var conversationPreview = GetPreviewFromConversation(conversation);
-                ConversationPreviews.Add(conversationPreview);
-            }
-
-            // wire up events:
             _signalRClient.MessageReceived += OnMessageReceived;
-            _signalRClient.StatusChanged += OnUserChangedStatus;
-
-            // initialize the window
+            _signalRClient.ConversationsReceived += OnConversationsReceived;
             InitializeComponent();
 
             // add the item source for our list (only after InitializeComponent() is called)
-            ConversationList.ItemsSource = ConversationPreviews;
-
-
+            ProximityConversationList.ItemsSource = ConversationPreviews;
+            
             // add the item source for the current conversation
-            ChatConversation.ItemsSource = Messages;
+            ChatProximityConversation.ItemsSource = Messages;
         }
-
 
 
         private void OnMessageReceived(Message message)
@@ -86,15 +71,68 @@ namespace UI.WPF.View
                 ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
             }
         }
-        private void OnUserChangedStatus(StatusModel statusModel)
+        private void OnConversationsReceived(IEnumerable<Conversation> conversations)
         {
-            var conversation = ApplicationUserController.CurrentUser.Conversations
-                .Where(c => c.Participants.Count(u => u.Id == statusModel.FriendId) == 1)
-                .FirstOrDefault();
-            var conversationPreview = ConversationPreviews.FirstOrDefault(c => c.ConversationId == conversation.Id);
-            conversationPreview.UserStatus = statusModel.NewStatus;
+            foreach (var conversation in conversations)
+            {
+                var conversationPreview = GetPreviewFromConversation(conversation);
+                ConversationPreviews.Add(conversationPreview);
+            }
         }
 
+        private async void SendMessage_Click(object sender, RoutedEventArgs e)
+        {
+            var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
+            var text = MessageText.Text;
+            MessageText.Clear();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+            await _signalRClient.SendMessageAsync(currentConversationId, text);
+        }
+
+        // use this to change between convs
+        private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SendMessageBtn.IsEnabled == false)
+            {
+                SendMessageBtn.IsEnabled = true;
+            }
+            var item = (ConversationPreviewViewModel)ProximityConversationList.SelectedItem;
+            var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
+            conversationPreview.UnreadMessage = false;
+
+            ConversationTitle.Text = item.ConversationName;
+            ConversationStatus.Text = item.StatusMessage;
+            ProfilePicture.ImageSource = item.AccountProfilePicture;
+
+            Messages.Clear();
+            ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
+            PopulateMessages(item.ConversationId);
+            // FakePopulateMessages(item.ConversationId);
+            ChatScrollViewer.UpdateLayout();
+            ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
+        }
+
+        private void PopulateMessages(int conversationId)
+        {
+            var conversation = ApplicationUserController.CurrentUser.Conversations.FirstOrDefault(c => c.Id == conversationId);
+            if (conversation == null)
+            {
+                return; ///// throw some err instead of this
+            }
+            foreach (var message in conversation.Messages.OrderBy(m => m.CreatedAt))
+            {
+                var messageDto = new MessageDTO
+                {
+                    IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
+                    TextMessage = message.TextMessage
+                };
+
+                Messages.Add(messageDto);
+            }
+        }
         /// <summary>
         /// Creates a ConversationPreviewDTO from a Conversation
         /// </summary>
@@ -122,7 +160,7 @@ namespace UI.WPF.View
                 userStatus = friend.Profile.Status;
                 statusMessage = friend.Profile.StatusMessage;
                 profilePictureArray = friend.Profile.Image;
-                
+
             }
             // if the conversation is a promiximity chat do nothing :)
             else
@@ -157,69 +195,24 @@ namespace UI.WPF.View
             return conversationPreview;
         }
 
-        private async void SendMessage_Click(object sender, RoutedEventArgs e)
+
+        private async void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
-            var text = MessageText.Text;
-            MessageText.Clear();
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return;
-            }
-            await _signalRClient.SendMessageAsync(currentConversationId, text);
+            await _signalRClient.UpdateProximityChats();
+
         }
 
-        private void addConversation_Click(object sender, RoutedEventArgs e)
+        private async void AddNewProximityConversation_Click(object sender, RoutedEventArgs e)
         {
-        }
-
-
-        // use this to change between convs
-        private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SendMessageBtn.IsEnabled == false)
-            {
-                SendMessageBtn.IsEnabled = true;
-            }
-            var item = (ConversationPreviewViewModel)ConversationList.SelectedItem;
-            var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
-            conversationPreview.UnreadMessage = false;
-
-            ConversationTitle.Text = item.ConversationName;
-            ConversationStatus.Text = item.StatusMessage; 
-            ProfilePicture.ImageSource = item.AccountProfilePicture;
-
-            Messages.Clear();
-            ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
-            PopulateMessages(item.ConversationId);
-            // FakePopulateMessages(item.ConversationId);
-            ChatScrollViewer.UpdateLayout();
-            ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
-        }
-
-        private void PopulateMessages(int conversationId)
-        {
-            var conversation = ApplicationUserController.CurrentUser.Conversations.FirstOrDefault(c => c.Id == conversationId);
-            if (conversation == null)
-            {
-                return; ///// throw some err instead of this
-            }
-            foreach (var message in conversation.Messages.OrderBy(m => m.CreatedAt))
-            {
-                var messageDto = new MessageDTO
-                {
-                    IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
-                    TextMessage = message.TextMessage
-                };
-
-                Messages.Add(messageDto);
-            }
+            await _signalRClient.CreateProximityConversation();
+            await _signalRClient.UpdateProximityChats();
         }
 
         public void Dispose()
         {
             _signalRClient.MessageReceived -= OnMessageReceived;
-            _signalRClient.StatusChanged -= OnUserChangedStatus;
+            _signalRClient.ConversationsReceived -= OnConversationsReceived;
         }
+
     }
 }

@@ -119,6 +119,20 @@ namespace ChatModule
 
             await _connection.SendAsync("SendMessage", message);
         }
+        public async Task CreateProximityConversation()
+        {
+            var location = _locationAPIController.CallApi();
+            var createConversationDto = new ConversationCreateDTO
+            {
+                CreatorsId = ApplicationUserController.CurrentUser.Id,
+                Type = Domain.ConversationTypes.ProximityGroup,
+                Title = location.ToString(),
+                Location = $"{location.CountryName}, {location.RegionName}, {location.City}",
+                Longitude = location.Longitude,
+                Latitude = location.Latitude
+            };
+            await _connection.SendAsync("CreateProximityConversation", createConversationDto);
+        }
 
         public async ValueTask DisposeAsync()
         {

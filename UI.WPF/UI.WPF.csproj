@@ -39,7 +39,6 @@
 	  <ProjectReference Include="..\AccountModule\AccountModule.csproj" />
 	  <ProjectReference Include="..\ChatModule\ChatModule.csproj" />
 	  <ProjectReference Include="..\Domain\Domain.csproj" />
-	  <ProjectReference Include="..\ProximityChatModule\ProximityChatModule.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,6 +77,9 @@
 	  <Compile Update="registerWindow.xaml.cs">
 	    <DependentUpon>RegisterWindow.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="View\ProximityChatControl.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -111,6 +113,10 @@
 	  </Page>
 	  <Page Update="Themes\ListView.xaml">
 	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	  </Page>
+	  <Page Update="View\ProximityChatControl.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
 	  </Page>
 	</ItemGroup>
 

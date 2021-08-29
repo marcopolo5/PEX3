@@ -55,5 +55,12 @@ namespace ChatServerModule.MiniRepo
         /// <param name="userId">User's id</param>
         /// <returns></returns>
         IEnumerable<int> GetProximityConversationsByUserId(int userId);
+
+
+        /// <summary>
+        /// Delete conversation
+        /// </summary>
+        /// <param name="id">Conversation's id</param>
+        void RemoveConversation(int id);
     }
 }
