@@ -15,6 +15,7 @@
 
 
     <Grid HorizontalAlignment="Left">
+        
         <!-- Yellow Border -->
         <Border x:Name="FriendListBorder"
                     Width="300"
@@ -24,8 +25,8 @@
                     Margin="-2,0,0,0">
             <Border.Effect>
                 <DropShadowEffect Direction="0" 
-                                      BlurRadius="15" 
-                                      Opacity="0.1"
+                                      BlurRadius="10" 
+                                      Opacity="0.05"
                                       Color="{StaticResource C_YellowTheme}"
                                   />
             </Border.Effect>

@@ -82,6 +82,9 @@ namespace UI.WPF.View
             Application.Current.Resources["GlobalFontFamily"] = new FontFamily(fontFamily.Source);
         }
 
-
+        private void SetDefault_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Resources["GlobalFontFamily"] = new FontFamily("Helvetica");
+        }
     }
 }
