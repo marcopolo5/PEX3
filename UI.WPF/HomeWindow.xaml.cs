@@ -47,7 +47,7 @@ namespace UI.WPF
                     {
                         MessageBox.Show(task.Exception.ToString());
                     }
-                    await _signalRClient.UpdateProximityChats(); // get the proximity chats for the current settings and user
+                    // await _signalRClient.UpdateProximityChats(); // removed: already done server side
                 });
             mainContentControl.Content = _homeControl;
         }

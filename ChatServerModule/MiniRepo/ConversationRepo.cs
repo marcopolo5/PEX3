@@ -44,12 +44,12 @@ namespace ChatServerModule.MiniRepo
             return conversations;
         }
 
-        public int? CreateConversation(Conversation conversation)
+        public int CreateConversation(Conversation conversation)
         {
-            int? conversationId = null;
+            int conversationId = 0;
 
             var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location, longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
-            var selectSql = "SELECT Conversations.id FROM [Conversations] WHERE createdat=@CreatedAt AND title=@Title AND type=@Type AND location=@Location AND longitude=@Longitude AND latitude=@Latitude";
+            var selectSql = "SELECT id FROM [Conversations]";
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Execute(insertSql,
@@ -63,16 +63,16 @@ namespace ChatServerModule.MiniRepo
                         Longitude = conversation.Longitude,
                         Latitude = conversation.Latitude
                     });
-                conversationId = connection.QueryFirstOrDefault<int>(selectSql,
-                    new
-                    {
-                        CreatedAt = conversation.CreatedAt,
-                        Title = conversation.Title,
-                        Type = conversation.Type,
-                        Location = conversation.Location,
-                        Longitude = conversation.Longitude,
-                        Latitude = conversation.Latitude
-                    });
+                
+            }
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                //conversationId = connection.QueryFirstOrDefault<int>(selectSql,
+                conversationId = connection.Query<int>(selectSql,
+                  new
+                  {
+                      Title = conversation.Title,
+                  }).FirstOrDefault();
             }
             return conversationId;
         }

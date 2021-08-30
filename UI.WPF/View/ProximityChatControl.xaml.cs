@@ -76,6 +76,7 @@ namespace UI.WPF.View
             foreach (var conversation in conversations)
             {
                 var conversationPreview = GetPreviewFromConversation(conversation);
+                ApplicationUserController.CurrentUser.Conversations.Add(conversation);
                 ConversationPreviews.Add(conversationPreview);
             }
         }
@@ -203,7 +204,7 @@ namespace UI.WPF.View
         }
 
         private async void AddNewProximityConversation_Click(object sender, RoutedEventArgs e)
-        {
+            {
             await _signalRClient.CreateProximityConversation();
             await _signalRClient.UpdateProximityChats();
         }

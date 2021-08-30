@@ -27,7 +27,7 @@ namespace ChatServerModule.MiniRepo
         /// </summary>
         /// <param name="conversation">Conversation model</param>
         /// <returns>The id of the conversation</returns>
-        int? CreateConversation(Conversation conversation);
+        int CreateConversation(Conversation conversation);
 
         /// <summary>
         /// Add user to conversation

@@ -126,7 +126,7 @@ namespace ChatModule
             {
                 CreatorsId = ApplicationUserController.CurrentUser.Id,
                 Type = Domain.ConversationTypes.ProximityGroup,
-                Title = location.ToString(),
+                Title = $"{location.RegionName}, {location.City} - {new Random().Next()}",
                 Location = $"{location.CountryName}, {location.RegionName}, {location.City}",
                 Longitude = location.Longitude,
                 Latitude = location.Latitude

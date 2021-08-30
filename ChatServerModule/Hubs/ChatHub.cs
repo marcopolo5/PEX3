@@ -150,7 +150,7 @@ namespace ChatServerModule.Hubs
             };
 
             // create conversation:
-            int conversationId = _conversationRepo.CreateConversation(conversation).Value;
+            int conversationId = _conversationRepo.CreateConversation(conversation);
 
             // add the creator to it:
             _conversationRepo.AddUserToConversation(conversationDTO.CreatorsId, conversationId);
@@ -167,7 +167,7 @@ namespace ChatServerModule.Hubs
                 // get distance in meters
                 var distance = DistanceCalculator.CalculateDistance(locationDTO.Latitude, locationDTO.Longitude,
                                                                     conversation.Latitude, conversation.Longitude);
-
+                Console.WriteLine($"{conversation.Location} | {conversation.Latitude} | {conversation.Longitude}");
                 // calculate distance in km and check if its higher than userProximityRadius, if so go to the next conversation
                 if (distance / 1000 > userProximityRadius)
                 {
