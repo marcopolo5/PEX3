@@ -84,11 +84,27 @@ namespace ChatModule
                 await UpdateProximityChats();
             });
 
-            _connection.On<IEnumerable<Conversation>>("ReceiveConversations", (conversations) => {
+            _connection.On<IEnumerable<ServerConversationDTO>>("ReceiveConversations", (conversations) => {
+                var convs = new List<Conversation>();
+                foreach(var servConv in conversations)
+                {
+                    if (ApplicationUserController.CurrentUser.Conversations.Where(conv => conv.Id == servConv.Id).Count() == 0)
+                    {
+                        convs.Add(new Conversation
+                        {
+                            Id = servConv.Id,
+                            Title = servConv.Title,
+                            Messages = servConv.Messages,
+                            Type = servConv.Type,
+                            CreatedAt = servConv.CreatedAt,
+                            UpdatedAt = servConv.UpdatedAt
+                        });
+                    }
+                }
                 // add convs to current user
-                ApplicationUserController.CurrentUser.Conversations.AddRange(conversations);
+                ApplicationUserController.CurrentUser.Conversations.AddRange(convs);
                 // trigger the event
-                ConversationsReceived?.Invoke(conversations);
+                ConversationsReceived?.Invoke(convs);
             });
         }
 
