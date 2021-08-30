@@ -5,8 +5,257 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.WPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        
-    </Grid>
+             d:DesignHeight="1800" d:DesignWidth="950">
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                  VerticalScrollBarVisibility="Hidden">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="1"
+                       Grid.Row="1"
+                       FontSize="25"
+                       Foreground="white"
+                       Text="Welcome to geoChat!"
+                       FontFamily="Helvetica"
+                       FontStyle="Italic"
+                       TextAlignment="Center"
+                       Margin="15,30,0,0" />
+            <TextBlock Grid.Column="1"
+                       Grid.Row="2"
+                       FontSize="20"
+                       Foreground="white"
+                       Text=" An application that wraps up everything you ever thought  a chat application should contain."
+                       FontFamily="Helvetica"
+                       FontStyle="Italic"
+                       TextAlignment="Center" />
+
+            <Image Grid.Column="1"
+                   Grid.Row="3"
+                   Width="200"
+                   HorizontalAlignment="Center"
+                   Source="/Assets/logo.png"
+                   Margin="10" />
+
+            <RichTextBox Grid.Column="1"
+                         Grid.Row="4"
+                         FontSize="15"
+                         Foreground="white"
+                         FontFamily="Helvetica"
+                         FontStyle="Italic"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Width="900">
+                <FlowDocument>
+                    <FlowDocument.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin"
+                                    Value="15,0,15,20" />
+                        </Style>
+                    </FlowDocument.Resources>
+                    <Paragraph TextAlignment="Center"
+                               Padding="15,0,15,0">
+                        It has certainly happened to each of us at least once to visit a new city and have no idea where to go, what to eat and who to ask for directions.
+                    </Paragraph>
+                    <Paragraph TextAlignment="Center"
+                               Padding="15,0,15,0">
+                        geoChat thought about it and tied up the regular chat, where you can keep in touch with your friends, to the proximity chat where you can ask the locals everything you want to know about the surroundings and meet new people in a much easier way.
+                    </Paragraph>
+                    <Paragraph TextAlignment="Center"
+                               Padding="15,0,15,0">
+                        Don't worry about your personal information! If you don't feel like sharing your profile with strangers geoChat will offer you the possibility to keep your profile anonymous. This way you can safely deliver information and help others have the best experience in your town!
+                    </Paragraph>
+                    <Paragraph TextAlignment="Center"
+                               Padding="15,0,15,0">
+                        In order for each of us to have the best experience with our proximity chat application, please be kind and as polite as possible! Otherwise, we are sorry to inform you that our rating and review module will cancel your access to this option for different periods of time. ☹
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <StackPanel Grid.Column="1"
+                        Grid.Row="5">
+                <TextBlock FontSize="13"
+                           Foreground="white"
+                           Text=" Thanks to the mentor who supervised and made sure that the implementation of the application will proceed in the best possible way."
+                           FontFamily="Helvetica"
+                           FontStyle="Italic"
+                           TextAlignment="Center"
+                           Margin="0,40,0,0" />
+                <Ellipse Width="100"
+                         Height="100"
+                         StrokeThickness="4"
+                         Stroke="white"
+                         HorizontalAlignment="Center"
+                         Margin="0,20,0,5">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="../Assets/Marco.jpeg"
+                                    Stretch="Fill"></ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock FontSize="10"
+                           Foreground="white"
+                           Text="Marco Olescu"
+                           FontFamily="Helvetica"
+                           FontStyle="Italic"
+                           TextAlignment="Center" />
+                <TextBlock FontSize="13"
+                           Foreground="white"
+                           Text="Thanks to the team that contributed to the achievement of this application."
+                           FontFamily="Helvetica"
+                           FontStyle="Italic"
+                           TextAlignment="Center"
+                           Margin="20,30,20,10" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="170,10,30,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/Denisa.jpeg"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="30,10,30,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/profile.png"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="30,10,30,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/profile.png"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="30,10,150,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/Sorina.jpeg"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Elena Brinzan"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="187,5,60,30" />
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Rares Butean"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="40,5,60,30" />
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Alexandra Felecan"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="36,5,40,30" />
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Sorina Ioja"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="57,5,150,30" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="170,0,30,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/Denis.jpeg"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="30,0,30,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/profile.png"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="30,0,30,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/Adinaa.jpg"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="4"
+                             Stroke="white"
+                             Margin="30,0,150,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/Daniel.jpg"
+                                        Stretch="Fill"></ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Denis-Adam Lenart"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="182,5,60,30" />
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="David Merosiu"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="23,5,60,30" />
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Adina-Ioana Nistor"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="24,5,40,30" />
+                    <TextBlock FontSize="10"
+                               Foreground="white"
+                               Text="Daniel Talpas"
+                               FontFamily="Helvetica"
+                               FontStyle="Italic"
+                               Margin="52,5,150,30" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
