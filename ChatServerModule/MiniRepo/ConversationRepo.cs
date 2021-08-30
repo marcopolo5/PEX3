@@ -34,7 +34,7 @@ namespace ChatServerModule.MiniRepo
             IEnumerable<Conversation> conversations;
             using (var connection = new SqlConnection(_connectionString))
             {
-                conversations = connection.Query<Conversation>("SELECT * FROM [Conversations] WHERE location=@Location", new { Location = location });
+                conversations = connection.Query<Conversation>($"SELECT * FROM [Conversations] WHERE location='{location}'");
                 foreach (var conversation in conversations)
                 {
                     MapConversationMessages(conversation);
@@ -49,7 +49,7 @@ namespace ChatServerModule.MiniRepo
             int conversationId = 0;
 
             var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location, longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
-            var selectSql = "SELECT id FROM [Conversations]";
+            var selectSql = "SELECT id FROM [Conversations] WHERE title = '@Title'";
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Execute(insertSql,
@@ -63,17 +63,18 @@ namespace ChatServerModule.MiniRepo
                         Longitude = conversation.Longitude,
                         Latitude = conversation.Latitude
                     });
+                conversationId = connection.QueryFirstOrDefault<int>($"SELECT id FROM [Conversations] WHERE title='{conversation.Title}'");
                 
             }
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                //conversationId = connection.QueryFirstOrDefault<int>(selectSql,
-                conversationId = connection.Query<int>(selectSql,
-                  new
-                  {
-                      Title = conversation.Title,
-                  }).FirstOrDefault();
-            }
+            //using (var connection = new SqlConnection(_connectionString))
+            //{
+            //    //conversationId = connection.QueryFirstOrDefault<int>(selectSql,
+            //    conversationId = connection.Query<int>(selectSql,
+            //      new
+            //      {
+            //          Title = conversation.Title
+            //      }).FirstOrDefault();
+            //}
             return conversationId;
         }
 

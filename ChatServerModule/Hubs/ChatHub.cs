@@ -76,10 +76,11 @@ namespace ChatServerModule.Hubs
             // update status for friends
             await UpdateStatus(id, UserStatus.Online);
 
+            await base.OnConnectedAsync();
+
             // ask the client to update the proximity chats from the server (by calling GetProximityConversationsList from the client side)
             await Clients.Client(Context.ConnectionId).SendAsync("UpdateProximityChats");
 
-            await base.OnConnectedAsync();
         }
 
         /// <summary>
