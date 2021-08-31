@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.Helpers;
+using Domain.Models;
 using Domain.RepositoryContracts;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,11 @@ namespace AccountModule.Controllers
             user.StatusMessage = about;
             user.Image = imageByteArray;
             await _profileRepository.UpdateAsync(user);
+        }
+
+        public async Task<Profile> GetProfile(int userId)
+        {
+            return await _profileRepository.ReadAsyncProfile(userId);
         }
     }
 }

@@ -13,6 +13,14 @@ namespace AccountModule.Controllers
         private readonly FriendRepository _friendRepository = new();
         private readonly ConversationRepository _conversationRepository = new();
 
+        public async Task DeleteFriend(string friendEmail)
+        {
+            User friend = await _userRepository.ReadAsync(friendEmail);
+            await _friendRepository.DeleteFriend(ApplicationUserController.CurrentUser.Id, friend.Id);
+        }
+
+        // TODO: move wrong placed methodes to FriendRequestController
+
         public async Task<bool> SendFriendRequest(string senderEmail, string receiverEmail)
         {
             // TODO: modify existing check (should already be checked in the search friends method)
@@ -69,13 +77,13 @@ namespace AccountModule.Controllers
             // Update friend connection into DB
             Friend friendForward = new Friend()
             {
-                SenderId = friendRequest.SenderId,
+                UserId = friendRequest.SenderId,
                 FriendId = friendRequest.ReceiverId
             };
             Friend friendBackward = new Friend()
             {
-                SenderId = friendRequest.SenderId,
-                FriendId = friendRequest.ReceiverId
+                UserId = friendRequest.ReceiverId,
+                FriendId = friendRequest.SenderId
             };
 
             await _friendRepository.CreateAsync(friendForward);

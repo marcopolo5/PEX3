@@ -6,6 +6,8 @@
     <SolidColorBrush x:Key="BlueTheme" Color="#112152"/>
     <SolidColorBrush x:Key="GreyTheme" Color="#999a9e"/>
     <SolidColorBrush x:Key="YellowTheme" Color="#fae12c"/>
+    <SolidColorBrush x:Key="YellowTheme_Hover" Color="#fbea6a"/>
+    <SolidColorBrush x:Key="YellowTheme_Press" Color="#c7b005"/>
     <SolidColorBrush x:Key="WarmWhiteTheme" Color="#f5f5f5"/>
 
     <Color x:Key="C_DarkerGreyTheme">#050424</Color>

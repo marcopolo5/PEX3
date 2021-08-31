@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:UI.WPF.View"
+             xmlns:GenericControl="clr-namespace:UI.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
 
@@ -17,15 +18,7 @@
             <Setter Property="FontWeight" Value="DemiBold"/>
             <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         </Style>
-        <Style x:Key="Label" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="0,0,45,0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        </Style>
+        
         <Style x:Key="LabelLessImportant" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -34,8 +27,47 @@
             <Setter Property="Margin" Value="0,0,45,0"/>
             <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         </Style>
+
         <Style x:Key="AppFontFamiliesComboBox" TargetType="ComboBox">
             <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style x:Key="SettingsDefaultButton" TargetType="{x:Type Button}">
+            <Setter Property="MinHeight" Value="45"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MaxHeight" Value="45"/>
+            <Setter Property="MaxWidth" Value="100"/>
+            <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="BG" 
+                                Background="{StaticResource YellowTheme}"
+                                CornerRadius="0 15 15 0">
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"/>
+                            <Border.Effect>
+                                <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.3"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                            </Border.Effect>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Hover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Press}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     
@@ -45,6 +77,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Title -->
         <TextBlock  Grid.Row="0"
                     Style="{StaticResource Title}"
                     Text="User Settings"
@@ -66,7 +99,7 @@
             </Grid.RowDefinitions>
 
 
-            <!-- Promximity radius -->
+            <!-- Promximity Radius -->
             <TextBlock Style="{StaticResource Label}"
                        Text="Proximity radius"/>
             <Slider   Grid.Column="1"
@@ -88,19 +121,21 @@
                     Background="{StaticResource GreyTheme}"
                     />
 
-            <!-- Anonymity option -->
+            <!-- Anonymity Option -->
             <TextBlock  Grid.Column="0"
                         Grid.Row="1"
                         Style="{StaticResource Label}"
                         Text="Anonymity"/>
-            <ToggleButton   Grid.Column="1"
-                            Grid.Row="1"
-                            Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
-                            ToolTip="MaterialDesignSwitchDarkToggleButton"
-                            Background="{StaticResource YellowTheme}"
-                            HorizontalAlignment="Left"
-                            Name="anonimityButton"
-                            Click="Anonimity_ValueChanged"/>
+            
+            <GenericControl:CustomToggleButton
+                Grid.Column="1"
+                Grid.Row="1"
+                ToolTip="Set Anonymity"
+                HorizontalAlignment="Left"
+                x:Name="anonimityButton"
+                Click="Anonimity_ValueChanged">
+            </GenericControl:CustomToggleButton>
+            
             <Border Grid.Row="1"
                     Grid.ColumnSpan="2"
                     Height="1"
@@ -224,43 +259,22 @@
                 </Grid>
 
             </Grid>
-
+            
+            <!-- Save Changes Button -->
             <Grid   Grid.Column="1"
-                    Grid.Row="3">
+                    Grid.Row="3"
+                    >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="208"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Button     x:Name="saveChangesButton" 
-                            Content="Save Changes"
-                            Grid.Column="1"
-                            Width="150"
-                            Height="35"
-                            FontSize="14" 
-                            HorizontalAlignment="Left"
-                            Foreground="#333333"
-                            Click="SaveChangesClick">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="20"/>
-                        </Style>
-                    </Button.Resources>
-
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Color="white" Offset="0.0" />
-                                        <GradientStop Color="#FF838383" Offset="1.00" />
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
+                <Button Margin="87 0 0 0"
+                        Style="{StaticResource SettingsButton}"
+                        Click="SaveChangesClick"
+                        Content="Save Changes">
                 </Button>
-
+                
             </Grid>
             <Border Grid.Row="3"
                     Margin="0 0 0 10"
@@ -270,48 +284,74 @@
                     Background="{StaticResource GreyTheme}"
                     />
             
+            <!-- Font Family Option -->
             <TextBlock Grid.Column="0"
                        Grid.Row="4"
                        Style="{StaticResource Label}"
                        VerticalAlignment="Center"
                        Text="Change font family"/>
-            <StackPanel Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Grid.Row="4">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                </Grid>
-                <Border BorderThickness="1.2 1.2 0 0" CornerRadius="3.2" BorderBrush="Black" Background="Yellow">
-                    <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="White" Padding="1">
-                        <ComboBox
-                            ItemsSource="{Binding Source={x:Static Member=Fonts.SystemFontFamilies}}"
-                            x:Name="FontFamilyComboBox"
-                            Style="{StaticResource MaterialDesignFilledComboBox}"
-                            IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
-                            materialDesign:HintAssist.Hint="Select font family"
-                            Background="White"
-                            FontSize="14"
-                            Width="256"
-                            SelectionChanged="FontFamilyComboBox_SelectionChanged" 
-                            DropDownClosed="FontFamilyComboBox_DropDownClosed">
 
-                            <ComboBox.ItemTemplate >
-                                <DataTemplate>
-                                    <TextBlock 
-                                            Name="FontFamilySelected"
-                                            Text="{Binding}"
-                                            FontFamily="{Binding}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+            <StackPanel
+                Grid.Column="1" 
+                Grid.Row="4"
+                Height="50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+
+                <Grid Height="45">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Border Grid.Column="1"
+                            CornerRadius="0 15 15 0"
+                            Background="{StaticResource YellowTheme}">
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                        </Border.Effect>
                     </Border>
-                </Border>
-               
+
+                    <ComboBox
+                        ItemsSource="{Binding Source={x:Static Member=Fonts.SystemFontFamilies}}"
+                        x:Name="FontFamilyComboBox"
+                        Style="{StaticResource MaterialDesignFilledComboBox}"
+                        IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+                        materialDesign:HintAssist.Hint="Select font family"
+                        VerticalContentAlignment="Center"
+                        Background="White"
+                        FontSize="14"
+                        Width="256"
+                        SelectionChanged="FontFamilyComboBox_SelectionChanged" 
+                        DropDownClosed="FontFamilyComboBox_DropDownClosed">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                Name="FontFamilySelected"
+                                Text="{Binding}"
+                                FontFamily="{Binding}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Button     Grid.Column="1"
+                                Style="{StaticResource SettingsDefaultButton}"
+                                Click="SetDefault_Click"
+                                Content="Set Default">
+                    </Button>
+
+                </Grid>
+
+
             </StackPanel>
+
+
 
         </Grid>
         
