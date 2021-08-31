@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace ChatServerModule.Models
+namespace Domain.DTO
 {
-    public class Conversation
+    public class ServerConversationDTO
     {
         public int Id { get; set; }
 
@@ -14,7 +17,7 @@ namespace ChatServerModule.Models
         public DateTime UpdatedAt { get; set; }
 
         public string Title { get; set; }
-        
+
         public ConversationTypes Type { get; set; }
 
         public string Location { get; set; }
@@ -28,5 +31,6 @@ namespace ChatServerModule.Models
 
         [Description("ignore")]
         public List<Message> Messages { get; set; } = new();
+
     }
 }

@@ -51,7 +51,6 @@
 	  <ProjectReference Include="..\AccountModule\AccountModule.csproj" />
 	  <ProjectReference Include="..\ChatModule\ChatModule.csproj" />
 	  <ProjectReference Include="..\Domain\Domain.csproj" />
-	  <ProjectReference Include="..\ProximityChatModule\ProximityChatModule.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -62,7 +61,9 @@
 	  <Resource Include="Assets\google-logo.png" />
 	  <Resource Include="Assets\google.png" />
 	  <Resource Include="Assets\logo.png" />
-	  <Resource Include="Assets\profile.png" />
+	  <Resource Include="Assets\profile.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
 	  <Resource Include="Assets\profilepic.png" />
 	</ItemGroup>
 
@@ -87,6 +88,9 @@
 	  </Compile>
 	  <Compile Update="registerWindow.xaml.cs">
 	    <DependentUpon>RegisterWindow.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\ProximityChatControl.xaml.cs">
+	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
 
@@ -121,6 +125,10 @@
 	  </Page>
 	  <Page Update="Themes\ListView.xaml">
 	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	  </Page>
+	  <Page Update="View\ProximityChatControl.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
 	  </Page>
 	</ItemGroup>
 

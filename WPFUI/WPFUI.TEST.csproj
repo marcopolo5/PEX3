@@ -27,7 +27,6 @@
     <ProjectReference Include="..\AccountModule\AccountModule.csproj" />
     <ProjectReference Include="..\ChatModule\ChatModule.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\ProximityChatModule\ProximityChatModule.csproj" />
   </ItemGroup>
 
   <ItemGroup>
