@@ -18,7 +18,7 @@
         
         <!-- Yellow Border -->
         <Border x:Name="FriendListBorder"
-                    Width="350"
+                    Width="300"
                     Background="{StaticResource YellowTheme}" 
                     CornerRadius="45,4,4,45"
                     HorizontalAlignment="Left"
@@ -34,7 +34,7 @@
         
         <!-- Blue Border -->
         <Border x:Name="FriendListBorderFake"
-                    Width="350"
+                    Width="300"
                     Margin="-2,4,0,4"
                     Background="{StaticResource BlueTheme}" 
                     CornerRadius="45,0,0,45"
@@ -165,12 +165,13 @@
                                                 Cursor="Hand"
                                                 Width="50"
                                                 Height="150"
-                                                Background="Gray"
                                                 Opacity="1"
                                                 BorderThickness="0.2"
                                                 BorderBrush="Beige"
-                                                CornerRadius="8">
-
+                                                CornerRadius="12">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="{StaticResource C_BlueTheme}" Opacity="0.5"/>
+                                            </Border.Background>
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="50"/>

@@ -190,10 +190,10 @@
                                                 Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
+                                              ShadowDepth="-30"
+                                              BlurRadius="30" 
+                                              Opacity="1"
+                                              Color="Red"
                                   />
                         </Border.Effect>
                     </Border>
@@ -265,7 +265,6 @@
                     <Border x:Name="BG" 
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Background="Transparent"
                             BorderThickness="0.2"
                             BorderBrush="Beige"
                             CornerRadius="8">
@@ -276,10 +275,10 @@
                                                             Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
+                                              ShadowDepth="-30"
+                                              BlurRadius="30" 
+                                              Opacity="1"
+                                              Color="GreenYellow"
                                   />
                         </Border.Effect>
                     </Border>
@@ -320,10 +319,10 @@
                                                 Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
+                                              ShadowDepth="-30"
+                                              BlurRadius="30" 
+                                              Opacity="1"
+                                              Color="DeepSkyBlue"
                                   />
                         </Border.Effect>
                     </Border>

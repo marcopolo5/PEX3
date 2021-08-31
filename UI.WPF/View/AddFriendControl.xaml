@@ -22,6 +22,7 @@
             <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
 
+        <!-- Search & Friend Requests -->
         <StackPanel Orientation="Vertical"
                     Height="740"
                     VerticalAlignment="Top"
@@ -34,6 +35,7 @@
                     <RowDefinition Height="315"/>
                 </Grid.RowDefinitions>
 
+                <!-- Search User Input -->
                 <StackPanel Grid.Row="0"
                             Orientation="Horizontal"
                             Margin="0 0 0 10"
@@ -65,6 +67,7 @@
                     </Button>
                 </StackPanel>
                 
+                <!-- User List -->
                 <Grid   x:Name="SearchUsersGrid"
                         Grid.Row="1">
                     <Grid.RowDefinitions>
@@ -133,21 +136,9 @@
                                                 FontSize="11"/>
                                         </StackPanel>
 
-                                        <!-- Availability Circle Color -->
-                                        <Grid Grid.Column="2">
-                                            <Border Width="10" 
-                                            Height="10" 
-                                            CornerRadius="15" 
-                                            Background="{Binding StatusColor}" 
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Margin="0 0 0 0"
-                                            />
-                                        </Grid>
-
                                         <!-- Add Friend Button -->
                                         <Grid   Grid.Column="3"
-                                            Margin="0 0 20 0"
+                                            Margin="0 0 8 0"
                                             HorizontalAlignment="Right">
                                             <Button x:Name="AddFriendButton"
                                                     Style="{StaticResource ProfileButton}"
@@ -162,7 +153,7 @@
                     </ListView>
                 </Grid>
 
-                
+                <!-- Friend Request List -->
                 <Grid   x:Name="PendingFriendRequestsGrid"
                         Grid.Row="2">
                     <Grid.RowDefinitions>
@@ -233,21 +224,9 @@
                                                 FontSize="11"/>
                                             </StackPanel>
 
-                                            <!-- Availability Circle Color -->
-                                            <Grid Grid.Column="2">
-                                                <Border Width="10" 
-                                            Height="10" 
-                                            CornerRadius="15" 
-                                            Background="{Binding StatusColor}" 
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Margin="0 0 0 0"
-                                            />
-                                            </Grid>
-                                            
                                             <!-- Accept/Deny Buttons -->
                                             <Grid   Grid.Column="3"
-                                            Margin="0 0 20 0"
+                                            Margin="0 0 -10 0"
                                             HorizontalAlignment="Right">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="75"/>
@@ -282,6 +261,7 @@
 
         </StackPanel>
 
+        <!-- User Profile (right side menu) -->
         <Border Grid.Column="2"
                 CornerRadius="0,45,45,0"
                 BorderThickness="2"
