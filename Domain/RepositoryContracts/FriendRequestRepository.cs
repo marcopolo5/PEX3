@@ -19,6 +19,16 @@ namespace Domain.RepositoryContracts
         /// </summary>
         public FriendRequestRepository() : base("Friend_Requests") { }
 
+        public async Task<IEnumerable<FriendRequest>> ReadAsyncByReceiverId(int receiverId)
+        {
+            string sqlQuery = $@"select * from {TableName} where Friend_Request.receiverid=@ReceiverId";
+            using(var connection = CreateConnection())
+            {
+                var friendRequests = await connection.QueryAsync<FriendRequest>(sqlQuery, new { ReceiverId = receiverId});
+                return friendRequests;
+            }
+        }
+
 
         public async Task<FriendRequest> ReadAsync(int senderId, int receiverId)
         {

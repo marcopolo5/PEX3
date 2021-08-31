@@ -71,13 +71,13 @@ namespace AccountModule.Controllers
             // Update friend connection into DB
             Friend friendForward = new Friend()
             {
-                SenderId = friendRequest.SenderId,
+                UserId = friendRequest.SenderId,
                 FriendId = friendRequest.ReceiverId
             };
             Friend friendBackward = new Friend()
             {
-                SenderId = friendRequest.SenderId,
-                FriendId = friendRequest.ReceiverId
+                UserId = friendRequest.ReceiverId,
+                FriendId = friendRequest.SenderId
             };
 
             await _friendRepository.CreateAsync(friendForward);

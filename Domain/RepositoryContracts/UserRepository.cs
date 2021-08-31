@@ -101,6 +101,16 @@ namespace Domain.RepositoryContracts
             }
         }
 
+        public async Task<IEnumerable<User>> ReadAllWithFilterAsync(string filter)
+        {
+            string sqlQuery = $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
+            using (var connection = CreateConnection())
+            {
+                var users = await connection.QueryAsync<User>(sqlQuery, new { Filter = filter });
+                return users;
+            }
+        }
+
 
         /// <summary>
         /// Async method. Reads a single user from the database with 'id'

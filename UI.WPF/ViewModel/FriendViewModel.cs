@@ -17,6 +17,7 @@ namespace UI.WPF.ViewModel
         private string _statusMessage;
         private BitmapImage _profilePicture;
         private UserStatus _status;
+        private int _friendRequestId;
 
         public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status)
         {
@@ -26,6 +27,28 @@ namespace UI.WPF.ViewModel
             _email = email;
             _statusMessage = statusMessage;
             _profilePicture = image;
+        }
+
+        public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, int friendRequestId)
+        {
+            _status = status;
+            UpdateStatusColor();
+            _displayName = displayName;
+            _email = email;
+            _statusMessage = statusMessage;
+            _profilePicture = image;
+            _friendRequestId = friendRequestId;
+        }
+
+
+        public int FriendRequestId
+        {
+            get { return _friendRequestId; }
+            set
+            {
+                _friendRequestId = value;
+                OnPropertyChanged(nameof(FriendRequestId));
+            }
         }
 
         public void UpdateStatusColor()

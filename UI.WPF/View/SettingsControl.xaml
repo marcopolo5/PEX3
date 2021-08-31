@@ -19,16 +19,6 @@
             <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         </Style>
         
-        <Style x:Key="Label" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="0,0,45,0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
-        </Style>
-        
         <Style x:Key="LabelLessImportant" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -37,47 +27,9 @@
             <Setter Property="Margin" Value="0,0,45,0"/>
             <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}"/>
         </Style>
-        
+
         <Style x:Key="AppFontFamiliesComboBox" TargetType="ComboBox">
             <Setter Property="Background" Value="White"/>
-        </Style>
-
-        <Style x:Key="SettingsButton" TargetType="{x:Type Button}">
-            <Setter Property="MinHeight" Value="40"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="MaxHeight" Value="40"/>
-            <Setter Property="MaxWidth" Value="120"/>
-            <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="BG" 
-                                Background="{StaticResource YellowTheme}"
-                                CornerRadius="16">
-                            <TextBlock Text="{TemplateBinding Content}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontWeight="DemiBold"/>
-                            <Border.Effect>
-                                <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
-                                  />
-                            </Border.Effect>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Hover}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Press}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="SettingsDefaultButton" TargetType="{x:Type Button}">
@@ -320,7 +272,7 @@
                 <Button Margin="87 0 0 0"
                         Style="{StaticResource SettingsButton}"
                         Click="SaveChangesClick"
-                        Content="SaveChanges">
+                        Content="Save Changes">
                 </Button>
                 
             </Grid>

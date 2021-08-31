@@ -31,5 +31,9 @@ namespace UI.WPF.View
                 FriendListingViewModel = new FriendListingViewModel();
             DataContext = FriendListingViewModel;
         }
+
+
+
+
     }
 }

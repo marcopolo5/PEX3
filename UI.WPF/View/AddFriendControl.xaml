@@ -6,29 +6,280 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:UI.WPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="myHeaderStyle"
+               TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility"
+                    Value="Collapsed" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid Margin="-2,-2,-2,-2">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
 
+        <StackPanel Orientation="Vertical"
+                    Height="740"
+                    VerticalAlignment="Top"
+                    Grid.Column="0"
+                    >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="315"/>
+                    <RowDefinition Height="315"/>
+                </Grid.RowDefinitions>
 
-
-        <StackPanel 
+                <StackPanel Grid.Row="0"
                             Orientation="Horizontal"
-                            Height="100"
-                            VerticalAlignment="Top"
+                            Margin="0 0 0 10"
                             >
-
-            <TextBox Margin="20 10"
+                    <TextBox x:Name="searchUserTextBox"
+                             Margin="20,20,0,0"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              materialDesign:HintAssist.Hint="Search..."
                              Foreground="White"
                              FontSize="25"
                              FontWeight="Bold"
-                             Width="650"
-                             Height="70" />
+                             Width="450"
+                             Height="70"
+                             Text="{Binding FriendsFilter, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Left" />
+                    <Button x:Name="SearchButton"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Background="{x:Null}"
+                            BorderBrush="{x:Null}"
+                            Width="65"
+                            Height="60"
+                            Click="SearchButton_Click">
+                        <materialDesign:PackIcon Kind="Search"
+                                                 Width="35"
+                                                 Height="35" 
+                                                 VerticalAlignment="Center"
+                                                 />
+                    </Button>
+                </StackPanel>
+                
+                <Grid   x:Name="SearchUsersGrid"
+                        Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Users"
+                               Style="{StaticResource Label}"
+                               Margin="25 0 25 0"
+                               FontSize="12"/>
+                    <Border Grid.Row="0"
+                            Height="1"
+                            VerticalAlignment="Top"
+                            Margin="68 10 25 0"
+                            Background="{StaticResource GreyTheme}"
+                            />
+                    <ListView   x:Name="SearchUserList"
+                            Grid.Row="1"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Margin="40 0 40 0"
+                            >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="45"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="300"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- User Profile Picture -->
+                                        <Grid Grid.Column="0">
+                                            <Border Style="{StaticResource ProfilePicture}">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="{Binding ProfilePicture}"/>
+                                                </Border.Background>
+                                            </Border>
+
+                                            <Border Width="Auto" 
+                                            Height="10" 
+                                            VerticalAlignment="Bottom" 
+                                            Margin="5" 
+                                            HorizontalAlignment="Right" 
+                                            CornerRadius="15" 
+                                            Background="White"/>
+                                        </Grid>
+
+                                        <!-- User Name & Status Message -->
+                                        <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            >
+                                            <TextBlock  Text="{Binding DisplayName}" 
+                                                Margin="10 0"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                FontWeight="DemiBold"/>
+                                            <TextBlock  Text="{Binding StatusMessage}" 
+                                                Margin="10 0" 
+                                                TextTrimming="CharacterEllipsis" 
+                                                Opacity="0.6"
+                                                Foreground="White"
+                                                FontSize="11"/>
+                                        </StackPanel>
+
+                                        <!-- Availability Circle Color -->
+                                        <Grid Grid.Column="2">
+                                            <Border Width="10" 
+                                            Height="10" 
+                                            CornerRadius="15" 
+                                            Background="{Binding StatusColor}" 
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="0 0 0 0"
+                                            />
+                                        </Grid>
+
+                                        <!-- Add Friend Button -->
+                                        <Grid   Grid.Column="3"
+                                            Margin="0 0 20 0"
+                                            HorizontalAlignment="Right">
+                                            <Button x:Name="AddFriendButton"
+                                                    Style="{StaticResource ProfileButton}"
+                                                    Click="AddFriendButton_Click"
+                                                    />
+                                        </Grid>
+
+                                    </Grid>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+
+                
+                <Grid   x:Name="PendingFriendRequestsGrid"
+                        Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Pending friend requests"
+                               Style="{StaticResource Label}"
+                               Margin="25 0 25 0"
+                               FontSize="12"/>
+                    <Border Grid.Row="0"
+                            Height="1"
+                            VerticalAlignment="Top"
+                            Margin="170 10 25 0"
+                            Background="{StaticResource GreyTheme}"
+                            />
+
+                    <Grid Grid.Row="1">
+                        <ListView   x:Name="PendindRequestsList"
+                            Grid.Row="1"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Margin="40 10 40 0"
+                            >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="45"/>
+                                                <ColumnDefinition Width="200"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="300"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- User Profile Picture -->
+                                            <Grid Grid.Column="0">
+                                                <Border Style="{StaticResource ProfilePicture}">
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="{Binding ProfilePicture}"/>
+                                                    </Border.Background>
+                                                </Border>
+
+                                                <Border Width="Auto" 
+                                            Height="10" 
+                                            VerticalAlignment="Bottom" 
+                                            Margin="5" 
+                                            HorizontalAlignment="Right" 
+                                            CornerRadius="15" 
+                                            Background="White"/>
+                                            </Grid>
+
+                                            <!-- User Name & Status Message -->
+                                            <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            >
+                                                <TextBlock  Text="{Binding DisplayName}" 
+                                                Margin="10 0"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                FontWeight="DemiBold"/>
+                                                <TextBlock  Text="{Binding StatusMessage}" 
+                                                Margin="10 0" 
+                                                TextTrimming="CharacterEllipsis" 
+                                                Opacity="0.6"
+                                                Foreground="White"
+                                                FontSize="11"/>
+                                            </StackPanel>
+
+                                            <!-- Availability Circle Color -->
+                                            <Grid Grid.Column="2">
+                                                <Border Width="10" 
+                                            Height="10" 
+                                            CornerRadius="15" 
+                                            Background="{Binding StatusColor}" 
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="0 0 0 0"
+                                            />
+                                            </Grid>
+                                            
+                                            <!-- Accept/Deny Buttons -->
+                                            <Grid   Grid.Column="3"
+                                            Margin="0 0 20 0"
+                                            HorizontalAlignment="Right">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="75"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button x:Name="AcceptFriendButton"
+                                                        Grid.Column="0"
+                                                        Tag="{Binding Index}"
+                                                        Style="{StaticResource AcceptFriendButton}"
+                                                        Click="AcceptFriendButton_Click"/>
+                                                
+                                                <Button x:Name="DenyFriendButton"
+                                                        Grid.Column="1"
+                                                    Style="{StaticResource DenyFriendButton}"
+                                                    Click="DenyFriendButton_Click"
+                                                    />
+
+                                            </Grid>
+
+                                        </Grid>
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+
+
+                </Grid>
+
+            </Grid>
+
         </StackPanel>
 
         <Border Grid.Column="2"
@@ -39,8 +290,11 @@
                 Opacity="0.9"
                 Margin="-2,0,0,0">
             <StackPanel>
-                <Button HorizontalAlignment="Right" Margin="10" Style="{StaticResource MaterialDesignFlatButton}" Click="Close_Click">
-                    <materialDesign:PackIcon Kind="Close"/>
+                <Button HorizontalAlignment="Right"
+                        Margin="10"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="Close_Click">
+                    <materialDesign:PackIcon Kind="Close" />
                 </Button>
 
                 <Border Width="150"
@@ -49,7 +303,7 @@
                         BorderThickness="1"
                         BorderBrush="#112152">
                     <Border.Background>
-                        <ImageBrush/>
+                        <ImageBrush />
                         <!-- aici o sa apara poza utilizatorului selectat -->
                     </Border.Background>
                 </Border>
@@ -58,15 +312,18 @@
                            HorizontalAlignment="Center"
                            Margin="0 10 0 0"
                            Foreground="#112152"
-                           FontSize="18" FontWeight="Bold"/>
+                           FontSize="18"
+                           FontWeight="Bold" />
                 <TextBlock Text="Complete Name"
                            FontSize="13"
                            Foreground="#112152"
-                           HorizontalAlignment="Center" Opacity="0.8"/>
+                           HorizontalAlignment="Center"
+                           Opacity="0.8" />
                 <TextBlock Text="Description/Status of the selectetd user"
                            FontSize="8"
                            Foreground="#112152"
-                           HorizontalAlignment="Center" Opacity="0.8"/>
+                           HorizontalAlignment="Center"
+                           Opacity="0.8" />
 
                 <StackPanel Margin="20">
                     <StackPanel Orientation="Horizontal"
@@ -91,28 +348,40 @@
                                                  Foreground="#112152" />
                         <TextBlock Text="Email of the user"
                                    Margin="10 0"
-                                   Foreground="#112152"/>
+                                   Foreground="#112152" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="20 0">
-                    <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                <StackPanel Orientation="Horizontal"
+                            Margin="20 0">
+                    <Border Width="50"
+                            Height="50"
+                            CornerRadius="30"
+                            Margin="5">
                         <Border.Background>
-                            <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                            <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
                         </Border.Background>
                     </Border>
-                    <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                    <Border Width="50"
+                            Height="50"
+                            CornerRadius="30"
+                            Margin="5">
                         <Border.Background>
-                            <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                            <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
                         </Border.Background>
                     </Border>
-                    <Border Width="50" Height="50" CornerRadius="30" Margin="5">
+                    <Border Width="50"
+                            Height="50"
+                            CornerRadius="30"
+                            Margin="5">
                         <Border.Background>
-                            <ImageBrush ImageSource="https://img.dotnet9.com/logo.png"/>
+                            <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
                         </Border.Background>
                     </Border>
                 </StackPanel>
             </StackPanel>
         </Border>
-
+        
     </Grid>
+
 </UserControl>
+
