@@ -18,7 +18,7 @@
         
         <!-- Yellow Border -->
         <Border x:Name="FriendListBorder"
-                    Width="300"
+                    Width="350"
                     Background="{StaticResource YellowTheme}" 
                     CornerRadius="45,4,4,45"
                     HorizontalAlignment="Left"
@@ -34,7 +34,7 @@
         
         <!-- Blue Border -->
         <Border x:Name="FriendListBorderFake"
-                    Width="300"
+                    Width="350"
                     Margin="-2,4,0,4"
                     Background="{StaticResource BlueTheme}" 
                     CornerRadius="45,0,0,45"
@@ -42,7 +42,7 @@
                    />
         
         <!-- Main FriendListControl Grid -->
-        <Grid Margin="25,45,25,0"
+        <Grid Margin="25,45,0,0"
               >
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
@@ -82,19 +82,21 @@
             </Grid>
 
             <!-- Friend List -->
-            <ListView   Grid.Row="1" 
-                        Margin="-18 4 -15 45"
+            <ListView   x:Name="FriendListView"
+                        Grid.Row="1" 
+                        Margin="-18 4 0 45"
                         ItemsSource="{Binding FriendsCollectionView}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         Background="{StaticResource BlueTheme}"
                         >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <WrapPanel>
+                        <WrapPanel Name="FriendWrapPanel">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="145"/>
+                                    <ColumnDefinition Width="45"/>
                                     <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
 
@@ -141,6 +143,73 @@
                                                 Margin="0 0 0 0"
                                                 />
                                 </Grid>
+
+                                <!-- Friend Menu Pop Up -->
+                                <StackPanel x:Name="FriendMenuStackPanel"
+                                            Grid.Column="3"
+                                            HorizontalAlignment="Center">
+                                    <ToggleButton   x:Name="OpenFriendMenuPopUp"
+                                                    Grid.Column="1"
+                                                    Style="{StaticResource OpenMenuButton}"
+                                                    />
+                                    <Popup IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
+                                           PlacementTarget="{Binding ElementName=PCheckBox}" 
+                                           AllowsTransparency="True" 
+                                           PopupAnimation="Slide" 
+                                           StaysOpen="False"
+                                           HorizontalOffset="-14" 
+                                           VerticalOffset="10">
+                                        <Border x:Name="BG" 
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Cursor="Hand"
+                                                Width="50"
+                                                Height="150"
+                                                Background="Gray"
+                                                Opacity="1"
+                                                BorderThickness="0.2"
+                                                BorderBrush="Beige"
+                                                CornerRadius="8">
+
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="50"/>
+                                                    <RowDefinition Height="50"/>
+                                                    <RowDefinition Height="50"/>
+                                                </Grid.RowDefinitions>
+
+                                                <Button x:Name="SendMessageButton"
+                                                        Grid.Row="0"
+                                                        Style="{StaticResource SendMessageButton}"
+                                                        Click="SendMessageButton_Click"
+                                                        />      
+
+                                                <Button x:Name="RemoveFriendButton"
+                                                        Grid.Row="1"
+                                                        Style="{StaticResource RemoveFriendButton}"
+                                                        Click="RemoveFriendButton_Click"
+                                                        />
+
+                                                <Button x:Name="ShowProfileButton"
+                                                        Grid.Row="2"
+                                                        Style="{StaticResource ShowProfileButton}"
+                                                        Click="ShowProfileButton_Click"
+                                                        />
+                                            </Grid>
+
+                                            <Border.Effect>
+                                                <DropShadowEffect Direction="0"
+                                                                  ShadowDepth="-10"
+                                                                  BlurRadius="12" 
+                                                                  Opacity="0.6"
+                                                                  Color="{StaticResource C_YellowTheme}"
+                                                />
+                                            </Border.Effect>
+                                        </Border>
+
+                                    </Popup>
+                                </StackPanel>
+                                
                             </Grid>
                         </WrapPanel>
                     </DataTemplate>

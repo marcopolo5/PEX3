@@ -15,6 +15,14 @@ namespace AccountModule.Controllers
         private readonly FriendRepository _friendRepository = new();
         private readonly ConversationRepository _conversationRepository = new();
 
+        public async Task DeleteFriend(string friendEmail)
+        {
+            User friend = await _userRepository.ReadAsync(friendEmail);
+            await _friendRepository.DeleteFriend(ApplicationUserController.CurrentUser.Id, friend.Id);
+        }
+
+        // TODO: move wrong placed methodes to FriendRequestController
+
         public async Task<bool> SendFriendRequest(string senderEmail, string receiverEmail)
         {
             // TODO: modify existing check (should already be checked in the search friends method)

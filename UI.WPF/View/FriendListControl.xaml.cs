@@ -1,19 +1,7 @@
-﻿using Domain;
+﻿using AccountModule.Controllers;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
@@ -23,6 +11,7 @@ namespace UI.WPF.View
     /// </summary>
     public partial class FriendListControl : UserControl
     {
+        private readonly FriendController _friendController = new();
         public FriendListingViewModel FriendListingViewModel { get; }
 
         public FriendListControl()
@@ -32,8 +21,25 @@ namespace UI.WPF.View
             DataContext = FriendListingViewModel;
         }
 
+        // TODO: Create new conversation or open existing one 
+        private void SendMessageButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
+        private async void RemoveFriendButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            FriendViewModel selectedUserToBeRemoved = button.DataContext as FriendViewModel;
+            await _friendController.DeleteFriend(selectedUserToBeRemoved.Email);
 
+            // e nevoie de reload CurrentUser.Friends !!!!
+        } 
 
+        // TODO: Show friend's profile (backend + frontend)
+        private void ShowProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

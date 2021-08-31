@@ -4,14 +4,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
         xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
         xmlns:testUC="clr-namespace:WPFUI.TEST.View"
         
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200">
     <Window.Resources>
-
+        
         <!-- UNUSED -->
         <Style x:Key="FriendRequestGrid" TargetType="{x:Type Grid}">
             <Setter Property="Margin" Value="10"/>
@@ -24,6 +23,9 @@
         </Style>
 
         <CollectionViewSource  x:Key="FriendsCVS" x:Name="ContanctsCVS"/>
+
+        <ResourceDictionary x:Key="Test" Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+
 
     </Window.Resources>
 
@@ -166,7 +168,7 @@
         <Grid Style="{StaticResource FriendRequestGrid}"
             Grid.Column="2" 
             Margin="0,0,0,0">
-            <Border></Border>
+            <Border Background="Gray"></Border>
             <Grid>
                 
                 <Grid.ColumnDefinitions>
@@ -174,6 +176,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -194,6 +197,66 @@
 
                 <Label Name="friendRequestErrorMessage" Grid.Row="3" Grid.Column="1" Foreground="Red"></Label>
 
+                <StackPanel x:Name="FriendMenuStackPanel"
+                            Grid.Row="4"
+                            HorizontalAlignment="Center">
+                    <ToggleButton x:Name="OpenFriendMenuPopUp"
+                            Grid.Column="1"
+                            Style="{StaticResource OpenMenuButton}"
+                            />
+                    <Popup IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
+                           PlacementTarget="{Binding ElementName=PCheckBox}" 
+                           AllowsTransparency="True" 
+                           PopupAnimation="Slide" 
+                           StaysOpen="False"
+                           HorizontalOffset="-13" 
+                           VerticalOffset="10">
+                        <Border x:Name="BG" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Cursor="Hand"
+                            Width="50"
+                            Height="150"
+                            Background="Transparent"
+                            BorderThickness="0.2"
+                            BorderBrush="Beige"
+                            CornerRadius="8">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="SendMessageButton"
+                                        Grid.Row="0"
+                                        Style="{StaticResource SendMessageButton}"
+                                        />
+
+                                <Button x:Name="RemoveFriendButton"
+                                        Grid.Row="1"
+                                        Style="{StaticResource RemoveFriendButton}"
+                                        />
+
+                                <Button x:Name="ShowProfileButton"
+                                        Grid.Row="2"
+                                        Style="{StaticResource ShowProfileButton}"
+                                        />
+                            </Grid>
+                            
+                            <Border.Effect>
+                                <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                            </Border.Effect>
+                        </Border>
+                        
+                    </Popup>
+                </StackPanel>
             </Grid>
         </Grid>
             
@@ -206,7 +269,6 @@
                 <testUC:FriendListUserControl/>
             </Grid>
             -->
-            <testUC:FriendListUserControl/>
 
         </Grid>
 
@@ -222,7 +284,7 @@
             </materialDesign:DrawerHost>
         </Grid>
 
-
+        
         
         <!--#region -->
         <Border x:Name="FakeDrawerSimulator"
@@ -232,13 +294,12 @@
                 Height="800"
                 Background="Black"
                 Opacity="0.7"
-                Visibility="Visible"
+                Visibility="Hidden"
                 MouseLeftButtonDown="FadeBorderClick"
                 Style="{StaticResource DrawerEffectStyle}"
                 >
-            
+
         </Border>
-                
         <!--#endregion-->
 
 
