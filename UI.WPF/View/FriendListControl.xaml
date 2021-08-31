@@ -87,8 +87,7 @@
                         Margin="-18 4 0 45"
                         ItemsSource="{Binding FriendsCollectionView}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        Background="{StaticResource BlueTheme}" SelectionChanged="ListView_SelectionChanged"
-                        >
+                        Background="{StaticResource BlueTheme}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Name="FriendWrapPanel">
