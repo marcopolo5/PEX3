@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using Domain;
 using System.Windows.Media.Imaging;
 using UI.WPF.View;
+using UI.WPF.Common;
 
 namespace UI.WPF.ViewModel
 {
@@ -77,7 +78,7 @@ namespace UI.WPF.ViewModel
         { 
             get
             {
-                return ProfileControl.LoadImage(_accountProfilePictureArray);
+                return BitmapImageLoader.LoadImage(_accountProfilePictureArray);
             }
         }
 

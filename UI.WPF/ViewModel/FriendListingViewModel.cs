@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using UI.WPF.Common;
 using UI.WPF.View;
 
 namespace UI.WPF.ViewModel
@@ -45,7 +46,7 @@ namespace UI.WPF.ViewModel
         {
             foreach (User friend in ApplicationUserController.CurrentUser.Friends.ToList())
             {
-                yield return new FriendViewModel(friend.LastName + " " + friend.FirstName, friend.Email, friend.Profile.StatusMessage, ProfileControl.LoadImage(friend.Profile.Image), friend.Profile.Status);
+                yield return new FriendViewModel(friend.LastName + " " + friend.FirstName, friend.Email, friend.Profile.StatusMessage, BitmapImageLoader.LoadImage(friend.Profile.Image), friend.Profile.Status);
             }
         }
 

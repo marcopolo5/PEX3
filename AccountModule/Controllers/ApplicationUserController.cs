@@ -214,7 +214,7 @@ namespace AccountModule.Controllers
         }
 
 
-        //////////////////// MOVED LOGIC TO Domain/Helpers/ImageHelper
+        //////////////////// MOVED LOGIC TO Domain/Helpers/ImageHelper.cs
         /// <summary>
         /// Convert memory image into a binary array
         /// </summary>

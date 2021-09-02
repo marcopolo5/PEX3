@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using UI.WPF.Common;
 
 namespace UI.WPF.View
 {
@@ -26,7 +27,7 @@ namespace UI.WPF.View
             // Load profile informations
             displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName;
             aboutText.Text = ApplicationUserController.CurrentUser.Profile.StatusMessage;
-            BitmapImage bi_profilePicture = LoadImage(ApplicationUserController.CurrentUser.Profile.Image);
+            BitmapImage bi_profilePicture = BitmapImageLoader.LoadImage(ApplicationUserController.CurrentUser.Profile.Image);
             profilePicture.Fill = new ImageBrush(bi_profilePicture);
             int reputation = ApplicationUserController.CurrentUser.Profile.Reputation;
             ratingValueTextBLock.Text = reputation + "";
@@ -62,32 +63,33 @@ namespace UI.WPF.View
             messageBox.Show("Profile updated successfully");
         }
 
+        /////////// MOVED TO UI.WPF/Common/BitmapImageLoader.cs
         /// <summary>
         /// Convert binary array into a BitmapImage
         /// </summary>
         /// <param name="imageData">The binary array with the image data</param>
         /// <returns>BitmapImage corresponding to the binary array given</returns>
-        public static BitmapImage LoadImage(byte[] imageData)
-        {
-            if (imageData == null || imageData.Length == 0)
-            {
-                return null;
-            }
+        //public static BitmapImage LoadImage(byte[] imageData)
+        //{
+        //    if (imageData == null || imageData.Length == 0)
+        //    {
+        //        return null;
+        //    }
 
-            BitmapImage bi_image = new BitmapImage();
-            using (MemoryStream memoryStream = new MemoryStream(imageData))
-            {
-                memoryStream.Position = 0;
-                bi_image.BeginInit();
-                bi_image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                bi_image.CacheOption = BitmapCacheOption.OnLoad;
-                bi_image.UriSource = null;
-                bi_image.StreamSource = memoryStream;
-                bi_image.EndInit();
-            }
-            bi_image.Freeze();
-            return bi_image;
-        }
+        //    BitmapImage bi_image = new BitmapImage();
+        //    using (MemoryStream memoryStream = new MemoryStream(imageData))
+        //    {
+        //        memoryStream.Position = 0;
+        //        bi_image.BeginInit();
+        //        bi_image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+        //        bi_image.CacheOption = BitmapCacheOption.OnLoad;
+        //        bi_image.UriSource = null;
+        //        bi_image.StreamSource = memoryStream;
+        //        bi_image.EndInit();
+        //    }
+        //    bi_image.Freeze();
+        //    return bi_image;
+        //}
 
     }
 }

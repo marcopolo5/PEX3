@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.WPF.Common;
 using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
@@ -64,7 +65,7 @@ namespace UI.WPF.View
                     }
                     var profile = await _profileController.GetProfile(friendRequest.SenderId);
                     var user = await _userController.GetUser(friendRequest.SenderId);
-                    FriendViewModel userUIModel = new FriendViewModel(profile.DisplayName, user.Email, profile.StatusMessage, ProfileControl.LoadImage(profile.Image), profile.Status, friendRequest.Id);
+                    FriendViewModel userUIModel = new FriendViewModel(profile.DisplayName, user.Email, profile.StatusMessage, BitmapImageLoader.LoadImage(profile.Image), profile.Status, friendRequest.Id);
                     PendingFriendRequests.Add(userUIModel);
                 }
                 catch (KeyNotFoundException) { }
@@ -98,7 +99,7 @@ namespace UI.WPF.View
                 }
                 finally
                 {
-                    FriendViewModel userUIModel = new FriendViewModel(user.FirstName + " " + user.LastName, user.Email, user.Profile.StatusMessage, ProfileControl.LoadImage(user.Profile.Image), user.Profile.Status);
+                    FriendViewModel userUIModel = new FriendViewModel(user.FirstName + " " + user.LastName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status);
                     Users.Add(userUIModel);
                 }
             }
