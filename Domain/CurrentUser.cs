@@ -35,7 +35,7 @@ namespace Domain
             {
                 return false;
             }
-            // TODO: reset the fields
+            // TODO: reset the fields (not actually needed, when a users logs in this instance of current user will be destroyed, hopefully)
             return true;
         }
     }

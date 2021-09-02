@@ -1,13 +1,38 @@
-﻿namespace Domain.DTO
+using Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Win32;
+using Domain;
+using System.Windows.Media.Imaging;
+using UI.WPF.View;
+
+namespace UI.WPF.ViewModel
 {
-    public class ConversationPreviewDTO : BaseModel
+    public class ConversationPreviewViewModel : ViewModelBase
     {
         private int _conversationId;
         private string _conversationName;
         private string _lastMessage;
-        private string _accountProfilePicPath;
+        private byte[] _accountProfilePictureArray;
+        private string _statusMessage;
         private bool _isMessageUnread;
         private UserStatus _userStatus;
+
+        public string StatusMessage
+        { 
+            get
+            {
+                return _statusMessage;
+            }
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged(nameof(StatusMessage));
+            }
+        }
+
 
         public int ConversationId
         {
@@ -48,18 +73,28 @@
             }
         }
 
-        public string AccountProfilePicPath 
+        public BitmapImage AccountProfilePicture 
         { 
             get
             {
-                return _accountProfilePicPath;
+                return ProfileControl.LoadImage(_accountProfilePictureArray);
+            }
+        }
+
+        public byte[] AccountProfilePictureArray
+        {
+            get
+            {
+                return _accountProfilePictureArray;
             }
             set
             {
-                _accountProfilePicPath = value;
-                OnPropertyChanged(nameof(AccountProfilePicPath));
+                _accountProfilePictureArray = value;
+                OnPropertyChanged(nameof(AccountProfilePictureArray));
+                OnPropertyChanged(nameof(AccountProfilePicture));
             }
         }
+
 
         public bool UnreadMessage 
         {

@@ -31,7 +31,6 @@
                        FontSize="25"
                        Foreground="white"
                        Text="Welcome to geoChat!"
-                       FontFamily="Helvetica"
                        FontStyle="Italic"
                        TextAlignment="Center"
                        Margin="15,30,0,0" />
@@ -40,7 +39,6 @@
                        FontSize="20"
                        Foreground="white"
                        Text=" An application that wraps up everything you ever thought  a chat application should contain."
-                       FontFamily="Helvetica"
                        FontStyle="Italic"
                        TextAlignment="Center" />
 
@@ -55,16 +53,15 @@
                          Grid.Row="4"
                          FontSize="15"
                          Foreground="white"
-                         FontFamily="Helvetica"
                          FontStyle="Italic"
+                         FontFamily="{DynamicResource GlobalFontFamily}"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Width="900">
                 <FlowDocument>
                     <FlowDocument.Resources>
                         <Style TargetType="{x:Type Paragraph}">
-                            <Setter Property="Margin"
-                                    Value="15,0,15,20" />
+                            <Setter Property="Margin" Value="15,0,15,20" />
                         </Style>
                     </FlowDocument.Resources>
                     <Paragraph TextAlignment="Center"
@@ -90,7 +87,6 @@
                 <TextBlock FontSize="13"
                            Foreground="white"
                            Text=" Thanks to the mentor who supervised and made sure that the implementation of the application will proceed in the best possible way."
-                           FontFamily="Helvetica"
                            FontStyle="Italic"
                            TextAlignment="Center"
                            Margin="0,40,0,0" />
@@ -108,13 +104,11 @@
                 <TextBlock FontSize="10"
                            Foreground="white"
                            Text="Marco Olescu"
-                           FontFamily="Helvetica"
                            FontStyle="Italic"
                            TextAlignment="Center" />
                 <TextBlock FontSize="13"
                            Foreground="white"
                            Text="Thanks to the team that contributed to the achievement of this application."
-                           FontFamily="Helvetica"
                            FontStyle="Italic"
                            TextAlignment="Center"
                            Margin="20,30,20,10" />
@@ -165,25 +159,21 @@
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Elena Brinzan"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="187,5,60,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Rares Butean"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="40,5,60,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Alexandra Felecan"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="36,5,40,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Sorina Ioja"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="57,5,150,30" />
                 </StackPanel>
@@ -233,25 +223,21 @@
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Denis-Adam Lenart"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="182,5,60,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="David Merosiu"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="23,5,60,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Adina-Ioana Nistor"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="24,5,40,30" />
                     <TextBlock FontSize="10"
                                Foreground="white"
                                Text="Daniel Talpas"
-                               FontFamily="Helvetica"
                                FontStyle="Italic"
                                Margin="52,5,150,30" />
                 </StackPanel>
