@@ -81,26 +81,6 @@ namespace Domain.RepositoryContracts
             }
         }
 
-
-        /// <summary>
-        /// Async method. Reads all users from the database with 'displayname' as substring
-        /// in their profile DisplayName.
-        /// </summary>
-        /// <param name="displayname">Name to search for</param>
-        /// <returns>All users with 'displayname' as substring</returns>
-        public async Task<IEnumerable<User>> ReadAllAsync(string displayname_or_email)
-        {
-            string sql = $@"select Users.*, Profiles.*
-                             from Users inner join Profiles on Users.Id=Profiles.UserId 
-                              and (Profiles.DisplayName like '%@Email%' or Users.Email like '%rares%')";
-            using (var connection = CreateConnection())
-            {
-                var users = await connection.QueryAsync<User, Profile, User>(sql,
-                    (user, profile) => { user.Profile = profile; return user; });
-                return users;
-            }
-        }
-
         public async Task<IEnumerable<User>> ReadAllWithFilterAsync(string filter)
         {
             string sqlQuery = $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
