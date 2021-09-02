@@ -21,21 +21,21 @@ namespace ChatServerModule.MiniRepo
 
             var profileId = GetProfileId(userId);
             byte status = (byte)newUserStatus;
-            string sql = $"UPDATE [Profiles] SET status=@Status WHERE id=@ProfileId";
+            string sql = $"UPDATE [Profiles] SET status={status} WHERE id={profileId}";
             using (var conn = new SqlConnection(_connectionString))
             {
-                conn.Execute(sql, new { Status = status, ProfileId = profileId });
+                conn.Execute(sql);
             }
         }
 
         public IEnumerable<int> GetFriendsIds(int userId)
         {
             IEnumerable<int> result;
-            string sql = $"SELECT friendid FROM [Friends] WHERE userid=@UserId;";
+            string sql = $"SELECT friendid FROM [Friends] WHERE userid={userId};";
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                result = conn.Query<int>(sql, new { UserId = userId });
+                result = conn.Query<int>(sql);
             }
             return result;
         }
@@ -57,12 +57,12 @@ namespace ChatServerModule.MiniRepo
 
         private int GetProfileId(int userId)
         {
-            string sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE u.id=@UserId ";
+            string sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE u.id={userId} ";//////////
             int profileId;
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                profileId = conn.QueryFirstOrDefault<int>(sql, new { UserId = userId });
+                profileId = conn.QueryFirstOrDefault<int>(sql);
             }
             return profileId;
         }
