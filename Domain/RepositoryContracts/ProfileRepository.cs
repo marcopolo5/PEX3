@@ -18,7 +18,7 @@ namespace Domain.RepositoryContracts
         /// Constructor
         /// </summary>
         public ProfileRepository() : base("Profiles") { }
-        public async Task<Profile> ReadAsyncProfile(int userid)
+        public new async Task<Profile> ReadAsync(int userid)
         {
             using (var connection = CreateConnection())
             {

@@ -10,7 +10,7 @@ namespace Domain.AccountContracts
     {
         Task<string> SaveChanges(string password, string newPassword, string newRetypedPassword);
 
-        void SetAnonimity(bool anonimity);
+        void SetAnonymity(bool anonimity);
 
         Task ChangePassword(string newPassword);
 
