@@ -1,10 +1,7 @@
 ﻿using Domain.Helpers;
 using Domain.HelpersContracts;
 using Domain.Models;
-using Domain.RepositoryContracts;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain
 {
@@ -26,28 +23,7 @@ namespace Domain
         public int CurrentConversationId { get; set; }
 
         private readonly IAppConfiguration _appConfiguration = new AppConfiguration();
-
-        public CurrentUser() { }
-
-        public CurrentUser(IAppConfiguration appConfiguration)
-        {
-            _appConfiguration = appConfiguration;
-
-        }
-
-        public void InitializeFields(Profile profile, Settings settings)
-        {
-
-            // TODO: 
-            // initialize Friends
-            // initialize FriendRequests
-            // initialize Conversations
-            // initialize BlockedUsers
-            // OBS: not finished yet in UserRepository (see  UserRepository.ReadCurrentUserAsync(int id)  )
-            // soon™
-            Profile = profile;
-            Settings = settings;
-        }
+        
 
         /// <summary>
         /// Resets all the fields and deletes the token from the file

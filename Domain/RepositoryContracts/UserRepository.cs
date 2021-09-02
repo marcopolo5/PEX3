@@ -2,9 +2,7 @@
 using Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -20,7 +18,9 @@ namespace Domain.RepositoryContracts
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserRepository() : base("Users") { }
+        public UserRepository() : base("Users")
+        {
+        }
 
 
         /// <summary>
@@ -28,7 +28,9 @@ namespace Domain.RepositoryContracts
         /// </summary>
         /// <param name="tablename">Database's table name</param>
         /// <param name="connectionstring">Database's connection string</param>
-        public UserRepository(string tablename, string connectionstring) : base(tablename, connectionstring) { }
+        public UserRepository(string tablename, string connectionstring) : base(tablename, connectionstring)
+        {
+        }
 
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Domain.RepositoryContracts
                     Email = user.Email,
                     Password = user.Password
                 };
-                string query = @"exec spRegisterUser @Email, @Password, @FirstName, @LastName";
+                var query = @"exec spRegisterUser @Email, @Password, @FirstName, @LastName";
                 await connection.QueryAsync(query, u);
             }
         }
@@ -70,23 +72,29 @@ namespace Domain.RepositoryContracts
         /// <returns>All users</returns>
         public new async Task<IEnumerable<User>> ReadAllAsync()
         {
-            string sql = @"select Users.*, Profiles.*
+            var sql = @"select Users.*, Profiles.*
                           from Users left join Profiles
                             on Users.Id=Profiles.UserId";
             using (var connection = CreateConnection())
             {
                 var users = await connection.QueryAsync<User, Profile, User>(sql,
-                    (user, profile) => { user.Profile = profile; return user; });
+                    (user, profile) =>
+                    {
+                        user.Profile = profile;
+                        return user;
+                    });
                 return users;
             }
         }
 
+
         public async Task<IEnumerable<User>> ReadAllWithFilterAsync(string filter)
         {
-            string sqlQuery = $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
+            var sqlQuery =
+                $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
             using (var connection = CreateConnection())
             {
-                var users = await connection.QueryAsync<User>(sqlQuery, new { Filter = filter });
+                var users = await connection.QueryAsync<User>(sqlQuery, new {Filter = filter});
                 return users;
             }
         }
@@ -103,12 +111,12 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string sqlGetUser = @$"select * from {TableName} where Users.id=@Id";
-                string sqlGetProfile = @"select * from Profiles where Profiles.UserId=@Id";
-                var entity = await connection.QuerySingleOrDefaultAsync<User>(sqlGetUser, new { Id = id });
-                entity.Profile = await connection.QuerySingleOrDefaultAsync<Profile>(sqlGetProfile, new { Id = id });
-                //if (entity == null)
-                //    throw new KeyNotFoundException($"User with id {id} was not found"); //TODO: Unhandled in UI
+                var sqlGetUser = @$"select * from {TableName} where Users.id=@Id";
+                var sqlGetProfile = @"select * from Profiles where Profiles.UserId=@Id";
+                var entity = await connection.QuerySingleOrDefaultAsync<User>(sqlGetUser, new {Id = id});
+                entity.Profile = await connection.QuerySingleOrDefaultAsync<Profile>(sqlGetProfile, new {Id = id});
+                // if (entity == null)
+                //     throw new KeyNotFoundException($"User with id {id} was not found"); //TODO: Unhandled in UI
                 return entity;
             }
         }
@@ -125,9 +133,11 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                var entity = await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {TableName} WHERE Email=@Email", new { Email = email });
-                //if (entity == null)
-                //    throw new KeyNotFoundException($"User with email {email} was not found."); //TODO: Unhandled in UI
+                var entity =
+                    await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {TableName} WHERE Email=@Email",
+                        new {Email = email});
+                // if (entity == null)
+                //     throw new KeyNotFoundException($"User with email {email} was not found."); //TODO: Unhandled in UI
                 return entity;
             }
         }
@@ -142,10 +152,10 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string sqlLogIn = $@"exec spLoginUser @Email, @Password";
-                string sqlGetId = $@"select id from Users where Users.Email=@Email";
+                var sqlLogIn = @"exec spLoginUser @Email, @Password";
+                var sqlGetId = @"select id from Users where Users.Email=@Email";
 
-                //TODO: Set DB to allow multiple connection threads from the same user
+                //TODO: Set DB to allow multiple connection threads from the same user, then configure tasks to run in parallel
                 //see https://stackoverflow.com/questions/6062192/there-is-already-an-open-datareader-associated-with-this-command-which-must-be-c
 
                 //var idTask = connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email });
@@ -157,9 +167,10 @@ namespace Domain.RepositoryContracts
                 //string token = await tokenTask;
 
                 return (
-                    await connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new { userLoginModel.Email }),
-                    await connection.QueryFirstOrDefaultAsync<string>(sqlLogIn, new { userLoginModel.Email, userLoginModel.Password })
-                    );
+                    await connection.QueryFirstOrDefaultAsync<int>(sqlGetId, new {userLoginModel.Email}),
+                    await connection.QueryFirstOrDefaultAsync<string>(sqlLogIn,
+                        new {userLoginModel.Email, userLoginModel.Password})
+                );
             }
         }
 
@@ -168,21 +179,28 @@ namespace Domain.RepositoryContracts
         /// Reads an user by it's ID. Maps CurrentUser's attributes.
         /// </summary>
         /// <param name="id">User's id</param>
+        /// <param name="token">User's token</param>
         /// <returns>CurrentUser entity</returns>
         public async Task<CurrentUser> ReadCurrentUserAsync(int id, string token)
         {
             using (var connection = CreateConnection())
             {
-                string sqlViewUser = @"exec spViewUser @Id, @Token";
-                string sqlFriends = @"select FriendId from Friends where UserId=@Id";
-                string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
-                string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
-                string sqlConversations = @"select Conversations.* from Conversations 
+                var sqlViewUser = @"exec spViewUser @Id, @Token";
+                var sqlFriends = @"select FriendId from Friends where UserId=@Id";
+                var sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
+                var sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
+                var sqlConversations = @"select Conversations.* from Conversations 
                                             inner join Group_Members on Group_Members.ConversationId = Conversations.Id
                                             where Group_Members.userid=@Id";
 
-                var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(sqlViewUser,
-                    (user, profile, settings) => { user.Profile = profile; user.Settings = settings; return user; }, new { Id = id, Token = token });
+                var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(
+                    sqlViewUser,
+                    (user, profile, settings) =>
+                    {
+                        user.Profile = profile;
+                        user.Settings = settings;
+                        return user;
+                    }, new {Id = id, Token = token});
                 var currentUser = currentUserArray.FirstOrDefault();
 
                 if (currentUser == null)
@@ -190,7 +208,7 @@ namespace Domain.RepositoryContracts
                     throw new ArgumentException("Token isn't valid");
                 }
 
-                var friendIds = await connection.QueryAsync<int>(sqlFriends, new { Id = id });
+                var friendIds = await connection.QueryAsync<int>(sqlFriends, new {Id = id});
                 foreach (var friendId in friendIds)
                 {
                     var friend = await ReadAsync(friendId);
@@ -199,13 +217,13 @@ namespace Domain.RepositoryContracts
                     currentUser.Friends.Add(friend);
                 }
 
-                var friendRequests = await connection.QueryAsync<FriendRequest>(sqlFriendRequests, new { Id = id });
+                var friendRequests = await connection.QueryAsync<FriendRequest>(sqlFriendRequests, new {Id = id});
                 foreach (var friendRequest in friendRequests)
                 {
                     currentUser.FriendRequests.Add(friendRequest);
                 }
 
-                var blockedUsersIds = await connection.QueryAsync<int>(sqlBlockedUsers, new { Id = id });
+                var blockedUsersIds = await connection.QueryAsync<int>(sqlBlockedUsers, new {Id = id});
                 foreach (var blockedUserId in blockedUsersIds)
                 {
                     var blockedUser = await ReadAsync(blockedUserId);
@@ -214,14 +232,15 @@ namespace Domain.RepositoryContracts
                     currentUser.BlockedUsers.Add(blockedUser);
                 }
 
-                var conversations = await connection.QueryAsync<Conversation>(sqlConversations, new { Id = id });
+                var conversations = await connection.QueryAsync<Conversation>(sqlConversations, new {Id = id});
                 foreach (var conversation in conversations)
                 {
                     //Map messages
-                    var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
-                                ($"select Messages.* from Messages inner join Conversations " +
-                                $"on Messages.ConversationId = Conversations.id" +
-                                $" WHERE Conversations.id = @Id ORDER BY createdat ASC", new { Id = conversation.Id });
+                    var messages = await connection
+                        .QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at
+                            )>
+                        (@"select Messages.* from Messages inner join Conversations on Messages.ConversationId = Conversations.id WHERE Conversations.id = @Id ORDER BY createdat ASC",
+                            new {Id = conversation.Id});
                     foreach (var message in messages)
                     {
                         conversation.Messages.Add(new Message
@@ -234,10 +253,11 @@ namespace Domain.RepositoryContracts
                     }
 
                     //Map participants
-                    var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members" +
-                                $" ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id", new { Id = conversation.Id });
+                    var participants = await connection.QueryAsync<User>(
+                        "SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id",
+                        new {Id = conversation.Id});
                     await MapUserProfilesAsync(participants);
-                    conversation.Participants = (List<User>)participants;
+                    conversation.Participants = (List<User>) participants;
 
                     currentUser.Conversations.Add(conversation);
                 }
@@ -254,7 +274,7 @@ namespace Domain.RepositoryContracts
         private async Task MapUserProfilesAsync(IEnumerable<User> users)
         {
             var profiles = await ProfileRepository.ReadAllAsync();
-            foreach (User user in users)
+            foreach (var user in users)
             {
                 user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
             }

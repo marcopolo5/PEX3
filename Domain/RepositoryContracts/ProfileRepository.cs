@@ -1,9 +1,6 @@
 ﻿using Dapper;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -18,7 +15,7 @@ namespace Domain.RepositoryContracts
         /// Constructor
         /// </summary>
         public ProfileRepository() : base("Profiles") { }
-        public async Task<Profile> ReadAsyncProfile(int userid)
+        public new async Task<Profile> ReadAsync(int userid)
         {
             using (var connection = CreateConnection())
             {

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Extensions.DependencyInjection;
 using AccountModule.Controllers;
+using Domain.Exceptions;
 
 namespace UI.WPF
 {
@@ -42,31 +43,16 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonRegisterClick(object sender, RoutedEventArgs e)
         {
-            string _registerErrorMessage = _applicationUserController.CheckRegisterConstraints(firstNameText.Text, lastNameText.Text, emailText.Text, password1Text.Password, password2Text.Password);
-            bool validData = (_registerErrorMessage == "");
-            if (validData)
+            try
             {
-                if (await _applicationUserController.Register(
-                    firstNameText.Text, lastNameText.Text, emailText.Text, password1Text.Password))
-                {
-                    //registerErrorMessage.Foreground = Brushes.Green;
-                    //registerErrorMessage.Content = "You have registered successfully!";                  
-                    CustomMessageBox messageBox = new CustomMessageBox();
-                    messageBox.Show("You have registered successfully!");
-                }
-                else
-                {
-                    CustomMessageBox messageBox = new CustomMessageBox();                   
-                    //registerErrorMessage.Content = "This e-mail has already been used";
-                    messageBox.Show("This e-mail has already been used");
-                }
+                await _applicationUserController.Register(firstNameText.Text, lastNameText.Text, emailText.Text,
+                    password1Text.Password, password2Text.Password);
             }
-            else
+            catch (InvalidEntityException exception)
             {
-                CustomMessageBox messageBox = new CustomMessageBox();
-                messageBox.Show(_registerErrorMessage);
-                //registerErrorMessage.Content = _registerErrorMessage;
+                new CustomMessageBox().Show(exception.Message);
             }
+            //catch(Exception exception){ } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
@@ -100,7 +86,6 @@ namespace UI.WPF
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
-
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Domain.Models;
@@ -35,7 +32,7 @@ namespace Domain.RepositoryContracts
         /// <returns>IEnumerable of messages</returns>
         public new async Task<IEnumerable<Message>> ReadAllAsync()
         {
-            string sql = @"SELECT * FROM Messages ORDER BY CreatedAt ASC";
+            var sql = @"SELECT * FROM Messages ORDER BY CreatedAt ASC";
             using (var connection = CreateConnection())
             {
                 var messages = await connection.QueryAsync<Message>(sql);
