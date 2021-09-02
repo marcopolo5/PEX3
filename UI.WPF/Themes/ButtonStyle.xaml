@@ -338,5 +338,87 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="RateUpButton" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="MaxHeight" Value="40"/>
+        <Setter Property="MaxWidth" Value="40"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0.2"
+                            BorderBrush="Beige"
+                            CornerRadius="8">
+                        <materialDesign:PackIcon Kind="ArrowUpBoldOutline"
+                                                 Margin="5"
+                                                Width="30"
+                                                Height="30"/>
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                        </Border.Effect>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="DarkSeaGreen"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="DarkOliveGreen"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
+    <Style x:Key="RateDownButton" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="MaxHeight" Value="40"/>
+        <Setter Property="MaxWidth" Value="40"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0.2"
+                            BorderBrush="Beige"
+                            CornerRadius="8">
+                        <materialDesign:PackIcon Kind="ArrowDownBoldOutline"
+                                                 Margin="5"
+                                                Width="30"
+                                                Height="30"/>
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                        </Border.Effect>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="IndianRed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="DarkRed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

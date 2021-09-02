@@ -114,7 +114,11 @@ namespace AccountModule.Controllers
         private async Task CreateConversation(int userIdOne, int userIdTwo)
         {
             var participants = new List<User>();
+            var userOne = await _userRepository.ReadAsync(userIdOne);
+            var userTwo = await _userRepository.ReadAsync(userIdTwo);
 
+            participants.Add(userOne);
+            participants.Add(userTwo);
             var conversation = new Conversation
             {
                 CreatedAt = DateTime.Now,
