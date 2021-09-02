@@ -2,9 +2,7 @@
 using Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -61,7 +59,7 @@ namespace Domain.RepositoryContracts
                     Email = user.Email,
                     Password = user.Password
                 };
-                string query = @"exec spRegisterUser @Email, @Password, @FirstName, @LastName";
+                var query = @"exec spRegisterUser @Email, @Password, @FirstName, @LastName";
                 await connection.QueryAsync(query, u);
             }
         }
@@ -74,7 +72,7 @@ namespace Domain.RepositoryContracts
         /// <returns>All users</returns>
         public new async Task<IEnumerable<User>> ReadAllAsync()
         {
-            string sql = @"select Users.*, Profiles.*
+            var sql = @"select Users.*, Profiles.*
                           from Users left join Profiles
                             on Users.Id=Profiles.UserId";
             using (var connection = CreateConnection())
@@ -89,14 +87,14 @@ namespace Domain.RepositoryContracts
             }
         }
 
-        
 
         public async Task<IEnumerable<User>> ReadAllWithFilterAsync(string filter)
         {
-            string sqlQuery = $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
+            var sqlQuery =
+                $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
             using (var connection = CreateConnection())
             {
-                var users = await connection.QueryAsync<User>(sqlQuery, new { Filter = filter });
+                var users = await connection.QueryAsync<User>(sqlQuery, new {Filter = filter});
                 return users;
             }
         }
@@ -113,8 +111,8 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string sqlGetUser = @$"select * from {TableName} where Users.id=@Id";
-                string sqlGetProfile = @"select * from Profiles where Profiles.UserId=@Id";
+                var sqlGetUser = @$"select * from {TableName} where Users.id=@Id";
+                var sqlGetProfile = @"select * from Profiles where Profiles.UserId=@Id";
                 var entity = await connection.QuerySingleOrDefaultAsync<User>(sqlGetUser, new {Id = id});
                 entity.Profile = await connection.QuerySingleOrDefaultAsync<Profile>(sqlGetProfile, new {Id = id});
                 // if (entity == null)
@@ -154,8 +152,8 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string sqlLogIn = @"exec spLoginUser @Email, @Password";
-                string sqlGetId = @"select id from Users where Users.Email=@Email";
+                var sqlLogIn = @"exec spLoginUser @Email, @Password";
+                var sqlGetId = @"select id from Users where Users.Email=@Email";
 
                 //TODO: Set DB to allow multiple connection threads from the same user, then configure tasks to run in parallel
                 //see https://stackoverflow.com/questions/6062192/there-is-already-an-open-datareader-associated-with-this-command-which-must-be-c
@@ -187,11 +185,11 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string sqlViewUser = @"exec spViewUser @Id, @Token";
-                string sqlFriends = @"select FriendId from Friends where UserId=@Id";
-                string sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
-                string sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
-                string sqlConversations = @"select Conversations.* from Conversations 
+                var sqlViewUser = @"exec spViewUser @Id, @Token";
+                var sqlFriends = @"select FriendId from Friends where UserId=@Id";
+                var sqlFriendRequests = @"select * from Friend_Requests where ReceiverId=@Id";
+                var sqlBlockedUsers = @"select BlockedUserId from Blocked_Users where UserId=@Id";
+                var sqlConversations = @"select Conversations.* from Conversations 
                                             inner join Group_Members on Group_Members.ConversationId = Conversations.Id
                                             where Group_Members.userid=@Id";
 
@@ -276,7 +274,7 @@ namespace Domain.RepositoryContracts
         private async Task MapUserProfilesAsync(IEnumerable<User> users)
         {
             var profiles = await ProfileRepository.ReadAllAsync();
-            foreach (User user in users)
+            foreach (var user in users)
             {
                 user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
             }

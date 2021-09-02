@@ -3,7 +3,6 @@ using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -38,10 +37,10 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 await base.CreateAsync(conversation);
-                foreach (User participant in conversation.Participants)
+                foreach (var participant in conversation.Participants)
                 {
-                    string sql = $@"insert into Group_Members values({participant.Id},{conversation.Id})";
-                    await connection.QueryAsync(sql);
+                    var sql = $@"insert into Group_Members values(@ParticipantId, @ConversationId)";
+                    await connection.QueryAsync(sql, new {ParticipantId = participant.Id, ConversationId = conversation.Id});
                 }
             }
         }
@@ -77,7 +76,7 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 var conversations = await base.ReadAllAsync();
-                foreach (Conversation conversation in conversations)
+                foreach (var conversation in conversations)
                 {
                     await MapConversationParticipants(conversation);
                     await MapConversationMessages(conversation);
@@ -95,10 +94,11 @@ namespace Domain.RepositoryContracts
         /// <returns></returns>
         private async Task MapConversationMessages(Conversation conversation)
         {
+            const string sql = @"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId=@ConversationId ORDER BY createdat ASC";
             using (var connection = CreateConnection())
             {
                 var messages = await connection.QueryAsync<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
-                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId={conversation.Id} ORDER BY createdat ASC");
+                    (sql, new {ConversationId = conversation.Id});
                 foreach (var message in messages)
                 {
                     conversation.Messages.Add(new Message
@@ -123,9 +123,9 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id", new { Id = conversation.Id });
+                var participants = await connection.QueryAsync<User>($"SELECT Users.* FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id", new {Id = conversation.Id});
                 var profiles = await connection.QueryAsync<Profile>(@"SELECT * FROM Profiles");
-                foreach (User user in participants)
+                foreach (var user in participants)
                 {
                     user.Profile = profiles.FirstOrDefault(profile => profile.UserId == user.Id);
                 }

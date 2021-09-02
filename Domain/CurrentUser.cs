@@ -1,10 +1,7 @@
 ﻿using Domain.Helpers;
 using Domain.HelpersContracts;
 using Domain.Models;
-using Domain.RepositoryContracts;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain
 {

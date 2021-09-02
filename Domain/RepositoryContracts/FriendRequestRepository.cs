@@ -1,9 +1,6 @@
 ﻿using Dapper;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -21,7 +18,7 @@ namespace Domain.RepositoryContracts
 
         public async Task<IEnumerable<FriendRequest>> ReadAsyncByReceiverId(int receiverId)
         {
-            string sqlQuery = $@"select * from {TableName} where Friend_Request.receiverid=@ReceiverId";
+            var sqlQuery = $@"select * from {TableName} where Friend_Request.receiverid=@ReceiverId";
             using(var connection = CreateConnection())
             {
                 var friendRequests = await connection.QueryAsync<FriendRequest>(sqlQuery, new { ReceiverId = receiverId});

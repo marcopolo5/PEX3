@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,7 +100,7 @@ namespace Domain.RepositoryContracts
         /// <returns>Next available id</returns>
         public async Task<int> GetAvailableId()
         {
-            string sql = $"SELECT IDENT_CURRENT('{TableName}')+1";
+            var sql = $"SELECT IDENT_CURRENT('{TableName}')+1";
             using (var connection = CreateConnection())
             {
                 return await connection.QueryFirstOrDefaultAsync<int>(sql);

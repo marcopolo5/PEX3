@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using Domain.Exceptions;
 using Domain.Models;
@@ -54,7 +51,7 @@ namespace Domain.Validators
 
 
             //Email
-            if (!Regex.IsMatch(user.Email, 
+            if (!Regex.IsMatch(user.Email,
                 @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
             {
                 exceptionMessage.Append("Invalid email address. ");
@@ -84,7 +81,7 @@ namespace Domain.Validators
             {
                 exceptionMessage.Append("Enter password. ");
             }
-            
+
             if (exceptionMessage.Length != 0)
             {
                 throw new InvalidEntityException(exceptionMessage.ToString());
