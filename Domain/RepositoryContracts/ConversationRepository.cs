@@ -38,9 +38,12 @@ namespace Domain.RepositoryContracts
             using (var connection = CreateConnection())
             {
                 await base.CreateAsync(conversation);
+                int conversationId = await GetAvailableId() - 1;
+
                 foreach (User participant in conversation.Participants)
                 {
-                    string sql = $@"insert into Group_Members values({participant.Id},{conversation.Id})";
+
+                    string sql = $@"insert into Group_Members values({participant.Id},{conversationId})";
                     await connection.QueryAsync(sql);
                 }
             }

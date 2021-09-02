@@ -340,6 +340,7 @@
                     Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
                 <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
                     <!--chat conversation-->
+                    <!--
                     <ListView x:Name="ChatProximityConversation" 
                                   Background="Transparent" 
                                   BorderThickness="0" 
@@ -376,7 +377,102 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
+                    -->
+
+                <ListView x:Name="ChatProximityConversation" 
+                                  Background="Red" 
+                                  BorderThickness="0" 
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                                  VerticalAlignment="Bottom" 
+                                  Margin="10,0,30,0" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="560"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Border Padding="5" Background="#112152" >
+                                    <Grid Background="#112152" >
+                                        <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="{Binding Alignment}">
+                                            <StackPanel Orientation="Horizontal" x:Name="MessageStackPanel">
+                                                <TextBlock  VerticalAlignment="Center" 
+                                                                Background="#FF838383" 
+                                                                TextWrapping="Wrap" 
+                                                                Text="{Binding TextMessage}" 
+                                                                FontSize="15" 
+                                                                Foreground="white" 
+                                                                FontFamily="Comic Sans MS"
+                                                                />
+                                                <ToggleButton x:Name="OpenFriendMenuPopUp"
+                                                              Margin="10 0 0 0"
+                                                            Style="{StaticResource OpenMenuButton}"
+                                                            />
+                                                <Popup IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
+                                                            PlacementTarget="{Binding ElementName=OpenFriendMenuPopUp}"
+                                                            AllowsTransparency="True" 
+                                                            PopupAnimation="Slide"  
+                                                            StaysOpen="False"                                                             
+                                                            VerticalOffset="10"
+                                                            HorizontalOffset="-13"
+                                                            >
+                                                    <Border x:Name="BG" 
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Cursor="Hand"
+                                                            Width="50"
+                                                            Height="100"
+                                                            Background="Transparent"
+                                                            BorderThickness="0.2"
+                                                            BorderBrush="Beige"
+                                                            CornerRadius="8">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="50"/>
+                                                                <RowDefinition Height="50"/>
+                                                            </Grid.RowDefinitions>
+
+                                                            <Button x:Name="RateUpButton"
+                                                                Grid.Row="0"
+                                                                Style="{StaticResource RateUpButton}"
+                                                                />
+
+                                                            <Button x:Name="RateDown"
+                                                                Grid.Row="1"
+                                                                Style="{StaticResource RateDownButton}"
+                                                                />
+                                                        </Grid>
+
+                                                        <Border.Effect>
+                                                            <DropShadowEffect Direction="0"
+                                                              ShadowDepth="-10"
+                                                              BlurRadius="12" 
+                                                              Opacity="0.6"
+                                                              Color="{StaticResource C_YellowTheme}"
+                                                                          />
+                                                        </Border.Effect>
+                                                    </Border>
+
+                                                </Popup>
+                                            </StackPanel>
+
+                                        </Border>
+                                        <Polygon Points="{Binding Positioning}" 
+                                                         Fill="#FF838383"
+                                                         Margin="{Binding Margins}"
+                                                         HorizontalAlignment="{Binding Alignment}"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+
+
+            </StackPanel>
             </ScrollViewer>
         </Grid>
     <!--</Border>-->

@@ -62,7 +62,7 @@ namespace ChatServerModule.MiniRepo
                         Longitude = conversation.Longitude,
                         Latitude = conversation.Latitude
                     });
-                conversationId = connection.QueryFirstOrDefault<int>($"SELECT id FROM [Conversations] WHERE title=@Title", new { Title = conversation.Title });
+                conversationId = connection.QueryFirstOrDefault<int>(@"SELECT id FROM [Conversations] WHERE title=@Title", new { Title = conversation.Title });
                 
             }
             //using (var connection = new SqlConnection(_connectionString))
