@@ -2,6 +2,7 @@
 using ChatModule;
 using Domain;
 using Domain.DTO;
+using Domain.Helpers;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -105,7 +106,7 @@ namespace UI.WPF.View
             string lastTextMessage;
             string conversationName;
             string statusMessage;
-            byte[] profilePictureArray = ApplicationUserController.GetImageBytes("../../../Assets/profile.png"); // maybe refactor this
+            byte[] profilePictureArray = ImageHelper.GetImageBytes("../../../Assets/profile.png"); // maybe refactor this
             UserStatus userStatus = UserStatus.Away; /// momentan folosim away pt group chat
 
             // if the conversation is a group chat use its title as a conversation name

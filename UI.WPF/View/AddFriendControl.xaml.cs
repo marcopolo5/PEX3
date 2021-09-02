@@ -1,5 +1,6 @@
 ﻿using AccountModule.Controllers;
 using Domain;
+using Domain.Helpers;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,7 @@ namespace UI.WPF.View
                 {
                     user.Profile = new();
                     user.Profile.StatusMessage = "Profile Not Found!";
-                    user.Profile.Image = ApplicationUserController.GetImageBytes("../../../Assets/warning.png");
+                    user.Profile.Image = ImageHelper.GetImageBytes("../../../Assets/warning.png");
                     user.Profile.Status = UserStatus.Offline;
                 }
                 finally

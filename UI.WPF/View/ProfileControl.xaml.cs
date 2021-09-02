@@ -1,4 +1,5 @@
 ﻿using AccountModule.Controllers;
+using Domain.Helpers;
 using Microsoft.Win32;
 using System;
 using System.IO;
@@ -55,7 +56,7 @@ namespace UI.WPF.View
         /// <param name="e"></param>
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            byte[] imageByteArray = ApplicationUserController.GetImageBytes(openFileDialog.FileName);
+            byte[] imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
             await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
             CustomMessageBox messageBox = new CustomMessageBox();
             messageBox.Show("Profile updated successfully");

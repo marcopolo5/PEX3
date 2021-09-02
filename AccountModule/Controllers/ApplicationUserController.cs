@@ -82,7 +82,7 @@ namespace AccountModule.Controllers
                     UserId = (await _userRepository.GetAvailableId()) - 1,  //TODO: Buggy in this version. Should read the object from DB.
                     DisplayName = firstName + " " + lastName,
                     Status = UserStatus.Offline,
-                    Image = GetImageBytes(default_user_picture_path),
+                    Image = ImageHelper.GetImageBytes(default_user_picture_path),
                     StatusMessage = "Hi there!"
                 };
                 Settings settings = new Settings
@@ -213,21 +213,23 @@ namespace AccountModule.Controllers
             await Login(userInfo["email"], null, rememberMe);
         }
 
+
+        //////////////////// MOVED LOGIC TO Domain/Helpers/ImageHelper
         /// <summary>
         /// Convert memory image into a binary array
         /// </summary>
         /// <param name="imagePath">Path to the image</param>
         /// <returns>A binary array corresponding to the image</returns>
-        public static byte[] GetImageBytes(string imagePath)
-        {
-            byte[] _imageBytes = null;
-            using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
-            {
-                _imageBytes = new byte[fileStream.Length];
-                _ = fileStream.Read(_imageBytes, 0, System.Convert.ToInt32(fileStream.Length));
-            }
-            return _imageBytes;
-        }
+        //public static byte[] GetImageBytes(string imagePath)
+        //{
+        //    byte[] _imageBytes = null;
+        //    using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+        //    {
+        //        _imageBytes = new byte[fileStream.Length];
+        //        _ = fileStream.Read(_imageBytes, 0, System.Convert.ToInt32(fileStream.Length));
+        //    }
+        //    return _imageBytes;
+        //}
     }
     
 }
