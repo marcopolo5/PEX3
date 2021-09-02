@@ -20,11 +20,11 @@ namespace ChatServerModule.MiniRepo
         public IEnumerable<int> GetConversationsParticipants(int conversationId)
         {
             IEnumerable<int> result;
-            string sql = $"SELECT userid FROM [Group_Members] WHERE conversationid = {conversationId};";
+            string sql = $"SELECT userid FROM [Group_Members] WHERE conversationid=@ConversationId;";
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                result = conn.Query<int>(sql);
+                result = conn.Query<int>(sql, new { ConversationId = conversationId });
             }
             return result;
         }
@@ -34,7 +34,7 @@ namespace ChatServerModule.MiniRepo
             IEnumerable<Conversation> conversations;
             using (var connection = new SqlConnection(_connectionString))
             {
-                conversations = connection.Query<Conversation>($"SELECT * FROM [Conversations] WHERE location='{location}'");
+                conversations = connection.Query<Conversation>($"SELECT * FROM [Conversations] WHERE location=@Location", new { Location = location });
                 foreach (var conversation in conversations)
                 {
                     MapConversationMessages(conversation);
@@ -49,7 +49,6 @@ namespace ChatServerModule.MiniRepo
             int conversationId = 0;
 
             var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location, longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
-            var selectSql = "SELECT id FROM [Conversations] WHERE title = '@Title'";
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Execute(insertSql,
@@ -63,7 +62,7 @@ namespace ChatServerModule.MiniRepo
                         Longitude = conversation.Longitude,
                         Latitude = conversation.Latitude
                     });
-                conversationId = connection.QueryFirstOrDefault<int>($"SELECT id FROM [Conversations] WHERE title='{conversation.Title}'");
+                conversationId = connection.QueryFirstOrDefault<int>($"SELECT id FROM [Conversations] WHERE title=@Title", new { Title = conversation.Title });
                 
             }
             //using (var connection = new SqlConnection(_connectionString))
@@ -152,7 +151,6 @@ namespace ChatServerModule.MiniRepo
 
 
         // private methods:
-        // ----------------
         /// <summary>
         /// Maps conversation's messages to itself.
         /// </summary>
@@ -162,7 +160,7 @@ namespace ChatServerModule.MiniRepo
             using (var connection = new SqlConnection(_connectionString))
             {
                 var messages = connection.Query<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
-                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId={conversation.Id} ORDER BY createdat ASC");
+                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId=@ConversationId ORDER BY createdat ASC", new { ConversationId = conversation.Id } );
                 foreach (var message in messages)
                 {
                     conversation.Messages.Add(new Message

@@ -204,7 +204,7 @@ namespace UI.WPF.View
         }
 
         private async void AddNewProximityConversation_Click(object sender, RoutedEventArgs e)
-            {
+        {
             await _signalRClient.CreateProximityConversation();
             await _signalRClient.UpdateProximityChats();
         }
