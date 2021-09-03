@@ -46,7 +46,6 @@ namespace ChatServerModule.MiniRepo
 
         public int CreateConversation(Conversation conversation)
         {
-            int conversationId = 0;
 
             var insertSql = "INSERT INTO [Conversations](createdat, updatedat, title, type, location, longitude, latitude) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type, @Location, @Longitude, @Latitude)";
             using (var connection = new SqlConnection(_connectionString))
@@ -62,19 +61,10 @@ namespace ChatServerModule.MiniRepo
                         Longitude = conversation.Longitude,
                         Latitude = conversation.Latitude
                     });
-                conversationId = connection.QueryFirstOrDefault<int>(@"SELECT id FROM [Conversations] WHERE title=@Title", new { Title = conversation.Title });
-                
+                //conversationId = connection.QueryFirstOrDefault<int>(@"SELECT id FROM [Conversations] WHERE title=@Title", new { Title = conversation.Title });
             }
-            //using (var connection = new SqlConnection(_connectionString))
-            //{
-            //    //conversationId = connection.QueryFirstOrDefault<int>(selectSql,
-            //    conversationId = connection.Query<int>(selectSql,
-            //      new
-            //      {
-            //          Title = conversation.Title
-            //      }).FirstOrDefault();
-            //}
-            return conversationId;
+
+            return GetAvailableId("Conversations") - 1;
         }
 
         public void AddUserToConversation(int userId, int conversationId)
@@ -185,6 +175,16 @@ namespace ChatServerModule.MiniRepo
                 var participants = connection.Query<int>($"SELECT Users.id FROM Users INNER JOIN Group_Members ON Users.Id=Group_Members.UserId AND Group_Members.ConversationId=@Id", new { Id = conversation.Id });
 
                 conversation.Participants = participants.ToList();
+            }
+        }
+
+
+        public int GetAvailableId(string tableName)
+        {
+            string sql = $"SELECT IDENT_CURRENT('{tableName}')+1";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection.QueryFirstOrDefault<int>(sql);
             }
         }
 

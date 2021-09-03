@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AccountModule.Controllers
 {
-    class UserRatingController
+    public class UserRatingController
     {
         private readonly ProfileRepository _profileRepository = new();
         private readonly MessageRepository _messageRepository = new();

@@ -407,8 +407,9 @@
                                                                 FontFamily="Comic Sans MS"
                                                                 />
                                                 <ToggleButton x:Name="OpenFriendMenuPopUp"
-                                                              Margin="10 0 0 0"
-                                                            Style="{StaticResource OpenMenuButton}"
+                                                                Margin="10 0 0 0"
+                                                                Visibility="{Binding ToggleButtonVisibility}"
+                                                                Style="{StaticResource OpenMenuButton}"
                                                             />
                                                 <Popup IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
                                                             PlacementTarget="{Binding ElementName=OpenFriendMenuPopUp}"
@@ -433,16 +434,17 @@
                                                                 <RowDefinition Height="50"/>
                                                                 <RowDefinition Height="50"/>
                                                             </Grid.RowDefinitions>
-
-                                                            <Button x:Name="RateUpButton"
-                                                                Grid.Row="0"
-                                                                Style="{StaticResource RateUpButton}"
-                                                                />
-
-                                                            <Button x:Name="RateDown"
-                                                                Grid.Row="1"
-                                                                Style="{StaticResource RateDownButton}"
-                                                                />
+                                                            <Button x:Name="RateUpBtn"
+                                                                    Click="RateUpButton_Click"
+                                                                    Grid.Row="0"
+                                                                    Content="{Binding Id}"
+                                                                    Style="{StaticResource RateUpButton}"
+                                                                    />
+                                                            <Button x:Name="RateDownBtn"
+                                                                    Click="RateDownButton_Click"
+                                                                    Grid.Row="1"
+                                                                    Style="{StaticResource RateDownButton}"
+                                                                    />
                                                         </Grid>
 
                                                         <Border.Effect>

@@ -29,10 +29,14 @@ namespace UI.WPF.View
     public partial class ProximityChatControl : UserControl, IDisposable
     {
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
+        private readonly UserRatingController _userRatingController= new();
+        
+
         public ObservableCollection<ConversationPreviewViewModel> ConversationPreviews { get; private set; } = new();
-        public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
+        public ObservableCollection<MessageViewModel> Messages { get; private set; } = new();
         public ProximityChatControl()
         {
+            // wire up events
             _signalRClient.MessageReceived += OnMessageReceived;
             _signalRClient.ConversationsReceived += OnConversationsReceived;
             InitializeComponent();
@@ -59,8 +63,9 @@ namespace UI.WPF.View
                 conversationPreview.UnreadMessage = true;
             }
 
-            var messageDto = new MessageDTO
+            var messageDto = new MessageViewModel
             {
+                Id = message.Id,
                 IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                 TextMessage = message.TextMessage
             };
@@ -126,7 +131,7 @@ namespace UI.WPF.View
             }
             foreach (var message in conversation.Messages.OrderBy(m => m.CreatedAt))
             {
-                var messageDto = new MessageDTO
+                var messageDto = new MessageViewModel
                 {
                     IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                     TextMessage = message.TextMessage
@@ -216,5 +221,15 @@ namespace UI.WPF.View
             _signalRClient.ConversationsReceived -= OnConversationsReceived;
         }
 
+        private void RateUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            var id = ((Button)sender).Content;
+            MessageBox.Show($"id : {id}");
+        }
+        private void RateDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            var id = ((Button)sender).Content;
+            MessageBox.Show($"id : {id}");
+        }
     }
 }

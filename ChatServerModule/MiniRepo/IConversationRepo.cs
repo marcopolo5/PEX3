@@ -62,5 +62,12 @@ namespace ChatServerModule.MiniRepo
         /// </summary>
         /// <param name="id">Conversation's id</param>
         void RemoveConversation(int id);
+
+        /// <summary>
+        /// Gets the next availalbe id for 'TableName' table in the database.
+        /// Table's 'Id' column (PK) must be set to identity.
+        /// </summary>
+        /// <returns>Next available id</returns>
+        public int GetAvailableId(string tableName);
     }
 }

@@ -120,7 +120,7 @@ namespace ChatServerModule.Hubs
         {
             // add message to db
             _conversationRepo.AddMessageToConversation(message);
-
+            message.Id = _conversationRepo.GetAvailableId("Messages") - 1;
             IEnumerable<int> userIds = _conversationRepo.GetConversationsParticipants(message.ConversationId);
 
             foreach(var userId in userIds)

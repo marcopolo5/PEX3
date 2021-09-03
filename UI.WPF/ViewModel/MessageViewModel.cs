@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTO
+namespace UI.WPF.ViewModel
 {
-    public class MessageDTO : BaseModel
+    public class MessageViewModel : ViewModelBase
     {
+        public int Id { get; set; }
         public bool IsSent { get; set; }
 
         private string _textMessage;
@@ -24,7 +25,17 @@ namespace Domain.DTO
                 OnPropertyChanged(nameof(TextMessage));
             }
         }
-
+        public string ToggleButtonVisibility
+        {
+            get
+            {
+                if (IsSent)
+                {
+                    return "Hidden";
+                }
+                return "Visible";
+            }
+        }
         public string Positioning
         {
             get

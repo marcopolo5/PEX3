@@ -30,7 +30,7 @@ namespace UI.WPF.View
     {
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         public ObservableCollection<ConversationPreviewViewModel> ConversationPreviews { get; private set; } = new();
-        public ObservableCollection<MessageDTO> Messages { get; private set; } = new();
+        public ObservableCollection<MessageViewModel> Messages { get; private set; } = new();
         public ChatControl()
         {
             // get user's conversations
@@ -74,8 +74,9 @@ namespace UI.WPF.View
                 conversationPreview.UnreadMessage = true;
             }
 
-            var messageDto = new MessageDTO
+            var messageDto = new MessageViewModel
             {
+                Id = message.Id,
                 IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                 TextMessage = message.TextMessage
             };
@@ -207,7 +208,7 @@ namespace UI.WPF.View
             }
             foreach (var message in conversation.Messages.OrderBy(m => m.CreatedAt))
             {
-                var messageDto = new MessageDTO
+                var messageDto = new MessageViewModel
                 {
                     IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                     TextMessage = message.TextMessage
