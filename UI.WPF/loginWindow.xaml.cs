@@ -54,6 +54,9 @@ namespace UI.WPF
             {
                 var rememberMe = rememberMeCheckBox.IsChecked ?? false;
                 await _applicationUserController.Login(loginEmail.Text, loginPassword.Password, rememberMe);
+                Hide();
+                new HomeWindow().ShowDialog();
+                ShowDialog();
             }
             catch (SqlException)
             {
@@ -64,9 +67,6 @@ namespace UI.WPF
                 new CustomMessageBox().Show(exception.Message);
             }
             // catch(Exception exception){ } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
-            Hide();
-            new HomeWindow().ShowDialog();
-            ShowDialog();
         }
 
         private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
@@ -74,6 +74,10 @@ namespace UI.WPF
             try
             {
                 await _applicationUserController.AuthenticateWithGoogle(true);
+                Hide();
+                var homeWindow = new HomeWindow();
+                homeWindow.ShowDialog();
+                ShowDialog();
             }
             catch (GoogleAuthenticationException exception)
             {
@@ -85,10 +89,6 @@ namespace UI.WPF
                 new CustomMessageBox().Show("Could not connect to the database.");
             }
             //catch(Exception exception) { } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
-            Hide();
-            var homeWindow = new HomeWindow();
-            homeWindow.ShowDialog();
-            ShowDialog();
         }
     }
 }
