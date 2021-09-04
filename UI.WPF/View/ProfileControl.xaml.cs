@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using UI.WPF.Common;
+using Domain.Exceptions;
 
 namespace UI.WPF.View
 {
@@ -29,8 +30,8 @@ namespace UI.WPF.View
             aboutText.Text = ApplicationUserController.CurrentUser.Profile.StatusMessage;
             BitmapImage bi_profilePicture = BitmapImageLoader.LoadImage(ApplicationUserController.CurrentUser.Profile.Image);
             profilePicture.Fill = new ImageBrush(bi_profilePicture);
-            int reputation = ApplicationUserController.CurrentUser.Profile.Reputation;
-            ratingValueTextBLock.Text = reputation + "";
+            var reputation = ApplicationUserController.CurrentUser.Profile.Reputation.ToString();
+            ratingValueTextBLock.Text = reputation;
         }
 
         /// <summary>
@@ -57,10 +58,16 @@ namespace UI.WPF.View
         /// <param name="e"></param>
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            byte[] imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
-            await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
-            CustomMessageBox messageBox = new CustomMessageBox();
-            messageBox.Show("Profile updated successfully");
+            try
+            {
+                byte[] imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
+                await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
+                new CustomMessageBox().Show("Profile updated successfully");
+            }
+            catch (InvalidEntityException exception)
+            {
+                new CustomMessageBox().Show(exception.Message);
+            }
         }
 
         /////////// MOVED TO UI.WPF/Common/BitmapImageLoader.cs

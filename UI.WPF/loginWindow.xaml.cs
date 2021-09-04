@@ -1,6 +1,7 @@
 ﻿using AccountModule.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Domain.Exceptions;
 
 namespace UI.WPF
 {
@@ -48,31 +50,23 @@ namespace UI.WPF
         /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
-            CustomMessageBox messageBox = new CustomMessageBox();
-            string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
-            // If login error message is empty, that means the data from the form is valid
-            bool validData = (_loginErrorMessage == "");
-            if (validData)
+            try
             {
-                bool rememberMe = rememberMeCheckBox.IsChecked?? false;
-                if (await _applicationUserController.Login(
-                    loginEmail.Text, loginPassword.Password, rememberMe)) //remeber me from UI
-                {
-                    Hide();
-                    new HomeWindow().ShowDialog();
-                    ShowDialog();
-                    
-                }
-                else
-                {
-                    messageBox.Show("Incorrect e-mail or password");
-                }
+                var rememberMe = rememberMeCheckBox.IsChecked ?? false;
+                await _applicationUserController.Login(loginEmail.Text, loginPassword.Password, rememberMe);
+                Hide();
+                new HomeWindow().ShowDialog();
+                ShowDialog();
             }
-            else
+            catch (SqlException)
             {
-                messageBox.Show(_loginErrorMessage);
-
+                new CustomMessageBox().Show("Could not connect to the database.");
             }
+            catch (InvalidEntityException exception)
+            {
+                new CustomMessageBox().Show(exception.Message);
+            }
+            // catch(Exception exception){ } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
         }
 
         private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
@@ -80,27 +74,21 @@ namespace UI.WPF
             try
             {
                 await _applicationUserController.AuthenticateWithGoogle(true);
-                //loginErrorMessage.Foreground = Brushes.Green;
-                //loginErrorMessage.Content = "Logged in successfully";
-                CustomMessageBox messageBox = new CustomMessageBox();
-                //messageBox.Show("Logged in successfully");
                 Hide();
-                new HomeWindow().ShowDialog();
+                var homeWindow = new HomeWindow();
+                homeWindow.ShowDialog();
                 ShowDialog();
             }
-            catch(Domain.Exceptions.GoogleAuthenticationException exception)
+            catch (GoogleAuthenticationException exception)
             {
-                //loginErrorMessage.Foreground = Brushes.Red;
-                //loginErrorMessage.Content = exception.Message;
                 CustomMessageBox messageBox = new CustomMessageBox();
                 messageBox.Show(exception.Message);
             }
-            //catch(Exception exception) { } Commented - Not catching unexpected exceptions while in development
-            finally
+            catch (SqlException)
             {
-                Topmost = true;
-                Topmost = false;
+                new CustomMessageBox().Show("Could not connect to the database.");
             }
+            //catch(Exception exception) { } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
         }
     }
 }

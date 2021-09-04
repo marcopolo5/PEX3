@@ -10,8 +10,7 @@ namespace Domain.AccountContracts
         /// <param name="email">User's email in the login form</param>
         /// <param name="password">User's password in the login form</param>
         /// <param name="rememberMe">remember me feature (data retrieved from checkbox value)</param>
-        /// <returns>true if credentials are valid, false otherwise</returns>
-        Task<bool> Login(string email, string password, bool rememberMe);
+        Task Login(string email, string password, bool rememberMe);
 
 
         /// <summary>
@@ -21,8 +20,7 @@ namespace Domain.AccountContracts
         /// <param name="lastName">User's last name in the signup form</param>
         /// <param name="email">User's email in the signup form</param>
         /// <param name="password">Users password in the signup form</param>
-        /// <returns>true if sign-up was successful, false otherwise</returns>
-        Task<bool> Register(string firstName, string lastName, string email, string password);
+        Task Register(string firstName, string lastName, string email, string password, string retypedPasword);
 
 
         /// <summary>
@@ -31,40 +29,6 @@ namespace Domain.AccountContracts
         /// <returns>True if logout was successful, false otherwise</returns>
         Task<bool> Logout();
 
-        /// <summary>
-        /// Searches into database and check if the user corresponding to the email given exists
-        /// </summary>
-        /// <param name="email">email of the users that is going to be searched</param>
-        /// <returns>true if the user is found into database, false otherwise</returns>
-        Task<bool> UserExists(string email);
-
-        /// <summary>
-        /// Executes a check for the purpose of data validation on the login form
-        /// </summary>
-        /// <param name="email">User's email in the login form</param>
-        /// <param name="password">User's password in the login form</param>
-        /// <returns>A string with the error message, if everyting was successfull returns an empty string</returns>
-        public string CheckLoginConstraints(string email, string password);
-
-
-        /// <summary>
-        /// Executes a check for the purpose of data validation on the registration form
-        /// </summary>
-        /// <param name="firstName">User's first name in the registration form</param>
-        /// <param name="lastName">User's last name in the registration form</param>
-        /// <param name="email">User's email in the registration form</param>
-        /// <param name="password1">User's password name in the registration form</param>
-        /// <param name="password2">User's retyped password in the registration form</param>
-        /// <returns>A string with the error message, if everyting was successfull returns an empty string</returns>
-        public string CheckRegisterConstraints(string firstName, string lastName, string email, string password, string retypedPassword);
-
-        /// <summary>
-        /// Check if the password matches the security requirements
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="retypedPassword"></param>
-        /// <returns>A string with the error message, if everyting was successfull returns an empty string</returns>
-        public string CheckPasswordConstraints(string password, string retypedPassword);
 
         /// <summary>
         /// Check if remember me was active and checks if the token saved in the file matches the one in the DB

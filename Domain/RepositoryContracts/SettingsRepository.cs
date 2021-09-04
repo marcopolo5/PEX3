@@ -1,9 +1,4 @@
 ﻿using Dapper;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -23,7 +18,7 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string query = @"exec spUpdatePassword @userId, @newPassword";
+                var query = @"exec spUpdatePassword @userId, @newPassword";
                 await connection.QueryAsync(query, new { userId, newPassword });
             }
         }
@@ -32,7 +27,7 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string query = @"exec spCheckPassword @email, @password";
+                var query = @"exec spCheckPassword @email, @password";
                 return await connection.QueryFirstOrDefaultAsync<int>(query, new { email, password });
             }
         }

@@ -53,7 +53,7 @@ namespace UI.WPF.View
 
         private void Anonimity_ValueChanged(object sender, RoutedEventArgs e)
         {
-            _settingsController.SetAnonimity((bool)anonimityButton.IsChecked);
+            _settingsController.SetAnonymity((bool)anonimityButton.IsChecked);
         }
 
         private void FontFamilyComboBox_DropDownClosed(object sender, EventArgs e)

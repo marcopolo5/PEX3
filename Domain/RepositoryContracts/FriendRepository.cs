@@ -1,9 +1,5 @@
 ﻿using Dapper;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryContracts
@@ -20,8 +16,8 @@ namespace Domain.RepositoryContracts
         {
             using (var connection = CreateConnection())
             {
-                string sqlQueryForward = $@"DELETE FROM {TableName} WHERE userId=@UserId and friendId=@FriendId";
-                string sqlQueryBackward = $@"DELETE FROM {TableName} WHERE userId=@FriendId and friendId=@UserId";
+                var sqlQueryForward = $@"DELETE FROM {TableName} WHERE userId=@UserId and friendId=@FriendId";
+                var sqlQueryBackward = $@"DELETE FROM {TableName} WHERE userId=@FriendId and friendId=@UserId";
 
                 await connection.ExecuteAsync(sqlQueryForward, new { UserId = userId, FriendId = friendId});
                 await connection.ExecuteAsync(sqlQueryBackward, new { UserId = userId, FriendId = friendId});

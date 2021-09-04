@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Domain.AccountContracts
 {
@@ -10,7 +6,7 @@ namespace Domain.AccountContracts
     {
         Task<string> SaveChanges(string password, string newPassword, string newRetypedPassword);
 
-        void SetAnonimity(bool anonimity);
+        void SetAnonymity(bool anonimity);
 
         Task ChangePassword(string newPassword);
 
