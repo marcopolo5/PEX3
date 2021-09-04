@@ -20,7 +20,8 @@ namespace AccountModule.Controllers
         {
             var message = await _messageRepository.ReadAsync(messageid);
             var user = await _userRepository.ReadAsync(message.SenderId);
-            if (await _strikesRepository.ReadUserReportAsync(ApplicationUserController.CurrentUser.Id, user.Id) == null)
+            var userReport = await _strikesRepository.ReadUserReportAsync(ApplicationUserController.CurrentUser.Id, user.Id);
+            if (userReport == null)
             {
                 if (up)
                 {

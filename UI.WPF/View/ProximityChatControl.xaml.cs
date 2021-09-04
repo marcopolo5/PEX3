@@ -38,7 +38,7 @@ namespace UI.WPF.View
         {
             ConversationPreviews = new();
             Messages = new();
-            var dummyMessageViewModel = new MessageViewModel();
+            var dummyMessageViewModel = new MessageViewModel(); // hotfix for RateUpButton and RateDownButton (sometimes content wasnt loaded)
             Messages.Add(dummyMessageViewModel);
             Messages.Remove(dummyMessageViewModel);
 
@@ -88,7 +88,7 @@ namespace UI.WPF.View
             foreach (var conversation in conversations)
             {
                 var conversationPreview = GetPreviewFromConversation(conversation);
-                // ApplicationUserController.CurrentUser.Conversations.Add(conversation);
+                // ApplicationUserController.CurrentUser.Conversations.Add(conversation); //conversations are already added in SignalRClient class
                 ConversationPreviews.Add(conversationPreview);
             }
         }
@@ -228,14 +228,17 @@ namespace UI.WPF.View
             _signalRClient.ConversationsReceived -= OnConversationsReceived;
         }
 
-        private void RateUpButton_Click(object sender, RoutedEventArgs e)
+        private async void RateUpButton_Click(object sender, RoutedEventArgs e)
         {
-            var id = ((Button)sender).Content;
+            int id = (int)((Button)sender).Content;
+            //MessageBox.Show($"id : {id}");
+            await _userRatingController.RateUser(true, id);
             MessageBox.Show($"id : {id}");
         }
-        private void RateDownButton_Click(object sender, RoutedEventArgs e)
+        private async void RateDownButton_Click(object sender, RoutedEventArgs e)
         {
-            var id = ((Button)sender).Content;
+            int id = (int)((Button)sender).Content;
+            await _userRatingController.RateUser(false, id);
             MessageBox.Show($"id : {id}");
         }
     }
