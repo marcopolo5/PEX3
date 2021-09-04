@@ -230,15 +230,18 @@ namespace UI.WPF.View
 
         private async void RateUpButton_Click(object sender, RoutedEventArgs e)
         {
-            int id = (int)((Button)sender).Content;
-            //MessageBox.Show($"id : {id}");
+            Button btn = (Button)sender;
+            int id = (int)btn.Content;
             await _userRatingController.RateUser(true, id);
-            MessageBox.Show($"id : {id}");
+            btn.IsEnabled = false;
+            MessageBox.Show($"id : {id}"); //debugging 
         }
         private async void RateDownButton_Click(object sender, RoutedEventArgs e)
         {
-            int id = (int)((Button)sender).Content;
+            Button btn = (Button)sender;
+            int id = (int)btn.Content;
             await _userRatingController.RateUser(false, id);
+            btn.IsEnabled = false;
             MessageBox.Show($"id : {id}");
         }
     }

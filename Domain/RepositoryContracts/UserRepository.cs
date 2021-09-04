@@ -192,6 +192,7 @@ namespace Domain.RepositoryContracts
                 var sqlConversations = @"select Conversations.* from Conversations 
                                             inner join Group_Members on Group_Members.ConversationId = Conversations.Id
                                             where Group_Members.userid=@Id";
+                var sqlGetStrikes = @"select * from Strikes where userid=@Id";
 
                 var currentUserArray = await connection.QueryAsync<CurrentUser, Profile, Settings, CurrentUser>(
                     sqlViewUser,
@@ -207,6 +208,19 @@ namespace Domain.RepositoryContracts
                 {
                     throw new ArgumentException("Token isn't valid");
                 }
+
+
+                // Mapping the proximity ban
+                var strikeobj = await connection.QueryFirstOrDefaultAsync<Strikes>(sqlGetStrikes, new { Id = id });
+                var isBanned = false;
+
+                if (strikeobj != null && strikeobj.UnbanDate > DateTime.Now)
+                {
+                    isBanned = true;
+                }
+                currentUser.IsBannedFromProximity = isBanned;
+                //
+
 
                 var friendIds = await connection.QueryAsync<int>(sqlFriends, new {Id = id});
                 foreach (var friendId in friendIds)

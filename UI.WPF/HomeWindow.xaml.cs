@@ -27,8 +27,8 @@ namespace UI.WPF
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         private readonly ProfileControl _profileControl = new();
         private readonly HomeControl _homeControl = new();
-        private readonly  ChatControl _chatControl = new();
-        private  readonly ProximityChatControl _proximityChatControl = new();
+        private readonly ChatControl _chatControl = new();
+        private readonly ProximityChatControl _proximityChatControl; //dont initialize here, check in the ctor first if the user wasnt banned  
         private readonly AddFriendControl _addFriendControl = new();
         private readonly ApplicationUserController _userController = new();
         private readonly SettingsControl _settingsControl = new();
@@ -39,17 +39,29 @@ namespace UI.WPF
         public HomeWindow()
         {
             AppFontFamily = "Times New Roman";
+
             InitializeComponent();
             _signalRClient.InitializeConnectionAsync(ApplicationUserController.CurrentUser.Id, ApplicationUserController.CurrentUser.Token)
-                .ContinueWith(async task =>
+                .ContinueWith(task =>
                 {
                     if (task.Exception != null)
                     {
                         MessageBox.Show(task.Exception.ToString());
                     }
-                    // await _signalRClient.UpdateProximityChats(); // removed: already done server side
                 });
             mainContentControl.Content = _homeControl;
+
+            // Check if the user is banned from proximity chat
+            if (ApplicationUserController.CurrentUser.IsBannedFromProximity)
+            {
+                // if so disable the proximity btn
+                ProximityChatContentButton.IsEnabled = false;
+            }
+            else
+            {
+                // if not initialize the proximity chat control
+                _proximityChatControl = new();
+            }
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -61,7 +73,8 @@ namespace UI.WPF
         {
             Hide();
             await _userController.Logout();
-            _chatControl.Dispose();
+            _chatControl?.Dispose();
+            _proximityChatControl?.Dispose();
             await _signalRClient.DisposeAsync();
             //new MainWindow().ShowDialog();
             //ShowDialog();
@@ -91,6 +104,7 @@ namespace UI.WPF
         private async void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             _chatControl.Dispose();
+            _proximityChatControl?.Dispose();
             await _signalRClient.DisposeAsync();
             Environment.Exit(0);
         }

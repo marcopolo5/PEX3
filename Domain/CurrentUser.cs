@@ -20,9 +20,12 @@ namespace Domain
         public string LoginToken { get; set; }
         public bool RememberMe { get; set; }
 
+        public bool IsBannedFromProximity { get; set; }
+
         public int CurrentConversationId { get; set; }
 
         private readonly IAppConfiguration _appConfiguration = new AppConfiguration();
+        
         
 
         /// <summary>

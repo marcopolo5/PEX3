@@ -106,7 +106,9 @@
                                            Foreground="#112152" />
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Padding="1" Selected="ProximityChatContent_Selected">
+                        <ListViewItem Padding="1" 
+                                      x:Name="ProximityChatContentButton"
+                                      Selected="ProximityChatContent_Selected">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="MapMarkerOutline"
                                                          Width="30"

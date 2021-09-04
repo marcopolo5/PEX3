@@ -146,8 +146,6 @@ namespace AccountModule.Controllers
             string token = _appConfiguration.GetToken();
             CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
         }
-        
-
 
         //////////////////// MOVED LOGIC TO Domain/Helpers/ImageHelper.cs
         /// <summary>
