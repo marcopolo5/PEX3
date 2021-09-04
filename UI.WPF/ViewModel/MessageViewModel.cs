@@ -8,10 +8,22 @@ namespace UI.WPF.ViewModel
 {
     public class MessageViewModel : ViewModelBase
     {
-        public int Id { get; set; }
+        private int _id;
+        private string _textMessage;
         public bool IsSent { get; set; }
 
-        private string _textMessage;
+        public int Id
+        { 
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
         public string TextMessage
         {

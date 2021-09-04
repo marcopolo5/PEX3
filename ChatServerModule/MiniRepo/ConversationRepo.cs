@@ -150,7 +150,7 @@ namespace ChatServerModule.MiniRepo
             using (var connection = new SqlConnection(_connectionString))
             {
                 var messages = connection.Query<(int id, int conversation_id, int sender_id, string textmessage, DateTime created_at)>
-                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId=@ConversationId ORDER BY createdat ASC", new { ConversationId = conversation.Id } );
+                            ($"SELECT Messages.* FROM Messages INNER JOIN Conversations ON Messages.ConversationId=Conversations.id WHERE Conversations.id=@ConversationId ORDER BY createdat ASC", new { ConversationId = conversation.Id } );
                 foreach (var message in messages)
                 {
                     conversation.Messages.Add(new Message

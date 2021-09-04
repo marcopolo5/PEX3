@@ -32,10 +32,16 @@ namespace UI.WPF.View
         private readonly UserRatingController _userRatingController= new();
         
 
-        public ObservableCollection<ConversationPreviewViewModel> ConversationPreviews { get; private set; } = new();
-        public ObservableCollection<MessageViewModel> Messages { get; private set; } = new();
+        public ObservableCollection<ConversationPreviewViewModel> ConversationPreviews { get; private set; }
+        public ObservableCollection<MessageViewModel> Messages { get; private set; }
         public ProximityChatControl()
         {
+            ConversationPreviews = new();
+            Messages = new();
+            var dummyMessageViewModel = new MessageViewModel();
+            Messages.Add(dummyMessageViewModel);
+            Messages.Remove(dummyMessageViewModel);
+
             // wire up events
             _signalRClient.MessageReceived += OnMessageReceived;
             _signalRClient.ConversationsReceived += OnConversationsReceived;
@@ -82,7 +88,7 @@ namespace UI.WPF.View
             foreach (var conversation in conversations)
             {
                 var conversationPreview = GetPreviewFromConversation(conversation);
-                ApplicationUserController.CurrentUser.Conversations.Add(conversation);
+                // ApplicationUserController.CurrentUser.Conversations.Add(conversation);
                 ConversationPreviews.Add(conversationPreview);
             }
         }
@@ -133,6 +139,7 @@ namespace UI.WPF.View
             {
                 var messageDto = new MessageViewModel
                 {
+                    Id = message.Id,
                     IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
                     TextMessage = message.TextMessage
                 };
