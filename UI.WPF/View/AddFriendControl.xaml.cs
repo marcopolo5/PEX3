@@ -38,6 +38,7 @@ namespace UI.WPF.View
         public AddFriendControl()
         {
             InitializeComponent();
+
             Users = new ObservableCollection<FriendViewModel>();
             SearchUserList.ItemsSource = Users;
 
@@ -128,6 +129,15 @@ namespace UI.WPF.View
             FriendViewModel selectedUser = button.DataContext as FriendViewModel;
             await _friendController.DenyFriendRequest(selectedUser.FriendRequestId);
             PendingFriendRequests.Remove(selectedUser);
+        }
+
+        private void UserSelectedShowProfile_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Border userSelectedProfilePicture = sender as Border;
+            FriendViewModel selectedUser = userSelectedProfilePicture.DataContext as FriendViewModel;
+            MainGrid.DataContext = selectedUser;
+            UserProfileMenu.Visibility = Visibility.Visible;
+            // pentru Adina: aici nu mai trebuie modificat nimic, trebuie doar sa faci bind la atributele din FriendViewModel catre cele din xaml (model cum am facut la linia 298)
         }
     }
 }

@@ -42,15 +42,16 @@
                    />
         
         <!-- Main FriendListControl Grid -->
-        <Grid Margin="25,45,0,0"
+        <Grid Margin="8,45,8,45"
               >
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <!-- Search Friend Area -->
             <Grid Grid.Row="0" 
-                  Margin="0"
+                  Margin="15 0 0 0"
                   VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
@@ -65,7 +66,7 @@
                     Height="40"
                     Foreground="{StaticResource GreyTheme}"/>
 
-                <!-- Search friend area -->
+                <!-- Search Friend Text Box -->
                 <TextBox
                         Grid.Column="1"
                         Style="{StaticResource MaterialDesignFilledTextBox}"
@@ -74,29 +75,36 @@
                         TextWrapping="Wrap"
                         MaxWidth="400"
                         Foreground="{StaticResource YellowTheme}"
-                        Margin="10,-4,0,4"
+                        Margin="15,-4,0,4"
                         FontSize="14"
+                        MaxLength="255"
                         Text="{Binding FriendsFilter, UpdateSourceTrigger=PropertyChanged}"
                         materialDesign:HintAssist.Hint="Search friend"
-                     />
+                     >
+                    <materialDesign:TextFieldAssist.CharacterCounterStyle>
+                        <Style TargetType="TextBlock" />
+                    </materialDesign:TextFieldAssist.CharacterCounterStyle>
+                </TextBox>
             </Grid>
 
             <!-- Friend List -->
             <ListView   x:Name="FriendListView"
                         Grid.Row="1" 
-                        Margin="-18 4 0 45"
+                        Margin="0"
                         ItemsSource="{Binding FriendsCollectionView}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        BorderBrush="White"
+                        BorderThickness="10"
                         Background="{StaticResource BlueTheme}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Name="FriendWrapPanel">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="145"/>
-                                    <ColumnDefinition Width="45"/>
-                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Friend Profile Picture -->
@@ -146,7 +154,8 @@
                                 <!-- Friend Menu Pop Up -->
                                 <StackPanel x:Name="FriendMenuStackPanel"
                                             Grid.Column="3"
-                                            HorizontalAlignment="Center">
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
                                     <ToggleButton   x:Name="OpenFriendMenuPopUp"
                                                     Grid.Column="1"
                                                     Style="{StaticResource OpenMenuButton}"
@@ -154,24 +163,26 @@
                                     <Popup IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
                                            PlacementTarget="{Binding ElementName=PCheckBox}" 
                                            AllowsTransparency="True" 
-                                           PopupAnimation="Slide" 
+                                           PopupAnimation="Fade" 
                                            StaysOpen="False"
-                                           HorizontalOffset="-14" 
-                                           VerticalOffset="10">
+                                           HorizontalOffset="30" 
+                                           VerticalOffset="-45">
                                         <Border x:Name="BG" 
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Cursor="Hand"
                                                 Width="50"
-                                                Height="150"
+                                                Height="155"
                                                 Opacity="1"
+                                                Margin="20"
                                                 BorderThickness="0.2"
                                                 BorderBrush="Beige"
                                                 CornerRadius="12">
                                             <Border.Background>
-                                                <SolidColorBrush Color="{StaticResource C_BlueTheme}" Opacity="0.5"/>
+                                                <SolidColorBrush Color="{StaticResource C_BlueTheme}" Opacity="0.9"/>
                                             </Border.Background>
-                                            <Grid>
+                                            <Grid VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="50"/>
                                                     <RowDefinition Height="50"/>
@@ -199,9 +210,9 @@
 
                                             <Border.Effect>
                                                 <DropShadowEffect Direction="0"
-                                                                  ShadowDepth="-10"
-                                                                  BlurRadius="12" 
-                                                                  Opacity="0.6"
+                                                                  ShadowDepth="-4"
+                                                                  BlurRadius="4" 
+                                                                  Opacity="0.3"
                                                                   Color="{StaticResource C_YellowTheme}"
                                                 />
                                             </Border.Effect>

@@ -25,6 +25,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!-- Main Menu -->
         <Border Grid.Column="0"
                 CornerRadius="45"
                 BorderThickness="2"
@@ -33,6 +34,7 @@
                 Opacity="0.9">
             <Grid fw:PointerTracker.Enabled="True">
                 <StackPanel>
+                    
                     <Image Grid.Column="0"
                            Width="200"
                            Margin="15,35,15,15"
@@ -144,11 +146,12 @@
                             </StackPanel>
                         </ListViewItem>
                     </ListView>
+                    
                 </StackPanel>
             </Grid>
         </Border>
 
-
+        <!-- Main Area with Content Control -->
         <Border Grid.Column="1"
                 CornerRadius="45"
                 BorderThickness="2"

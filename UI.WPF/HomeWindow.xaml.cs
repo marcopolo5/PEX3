@@ -32,8 +32,10 @@ namespace UI.WPF
         private readonly AddFriendControl _addFriendControl = new();
         private readonly ApplicationUserController _userController = new();
         private readonly SettingsControl _settingsControl = new();
+
         private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
+
         public string AppFontFamily { get; set; }
 
         public HomeWindow()
@@ -112,7 +114,9 @@ namespace UI.WPF
 
         private void SettingsContent_Selected(object sender, RoutedEventArgs e)
         {
+            closeButtonVisibilityFlag = true;
             mainContentControl.Content = _settingsControl;
+            ShowHideElements();
         }
 
         private void ShowHideElements()
@@ -127,7 +131,6 @@ namespace UI.WPF
         private void DrawerEffectBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             HideFriendList();
-
         }
 
         private void FriendList_Selected(object sender, RoutedEventArgs e)

@@ -16,7 +16,8 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="-2,-2,-2,-2">
+    <Grid Margin="-2,-2,-2,-2"
+          x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="250" />
@@ -104,9 +105,13 @@
 
                                         <!-- User Profile Picture -->
                                         <Grid Grid.Column="0">
-                                            <Border Style="{StaticResource ProfilePicture}">
+                                            <Border Style="{StaticResource ProfilePicture}"
+                                                    MouseDown="UserSelectedShowProfile_MouseDown"
+                                                    Cursor="Hand"
+                                                    >
                                                 <Border.Background>
-                                                    <ImageBrush ImageSource="{Binding ProfilePicture}"/>
+                                                    <ImageBrush ImageSource="{Binding ProfilePicture}"
+                                                                />
                                                 </Border.Background>
                                             </Border>
 
@@ -141,7 +146,7 @@
                                             Margin="0 0 8 0"
                                             HorizontalAlignment="Right">
                                             <Button x:Name="AddFriendButton"
-                                                    Style="{StaticResource ProfileButton}"
+                                                    Style="{StaticResource AddFriendButton}"
                                                     Click="AddFriendButton_Click"
                                                     />
                                         </Grid>
@@ -263,6 +268,8 @@
 
         <!-- User Profile (right side menu) -->
         <Border Grid.Column="2"
+                x:Name="UserProfileMenu"
+                Width="250"
                 CornerRadius="0,45,45,0"
                 BorderThickness="2"
                 BorderBrush="white"
@@ -288,17 +295,19 @@
                     </Border.Background>
                 </Border>
 
-                <TextBlock Text="Username"
+                <TextBlock Text="{Binding DisplayName}"
                            HorizontalAlignment="Center"
                            Margin="0 10 0 0"
                            Foreground="#112152"
                            FontSize="18"
                            FontWeight="Bold" />
+
                 <TextBlock Text="Complete Name"
                            FontSize="13"
                            Foreground="#112152"
                            HorizontalAlignment="Center"
                            Opacity="0.8" />
+
                 <TextBlock Text="Description/Status of the selectetd user"
                            FontSize="8"
                            Foreground="#112152"
@@ -331,6 +340,7 @@
                                    Foreground="#112152" />
                     </StackPanel>
                 </StackPanel>
+
                 <StackPanel Orientation="Horizontal"
                             Margin="20 0">
                     <Border Width="50"
@@ -358,6 +368,7 @@
                         </Border.Background>
                     </Border>
                 </StackPanel>
+
             </StackPanel>
         </Border>
         

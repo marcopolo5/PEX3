@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Helpers
 {
@@ -20,7 +16,7 @@ namespace Domain.Helpers
             using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
             {
                 _imageBytes = new byte[fileStream.Length];
-                _ = fileStream.Read(_imageBytes, 0, System.Convert.ToInt32(fileStream.Length));
+                _ = fileStream.Read(_imageBytes, 0, Convert.ToInt32(fileStream.Length));
             }
             return _imageBytes;
         }
