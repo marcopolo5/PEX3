@@ -310,10 +310,12 @@
                         Height="150"
                         CornerRadius="80"
                         BorderThickness="1"
-                        BorderBrush="#112152">
+                        BorderBrush="#112152"
+                        Margin="0,90,0,0">
                     <Border.Background>
 
-                        <ImageBrush />
+                        <ImageBrush ImageSource="{Binding ProfilePicture}"
+                                    Stretch="Fill" />
 
                     </Border.Background>
                 </Border>
@@ -325,14 +327,8 @@
                            FontSize="18"
                            FontWeight="Bold" />
 
-                <TextBlock Text="Complete Name"
+                <TextBlock Text="{Binding StatusMessage}"
                            FontSize="13"
-                           Foreground="#112152"
-                           HorizontalAlignment="Center"
-                           Opacity="0.8" />
-
-                <TextBlock Text="Description/Status of the selectetd user"
-                           FontSize="8"
                            Foreground="#112152"
                            HorizontalAlignment="Center"
                            Opacity="0.8" />
@@ -340,17 +336,17 @@
                 <StackPanel Margin="20">
                     <StackPanel Orientation="Horizontal"
                                 Margin="0 3">
-                        <materialDesign:PackIcon Kind="Location"
+                        <materialDesign:PackIcon Kind="DateRange"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Location/Street of the user"
+                        <TextBlock Text="JoinDate of the user"
                                    Margin="10 0"
                                    Foreground="#112152" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
                                 Margin="0 3">
-                        <materialDesign:PackIcon Kind="Cellphone"
+                        <materialDesign:PackIcon Kind="StarRate"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Phone number of the user"
+                        <TextBlock Text="Reputation of the user"
                                    Margin="10 0"
                                    Foreground="#112152" />
                     </StackPanel>
@@ -358,7 +354,7 @@
                                 Margin="0 3">
                         <materialDesign:PackIcon Kind="Email"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Email of the user"
+                        <TextBlock Text="{Binding Email}"
                                    Margin="10 0"
                                    Foreground="#112152" />
                     </StackPanel>
