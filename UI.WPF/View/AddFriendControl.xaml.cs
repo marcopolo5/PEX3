@@ -52,6 +52,13 @@ namespace UI.WPF.View
             Environment.Exit(0);
         }
 
+        private void CloseUserPanel_Click(object sender, RoutedEventArgs e)
+        {
+            UserProfileMenu.Visibility = Visibility.Hidden;
+            MainGrid.ColumnDefinitions[1].Width = new GridLength(0);
+            
+        }
+
 
         private async void GetPendingFriendRequests()
         {
@@ -136,6 +143,7 @@ namespace UI.WPF.View
             Border userSelectedProfilePicture = sender as Border;
             FriendViewModel selectedUser = userSelectedProfilePicture.DataContext as FriendViewModel;
             MainGrid.DataContext = selectedUser;
+            MainGrid.ColumnDefinitions[1].Width = new GridLength(250);
             UserProfileMenu.Visibility = Visibility.Visible;
             // pentru Adina: aici nu mai trebuie modificat nimic, trebuie doar sa faci bind la atributele din FriendViewModel catre cele din xaml (model cum am facut la linia 298)
         }

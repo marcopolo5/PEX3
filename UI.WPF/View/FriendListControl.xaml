@@ -95,6 +95,7 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         BorderBrush="White"
                         BorderThickness="10"
+                        ScrollViewer.CanContentScroll="False"
                         Background="{StaticResource BlueTheme}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
