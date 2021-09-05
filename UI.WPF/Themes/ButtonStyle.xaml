@@ -2,6 +2,7 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Big Buttons -->
     <Style x:Key="ButtonWithImage" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
@@ -52,7 +53,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="AppButton" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
@@ -87,7 +88,45 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
+    <!-- Small Buttons -->
+    <Style x:Key="FriendRequestSentButton" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="MaxHeight" Value="40"/>
+        <Setter Property="MaxWidth" Value="40"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderThickness="0.1"
+                            BorderBrush="Beige"
+                            CornerRadius="8">
+                        <materialDesign:PackIcon Kind="AccountArrowRightOutline"
+                                                 Margin="5"
+                                                 ToolTip="Friend request in pending"
+                                                 Width="30"
+                                                 Height="30"/>
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="#73C2FB"
+                                  />
+                        </Border.Effect>
+                        <Border.Background>
+                            <SolidColorBrush Color="CornflowerBlue" Opacity="0.7"/>
+                        </Border.Background>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="AcceptFriendButton" TargetType="{x:Type Button}">
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="MinWidth" Value="40"/>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace UI.WPF.ViewModel
@@ -18,6 +19,9 @@ namespace UI.WPF.ViewModel
         private BitmapImage _profilePicture;
         private UserStatus _status;
         private int _friendRequestId;
+        private Visibility _friendRequestExists;
+        private Visibility _candAddFriend;
+        private Visibility _friendRequestSent;
 
         public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status)
         {
@@ -40,6 +44,43 @@ namespace UI.WPF.ViewModel
             _friendRequestId = friendRequestId;
         }
 
+        public Visibility FriendRequestExists
+        {
+            get{
+                return _friendRequestExists;
+            }
+            set
+            {
+                _friendRequestExists = value;
+                OnPropertyChanged(nameof(FriendRequestExists));
+            }
+        }
+
+        public Visibility CanAddFriend
+        {
+            get
+            {
+                return _candAddFriend;
+            }
+            set
+            {
+                _candAddFriend = value;
+                OnPropertyChanged(nameof(CanAddFriend));
+            }
+        }
+
+        public Visibility FriendRequestSent
+        {
+            get
+            {
+                return _friendRequestSent;
+            }
+            set
+            {
+                _friendRequestSent = value;
+                OnPropertyChanged(nameof(FriendRequestSent));
+            }
+        }
 
         public int FriendRequestId
         {

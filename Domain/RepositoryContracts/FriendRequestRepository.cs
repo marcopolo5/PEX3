@@ -26,6 +26,15 @@ namespace Domain.RepositoryContracts
             }
         }
 
+        public async Task<FriendRequest> FriendRequestExists(int senderId, int receiverId)
+        {
+            using(var connection = CreateConnection())
+            {
+                string sqlQuery = $@"SELECT * FROM {TableName} WHERE senderId=@SenderId and receiverId=@ReceiverId";
+                var entity = await connection.QuerySingleOrDefaultAsync<FriendRequest>(sqlQuery, new { SenderId = senderId, ReceiverId = receiverId });
+                return entity;
+            }
+        }
 
         public async Task<FriendRequest> ReadAsync(int senderId, int receiverId)
         {

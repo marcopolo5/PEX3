@@ -17,10 +17,15 @@ namespace AccountModule.Controllers
             return await _friendRequestRepository.ReadAsync(id);
         }
 
+        public async Task<FriendRequest> FriendRequestExists(int senderId, int receiverId)
+        {
+            return await _friendRequestRepository.FriendRequestExists(senderId, receiverId);
+        }
+
         public async Task<IEnumerable<FriendRequest>> GetUsersFriendRequests()
         {
             return await _friendRequestRepository.ReadAllAsync();
         }
-
+        
     }
 }

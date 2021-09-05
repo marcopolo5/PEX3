@@ -62,7 +62,7 @@ namespace UI.WPF.View
 
         private async void GetPendingFriendRequests()
         {
-                var friendRequests = await _friendRequestController.GetUsersFriendRequests();
+            var friendRequests = await _friendRequestController.GetUsersFriendRequests();
             foreach (FriendRequest friendRequest in friendRequests.ToList())
             {
                 try
@@ -98,7 +98,7 @@ namespace UI.WPF.View
                 {
                     user.Profile = await _profileController.GetProfile(user.Id);
                 }
-                catch (KeyNotFoundException) 
+                catch (KeyNotFoundException)
                 {
                     user.Profile = new();
                     user.Profile.StatusMessage = "Profile Not Found!";
@@ -108,6 +108,36 @@ namespace UI.WPF.View
                 finally
                 {
                     FriendViewModel userUIModel = new FriendViewModel(user.FirstName + " " + user.LastName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status);
+
+                    // Check if the user already sent a friend request to the current user
+                    var friendRequestReceived = await _friendRequestController.FriendRequestExists(user.Id, ApplicationUserController.CurrentUser.Id);
+                    bool friendRequestReceivedFlag = (friendRequestReceived != null);
+
+                    // Check if the current user already sent a friend request to the user
+                    var friendRequestSent = await _friendRequestController.FriendRequestExists(ApplicationUserController.CurrentUser.Id, user.Id);
+                    bool friendRequestSentFlag = (friendRequestSent != null);
+
+                    if (friendRequestReceivedFlag)
+                    {
+                        userUIModel.FriendRequestExists = Visibility.Visible;
+                        userUIModel.CanAddFriend = Visibility.Hidden;
+                        userUIModel.FriendRequestSent = Visibility.Hidden;
+
+                        userUIModel.FriendRequestId = friendRequestReceived.Id;
+                    }
+                    else if(friendRequestSentFlag)
+                    {
+                        userUIModel.FriendRequestExists = Visibility.Hidden;
+                        userUIModel.CanAddFriend = Visibility.Hidden;
+                        userUIModel.FriendRequestSent = Visibility.Visible;
+                    }
+                    else
+                    {
+                        userUIModel.FriendRequestExists = Visibility.Hidden;
+                        userUIModel.CanAddFriend = Visibility.Visible;
+                        userUIModel.FriendRequestSent = Visibility.Hidden;
+                    }
+
                     Users.Add(userUIModel);
                 }
             }
@@ -120,6 +150,26 @@ namespace UI.WPF.View
             await _friendController.SendFriendRequest(ApplicationUserController.CurrentUser.Email, selectedUser.Email);
             button.IsEnabled = false;
             ((Border)button.Template.FindName("BG", button)).Background = Brushes.SteelBlue;
+            button.Style = Application.Current.FindResource("FriendRequestSentButton") as Style;
+        }
+
+        // TODO: The below 4 methods NEED REAL TIME UPDATE to avoid removing already removed item
+        // NOT TODO: don't accept/deny the same friend request in user list and pending friend request list :D
+
+        private async void AcceptFriendButtonFromUserList_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            await _friendController.AcceptFriendRequest(selectedUser.FriendRequestId);
+            Users.Remove(selectedUser);
+        }
+
+        private async void DenyFriendButtonFromUserList_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            await _friendController.DenyFriendRequest(selectedUser.FriendRequestId);
+            Users.Remove(selectedUser);
         }
 
         private async void AcceptFriendButton_Click(object sender, RoutedEventArgs e)

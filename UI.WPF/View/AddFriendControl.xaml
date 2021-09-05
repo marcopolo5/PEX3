@@ -159,11 +159,50 @@
 
                                             <!-- Add Friend Button -->
                                             <Grid   Grid.Column="2"
+                                                    x:Name="AddFriendGrid"
+                                                    Visibility="{Binding CanAddFriend}"
                                                     HorizontalAlignment="Right">
                                                 <Button x:Name="AddFriendButton"
                                                             Style="{StaticResource AddFriendButton}"
                                                             Click="AddFriendButton_Click"
                                                             />
+                                            </Grid>
+
+                                            <!-- Friend Request Sent Button (hidden unless there is a friend request already sent) -->
+                                            <Grid   Grid.Column="2"
+                                                    x:Name="FriendRequestSentGrid"
+                                                    Visibility="{Binding FriendRequestSent}"
+                                                    HorizontalAlignment="Right">
+                                                <Button x:Name="FriendRequestSentButton"
+                                                        IsEnabled="False"
+                                                        Style="{StaticResource FriendRequestSentButton}"
+                                                        Click="AddFriendButton_Click"
+                                                        />
+                                            </Grid>
+
+                                            <!-- Accept/Deny Buttons (hidden unless there is an existing friend request) -->
+                                            <Grid   Grid.Column="2"
+                                                    x:Name="ExistingFriendRequestGrid"
+                                                    Visibility="{Binding FriendRequestExists}"
+                                                    Margin="0 0 -18 0"
+                                                    HorizontalAlignment="Right">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="75"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button x:Name="AcceptFriendButton"
+                                                            Grid.Column="0"
+                                                            Tag="{Binding Index}"
+                                                            Style="{StaticResource AcceptFriendButton}"
+                                                            Click="AcceptFriendButtonFromUserList_Click"/>
+
+                                                <Button x:Name="DenyFriendButton"
+                                                            Grid.Column="1"
+                                                            Style="{StaticResource DenyFriendButton}"
+                                                            Click="DenyFriendButtonFromUserList_Click"
+                                                            />
+
                                             </Grid>
 
                                         </Grid>
@@ -283,6 +322,7 @@
                     </Grid>
                         
                 </Border>
+                
             </Grid>
 
         </StackPanel>
