@@ -30,6 +30,7 @@
 	  <None Remove="Assets\profilepic.png" />
 	  <None Remove="Assets\Sorina.jpeg" />
 	  <None Remove="Assets\warning.png" />
+	  <None Remove="Assets\world_map.png" />
 	</ItemGroup>
 
 	<ItemGroup>

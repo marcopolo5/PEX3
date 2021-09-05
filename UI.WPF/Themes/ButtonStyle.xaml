@@ -2,6 +2,92 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Style x:Key="ButtonWithImage" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG" 
+                                Background="{StaticResource YellowTheme}"
+                                CornerRadius="16">
+                        <Grid Margin="10 0 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0"
+                                   Width="50"
+                                   Height="50"
+                                   Source="/Assets/google-logo.png"
+                                   Stretch="Fill" />
+
+                            <TextBlock Grid.Column="1"
+                                       Text="Sign in with Google"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"/>
+
+                        </Grid>
+
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                        </Border.Effect>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Hover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Press}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="AppButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG" 
+                                Background="{StaticResource YellowTheme}"
+                                CornerRadius="16">
+                        <TextBlock     Text="{TemplateBinding Content}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"/>
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="{StaticResource C_YellowTheme}"
+                                  />
+                        </Border.Effect>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Hover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Press}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="AcceptFriendButton" TargetType="{x:Type Button}">
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="MinWidth" Value="40"/>
@@ -15,19 +101,20 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="Transparent"
-                            BorderThickness="0.2"
+                            BorderThickness="0.1"
                             BorderBrush="Beige"
                             CornerRadius="8">
                         <materialDesign:PackIcon Kind="CheckboxMarkedOutline"
                                                  Margin="5"
-                                                Width="30"
-                                                Height="30"/>
+                                                 ToolTip="Accept friend"
+                                                 Width="30"
+                                                 Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
                                               ShadowDepth="-10"
                                               BlurRadius="12" 
                                               Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
+                                              Color="GreenYellow"
                                   />
                         </Border.Effect>
                     </Border>
@@ -57,19 +144,20 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="Transparent"
-                            BorderThickness="0.2"
+                            BorderThickness="0.1"
                             BorderBrush="Beige"
                             CornerRadius="8">
                         <materialDesign:PackIcon Kind="CloseOctagonOutline"
                                                  Margin="5"
-                                                Width="30"
-                                                Height="30"/>
+                                                 ToolTip="Remove"
+                                                 Width="30"
+                                                 Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
+                                              ShadowDepth="-20"
+                                              BlurRadius="20" 
+                                              Opacity="0.8"
+                                              Color="Red"
                                   />
                         </Border.Effect>
                     </Border>
@@ -125,7 +213,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ProfileButton" TargetType="{x:Type Button}">
+    <Style x:Key="AddFriendButton" TargetType="{x:Type Button}">
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="MinWidth" Value="40"/>
         <Setter Property="MaxHeight" Value="40"/>
@@ -139,28 +227,29 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="Transparent"
-                            BorderThickness="0.2"
+                            BorderThickness="0.1"
                             BorderBrush="Beige"
                             CornerRadius="8">
                         <materialDesign:PackIcon Kind="AccountPlusOutline"
                                                  Margin="5"
-                                                Width="30"
-                                                Height="30"/>
+                                                 ToolTip="Send friend request"
+                                                 Width="30"
+                                                 Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
+                                              ShadowDepth="-20"
+                                              BlurRadius="20" 
+                                              Opacity="1"
+                                              Color="#73C2FB"
                                   />
                         </Border.Effect>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BG" Property="Background" Value="DodgerBlue"/>
+                            <Setter TargetName="BG" Property="Background" Value="CornflowerBlue"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="BG" Property="Background" Value="DarkOliveGreen"/>
+                            <Setter TargetName="BG" Property="Background" Value="#0F4D92"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -224,7 +313,7 @@
                             VerticalAlignment="Center"
                             Cursor="Hand"
                             Background="Transparent"
-                            BorderThickness="0.2"
+                            BorderThickness="0.1"
                             BorderBrush="Beige"
                             CornerRadius="5">
                         <materialDesign:PackIcon Kind="DotsVertical"
@@ -235,7 +324,7 @@
                             <DropShadowEffect Direction="0"
                                               ShadowDepth="-10"
                                               BlurRadius="12" 
-                                              Opacity="0.6"
+                                              Opacity="0.4"
                                               Color="{StaticResource C_YellowTheme}"
                                   />
                         </Border.Effect>
@@ -275,8 +364,8 @@
                                                             Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
-                                              ShadowDepth="-30"
-                                              BlurRadius="30" 
+                                              ShadowDepth="-20"
+                                              BlurRadius="20" 
                                               Opacity="1"
                                               Color="GreenYellow"
                                   />
@@ -312,17 +401,17 @@
                             BorderThickness="0.2"
                             BorderBrush="Beige"
                             CornerRadius="8">
-                        <materialDesign:PackIcon Kind="AccountBoxOutline"
-                                                 Margin="5"
-                                                Width="30"
-                                                 ToolTip="Show Profile"
-                                                Height="30"/>
+                        <materialDesign:PackIcon    Kind="AccountBoxOutline"
+                                                    Margin="5"
+                                                    Width="30"
+                                                    ToolTip="Show Profile"
+                                                    Height="30"/>
                         <Border.Effect>
                             <DropShadowEffect Direction="0"
                                               ShadowDepth="-30"
                                               BlurRadius="30" 
                                               Opacity="1"
-                                              Color="DeepSkyBlue"
+                                              Color="#73C2FB"
                                   />
                         </Border.Effect>
                     </Border>
@@ -331,13 +420,14 @@
                             <Setter TargetName="BG" Property="Background" Value="CornflowerBlue"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="BG" Property="Background" Value="DarkOliveGreen"/>
+                            <Setter TargetName="BG" Property="Background" Value="#0F4D92"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="RateUpButton" TargetType="{x:Type Button}">
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="MinWidth" Value="40"/>
@@ -421,4 +511,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

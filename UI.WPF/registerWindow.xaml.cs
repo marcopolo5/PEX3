@@ -34,7 +34,6 @@ namespace UI.WPF
            InitializeComponent();
         }
 
-        // TODO: fix documentation (no longer matches the functionality)
         /// <summary>
         /// Called by the registerButton
         /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of registration
@@ -47,6 +46,7 @@ namespace UI.WPF
             {
                 await _applicationUserController.Register(firstNameText.Text, lastNameText.Text, emailText.Text,
                     password1Text.Password, password2Text.Password);
+                new CustomMessageBox().Show("You have registered successfully!");
             }
             catch (InvalidEntityException exception)
             {

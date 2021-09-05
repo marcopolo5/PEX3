@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="Themes/Animations.xaml"/>
                 <ResourceDictionary Source="Themes/Generic.xaml"/>
+                <ResourceDictionary Source="Themes/ScrollBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="GlobalFontFamily">Helvetica</FontFamily>

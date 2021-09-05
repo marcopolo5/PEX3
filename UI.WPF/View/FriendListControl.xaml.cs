@@ -1,7 +1,9 @@
 ﻿using AccountModule.Controllers;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
@@ -12,6 +14,7 @@ namespace UI.WPF.View
     public partial class FriendListControl : UserControl
     {
         private readonly FriendController _friendController = new();
+
         public FriendListingViewModel FriendListingViewModel { get; }
 
         public FriendListControl()
@@ -32,9 +35,8 @@ namespace UI.WPF.View
             Button button = sender as Button;
             FriendViewModel selectedUserToBeRemoved = button.DataContext as FriendViewModel;
             await _friendController.DeleteFriend(selectedUserToBeRemoved.Email);
-
             // e nevoie de reload CurrentUser.Friends !!!!
-        } 
+        }
 
         // TODO: Show friend's profile (backend + frontend)
         private void ShowProfileButton_Click(object sender, RoutedEventArgs e)

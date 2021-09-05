@@ -34,9 +34,10 @@
 
         <Style x:Key="SettingsDefaultButton" TargetType="{x:Type Button}">
             <Setter Property="MinHeight" Value="45"/>
-            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MinWidth" Value="60"/>
             <Setter Property="MaxHeight" Value="45"/>
-            <Setter Property="MaxWidth" Value="100"/>
+            <Setter Property="MaxWidth" Value="60"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="{StaticResource YellowTheme}"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -126,16 +127,13 @@
                         Grid.Row="1"
                         Style="{StaticResource Label}"
                         Text="Anonymity"/>
-            
-            <GenericControl:CustomToggleButton
-                Grid.Column="1"
-                Grid.Row="1"
-                ToolTip="Set Anonymity"
-                HorizontalAlignment="Left"
-                x:Name="anonimityButton"
-                Click="Anonimity_ValueChanged">
+            <GenericControl:CustomToggleButton  Grid.Column="1"
+                                                Grid.Row="1"
+                                                ToolTip="Set Anonymity"
+                                                HorizontalAlignment="Left"
+                                                x:Name="anonimityButton"
+                                                Click="Anonimity_ValueChanged">
             </GenericControl:CustomToggleButton>
-            
             <Border Grid.Row="1"
                     Grid.ColumnSpan="2"
                     Height="1"
@@ -290,7 +288,6 @@
                        Style="{StaticResource Label}"
                        VerticalAlignment="Center"
                        Text="Change font family"/>
-
             <StackPanel
                 Grid.Column="1" 
                 Grid.Row="4"
@@ -304,26 +301,13 @@
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
 
-
-                    <Border Grid.Column="1"
-                            CornerRadius="0 15 15 0"
-                            Background="{StaticResource YellowTheme}">
-                        <Border.Effect>
-                            <DropShadowEffect Direction="0"
-                                              ShadowDepth="-10"
-                                              BlurRadius="12" 
-                                              Opacity="0.6"
-                                              Color="{StaticResource C_YellowTheme}"
-                                  />
-                        </Border.Effect>
-                    </Border>
-
                     <ComboBox
                         ItemsSource="{Binding Source={x:Static Member=Fonts.SystemFontFamilies}}"
                         x:Name="FontFamilyComboBox"
                         Style="{StaticResource MaterialDesignFilledComboBox}"
                         IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
                         materialDesign:HintAssist.Hint="Select font family"
+                        Margin="0 0 -26 0"
                         VerticalContentAlignment="Center"
                         Background="White"
                         FontSize="14"
@@ -343,7 +327,7 @@
                     <Button     Grid.Column="1"
                                 Style="{StaticResource SettingsDefaultButton}"
                                 Click="SetDefault_Click"
-                                Content="Set Default">
+                                Content="Default">
                     </Button>
 
                 </Grid>
@@ -351,8 +335,7 @@
 
             </StackPanel>
 
-
-
+            
         </Grid>
         
     </Grid>
