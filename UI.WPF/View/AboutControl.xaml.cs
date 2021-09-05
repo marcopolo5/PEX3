@@ -18,9 +18,9 @@ namespace UI.WPF.View
     /// <summary>
     /// Interaction logic for HomeControl.xaml
     /// </summary>
-    public partial class HomeControl : UserControl
+    public partial class AboutControl : UserControl
     {
-        public HomeControl()
+        public AboutControl()
         {
             InitializeComponent();
         }

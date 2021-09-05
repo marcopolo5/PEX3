@@ -26,7 +26,7 @@ namespace UI.WPF
     {
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         private readonly ProfileControl _profileControl = new();
-        private readonly HomeControl _homeControl = new();
+        private readonly AboutControl _aboutControl = new();
         private readonly ChatControl _chatControl = new();
         private readonly ProximityChatControl _proximityChatControl; //dont initialize here, check in the ctor first if the user wasnt banned  
         private readonly AddFriendControl _addFriendControl = new();
@@ -51,7 +51,7 @@ namespace UI.WPF
                         MessageBox.Show(task.Exception.ToString());
                     }
                 });
-            mainContentControl.Content = _homeControl;
+            mainContentControl.Content = _aboutControl;
 
             // Check if the user is banned from proximity chat
             if (ApplicationUserController.CurrentUser.IsBannedFromProximity)
@@ -84,7 +84,7 @@ namespace UI.WPF
 
         private void HomeContent_Selected(object sender, RoutedEventArgs e)
         {
-            mainContentControl.Content = _homeControl;
+            mainContentControl.Content = _aboutControl;
             closeButtonVisibilityFlag = true;
             ShowHideElements();
         }

@@ -72,7 +72,7 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="170"/>
             <RowDefinition Height="*"/>
@@ -130,6 +130,7 @@
             <GenericControl:CustomToggleButton  Grid.Column="1"
                                                 Grid.Row="1"
                                                 ToolTip="Set Anonymity"
+                                                IsChecked="{Binding AnonymityToggleButtonIsChecked}"
                                                 HorizontalAlignment="Left"
                                                 x:Name="anonimityButton"
                                                 Click="Anonimity_ValueChanged">

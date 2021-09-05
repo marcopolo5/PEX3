@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using AccountModule.Controllers;
 
 namespace UI.WPF.View
@@ -24,12 +14,14 @@ namespace UI.WPF.View
         private readonly SettingsController _settingsController = new();
         private bool handle = true;
 
+        public bool AnonymityToggleButtonIsChecked { get; set; }
+
         public SettingsControl()
         {
             InitializeComponent();
+            MainGrid.DataContext = this;
+            AnonymityToggleButtonIsChecked = ApplicationUserController.CurrentUser.Settings.Anonymity;
         }
-
-
 
         private async void SaveChangesClick(object sender, RoutedEventArgs e)
         {
