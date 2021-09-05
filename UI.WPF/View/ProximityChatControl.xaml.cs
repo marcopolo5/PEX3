@@ -218,14 +218,15 @@ namespace UI.WPF.View
 
         private async void AddNewProximityConversation_Click(object sender, RoutedEventArgs e)
         {
-            await _signalRClient.CreateProximityConversation();
+            
+            var title = CreateProximityChatName.Text;
+            if (string.IsNullOrEmpty(title) || string.IsNullOrWhiteSpace(title) || title == "")
+            {
+                return;
+            }
+            CreateProximityChatName.Text = string.Empty; // reset the box
+            await _signalRClient.CreateProximityConversation(title);
             await _signalRClient.UpdateProximityChats();
-        }
-
-        public void Dispose()
-        {
-            _signalRClient.MessageReceived -= OnMessageReceived;
-            _signalRClient.ConversationsReceived -= OnConversationsReceived;
         }
 
         private async void RateUpButton_Click(object sender, RoutedEventArgs e)
@@ -234,7 +235,7 @@ namespace UI.WPF.View
             int id = (int)btn.Content;
             await _userRatingController.RateUser(true, id);
             btn.IsEnabled = false;
-            MessageBox.Show($"id : {id}"); //debugging 
+            //MessageBox.Show($"id : {id}"); //debugging 
         }
         private async void RateDownButton_Click(object sender, RoutedEventArgs e)
         {
@@ -242,7 +243,13 @@ namespace UI.WPF.View
             int id = (int)btn.Content;
             await _userRatingController.RateUser(false, id);
             btn.IsEnabled = false;
-            MessageBox.Show($"id : {id}");
+            //MessageBox.Show($"id : {id}");
+        }
+        
+        public void Dispose()
+        {
+            _signalRClient.MessageReceived -= OnMessageReceived;
+            _signalRClient.ConversationsReceived -= OnConversationsReceived;
         }
     }
 }

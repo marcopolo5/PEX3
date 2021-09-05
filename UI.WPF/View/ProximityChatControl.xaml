@@ -217,14 +217,22 @@
                 </Button.Content>
             </Button>
             -->
-        <Button x:Name="AddConversation" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Left" Width="200" Height="40" Margin="10,20,10,20" Click="AddNewProximityConversation_Click" Style="{DynamicResource ButtonStyle1}" >
+        <!--
+        <TextBox Grid.Column="0" Grid.Row="0" x:Name="searchBox" 
+                    FontSize="20" HorizontalAlignment="Stretch"
+                    Width="200"
+                    VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
+                    BorderThickness="0" Background="Transparent" Margin="0,0,10,10" Foreground="LightGray">
+        </TextBox>
+
+        <Button x:Name="AddConversation" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Left" Width="50" Height="40" Margin="10,20,10,20" Click="AddNewProximityConversation_Click" Style="{DynamicResource ButtonStyle1}" >
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
             <Button.Content>
-                <TextBlock Text="Create New Proximity Chat"  />
+                <TextBlock Text="Create"  />
             </Button.Content>
         </Button>
         <Button x:Name="Refresh" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Right" Width="120" Height="40" Margin="10,20,10,20" Click="Refresh_Click" Style="{DynamicResource ButtonStyle1}" >
@@ -237,9 +245,51 @@
                 <TextBlock Text="Refresh"  />
             </Button.Content>
         </Button>
-
+        -->
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Height="auto" Margin="20,0,0,0">
+            <Border Background="#F8F6F7" Height="40"  Width="200" CornerRadius="25" HorizontalAlignment="Left">
+                <Grid Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="CreateProximityChatName"
+                            Grid.Column="1"  FontSize="20" HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
+                            BorderThickness="0" Background="Transparent" Margin="0,0,0,10" Foreground="Black">
+                    </TextBox>
+                </Grid>
+            </Border>
+        </Border>
+        <Button x:Name="CreateProximityChatButton" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                Background="#FF838383" HorizontalAlignment="Right"
+                Width="60" Height="40" Margin="10,20,80,20" Click="AddNewProximityConversation_Click" 
+                Style="{DynamicResource ButtonStyle1}" >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <TextBlock Text="Create"  />
+            </Button.Content>
+        </Button>
+        <Button x:Name="Refresh" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
+                Background="#FF838383" HorizontalAlignment="Right" 
+                Width="60" Height="40" Margin="10,20,10,20" Click="Refresh_Click" 
+                Style="{DynamicResource ButtonStyle1}" >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <TextBlock Text="Refresh"  />
+            </Button.Content>
+        </Button>
+            
         <ScrollViewer Grid.Row="2" Grid.RowSpan="2">
-                <!--conversation list view Style="{DynamicResource ChangeColor}"-->
                 <ListView x:Name="ProximityConversationList" 
                               Background="Transparent" 
                               BorderThickness="0" 
@@ -398,16 +448,20 @@
                                     <Grid Background="#112152" >
                                         <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="{Binding Alignment}">
                                             <StackPanel Orientation="Horizontal" x:Name="MessageStackPanel">
-                                                <TextBlock  VerticalAlignment="Center" 
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock  VerticalAlignment="Center" 
                                                                 Background="#FF838383" 
-                                                                TextWrapping="Wrap" 
+                                                                TextWrapping="Wrap"
+                                                                MaxWidth="270"
                                                                 Text="{Binding TextMessage}" 
                                                                 FontSize="15" 
                                                                 Foreground="white" 
                                                                 FontFamily="Comic Sans MS"
                                                                 />
+                                                </StackPanel>
                                                 <ToggleButton x:Name="OpenFriendMenuPopUp"
-                                                                Margin="10 0 0 0"
+                                                                VerticalAlignment="Top"
+                                                                Margin="10 -5 0 -5"
                                                                 Visibility="{Binding ToggleButtonVisibility}"
                                                                 Style="{StaticResource OpenMenuButton}"
                                                             />
@@ -443,6 +497,7 @@
                                                             <Button x:Name="RateDownBtn"
                                                                     Click="RateDownButton_Click"
                                                                     Grid.Row="1"
+                                                                    Content="{Binding Id}"
                                                                     Style="{StaticResource RateDownButton}"
                                                                     />
                                                         </Grid>

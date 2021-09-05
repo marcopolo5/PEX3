@@ -184,6 +184,23 @@ namespace ChatServerModule.Hubs
             await Clients.Clients(connectionId).SendAsync("ReceiveConversations", conversationsFilteredByUserSettings);
         }
 
+
+        public async Task AddOrRemoveFriend(int friendOneUserId, int friendTwoUserId, bool removeFriend)
+        {
+            if (ConnectedUsers.ContainsKey(friendOneUserId))
+            {
+                await Clients.Client(ConnectedUsers[friendOneUserId]).SendAsync("UpdateFriendship", friendTwoUserId, removeFriend);
+            }
+            if (ConnectedUsers.ContainsKey(friendTwoUserId))
+            {
+                await Clients.Client(ConnectedUsers[friendTwoUserId]).SendAsync("UpdateFriendship", friendOneUserId, removeFriend);
+
+            }
+        }
+
+
+        ///// PRIVATE:
+
         /// <summary>
         /// Get connection ids from all the user's friends(if they are connected) 
         /// </summary>

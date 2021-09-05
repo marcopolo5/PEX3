@@ -17,14 +17,24 @@ namespace ChatModule
         private static SignalRClient _signalRClient;
 
         public readonly LocationAPIController _locationAPIController = new();
+        public readonly UserRepository _userRepository = new();
 
         private HubConnection _connection;
 
+
+        // EVENTS: 
         public event Action<Message> MessageReceived;
 
         public event Action<StatusModel> StatusChanged;
 
         public event Action<IEnumerable<Conversation>> ConversationsReceived;
+
+        /// <summary>
+        /// Takes the id of the friend and a boolean that tells if the friend needs to be removed or added (if true remove the friend)
+        /// CurrentUser.Friends was already updated, use this only to update the UI
+        /// </summary>
+        public event Action<int, bool> FriendshipUpdated;
+
 
 
         public static SignalRClient GetInstance()
@@ -73,7 +83,7 @@ namespace ChatModule
             _connection.On<StatusModel>("ChangeStatus", (status) =>
             {
                 var friend = ApplicationUserController.CurrentUser.Friends.Where(f => f.Id == status.FriendId).FirstOrDefault();
-                if(friend != null)
+                if (friend != null)
                 {
                     friend.Profile.Status = status.NewStatus;
                     StatusChanged?.Invoke(status);
@@ -86,7 +96,7 @@ namespace ChatModule
 
             _connection.On<IEnumerable<ServerConversationDTO>>("ReceiveConversations", (conversations) => {
                 var convs = new List<Conversation>();
-                foreach(var servConv in conversations)
+                foreach (var servConv in conversations)
                 {
                     if (ApplicationUserController.CurrentUser.Conversations.Where(conv => conv.Id == servConv.Id).Count() == 0)
                     {
@@ -106,6 +116,27 @@ namespace ChatModule
                 // trigger the event
                 ConversationsReceived?.Invoke(convs);
             });
+
+
+            _connection.On<int, bool>("UpdateFriendship", async (friendId, removeFriend) =>
+             {
+                 if (removeFriend)
+                 {
+                     var friend = ApplicationUserController.CurrentUser.Friends.FirstOrDefault(f => f.Id == friendId);
+                     ApplicationUserController.CurrentUser.Friends.Remove(friend);
+                 }
+                 else
+                 {
+                     var friend = await _userRepository.ReadAsync(friendId);
+                     ApplicationUserController.CurrentUser.Friends.Add(friend);
+                 }
+                 FriendshipUpdated?.Invoke(friendId, removeFriend);
+             });
+        }
+
+        public async Task AddOrRemoveFriend(int friendUserId, bool removeFriend)
+        {
+            await _connection.SendAsync("AddOrRemoveFriend", ApplicationUserController.CurrentUser.Id, friendUserId, removeFriend);
         }
 
         public async Task UpdateProximityChats()
@@ -135,14 +166,14 @@ namespace ChatModule
 
             await _connection.SendAsync("SendMessage", message);
         }
-        public async Task CreateProximityConversation()
+        public async Task CreateProximityConversation(string title)
         {
             var location = _locationAPIController.CallApi();
             var createConversationDto = new ConversationCreateDTO
             {
                 CreatorsId = ApplicationUserController.CurrentUser.Id,
                 Type = Domain.ConversationTypes.ProximityGroup,
-                Title = $"{location.RegionName}, {location.City} - {new Random().Next()}",
+                Title = $"{title} - {new Random().Next()}",
                 Location = $"{location.CountryName}, {location.RegionName}, {location.City}",
                 Longitude = location.Longitude,
                 Latitude = location.Latitude

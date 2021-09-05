@@ -171,10 +171,6 @@ namespace UI.WPF.View
             await _signalRClient.SendMessageAsync(currentConversationId, text);
         }
 
-        private void addConversation_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
 
         // use this to change between convs
         private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)

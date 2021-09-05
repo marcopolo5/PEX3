@@ -206,7 +206,11 @@
                 </Border>
             </Border>
 
-            <Button x:Name="addConversation" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Right" Width="40" Height="40" Margin="10,20,10,20" Click="addConversation_Click" Style="{DynamicResource ButtonStyle1}" >
+            <Button x:Name="addConversation" 
+                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
+                    Background="#FF838383" HorizontalAlignment="Right"
+                    Width="40" Height="40" Margin="10,20,10,20" 
+                    Style="{DynamicResource ButtonStyle1}" >
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
@@ -343,13 +347,27 @@
                                     <Border Padding="5" Background="#112152" >
                                         <Grid Background="#112152" >
                                             <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="{Binding Alignment}">
+                                            <StackPanel Orientation="Vertical">
                                                 <TextBlock  VerticalAlignment="Center" 
                                                                 Background="#FF838383" 
-                                                                TextWrapping="Wrap" 
+                                                                TextWrapping="Wrap"
+                                                                MaxWidth="270"
                                                                 Text="{Binding TextMessage}" 
                                                                 FontSize="15" 
                                                                 Foreground="white" 
-                                                                FontFamily="Comic Sans MS"/>
+                                                                FontFamily="Comic Sans MS"
+                                                                />
+                                            </StackPanel>
+                                            <!--
+                                            <TextBlock  VerticalAlignment="Center" 
+                                                Background="#FF838383" 
+                                                TextWrapping="Wrap" 
+                                                Text="{Binding TextMessage}" 
+                                                FontSize="15" 
+                                                Foreground="white" 
+                                                FontFamily="Comic Sans MS"/>
+                                            -->
+
                                             </Border>
                                             <Polygon Points="{Binding Positioning}" 
                                                          Fill="#FF838383"
