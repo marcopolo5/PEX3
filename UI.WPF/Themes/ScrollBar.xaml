@@ -54,6 +54,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.00001*" />
                         </Grid.RowDefinitions>
+                        
                         <Track  x:Name="PART_Track"
                                 Grid.Row="0"
                                 IsDirectionReversed="true"
@@ -77,6 +78,7 @@
                                               Focusable="false" />
                             </Track.DecreaseRepeatButton>
                         </Track>
+                        
                         <Border Width="2"
                                 Panel.ZIndex="0"
                                 Margin="0 1 0 1">

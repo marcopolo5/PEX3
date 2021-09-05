@@ -116,6 +116,7 @@ namespace WPFUI
         /// <param name="e"></param>
         public async void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
+            /*
             string _loginErrorMessage = _applicationUserController.CheckLoginConstraints(loginEmail.Text, loginPassword.Password);
             bool validData = (_loginErrorMessage == "");
             if (validData)
@@ -126,7 +127,7 @@ namespace WPFUI
                     Password = loginPassword.Password,
                     // Obs: no check-box for remember me option
                     RememberMe = false  
-                };*/
+                };
                 if (await _applicationUserController.Login(
                     loginEmail.Text, loginPassword.Password, false)) // rememberMe default = false (missing check-box in UI)
                 {
@@ -142,7 +143,7 @@ namespace WPFUI
             else
             {
                 loginErrorMessage.Content = _loginErrorMessage;
-            }
+            }*/
         }
 
         // TODO: fix documentation (no longer matches the functionality)
@@ -154,6 +155,7 @@ namespace WPFUI
         /// <param name="e"></param>
         public async void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
+            /*
             string _registerErrorMessage = _applicationUserController.CheckRegisterConstraints(firstName.Text, lastName.Text, registerEmail.Text, passwordBox1.Password, passwordBox2.Password);
             bool validData = (_registerErrorMessage == "");
             if (validData)
@@ -174,6 +176,7 @@ namespace WPFUI
             {
                 registerErrorMessage.Content = _registerErrorMessage;
             }
+            */
         }
 
         public void FadeBorderClick(object sender, RoutedEventArgs e)

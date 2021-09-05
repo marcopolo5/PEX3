@@ -90,47 +90,17 @@
         
         <!-- File Dialog Button -->
         <Button x:Name="photoButton" 
+                Style="{StaticResource AppButton}"
                 Grid.Column="1" 
                 Grid.Row="3" 
                 Grid.ColumnSpan="3" 
-                HorizontalAlignment="Center" 
-                BorderThickness="0" 
                 Content="Change picture" 
                 FontSize="27" 
                 Width="300" 
                 Height="70" 
-                Foreground="#333333" 
                 Margin="0,30"
-                Click="PhotoButton_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="30"/>
-                </Style>
-            </Button.Resources>
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        
+                Click="PhotoButton_Click"/>
+
         <!-- User Name Label -->
         <TextBlock Grid.Column="1" 
                    Grid.Row="4" 
@@ -207,45 +177,16 @@
         
         <!-- Update Button -->
         <Button x:Name="updateButton" 
+                Style="{StaticResource AppButton}"
                 Grid.Column="1" 
                 Grid.Row="8" 
                 Grid.ColumnSpan="3" 
-                HorizontalAlignment="Center" 
-                BorderThickness="0" 
                 Content="Save changes" 
                 FontSize="27" 
                 Width="300" 
                 Height="70" 
-                Foreground="#333333" 
                 Margin="0,30"
                 Click ="UpdateButton_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="30"/>
-                </Style>
-            </Button.Resources>
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="white" Offset="0.0" />
-                                <GradientStop Color="#FF838383" Offset="1.00" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
         </Button>
         
     </Grid>

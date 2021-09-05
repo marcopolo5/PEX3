@@ -154,7 +154,6 @@
                            HorizontalAlignment="Center"
                            Grid.ColumnSpan="3"
                            Margin="0,40,0,40"
-                           FontFamily="Comic Sans MS"
                            x:Name="grid"
                            PreviewMouseDown="grid_PreviewMouseDown" />
                 <Image Grid.Column="1"
@@ -168,7 +167,6 @@
                            FontSize="30"
                            Foreground="white"
                            Text="First Name:"
-                           FontFamily="Comic Sans MS"
                            Margin="220 ,10,40,20" />
                 <TextBox x:Name="firstNameText"
                          Grid.Column="2"
@@ -207,7 +205,6 @@
                            FontSize="30"
                            Foreground="white"
                            Text="Last Name:"
-                           FontFamily="Comic Sans MS"
                            Margin="220 ,10,40,20" />
                 <TextBox x:Name="lastNameText"
                          Grid.Column="2"
@@ -244,7 +241,6 @@
                            FontSize="30"
                            Foreground="white"
                            Text="E-mail:"
-                           FontFamily="Comic Sans MS"
                            Margin="220 ,10,40,20" />
                 <TextBox x:Name="emailText"
                          Grid.Column="2"
@@ -283,7 +279,6 @@
                            FontSize="30"
                            Foreground="white"
                            Text="Password:"
-                           FontFamily="Comic Sans MS"
                            Margin="220 ,10,40,20" />
                 <PasswordBox x:Name="password1Text"
                              Grid.Column="2"
@@ -337,7 +332,6 @@
                            FontSize="30"
                            Foreground="white"
                            Text="Repeat password:"
-                           FontFamily="Comic Sans MS"
                            Margin="220 ,10,40,20" />
                 <PasswordBox x:Name="password2Text"
                              Grid.Column="2"
@@ -383,6 +377,7 @@
                        Foreground="Red"></Label>
                 -->
                 <Button x:Name="registerButton"
+                        Style="{StaticResource AppButton}"
                         Content="Register"
                         Grid.Column="1"
                         Grid.Row="7"
@@ -390,7 +385,6 @@
                         Width="300"
                         Height="70"
                         Margin="220,20,0,20"
-                        FontFamily="Comic Sans MS"
                         Foreground="#333333"
                         Click="ButtonRegisterClick">
                     <Button.Resources>
@@ -399,24 +393,10 @@
                                     Value="60" />
                         </Style>
                     </Button.Resources>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0.5,0"
-                                                         EndPoint="0.5,1">
-                                        <GradientStop Color="white"
-                                                      Offset="0.0" />
-                                        <GradientStop Color="#FF838383"
-                                                      Offset="1.00" />
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
                 </Button>
 
                 <Button x:Name="resetButton"
+                        Style="{StaticResource AppButton}"
                         Content="Reset"
                         Grid.Column="2"
                         Grid.Row="7"
@@ -426,7 +406,6 @@
                         Height="70"
                         Margin="0,20,130,20"
                         Click="resetButton_Click"
-                        FontFamily="Comic Sans MS"
                         Foreground="#333333">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -434,21 +413,6 @@
                                     Value="60" />
                         </Style>
                     </Button.Resources>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0.5,0"
-                                                         EndPoint="0.5,1">
-                                        <GradientStop Color="white"
-                                                      Offset="0.0" />
-                                        <GradientStop Color="#FF838383"
-                                                      Offset="1.00" />
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
                 </Button>
 
                 <TextBlock x:Name="loginTextBox"
@@ -458,7 +422,6 @@
                            Grid.ColumnSpan="2"
                            FontSize="20"
                            Text="I am already registered!"
-                           FontFamily="Comic Sans MS"
                            Margin="260,10,0,20">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -481,7 +444,6 @@
                            Grid.ColumnSpan="2"
                            FontSize="20"
                            Text="Return to home page"
-                           FontFamily="Comic Sans MS"
                            Margin="150 ,10,200,20">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">

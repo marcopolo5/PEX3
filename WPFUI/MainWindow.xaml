@@ -262,8 +262,14 @@
             
         <!-- Animation testing grid -->
         <Grid Grid.Row="1" 
-              Grid.ColumnSpan="2">
-
+              Grid.ColumnSpan="2"
+              Background="{StaticResource BlueTheme}">
+            <Button
+              Style="{StaticResource AppButton}"
+              Width="300"
+              Height="60"
+              FontSize="26"
+              Content="ACCENT" />
             <!--
             <Grid x:Name="FriendListRoot">
                 <testUC:FriendListUserControl/>
