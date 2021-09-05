@@ -45,6 +45,7 @@ namespace UI.WPF.View
             PendingFriendRequests = new ObservableCollection<FriendViewModel>();
             GetPendingFriendRequests();
             PendindRequestsList.ItemsSource = PendingFriendRequests;
+
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
