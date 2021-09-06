@@ -41,7 +41,7 @@
                             BorderThickness="1"
                             Background="#162b6a"
                             Margin="30 45 30 20"
-                            CornerRadius="5"
+                            CornerRadius="10"
                             BorderBrush="{StaticResource DarkerGreyTheme}">
                     <Border.Effect>
                         <DropShadowEffect/>
@@ -83,7 +83,7 @@
                             BorderThickness="1"
                             Background="#162b6a"
                             Margin="30 0 30 5"
-                            CornerRadius="5"
+                            CornerRadius="10"
                             BorderBrush="{StaticResource DarkerGreyTheme}">
                     <Border.Effect>
                         <DropShadowEffect/>
@@ -230,7 +230,7 @@
                             BorderThickness="1"
                             Background="#162b6a"
                             Margin="30 5 30 0"
-                            CornerRadius="5"
+                            CornerRadius="10"
                             BorderBrush="{StaticResource DarkerGreyTheme}">
                     <Border.Effect>
                         <DropShadowEffect/>
