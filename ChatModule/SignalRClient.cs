@@ -142,7 +142,8 @@ namespace ChatModule
         public async Task UpdateProximityChats()
         {
             var id = ApplicationUserController.CurrentUser.Id;
-            IpstackApiResult apiResult = _locationAPIController.CallApi();
+            IpstackApiResult apiResult = await _locationAPIController.CallApiAsync();
+
             string location = $"{apiResult.CountryName}, {apiResult.RegionName}, {apiResult.City}";
             UserLocationDTO userLocation = new UserLocationDTO
             {
@@ -168,7 +169,7 @@ namespace ChatModule
         }
         public async Task CreateProximityConversation(string title)
         {
-            var location = _locationAPIController.CallApi();
+            IpstackApiResult location = await _locationAPIController.CallApiAsync();
             var createConversationDto = new ConversationCreateDTO
             {
                 CreatorsId = ApplicationUserController.CurrentUser.Id,
