@@ -22,6 +22,7 @@ namespace UI.WPF.ViewModel
         private Visibility _friendRequestExists;
         private Visibility _candAddFriend;
         private Visibility _friendRequestSent;
+        private Visibility _isFriend;
 
         public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status)
         {
@@ -79,6 +80,19 @@ namespace UI.WPF.ViewModel
             {
                 _friendRequestSent = value;
                 OnPropertyChanged(nameof(FriendRequestSent));
+            }
+        }
+
+        public Visibility IsFriend
+        {
+            get
+            {
+                return _isFriend;
+            }
+            set
+            {
+                _isFriend = value;
+                OnPropertyChanged(nameof(IsFriend));
             }
         }
 

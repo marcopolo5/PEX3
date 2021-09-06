@@ -90,6 +90,43 @@
     </Style>
     
     <!-- Small Buttons -->
+    <Style x:Key="IsFriendButton" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="MaxHeight" Value="40"/>
+        <Setter Property="MaxWidth" Value="40"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderThickness="0.1"
+                            BorderBrush="Beige"
+                            CornerRadius="8">
+                        <materialDesign:PackIcon Kind="AccountMultipleCheckOutline"
+                                                 Margin="5"
+                                                 ToolTip="Friend"
+                                                 Width="30"
+                                                 Height="30"/>
+                        <Border.Effect>
+                            <DropShadowEffect Direction="0"
+                                              ShadowDepth="-10"
+                                              BlurRadius="12" 
+                                              Opacity="0.6"
+                                              Color="Black"
+                                  />
+                        </Border.Effect>
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource C_YellowTheme}" Opacity="0.7"/>
+                        </Border.Background>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="FriendRequestSentButton" TargetType="{x:Type Button}">
         <Setter Property="MinHeight" Value="40"/>
         <Setter Property="MinWidth" Value="40"/>

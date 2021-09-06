@@ -60,7 +60,6 @@ namespace UI.WPF.View
             
         }
 
-
         private async void GetPendingFriendRequests()
         {
             var friendRequests = await _friendRequestController.GetUsersFriendRequests();
@@ -118,11 +117,15 @@ namespace UI.WPF.View
                     var friendRequestSent = await _friendRequestController.FriendRequestExists(ApplicationUserController.CurrentUser.Id, user.Id);
                     bool friendRequestSentFlag = (friendRequestSent != null);
 
+                    // Check if there is a friend relationship
+                    bool isFriendFlag = await _friendController.FriendshipExists(ApplicationUserController.CurrentUser.Id, user.Id);
+
                     if (friendRequestReceivedFlag)
                     {
                         userUIModel.FriendRequestExists = Visibility.Visible;
                         userUIModel.CanAddFriend = Visibility.Hidden;
                         userUIModel.FriendRequestSent = Visibility.Hidden;
+                        userUIModel.IsFriend = Visibility.Hidden;
 
                         userUIModel.FriendRequestId = friendRequestReceived.Id;
                     }
@@ -131,12 +134,22 @@ namespace UI.WPF.View
                         userUIModel.FriendRequestExists = Visibility.Hidden;
                         userUIModel.CanAddFriend = Visibility.Hidden;
                         userUIModel.FriendRequestSent = Visibility.Visible;
+                        userUIModel.IsFriend = Visibility.Hidden;
                     }
-                    else
+                    else if (isFriendFlag)
+                    {
+                        userUIModel.FriendRequestExists = Visibility.Hidden;
+                        userUIModel.CanAddFriend = Visibility.Hidden;
+                        userUIModel.FriendRequestSent = Visibility.Hidden;
+                        userUIModel.IsFriend = Visibility.Visible;
+                    }
+                    // can add friend
+                    else 
                     {
                         userUIModel.FriendRequestExists = Visibility.Hidden;
                         userUIModel.CanAddFriend = Visibility.Visible;
                         userUIModel.FriendRequestSent = Visibility.Hidden;
+                        userUIModel.IsFriend = Visibility.Hidden;
                     }
 
                     Users.Add(userUIModel);

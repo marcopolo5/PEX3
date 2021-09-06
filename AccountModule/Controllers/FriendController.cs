@@ -19,6 +19,11 @@ namespace AccountModule.Controllers
             await _friendRepository.DeleteFriend(ApplicationUserController.CurrentUser.Id, friend.Id);
         }
 
+        public async Task<bool> FriendshipExists(int userId, int friendId)
+        {
+            return await _friendRepository.FriendshipExists(userId, friendId);
+        }
+
         // TODO: move wrong placed methodes to FriendRequestController
 
         public async Task<bool> SendFriendRequest(string senderEmail, string receiverEmail)

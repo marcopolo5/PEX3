@@ -23,5 +23,15 @@ namespace Domain.RepositoryContracts
                 await connection.ExecuteAsync(sqlQueryBackward, new { UserId = userId, FriendId = friendId});
             }
         }
+
+        public async Task<bool> FriendshipExists(int userId, int friendId)
+        {
+            using (var connection = CreateConnection())
+            {
+                var sqlQuery = $@"SELECT * FROM {TableName} WHERE userId=@UserId and friendId=@FriendId";
+                return await connection.QueryFirstOrDefaultAsync<bool>(sqlQuery, new { UserId = userId, FriendId = friendId });
+            }
+        }
+
     }
 }

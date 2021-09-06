@@ -168,6 +168,18 @@
                                                             />
                                             </Grid>
 
+                                            <!-- Is Friend Button (hidden unless there is a friend relationship) -->
+                                            <Grid   Grid.Column="2"
+                                                    x:Name="IsFriendGrid"
+                                                    Visibility="{Binding IsFriend}"
+                                                    HorizontalAlignment="Right">
+                                                <Button x:Name="IsFriendButton"
+                                                        IsEnabled="False"
+                                                        Style="{StaticResource IsFriendButton}"
+                                                        Click="AddFriendButton_Click"
+                                                        />
+                                            </Grid>
+                                            
                                             <!-- Friend Request Sent Button (hidden unless there is a friend request already sent) -->
                                             <Grid   Grid.Column="2"
                                                     x:Name="FriendRequestSentGrid"

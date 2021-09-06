@@ -60,9 +60,17 @@ namespace UI.WPF.View
         {
             try
             {
-                byte[] imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
-                await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
-                new CustomMessageBox().Show("Profile updated successfully");
+                try
+                {
+                    byte[] imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
+                    await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
+                    new CustomMessageBox().Show("Profile updated successfully");
+                }
+                catch(ArgumentException exception)
+                {
+                    await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, ApplicationUserController.CurrentUser.Profile.Image);
+                    new CustomMessageBox().Show("Profile updated successfully");
+                }
             }
             catch (InvalidEntityException exception)
             {
