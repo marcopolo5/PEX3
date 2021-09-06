@@ -225,7 +225,7 @@ namespace UI.WPF.View
                 return;
             }
             CreateProximityChatName.Text = string.Empty; // reset the box
-            await _signalRClient.CreateProximityConversation(title);
+            await _signalRClient.CreateProximityConversationAsync(title);
             await _signalRClient.UpdateProximityChats();
         }
 

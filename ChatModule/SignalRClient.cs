@@ -35,8 +35,6 @@ namespace ChatModule
         /// </summary>
         public event Action<int, bool> FriendshipUpdated;
 
-
-
         public static SignalRClient GetInstance()
         {
             if (_signalRClient == null)
@@ -134,11 +132,21 @@ namespace ChatModule
              });
         }
 
-        public async Task AddOrRemoveFriend(int friendUserId, bool removeFriend)
+        /// <summary>
+        /// Calls AddOrRemoveFriend on server. Use this to let other user know that this user added or removed him/her
+        /// </summary>
+        /// <param name="friendUserId">Friend's USER id</param>
+        /// <param name="wasFriendRemoved">Set this to true if friend was removed</param>
+        /// <returns></returns>
+        public async Task AddOrRemoveFriend(int friendUserId, bool wasFriendRemoved)
         {
-            await _connection.SendAsync("AddOrRemoveFriend", ApplicationUserController.CurrentUser.Id, friendUserId, removeFriend);
+            await _connection.SendAsync("AddOrRemoveFriend", ApplicationUserController.CurrentUser.Id, friendUserId, wasFriendRemoved);
         }
 
+        /// <summary>
+        /// Calls GetProximityConversationsList on server. Use this to check if there are new proximity chats in your area.
+        /// </summary>
+        /// <returns>A Task</returns>
         public async Task UpdateProximityChats()
         {
             var id = ApplicationUserController.CurrentUser.Id;
@@ -155,6 +163,12 @@ namespace ChatModule
             await _connection.SendAsync("GetProximityConversationsList", userLocation);
         }
 
+        /// <summary>
+        /// Calls SendMessage method on server. Use this to add a new message.
+        /// </summary>
+        /// <param name="conversationID">Conversation's id</param>
+        /// <param name="textMessage">Message that needs to be sent</param>
+        /// <returns>A Task</returns>
         public async Task SendMessageAsync(int conversationID, string textMessage)
         {
             var message = new Message()
@@ -167,7 +181,13 @@ namespace ChatModule
 
             await _connection.SendAsync("SendMessage", message);
         }
-        public async Task CreateProximityConversation(string title)
+
+        /// <summary>
+        /// Calls CreateProximityConversation on server. Use this to create a new proximity chat
+        /// </summary>
+        /// <param name="title">Conversation's title</param>
+        /// <returns>A Task</returns>
+        public async Task CreateProximityConversationAsync(string title)
         {
             IpstackApiResult location = await _locationAPIController.CallApiAsync();
             var createConversationDto = new ConversationCreateDTO
@@ -182,6 +202,9 @@ namespace ChatModule
             await _connection.SendAsync("CreateProximityConversation", createConversationDto);
         }
 
+        /// <summary>
+        /// Use this to close the SignalR connection
+        /// </summary>
         public async ValueTask DisposeAsync()
         {
             await _connection.StopAsync();
