@@ -387,7 +387,8 @@
 
             <ScrollViewer  x:Name="ChatScrollViewer" 
                     VerticalScrollBarVisibility="Visible" AllowDrop="False"
-                    Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2">
+                    Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2"
+                    PreviewMouseWheel="ChatScrollViewer_PreviewMouseWheel">
                 <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
                     <!--chat conversation-->
                     <!--
