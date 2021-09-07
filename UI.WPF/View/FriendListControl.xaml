@@ -14,8 +14,10 @@
     </UserControl.Resources>
 
 
-    <Grid HorizontalAlignment="Left">
-        
+    <Grid HorizontalAlignment="Left"
+          x:Name="FriendListControlMainGrid">
+
+
         <!-- Yellow Border -->
         <Border x:Name="FriendListBorder"
                     Width="300"
@@ -25,13 +27,13 @@
                     Margin="-2,0,0,0">
             <Border.Effect>
                 <DropShadowEffect Direction="0" 
-                                      BlurRadius="10" 
-                                      Opacity="0.05"
-                                      Color="{StaticResource C_YellowTheme}"
-                                  />
+                                        BlurRadius="10" 
+                                        Opacity="0.05"
+                                        Color="{StaticResource C_YellowTheme}"
+                                    />
             </Border.Effect>
         </Border>
-        
+
         <!-- Blue Border -->
         <Border x:Name="FriendListBorderFake"
                     Width="300"
@@ -39,11 +41,12 @@
                     Background="{StaticResource BlueTheme}" 
                     CornerRadius="45,0,0,45"
                     HorizontalAlignment="Left"
-                   />
-        
-        <!-- Main FriendListControl Grid -->
-        <Grid Margin="8,45,8,45"
-              >
+                    />
+
+        <!-- FriendList Grid -->
+        <Grid x:Name="FriendListGrid"
+                Margin="8,45,8,45"
+                >
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
@@ -51,8 +54,8 @@
 
             <!-- Search Friend Area -->
             <Grid Grid.Row="0" 
-                  Margin="15 0 0 0"
-                  VerticalAlignment="Center">
+                    Margin="15 0 0 0"
+                    VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="*"/>
@@ -80,7 +83,7 @@
                         MaxLength="255"
                         Text="{Binding FriendsFilter, UpdateSourceTrigger=PropertyChanged}"
                         materialDesign:HintAssist.Hint="Search friend"
-                     >
+                        >
                     <materialDesign:TextFieldAssist.CharacterCounterStyle>
                         <Style TargetType="TextBlock" />
                     </materialDesign:TextFieldAssist.CharacterCounterStyle>
@@ -128,16 +131,16 @@
                                 <!-- Friend Name & Status Message -->
                                 <StackPanel Grid.Column="1">
                                     <TextBlock Text="{Binding DisplayName}" 
-                                                   Margin="10 0"
-                                                   Foreground="White"
-                                                   FontSize="14"
-                                                   FontWeight="DemiBold"/>
+                                                    Margin="10 0"
+                                                    Foreground="White"
+                                                    FontSize="14"
+                                                    FontWeight="DemiBold"/>
                                     <TextBlock Text="{Binding StatusMessage}" 
-                                                   Margin="10 0" 
-                                                   TextTrimming="CharacterEllipsis" 
-                                                   Opacity="0.6"
-                                                   Foreground="White"
-                                                   FontSize="11"/>
+                                                    Margin="10 0" 
+                                                    TextTrimming="CharacterEllipsis" 
+                                                    Opacity="0.6"
+                                                    Foreground="White"
+                                                    FontSize="11"/>
                                 </StackPanel>
 
                                 <!-- Availability Circle Color -->
@@ -161,13 +164,13 @@
                                                     Grid.Column="1"
                                                     Style="{StaticResource OpenMenuButton}"
                                                     />
-                                    <Popup IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
-                                           PlacementTarget="{Binding ElementName=PCheckBox}" 
-                                           AllowsTransparency="True" 
-                                           PopupAnimation="Fade" 
-                                           StaysOpen="False"
-                                           HorizontalOffset="30" 
-                                           VerticalOffset="-45">
+                                    <Popup  IsOpen="{Binding IsChecked, ElementName=OpenFriendMenuPopUp}" 
+                                            PlacementTarget="{Binding ElementName=PCheckBox}" 
+                                            AllowsTransparency="True" 
+                                            PopupAnimation="Fade" 
+                                            StaysOpen="False"
+                                            HorizontalOffset="30" 
+                                            VerticalOffset="-45">
                                         <Border x:Name="BG" 
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
@@ -183,7 +186,7 @@
                                                 <SolidColorBrush Color="{StaticResource C_BlueTheme}" Opacity="0.9"/>
                                             </Border.Background>
                                             <Grid VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center">
+                                                    HorizontalAlignment="Center">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="50"/>
                                                     <RowDefinition Height="50"/>
@@ -194,40 +197,108 @@
                                                         Grid.Row="0"
                                                         Style="{StaticResource SendMessageButton}"
                                                         Click="SendMessageButton_Click"
-                                                        />      
+                                                        >
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="Button.Click">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsChecked" Storyboard.TargetName="OpenFriendMenuPopUp">
+                                                                        <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="False" />
+                                                                    </BooleanAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
 
                                                 <Button x:Name="RemoveFriendButton"
                                                         Grid.Row="1"
                                                         Style="{StaticResource RemoveFriendButton}"
                                                         Click="RemoveFriendButton_Click"
-                                                        />
+                                                        >
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="Button.Click">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsChecked" Storyboard.TargetName="OpenFriendMenuPopUp">
+                                                                        <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="False" />
+                                                                    </BooleanAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
 
                                                 <Button x:Name="ShowProfileButton"
                                                         Grid.Row="2"
                                                         Style="{StaticResource ShowProfileButton}"
                                                         Click="ShowProfileButton_Click"
-                                                        />
+                                                        >
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="Button.Click">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsChecked" Storyboard.TargetName="OpenFriendMenuPopUp">
+                                                                        <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="False" />
+                                                                    </BooleanAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
                                             </Grid>
 
                                             <Border.Effect>
                                                 <DropShadowEffect Direction="0"
-                                                                  ShadowDepth="-4"
-                                                                  BlurRadius="4" 
-                                                                  Opacity="0.3"
-                                                                  Color="{StaticResource C_YellowTheme}"
+                                                                    ShadowDepth="-4"
+                                                                    BlurRadius="4" 
+                                                                    Opacity="0.3"
+                                                                    Color="{StaticResource C_YellowTheme}"
                                                 />
                                             </Border.Effect>
                                         </Border>
 
                                     </Popup>
                                 </StackPanel>
-                                
+
                             </Grid>
                         </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
+        </Grid>
+
+        <Grid x:Name="FriendProfileGrid"
+              Style="{StaticResource ProfileSlider}"
+              Margin="8,45,12,45"
+              Visibility="Hidden"
+              Background="White"
+              >
+
+            <Button x:Name="CloseFriendProfile"
+                    Click="CloseFriendProfile_Click"
+                    Style="{StaticResource CloseWindowButton}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    >
+            </Button>
+
+            <RichTextBox HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="Black">
+                <FlowDocument>
+                    <Paragraph FontSize="40"
+                               TextAlignment="Center"
+                               Foreground="Blue"
+                               FontWeight="Bold">
+                        Friend Profile here
+                    </Paragraph>
+                    <Paragraph>
+                        Pls create another style for the close button
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
         </Grid>
 
     </Grid> 

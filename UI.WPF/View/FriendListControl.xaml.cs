@@ -18,8 +18,10 @@ namespace UI.WPF.View
         public FriendListControl()
         {
             InitializeComponent();
-                FriendListingViewModel = new FriendListingViewModel();
+
+            FriendListingViewModel = new FriendListingViewModel();
             DataContext = FriendListingViewModel;
+
         }
 
         // TODO: Create new conversation or open existing one 
@@ -36,10 +38,20 @@ namespace UI.WPF.View
             // e nevoie de reload CurrentUser.Friends !!!!
         }
 
-        // TODO: Show friend's profile (backend + frontend)
         private void ShowProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var button = sender as Button;
+            var selectedFriend = button.DataContext as FriendViewModel;
+
+            FriendListGrid.Visibility = Visibility.Hidden;
+            FriendProfileGrid.Visibility = Visibility.Visible;
         }
+
+        private void CloseFriendProfile_Click(object sender, RoutedEventArgs e)
+        {
+            FriendProfileGrid.Visibility = Visibility.Hidden;
+            FriendListGrid.Visibility = Visibility.Visible;
+        }
+
     }
 }
