@@ -268,7 +268,9 @@
 
                                                 <!-- User Profile Picture -->
                                                 <Grid Grid.Column="0">
-                                                    <Border Style="{StaticResource ProfilePicture}">
+                                                    <Border Style="{StaticResource ProfilePicture}"
+                                                            MouseDown="UserSelectedShowProfile_MouseDown"
+                                                            Cursor="Hand">
                                                         <Border.Background>
                                                             <ImageBrush ImageSource="{Binding ProfilePicture}"/>
                                                         </Border.Background>

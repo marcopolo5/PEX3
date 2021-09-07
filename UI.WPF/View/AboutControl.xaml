@@ -142,7 +142,7 @@
                              Stroke="white"
                              Margin="30,10,30,0">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/Alexandra.jpg"
+                                <ImageBrush ImageSource="../Assets/Alexandraa.jpg"
                                         Stretch="Fill"></ImageBrush>
                             </Ellipse.Fill>
                         </Ellipse>

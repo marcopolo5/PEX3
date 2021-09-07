@@ -15,7 +15,7 @@
 
 	<ItemGroup>
 	  <None Remove="Assets\Adinaa.jpg" />
-	  <None Remove="Assets\Alexandra.jpg" />
+	  <None Remove="Assets\Alexandraa.jpg" />
 	  <None Remove="Assets\btn_google_signin_dark.png" />
 	  <None Remove="Assets\btn_google_signin_light.png" />
 	  <None Remove="Assets\btn_google_signin_light_rounded.png" />
@@ -38,7 +38,7 @@
 
 	<ItemGroup>
 	  <Resource Include="Assets\Adinaa.jpg" />
-	  <Resource Include="Assets\Alexandra.jpg" />
+	  <Resource Include="Assets\Alexandraa.jpg" />
 	  <Resource Include="Assets\Daniel.jpg" />
 	  <Resource Include="Assets\David.jpg" />
 	  <Resource Include="Assets\Denis.jpeg" />
