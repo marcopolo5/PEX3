@@ -265,7 +265,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BG" Property="Background" Value="{StaticResource YellowTheme_Hover}"/>
+                            <Setter TargetName="BG" Property="Background" Value="#fae12c"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="BG" Property="Background" Value="#ffe000"/>
