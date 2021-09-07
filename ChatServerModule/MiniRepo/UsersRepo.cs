@@ -1,11 +1,8 @@
 ﻿using ChatServerModule.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatServerModule.MiniRepo
 {
@@ -20,8 +17,8 @@ namespace ChatServerModule.MiniRepo
         {
 
             var profileId = GetProfileId(userId);
-            byte status = (byte)newUserStatus;
-            string sql = $"UPDATE [Profiles] SET status=@Status WHERE id=@ProfileId";
+            var status = (byte)newUserStatus;
+            var sql = $"UPDATE [Profiles] SET status=@Status WHERE id=@ProfileId";
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Execute(sql, new { Status = status, ProfileId = profileId });
@@ -31,7 +28,7 @@ namespace ChatServerModule.MiniRepo
         public IEnumerable<int> GetFriendsIds(int userId)
         {
             IEnumerable<int> result;
-            string sql = $"SELECT friendid FROM [Friends] WHERE userid=@UserId;";
+            var sql = $"SELECT friendid FROM [Friends] WHERE userid=@UserId;";
 
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -43,10 +40,10 @@ namespace ChatServerModule.MiniRepo
         public int GetProximityRadius(int userId)
         {
             var sql = "SELECT Settings.proximityRadius FROM [Settings] WHERE userid=@UserId";
-            int result = 5;
+            var result = 5;
             using (var conn = new SqlConnection(_connectionString))
             {
-                int? querryResult = conn.QueryFirstOrDefault<int?>(sql, new { UserId = userId });
+                var querryResult = conn.QueryFirstOrDefault<int?>(sql, new { UserId = userId });
                 if (querryResult != null)
                 {
                     result = querryResult.Value;
@@ -57,7 +54,7 @@ namespace ChatServerModule.MiniRepo
 
         private int GetProfileId(int userId)
         {
-            string sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE u.id=@UserId ";
+            var sql = $"SELECT p.id FROM [Users] AS u JOIN [Profiles] AS p ON p.userid=u.id WHERE u.id=@UserId ";
             int profileId;
 
             using (var conn = new SqlConnection(_connectionString))

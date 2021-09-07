@@ -13,7 +13,7 @@ namespace Domain.Helpers
         public static byte[] GetImageBytes(string imagePath)
         {
             byte[] _imageBytes = null;
-            using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            using (var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
             {
                 _imageBytes = new byte[fileStream.Length];
                 _ = fileStream.Read(_imageBytes, 0, Convert.ToInt32(fileStream.Length));

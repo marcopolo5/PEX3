@@ -2,7 +2,7 @@
 using Dapper;
 using Domain.Models;
 
-namespace Domain.RepositoryContracts
+namespace Domain.Repositories
 {
     public class StrikesRepository : GenericRepository<Strikes>
     {
@@ -12,7 +12,7 @@ namespace Domain.RepositoryContracts
         public async Task<Strikes> ReadByUserId(int userid)
         {
             var sqlGetStrikes = @"select * from Strikes where userid=@Id";
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var strikeobj = await connection.QueryFirstOrDefaultAsync<Strikes>(sqlGetStrikes, new { Id = userid });
                 return strikeobj;
@@ -22,7 +22,7 @@ namespace Domain.RepositoryContracts
         public async Task<(int id, int userid, int reporteduserid)?> ReadUserReportAsync(int userid, int reporteduserid)
         {
             var sqlGetUserReport = @"select * from UserReports where (userid=@Userid and reporteduserid=@Reporteduserid)";
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var userreport = await connection.QueryFirstOrDefaultAsync<(int, int, int)?>(sqlGetUserReport, new { Userid = userid, Reporteduserid = reporteduserid });
                 return userreport;

@@ -1,11 +1,11 @@
-﻿using Dapper;
-using Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
+using Domain.Models;
 
-namespace Domain.RepositoryContracts
+namespace Domain.Repositories
 {
     /// <summary>
     /// Data access layer class for 'User' and 'UserLoginModel' entities. 
@@ -50,7 +50,7 @@ namespace Domain.RepositoryContracts
         /// <param name="user">UserRegisterModel type entity to be added into the database</param>
         public async Task CreateAsync(UserRegisterModel user)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var u = new UserRegisterModel
                 {
@@ -75,7 +75,7 @@ namespace Domain.RepositoryContracts
             var sql = @"select Users.*, Profiles.*
                           from Users left join Profiles
                             on Users.Id=Profiles.UserId";
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var users = await connection.QueryAsync<User, Profile, User>(sql,
                     (user, profile) =>
@@ -92,7 +92,7 @@ namespace Domain.RepositoryContracts
         {
             var sqlQuery =
                 $@"select * from {TableName} where Users.firstname like CONCAT('%',@Filter,'%') OR Users.lastname like CONCAT('%',@Filter,'%') OR Users.email like CONCAT('%',@Filter,'%')";
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var users = await connection.QueryAsync<User>(sqlQuery, new {Filter = filter});
                 return users;
@@ -109,7 +109,7 @@ namespace Domain.RepositoryContracts
         /// <remarks>KeyNotFoundException is thrown if no such user exists</remarks>
         public new async Task<User> ReadAsync(int id)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var sqlGetUser = @$"select * from {TableName} where Users.id=@Id";
                 var sqlGetProfile = @"select * from Profiles where Profiles.UserId=@Id";
@@ -131,7 +131,7 @@ namespace Domain.RepositoryContracts
         /// <remarks>KeyNotFoundException is thrown if no such user exists</remarks>
         public async Task<User> ReadAsync(string email)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var entity =
                     await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {TableName} WHERE Email=@Email",
@@ -150,7 +150,7 @@ namespace Domain.RepositoryContracts
         /// <returns>Tuple of user's id and login token: (0,"0") if login false, (id,valid_token) otherwise.</returns>
         public async Task<(int, string)> ValidateCredentials(UserLoginModel userLoginModel)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var sqlLogIn = @"exec spLoginUser @Email, @Password";
                 var sqlGetId = @"select id from Users where Users.Email=@Email";
@@ -183,7 +183,7 @@ namespace Domain.RepositoryContracts
         /// <returns>CurrentUser entity</returns>
         public async Task<CurrentUser> ReadCurrentUserAsync(int id, string token)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var sqlViewUser = @"exec spViewUser @Id, @Token";
                 var sqlFriends = @"select FriendId from Friends where UserId=@Id";

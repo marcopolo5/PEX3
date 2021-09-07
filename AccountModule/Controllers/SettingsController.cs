@@ -1,11 +1,7 @@
 ﻿using Domain.AccountContracts;
 using Domain.Models;
-using Domain.RepositoryContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Domain.Repositories;
 using Domain.Validators;
 
 namespace AccountModule.Controllers
@@ -35,7 +31,7 @@ namespace AccountModule.Controllers
 
         public async void SetAnonymity(bool anonimity)
         {
-            Settings settings = new Settings
+            var settings = new Settings
             {
                 Id = ApplicationUserController.CurrentUser.Settings.Id,
                 UserId = ApplicationUserController.CurrentUser.Id,
@@ -47,7 +43,7 @@ namespace AccountModule.Controllers
 
         public async void SetProximityRadius(int proximityRadius)
         {
-            Settings settings = new Settings
+            var settings = new Settings
             {
                 Id = ApplicationUserController.CurrentUser.Settings.Id,
                 UserId = ApplicationUserController.CurrentUser.Id,

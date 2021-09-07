@@ -1,7 +1,7 @@
-﻿using Dapper;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Dapper;
 
-namespace Domain.RepositoryContracts
+namespace Domain.Repositories
 {
     /// <summary>
     /// Data access layer class for 'Settings' model. 
@@ -16,7 +16,7 @@ namespace Domain.RepositoryContracts
 
         public async Task ChangePassword(int userId, string newPassword)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var query = @"exec spUpdatePassword @userId, @newPassword";
                 await connection.QueryAsync(query, new { userId, newPassword });
@@ -25,7 +25,7 @@ namespace Domain.RepositoryContracts
 
         public async Task<int> CheckPassword(string email, string password)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var query = @"exec spCheckPassword @email, @password";
                 return await connection.QueryFirstOrDefaultAsync<int>(query, new { email, password });

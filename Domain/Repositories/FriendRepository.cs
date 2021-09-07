@@ -1,8 +1,8 @@
-﻿using Dapper;
+﻿using System.Threading.Tasks;
+using Dapper;
 using Domain.Models;
-using System.Threading.Tasks;
 
-namespace Domain.RepositoryContracts
+namespace Domain.Repositories
 {
     /// <summary>
     /// Data access layer class for 'Friend' model.
@@ -14,7 +14,7 @@ namespace Domain.RepositoryContracts
 
         public async Task DeleteFriend(int userId, int friendId)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var sqlQueryForward = $@"DELETE FROM {TableName} WHERE userId=@UserId and friendId=@FriendId";
                 var sqlQueryBackward = $@"DELETE FROM {TableName} WHERE userId=@FriendId and friendId=@UserId";
@@ -26,7 +26,7 @@ namespace Domain.RepositoryContracts
 
         public async Task<bool> FriendshipExists(int userId, int friendId)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var sqlQuery = $@"SELECT * FROM {TableName} WHERE userId=@UserId and friendId=@FriendId";
                 return await connection.QueryFirstOrDefaultAsync<bool>(sqlQuery, new { UserId = userId, FriendId = friendId });

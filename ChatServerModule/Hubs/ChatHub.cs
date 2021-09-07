@@ -3,8 +3,6 @@ using ChatServerModule.MiniRepo;
 using ChatServerModule.Models;
 using ChatServerModule.ProximityChatLogic;
 using ChatServerModule.TokenValidation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
@@ -56,7 +54,7 @@ namespace ChatServerModule.Hubs
                 .Headers["loginToken"];
 
             // parsing the data
-            if (int.TryParse(stringId, out int id) == false)
+            if (int.TryParse(stringId, out var id) == false)
             {
                 return;
             }
@@ -101,7 +99,7 @@ namespace ChatServerModule.Hubs
             await UpdateStatus(userId, UserStatus.Offline);
 
             // remove user from the connected user lists
-            ConnectedUsers.Remove(userId, out string _); //discarding the out param
+            ConnectedUsers.Remove(userId, out var _); //discarding the out param
 
             // remove user from every proximity chat
             RemoveUserFromAllProximityChats(userId); 
@@ -121,7 +119,7 @@ namespace ChatServerModule.Hubs
             // add message to db
             _conversationRepo.AddMessageToConversation(message);
             message.Id = _conversationRepo.GetAvailableId("Messages") - 1;
-            IEnumerable<int> userIds = _conversationRepo.GetConversationsParticipants(message.ConversationId);
+            var userIds = _conversationRepo.GetConversationsParticipants(message.ConversationId);
 
             foreach(var userId in userIds)
             {
@@ -151,7 +149,7 @@ namespace ChatServerModule.Hubs
             };
 
             // create conversation:
-            int conversationId = _conversationRepo.CreateConversation(conversation);
+            var conversationId = _conversationRepo.CreateConversation(conversation);
 
             // add the creator to it:
             _conversationRepo.AddUserToConversation(conversationDTO.CreatorsId, conversationId);
@@ -161,7 +159,7 @@ namespace ChatServerModule.Hubs
         {
             var conversations = _conversationRepo.GetConversationsCloseToLocation(locationDTO.Location);
             var conversationsFilteredByUserSettings = new List<Conversation>();
-            int userProximityRadius = _usersRepo.GetProximityRadius(locationDTO.UserId); // distance in km
+            var userProximityRadius = _usersRepo.GetProximityRadius(locationDTO.UserId); // distance in km
             Console.WriteLine($"Id: {locationDTO.UserId} | {locationDTO.Location} | lat. {locationDTO.Latitude} | lon. {locationDTO.Longitude}");
             foreach (var conversation in conversations)
             {
@@ -170,6 +168,7 @@ namespace ChatServerModule.Hubs
                                                                     conversation.Latitude, conversation.Longitude);
                 Console.WriteLine($"{conversation.Location} | {conversation.Latitude} | {conversation.Longitude}");
                 // calculate distance in km and check if it s higher than userProximityRadius, if so go to the next conversation
+                
                 if (distance / 1000 > userProximityRadius)
                 {
                     continue;
@@ -212,7 +211,7 @@ namespace ChatServerModule.Hubs
             var result = new List<string>();
             foreach (var id in friendsIds)
             {
-                if (ConnectedUsers.TryGetValue(id, out string connectionId))
+                if (ConnectedUsers.TryGetValue(id, out var connectionId))
                 {
                     result.Add(connectionId);
                 }

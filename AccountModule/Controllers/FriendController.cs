@@ -1,8 +1,8 @@
 ﻿using Domain.Models;
-using Domain.RepositoryContracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Repositories;
 
 namespace AccountModule.Controllers
 {
@@ -15,7 +15,7 @@ namespace AccountModule.Controllers
 
         public async Task DeleteFriend(string friendEmail)
         {
-            User friend = await _userRepository.ReadAsync(friendEmail);
+            var friend = await _userRepository.ReadAsync(friendEmail);
             await _friendRepository.DeleteFriend(ApplicationUserController.CurrentUser.Id, friend.Id);
         }
 
@@ -43,7 +43,7 @@ namespace AccountModule.Controllers
                 return false;
             }
 
-            FriendRequest friendRequest = new FriendRequest
+            var friendRequest = new FriendRequest
             {
                 SenderId = senderUser.Id,
                 ReceiverId = receiverUser.Id
@@ -80,12 +80,12 @@ namespace AccountModule.Controllers
             }
 
             // Update friend connection into DB
-            Friend friendForward = new Friend()
+            var friendForward = new Friend()
             {
                 UserId = friendRequest.SenderId,
                 FriendId = friendRequest.ReceiverId
             };
-            Friend friendBackward = new Friend()
+            var friendBackward = new Friend()
             {
                 UserId = friendRequest.ReceiverId,
                 FriendId = friendRequest.SenderId

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace UI.WPF.Common
@@ -22,8 +17,8 @@ namespace UI.WPF.Common
                 return null;
             }
 
-            BitmapImage bi_image = new BitmapImage();
-            using (MemoryStream memoryStream = new MemoryStream(imageData))
+            var bi_image = new BitmapImage();
+            using (var memoryStream = new MemoryStream(imageData))
             {
                 memoryStream.Position = 0;
                 bi_image.BeginInit();

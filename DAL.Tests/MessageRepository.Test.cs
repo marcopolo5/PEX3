@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using Domain.RepositoryContracts;
 using Domain.Models;
 using System;
 using System.Data.SqlClient;
 using Dapper;
 using System.Collections.Generic;
+using Domain.Repositories;
 
 namespace DAL.Tests
 {
@@ -218,7 +218,7 @@ namespace DAL.Tests
             //ACT
             MessageRepositoryTestObject.CreateAsync(testmessage9_valid).Wait();
             MessageRepositoryTestObject.CreateAsync(testmessage10_valid).Wait();
-            List<Message> messages = (List<Message>)MessageRepositoryTestObject.ReadAllAsync().Result;
+            var messages = (List<Message>)MessageRepositoryTestObject.ReadAllAsync().Result;
 
             //ASSERT
             Assert.AreEqual(testmessage9_valid.Id, messages[0].Id);

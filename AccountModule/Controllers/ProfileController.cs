@@ -1,12 +1,6 @@
-﻿using Domain;
-using Domain.Helpers;
-using Domain.Models;
-using Domain.RepositoryContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Domain.Models;
 using System.Threading.Tasks;
+using Domain.Repositories;
 using Domain.Validators;
 
 namespace AccountModule.Controllers

@@ -40,18 +40,18 @@ namespace AccountModule.Controllers
         /// <returns>Dictionary containing user's Google email address, first name and last name</returns>
         public async Task<Dictionary<string,string>> GetGoogleAccountInfo()
         {
-            string state = RandomDataBase64url(32);
-            string code_verifier = RandomDataBase64url(32);
-            string code_challenge = Base64urlencodeNoPadding(SHA256(code_verifier));
+            var state = RandomDataBase64url(32);
+            var code_verifier = RandomDataBase64url(32);
+            var code_challenge = Base64urlencodeNoPadding(SHA256(code_verifier));
             const string code_challenge_method = "S256";
 
-            string redirectURI = string.Format("http://{0}:{1}/", IPAddress.Loopback, GetAvailablePort());
+            var redirectURI = string.Format("http://{0}:{1}/", IPAddress.Loopback, GetAvailablePort());
 
             var http = new HttpListener();
             http.Prefixes.Add(redirectURI);
             http.Start();
 
-            string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile%20email&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
+            var authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile%20email&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
                 authorizationEndpoint,
                 System.Uri.EscapeDataString(redirectURI),
                 clientID,
@@ -59,7 +59,7 @@ namespace AccountModule.Controllers
                 code_challenge,
                 code_challenge_method);
 
-            ProcessStartInfo psi = new ProcessStartInfo
+            var psi = new ProcessStartInfo
             {
                 FileName = authorizationRequest,
                 UseShellExecute = true
@@ -68,12 +68,12 @@ namespace AccountModule.Controllers
 
             var context = await http.GetContextAsync();
             var response = context.Response;
-            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the app.</body></html>");
+            var responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the app.</body></html>");
             var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
             var responseOutput = response.OutputStream;
             
-            Task responseTask = responseOutput.WriteAsync(buffer, 0, buffer.Length).ContinueWith((task) =>
+            var responseTask = responseOutput.WriteAsync(buffer, 0, buffer.Length).ContinueWith((task) =>
             {
                 responseOutput.Close();
                 http.Stop();
@@ -107,8 +107,8 @@ namespace AccountModule.Controllers
         private async Task<Dictionary<string,string>> PerformCodeExchange(string code, string code_verifier, string redirectURI)
         {
 
-            string tokenRequestURI = "https://www.googleapis.com/oauth2/v4/token";
-            string tokenRequestBody = string.Format("code={0}&redirect_uri={1}&client_id={2}&code_verifier={3}&client_secret={4}&scope=&grant_type=authorization_code",
+            var tokenRequestURI = "https://www.googleapis.com/oauth2/v4/token";
+            var tokenRequestBody = string.Format("code={0}&redirect_uri={1}&client_id={2}&code_verifier={3}&client_secret={4}&scope=&grant_type=authorization_code",
                 code,
                 System.Uri.EscapeDataString(redirectURI),
                 clientID,
@@ -116,26 +116,26 @@ namespace AccountModule.Controllers
                 clientSecret
                 );
 
-            HttpWebRequest tokenRequest = (HttpWebRequest)WebRequest.Create(tokenRequestURI);
+            var tokenRequest = (HttpWebRequest)WebRequest.Create(tokenRequestURI);
             tokenRequest.Method = "POST";
             tokenRequest.ContentType = "application/x-www-form-urlencoded";
             tokenRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-            byte[] _byteVersion = Encoding.ASCII.GetBytes(tokenRequestBody);
+            var _byteVersion = Encoding.ASCII.GetBytes(tokenRequestBody);
             tokenRequest.ContentLength = _byteVersion.Length;
-            Stream stream = tokenRequest.GetRequestStream();
+            var stream = tokenRequest.GetRequestStream();
             await stream.WriteAsync(_byteVersion, 0, _byteVersion.Length);
             stream.Close();
 
             try
             {
-                WebResponse tokenResponse = await tokenRequest.GetResponseAsync();
-                using (StreamReader reader = new StreamReader(tokenResponse.GetResponseStream()))
+                var tokenResponse = await tokenRequest.GetResponseAsync();
+                using (var reader = new StreamReader(tokenResponse.GetResponseStream()))
                 {
-                    string responseText = await reader.ReadToEndAsync();
+                    var responseText = await reader.ReadToEndAsync();
 
-                    Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
+                    var tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
 
-                    string access_token = tokenEndpointDecoded["access_token"];
+                    var access_token = tokenEndpointDecoded["access_token"];
                     return await UserinfoCall(access_token);
                 }
             }
@@ -146,9 +146,9 @@ namespace AccountModule.Controllers
                     var response = ex.Response as HttpWebResponse;
                     if (response != null)
                     {
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        using (var reader = new StreamReader(response.GetResponseStream()))
                         {
-                            string responseText = await reader.ReadToEndAsync();
+                            var responseText = await reader.ReadToEndAsync();
                         }
                     }
                 }
@@ -164,19 +164,19 @@ namespace AccountModule.Controllers
         private async Task<Dictionary<string, string>> UserinfoCall(string access_token)
         {
 
-            string userinfoRequestURI = "https://openidconnect.googleapis.com/v1/userinfo";
+            var userinfoRequestURI = "https://openidconnect.googleapis.com/v1/userinfo";
 
-            HttpWebRequest userinfoRequest = (HttpWebRequest)WebRequest.Create(userinfoRequestURI);
+            var userinfoRequest = (HttpWebRequest)WebRequest.Create(userinfoRequestURI);
             userinfoRequest.Method = "GET";
             userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
             userinfoRequest.ContentType = "application/x-www-form-urlencoded";
             userinfoRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
 
-            WebResponse userinfoResponse = await userinfoRequest.GetResponseAsync();
-            using (StreamReader userinfoResponseReader = new StreamReader(userinfoResponse.GetResponseStream()))
+            var userinfoResponse = await userinfoRequest.GetResponseAsync();
+            using (var userinfoResponseReader = new StreamReader(userinfoResponse.GetResponseStream()))
             {
-                string userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
-                Dictionary<string, string> userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(userinfoResponseText);
+                var userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
+                var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(userinfoResponseText);
                 return userInfo;
             }
         }
@@ -188,8 +188,8 @@ namespace AccountModule.Controllers
         /// <param name="length">Input length (nb. output will be longer)</param>
         private static string RandomDataBase64url(uint length)
         {
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] bytes = new byte[length];
+            var rng = new RNGCryptoServiceProvider();
+            var bytes = new byte[length];
             rng.GetBytes(bytes);
             return Base64urlencodeNoPadding(bytes);
         }
@@ -201,8 +201,8 @@ namespace AccountModule.Controllers
         /// <param name="inputStirng"></param>
         private static byte[] SHA256(string inputStirng)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(inputStirng);
-            SHA256Managed sha256 = new SHA256Managed();
+            var bytes = Encoding.ASCII.GetBytes(inputStirng);
+            var sha256 = new SHA256Managed();
             return sha256.ComputeHash(bytes);
         }
 
@@ -213,7 +213,7 @@ namespace AccountModule.Controllers
         /// <param name="buffer"></param>
         private static string Base64urlencodeNoPadding(byte[] buffer)
         {
-            string base64 = Convert.ToBase64String(buffer);
+            var base64 = Convert.ToBase64String(buffer);
 
             base64 = base64.Replace("+", "-");
             base64 = base64.Replace("/", "_");

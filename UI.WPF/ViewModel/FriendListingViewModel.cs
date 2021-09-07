@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using UI.WPF.Common;
-using UI.WPF.View;
 
 namespace UI.WPF.ViewModel
 {
@@ -21,7 +18,7 @@ namespace UI.WPF.ViewModel
         public FriendListingViewModel()
         {
             _friendViewModels = new List<FriendViewModel>();
-            foreach(FriendViewModel friendViewModel in GetFriendViewModels())
+            foreach(var friendViewModel in GetFriendViewModels())
             {
                 _friendViewModels.Add(friendViewModel);
             }
@@ -44,7 +41,7 @@ namespace UI.WPF.ViewModel
 
         private IEnumerable<FriendViewModel> GetFriendViewModels()
         {
-            foreach (User friend in ApplicationUserController.CurrentUser.Friends.ToList())
+            foreach (var friend in ApplicationUserController.CurrentUser.Friends.ToList())
             {
                 yield return new FriendViewModel(friend.LastName + " " + friend.FirstName, friend.Email, friend.Profile.StatusMessage, BitmapImageLoader.LoadImage(friend.Profile.Image), friend.Profile.Status);
             }

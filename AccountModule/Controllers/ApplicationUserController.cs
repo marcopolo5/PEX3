@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Models;
 using Domain.AccountContracts;
-using Domain.RepositoryContracts;
 using Domain.Helpers;
 using Domain;
-using System.Text.RegularExpressions;
-using System.IO;
 using Domain.Exceptions;
+using Domain.Repositories;
 using Domain.Validators;
 
 namespace AccountModule.Controllers
@@ -29,14 +26,14 @@ namespace AccountModule.Controllers
         {
             UserValidator.ValidateLogin(email,password);
             
-            UserLoginModel userLoginModel = new UserLoginModel
+            var userLoginModel = new UserLoginModel
             {
                 Email = email,
                 Password = password,
                 RememberMe = rememberMe
             };
 
-            (int id, string token) = await _userRepository.ValidateCredentials(userLoginModel);
+            (var id, var token) = await _userRepository.ValidateCredentials(userLoginModel);
             if (string.IsNullOrEmpty(token) || token.Equals("0") || id==0)
             {
                 throw new InvalidEntityException("Invalid credentials. ");
@@ -54,7 +51,7 @@ namespace AccountModule.Controllers
 
         public async Task Register(string firstName, string lastName, string email, string password, string retypedPassword)
         {
-            UserRegisterModel userRegisterModel = new UserRegisterModel
+            var userRegisterModel = new UserRegisterModel
             {
                 FirstName = firstName,
                 LastName = lastName,
@@ -71,7 +68,7 @@ namespace AccountModule.Controllers
             }
             
             await _userRepository.CreateAsync(userRegisterModel);
-            Profile profile = new Profile
+            var profile = new Profile
             {
                 UserId = (await _userRepository.GetAvailableId()) - 1,  //TODO: Buggy in this version. Should read the object from DB.
                 DisplayName = firstName + " " + lastName,
@@ -79,13 +76,13 @@ namespace AccountModule.Controllers
                 Image = ImageHelper.GetImageBytes(default_user_picture_path),
                 StatusMessage = "Hi there!"
             };
-            Settings settings = new Settings
+            var settings = new Settings
             {
                 Id = await _settingsRepository.GetAvailableId(),
                 UserId = await _userRepository.GetAvailableId()-1, //TODO: Buggy in this version. Should read the object from DB.
                 Anonymity = true
             };
-            Strikes strikes = new Strikes
+            var strikes = new Strikes
             {
                 Id = await _strikesRepository.GetAvailableId(),
                 UserId = await _userRepository.GetAvailableId() - 1,
@@ -125,7 +122,7 @@ namespace AccountModule.Controllers
         public async Task<bool> CheckIfUserIsLoggedIn()
         {
             var token = _appConfiguration.GetToken();
-            int id = _appConfiguration.GetId();
+            var id = _appConfiguration.GetId();
             if (string.IsNullOrWhiteSpace(token) == true || token == "0" || id == 0)
             {
                 return false;
@@ -142,27 +139,11 @@ namespace AccountModule.Controllers
 
         public async Task UpdateCurrentUserInformation()
         {
-            int id = _appConfiguration.GetId();
-            string token = _appConfiguration.GetToken();
+            var id = _appConfiguration.GetId();
+            var token = _appConfiguration.GetToken();
             CurrentUser = await _userRepository.ReadCurrentUserAsync(id, token);
         }
-
-        //////////////////// MOVED LOGIC TO Domain/Helpers/ImageHelper.cs
-        /// <summary>
-        /// Convert memory image into a binary array
-        /// </summary>
-        /// <param name="imagePath">Path to the image</param>
-        /// <returns>A binary array corresponding to the image</returns>
-        //public static byte[] GetImageBytes(string imagePath)
-        //{
-        //    byte[] _imageBytes = null;
-        //    using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
-        //    {
-        //        _imageBytes = new byte[fileStream.Length];
-        //        _ = fileStream.Read(_imageBytes, 0, System.Convert.ToInt32(fileStream.Length));
-        //    }
-        //    return _imageBytes;
-        //}
+        
     }
     
 }

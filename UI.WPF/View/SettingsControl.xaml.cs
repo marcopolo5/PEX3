@@ -25,8 +25,8 @@ namespace UI.WPF.View
 
         private async void SaveChangesClick(object sender, RoutedEventArgs e)
         {
-            CustomMessageBox messageBox = new CustomMessageBox();
-            string _saveChangesErrorMessage = await _settingsController.SaveChanges(currentPassword.Password, newPassword.Password, retypedPassword.Password);
+            var messageBox = new CustomMessageBox();
+            var _saveChangesErrorMessage = await _settingsController.SaveChanges(currentPassword.Password, newPassword.Password, retypedPassword.Password);
             if (_saveChangesErrorMessage.Equals(""))
                 messageBox.Show("Password updated successfully!");
             else
@@ -59,14 +59,14 @@ namespace UI.WPF.View
 
         private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox cmb = sender as ComboBox;
+            var cmb = sender as ComboBox;
             handle = !cmb.IsDropDownOpen;
             ApplyFontSelection();
         }
 
         private void ApplyFontSelection()
         {
-            FontFamily fontFamily = (FontFamily)FontFamilyComboBox.SelectedItem;
+            var fontFamily = (FontFamily)FontFamilyComboBox.SelectedItem;
             if(fontFamily == null)
             {
                 return;

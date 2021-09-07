@@ -1,11 +1,10 @@
 using NUnit.Framework;
-using Domain.RepositoryContracts;
 using Domain.Models;
 using System;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
 using System.Collections.Generic;
+using Domain.Repositories;
 
 namespace DAL.Tests
 {
@@ -198,7 +197,7 @@ namespace DAL.Tests
             //ACT
             UserRepositoryTestObject.CreateAsync(testuser6_valid).Wait();
             UserRepositoryTestObject.CreateAsync(testuser7_valid).Wait();
-            List<User> users = (List<User>)UserRepositoryTestObject.ReadAllAsync().Result;
+            var users = (List<User>)UserRepositoryTestObject.ReadAllAsync().Result;
 
             //ASSERT
             Assert.AreEqual(testuser6_valid.Id, users[0].Id);

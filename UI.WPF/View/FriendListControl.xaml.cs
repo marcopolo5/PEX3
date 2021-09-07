@@ -1,9 +1,7 @@
 ﻿using AccountModule.Controllers;
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
@@ -32,8 +30,8 @@ namespace UI.WPF.View
 
         private async void RemoveFriendButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            FriendViewModel selectedUserToBeRemoved = button.DataContext as FriendViewModel;
+            var button = sender as Button;
+            var selectedUserToBeRemoved = button.DataContext as FriendViewModel;
             await _friendController.DeleteFriend(selectedUserToBeRemoved.Email);
             // e nevoie de reload CurrentUser.Friends !!!!
         }

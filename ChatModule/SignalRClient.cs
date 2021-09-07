@@ -1,14 +1,12 @@
 ﻿using Domain.Models;
 using System;
 using System.Threading.Tasks;
-using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
-using Domain.RepositoryContracts;
 using AccountModule.Controllers;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using Domain.DTO;
+using Domain.Repositories;
 
 namespace ChatModule
 {
@@ -54,7 +52,7 @@ namespace ChatModule
 
         public async Task InitializeConnectionAsync(int userId, string token)
         {
-            var url = @"http://localhost:5000/chat";
+            var url = @"http://79.113.39.95:5000/chat";
 
             _connection = new HubConnectionBuilder()
                 .WithUrl(url, options =>
@@ -142,10 +140,10 @@ namespace ChatModule
         public async Task UpdateProximityChats()
         {
             var id = ApplicationUserController.CurrentUser.Id;
-            IpstackApiResult apiResult = await _locationAPIController.CallApiAsync();
+            var apiResult = await _locationAPIController.CallApiAsync();
 
-            string location = $"{apiResult.CountryName}, {apiResult.RegionName}, {apiResult.City}";
-            UserLocationDTO userLocation = new UserLocationDTO
+            var location = $"{apiResult.CountryName}, {apiResult.RegionName}, {apiResult.City}";
+            var userLocation = new UserLocationDTO
             {
                 UserId = id,
                 Location = location,
@@ -169,7 +167,7 @@ namespace ChatModule
         }
         public async Task CreateProximityConversation(string title)
         {
-            IpstackApiResult location = await _locationAPIController.CallApiAsync();
+            var location = await _locationAPIController.CallApiAsync();
             var createConversationDto = new ConversationCreateDTO
             {
                 CreatorsId = ApplicationUserController.CurrentUser.Id,

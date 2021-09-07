@@ -2,7 +2,6 @@
 using Domain.Helpers;
 using Microsoft.Win32;
 using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,7 +27,7 @@ namespace UI.WPF.View
             // Load profile informations
             displayNameText.Text = ApplicationUserController.CurrentUser.Profile.DisplayName;
             aboutText.Text = ApplicationUserController.CurrentUser.Profile.StatusMessage;
-            BitmapImage bi_profilePicture = BitmapImageLoader.LoadImage(ApplicationUserController.CurrentUser.Profile.Image);
+            var bi_profilePicture = BitmapImageLoader.LoadImage(ApplicationUserController.CurrentUser.Profile.Image);
             profilePicture.Fill = new ImageBrush(bi_profilePicture);
             var reputation = ApplicationUserController.CurrentUser.Profile.Reputation.ToString();
             ratingValueTextBLock.Text = reputation;
@@ -62,7 +61,7 @@ namespace UI.WPF.View
             {
                 try
                 {
-                    byte[] imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
+                    var imageByteArray = ImageHelper.GetImageBytes(openFileDialog.FileName);
                     await _profileController.UpdateProfile(displayNameText.Text, aboutText.Text, imageByteArray);
                     new CustomMessageBox().Show("Profile updated successfully");
                 }

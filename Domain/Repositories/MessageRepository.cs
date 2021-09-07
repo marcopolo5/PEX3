@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Domain.Models;
 
-namespace Domain.RepositoryContracts
+namespace Domain.Repositories
 {
     /// <summary>
     /// Data access layer class for 'Message' model. 
@@ -33,7 +33,7 @@ namespace Domain.RepositoryContracts
         public new async Task<IEnumerable<Message>> ReadAllAsync()
         {
             var sql = @"SELECT * FROM Messages ORDER BY CreatedAt ASC";
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var messages = await connection.QueryAsync<Message>(sql);
                 return messages;

@@ -1,9 +1,9 @@
-﻿using Dapper;
-using Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
+using Domain.Models;
 
-namespace Domain.RepositoryContracts
+namespace Domain.Repositories
 {
     /// <summary>
     /// Data access layer class for 'Profile' model. 
@@ -17,7 +17,7 @@ namespace Domain.RepositoryContracts
         public ProfileRepository() : base("Profiles") { }
         public new async Task<Profile> ReadAsync(int userid)
         {
-            using (var connection = CreateConnection())
+            using (var connection = await CreateConnection())
             {
                 var entity = await connection.QuerySingleOrDefaultAsync<Profile>($"SELECT * FROM {TableName} WHERE userid={userid}");
                 if (entity == null)

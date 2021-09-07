@@ -1,24 +1,14 @@
 ﻿using AccountModule.Controllers;
 using ChatModule;
 using Domain;
-using Domain.DTO;
 using Domain.Helpers;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UI.WPF.ViewModel;
 
 namespace UI.WPF.View
@@ -157,8 +147,8 @@ namespace UI.WPF.View
             string lastTextMessage;
             string conversationName;
             string statusMessage;
-            byte[] profilePictureArray = ImageHelper.GetImageBytes("../../../Assets/profile.png"); // maybe refactor this
-            UserStatus userStatus = UserStatus.Away; /// momentan folosim away pt group chat
+            var profilePictureArray = ImageHelper.GetImageBytes("../../../Assets/profile.png"); // maybe refactor this
+            var userStatus = UserStatus.Away; /// momentan folosim away pt group chat
 
             // if the conversation is a group chat use its title as a conversation name
             if (conversation.Type == Domain.ConversationTypes.Group)
@@ -231,16 +221,16 @@ namespace UI.WPF.View
 
         private async void RateUpButton_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = (Button)sender;
-            int id = (int)btn.Content;
+            var btn = (Button)sender;
+            var id = (int)btn.Content;
             await _userRatingController.RateUser(true, id);
             btn.IsEnabled = false;
             //MessageBox.Show($"id : {id}"); //debugging 
         }
         private async void RateDownButton_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = (Button)sender;
-            int id = (int)btn.Content;
+            var btn = (Button)sender;
+            var id = (int)btn.Content;
             await _userRatingController.RateUser(false, id);
             btn.IsEnabled = false;
             //MessageBox.Show($"id : {id}");

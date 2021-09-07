@@ -1,18 +1,8 @@
 ﻿using AccountModule.Controllers;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Domain.Exceptions;
 
 namespace UI.WPF
@@ -41,13 +31,9 @@ namespace UI.WPF
             ShowDialog();
         }
 
-        // TODO: fix documentation (no longer matches the functionality)
         /// <summary>
-        /// Called by the loginButton
-        /// Checks if the data is valid and sends it to the ApplicationUserController for the purpose of login
+        /// Handler for classic login use case.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         public async void ButtonLoginClick(object sender, RoutedEventArgs e)
         {
             try
@@ -69,20 +55,21 @@ namespace UI.WPF
             // catch(Exception exception){ } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
         }
 
+        /// <summary>
+        /// Handler for Google authentication login and/or register.
+        /// </summary>
         private async void ButtonAuthenticateWithGoogle_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 await _applicationUserController.AuthenticateWithGoogle(true);
                 Hide();
-                var homeWindow = new HomeWindow();
-                homeWindow.ShowDialog();
+                new HomeWindow().ShowDialog();
                 ShowDialog();
             }
             catch (GoogleAuthenticationException exception)
             {
-                CustomMessageBox messageBox = new CustomMessageBox();
-                messageBox.Show(exception.Message);
+                new CustomMessageBox().Show(exception.Message);
             }
             catch (SqlException)
             {

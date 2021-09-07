@@ -116,10 +116,10 @@ namespace Domain.Helpers
         /// <returns></returns>
         private string EncryptDecrypt(string szPlainText)
         {
-            StringBuilder szInputStringBuild = new StringBuilder(szPlainText);
-            StringBuilder szOutStringBuild = new StringBuilder(szPlainText.Length);
+            var szInputStringBuild = new StringBuilder(szPlainText);
+            var szOutStringBuild = new StringBuilder(szPlainText.Length);
             char Textch;
-            for (int iCount = 0; iCount < szPlainText.Length; iCount++)
+            for (var iCount = 0; iCount < szPlainText.Length; iCount++)
             {
                 Textch = szInputStringBuild[iCount];
                 Textch = (char)(Textch ^ Key);

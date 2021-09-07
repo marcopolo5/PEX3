@@ -6,17 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UI.WPF.Common;
 using UI.WPF.ViewModel;
 
@@ -63,7 +56,7 @@ namespace UI.WPF.View
         private async void GetPendingFriendRequests()
         {
             var friendRequests = await _friendRequestController.GetUsersFriendRequests();
-            foreach (FriendRequest friendRequest in friendRequests.ToList())
+            foreach (var friendRequest in friendRequests.ToList())
             {
                 try
                 {
@@ -73,7 +66,7 @@ namespace UI.WPF.View
                     }
                     var profile = await _profileController.GetProfile(friendRequest.SenderId);
                     var user = await _userController.GetUser(friendRequest.SenderId);
-                    FriendViewModel userUIModel = new FriendViewModel(profile.DisplayName, user.Email, profile.StatusMessage, BitmapImageLoader.LoadImage(profile.Image), profile.Status, friendRequest.Id);
+                    var userUIModel = new FriendViewModel(profile.DisplayName, user.Email, profile.StatusMessage, BitmapImageLoader.LoadImage(profile.Image), profile.Status, friendRequest.Id);
                     PendingFriendRequests.Add(userUIModel);
                 }
                 catch (KeyNotFoundException) { }
@@ -84,13 +77,13 @@ namespace UI.WPF.View
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             Users.Clear();
-            string filter = searchUserTextBox.Text;
+            var filter = searchUserTextBox.Text;
             if(filter.Length < 2)
             {
                 return;
             }
             var filteredUsers = await _userController.GetUsers(filter);
-            foreach (User user in filteredUsers.ToList())
+            foreach (var user in filteredUsers.ToList())
             {
                 if (user.Id == ApplicationUserController.CurrentUser.Id)
                     continue;
@@ -107,18 +100,18 @@ namespace UI.WPF.View
                 }
                 finally
                 {
-                    FriendViewModel userUIModel = new FriendViewModel(user.FirstName + " " + user.LastName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status);
+                    var userUIModel = new FriendViewModel(user.FirstName + " " + user.LastName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status);
 
                     // Check if the user already sent a friend request to the current user
                     var friendRequestReceived = await _friendRequestController.FriendRequestExists(user.Id, ApplicationUserController.CurrentUser.Id);
-                    bool friendRequestReceivedFlag = (friendRequestReceived != null);
+                    var friendRequestReceivedFlag = (friendRequestReceived != null);
 
                     // Check if the current user already sent a friend request to the user
                     var friendRequestSent = await _friendRequestController.FriendRequestExists(ApplicationUserController.CurrentUser.Id, user.Id);
-                    bool friendRequestSentFlag = (friendRequestSent != null);
+                    var friendRequestSentFlag = (friendRequestSent != null);
 
                     // Check if there is a friend relationship
-                    bool isFriendFlag = await _friendController.FriendshipExists(ApplicationUserController.CurrentUser.Id, user.Id);
+                    var isFriendFlag = await _friendController.FriendshipExists(ApplicationUserController.CurrentUser.Id, user.Id);
 
                     if (friendRequestReceivedFlag)
                     {
@@ -159,8 +152,8 @@ namespace UI.WPF.View
 
         private async void AddFriendButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            var button = sender as Button;
+            var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.SendFriendRequest(ApplicationUserController.CurrentUser.Email, selectedUser.Email);
             button.IsEnabled = false;
             ((Border)button.Template.FindName("BG", button)).Background = Brushes.SteelBlue;
@@ -172,40 +165,40 @@ namespace UI.WPF.View
 
         private async void AcceptFriendButtonFromUserList_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            var button = sender as Button;
+            var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.AcceptFriendRequest(selectedUser.FriendRequestId);
             Users.Remove(selectedUser);
         }
 
         private async void DenyFriendButtonFromUserList_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            var button = sender as Button;
+            var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.DenyFriendRequest(selectedUser.FriendRequestId);
             Users.Remove(selectedUser);
         }
 
         private async void AcceptFriendButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            var button = sender as Button;
+            var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.AcceptFriendRequest(selectedUser.FriendRequestId);
             PendingFriendRequests.Remove(selectedUser);
         }
 
         private async void DenyFriendButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            FriendViewModel selectedUser = button.DataContext as FriendViewModel;
+            var button = sender as Button;
+            var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.DenyFriendRequest(selectedUser.FriendRequestId);
             PendingFriendRequests.Remove(selectedUser);
         }
 
         private void UserSelectedShowProfile_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Border userSelectedProfilePicture = sender as Border;
-            FriendViewModel selectedUser = userSelectedProfilePicture.DataContext as FriendViewModel;
+            var userSelectedProfilePicture = sender as Border;
+            var selectedUser = userSelectedProfilePicture.DataContext as FriendViewModel;
             MainGrid.DataContext = selectedUser;
             MainGrid.ColumnDefinitions[1].Width = new GridLength(250);
             UserProfileMenu.Visibility = Visibility.Visible;

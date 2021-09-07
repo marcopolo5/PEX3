@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatServerModule.MiniRepo
 {
@@ -20,7 +19,7 @@ namespace ChatServerModule.MiniRepo
         public IEnumerable<int> GetConversationsParticipants(int conversationId)
         {
             IEnumerable<int> result;
-            string sql = $"SELECT userid FROM [Group_Members] WHERE conversationid=@ConversationId;";
+            var sql = $"SELECT userid FROM [Group_Members] WHERE conversationid=@ConversationId;";
 
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -181,7 +180,7 @@ namespace ChatServerModule.MiniRepo
 
         public int GetAvailableId(string tableName)
         {
-            string sql = $"SELECT IDENT_CURRENT('{tableName}')+1";
+            var sql = $"SELECT IDENT_CURRENT('{tableName}')+1";
             using (var connection = new SqlConnection(_connectionString))
             {
                 return connection.QueryFirstOrDefault<int>(sql);
