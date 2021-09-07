@@ -52,8 +52,9 @@ namespace ChatModule
 
         public async Task InitializeConnectionAsync(int userId, string token)
         {
-            var url = @"http://localhost:5000/chat";
-            //var url = @"http://79.113.39.95:5000/chat";
+            //var url = @"http://localhost:5000/chat";
+            var url = @"http://79.113.39.95:5000/chat";
+
             _connection = new HubConnectionBuilder()
                 .WithUrl(url, options =>
                 {
