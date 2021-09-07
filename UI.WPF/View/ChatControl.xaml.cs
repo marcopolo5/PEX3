@@ -189,6 +189,7 @@ namespace UI.WPF.View
             if (SendMessageBtn.IsEnabled == false)
             {
                 SendMessageBtn.IsEnabled = true;
+                MessageText.IsEnabled = true;
             }
             var item = (ConversationPreviewViewModel)ConversationList.SelectedItem;
             var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);

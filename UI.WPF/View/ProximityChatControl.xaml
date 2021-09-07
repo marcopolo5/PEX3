@@ -362,7 +362,7 @@
                     <TextBox x:Name="MessageText" Grid.Column="1" Grid.ColumnSpan="1" FontSize="25" HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
                                             BorderThickness="0" Background="Transparent" Margin="10,0,100,0"
-                                            KeyDown="OnKeyDownHandler">
+                                            KeyDown="OnKeyDownHandler" IsEnabled="False">
                     </TextBox>
                 </Border>
             </Border>
