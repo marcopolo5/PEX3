@@ -95,6 +95,19 @@ namespace UI.WPF.View
 
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
         {
+            await SendMessage();
+        }
+
+        private async void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                await SendMessage();
+            }
+        }
+
+        private async Task SendMessage()
+        {
             var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
             var text = MessageText.Text;
             MessageText.Clear();
@@ -105,7 +118,8 @@ namespace UI.WPF.View
             await _signalRClient.SendMessageAsync(currentConversationId, text);
         }
 
-        // use this to change between convs
+
+        // use this to change between conversations
         private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SendMessageBtn.IsEnabled == false)

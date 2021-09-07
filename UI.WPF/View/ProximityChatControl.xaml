@@ -289,7 +289,8 @@
             </Button.Content>
         </Button>
             
-        <ScrollViewer Grid.Row="2" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="2" Grid.RowSpan="2"
+                      PreviewMouseWheel="ChatScrollViewer_PreviewMouseWheel">
                 <ListView x:Name="ProximityConversationList" 
                               Background="Transparent" 
                               BorderThickness="0" 
@@ -359,8 +360,9 @@
             <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Background="Transparent" Height="auto" Margin="20,0,20,0">
                 <Border Background="LightGray" Height="50" CornerRadius="25" HorizontalAlignment="Stretch">
                     <TextBox x:Name="MessageText" Grid.Column="1" Grid.ColumnSpan="1" FontSize="25" HorizontalAlignment="Stretch"
-                                             VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
-                                             BorderThickness="0" Background="Transparent" Margin="10,0,100,0">
+                                            VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
+                                            BorderThickness="0" Background="Transparent" Margin="10,0,100,0"
+                                            KeyDown="OnKeyDownHandler">
                     </TextBox>
                 </Border>
             </Border>
