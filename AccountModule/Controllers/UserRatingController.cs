@@ -17,20 +17,19 @@ namespace AccountModule.Controllers
         {
             var message = await _messageRepository.ReadAsync(messageid);
             var user = await _userRepository.ReadAsync(message.SenderId);
-            var userReport = await _strikesRepository.ReadUserReportAsync(ApplicationUserController.CurrentUser.Id, user.Id);
-            if (userReport == null)
+            if (await _strikesRepository.ReadUserReportAsync(ApplicationUserController.CurrentUser.Id, user.Id) == null)
             {
                 if (up)
                 {
-                    user.Profile.Reputation += 1;
+                    ++user.Profile.Reputation;
                 }
                 else
                 {
-                    user.Profile.Reputation -= 1;
+                    --user.Profile.Reputation;
                     await ApplyStrikes(user);
                 }
+                await _profileRepository.UpdateAsync(user.Profile);
             }
-            await _profileRepository.UpdateAsync(user.Profile);
         }
 
 
@@ -40,36 +39,27 @@ namespace AccountModule.Controllers
             switch (user.Profile.Reputation)
             {
                 case -10:
+                case -20:
+                case -50:
+                    user.Profile.Reputation += 5;
                     if (!strikeobj.FirstStrike)
                     {
-                        user.Profile.Reputation += 5;
-                        await _profileRepository.UpdateAsync(user.Profile);
                         strikeobj.FirstStrike = true;
                         strikeobj.UnbanDate = DateTime.Now.AddDays(5);
                         await _strikesRepository.UpdateAsync(strikeobj);
                     }
-                    break;
-                case -20:
                     if (!strikeobj.SecondStrike)
                     {
-                        user.Profile.Reputation += 5;
-                        await _profileRepository.UpdateAsync(user.Profile);
                         strikeobj.SecondStrike = true;
                         strikeobj.UnbanDate = DateTime.Now.AddDays(15);
                         await _strikesRepository.UpdateAsync(strikeobj);
                     }
-                    break;
-                case -50:
                     if (!strikeobj.ThirdStrike)
                     {
-                        user.Profile.Reputation += 5;
-                        await _profileRepository.UpdateAsync(user.Profile);
                         strikeobj.ThirdStrike = true;
                         strikeobj.UnbanDate = DateTime.Now.AddDays(29200);
                         await _strikesRepository.UpdateAsync(strikeobj);
                     }
-                    break;
-                default:
                     break;
             }
         }

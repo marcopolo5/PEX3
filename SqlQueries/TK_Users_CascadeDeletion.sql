@@ -6,6 +6,8 @@ begin
 	set nocount on;
 	delete from Blocked_Users where (userid in (select id from deleted)
 		or blockeduserid in (select id from deleted))
+	delete from Friends where (userid in (select id from deleted)
+		or friendid in (select id from deleted))
 	delete from Friend_Requests where (senderid in (select id from deleted)
 		or receiverid in (select id from deleted))
 	delete from Group_Members where userid in (select id from deleted)
