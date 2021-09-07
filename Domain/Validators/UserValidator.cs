@@ -35,21 +35,6 @@ namespace Domain.Validators
                 exceptionMessage.Append("Last name cannot be longer than 20 characters. ");
             }
 
-
-            //Password
-            if (!Regex.IsMatch(user.Password,
-                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$"))
-            {
-                exceptionMessage.Append(
-                    "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character. ");
-            }
-
-            if (user.Password is {Length: > 255})
-            {
-                exceptionMessage.Append("Password cannot be longer than 255 characters. ");
-            }
-
-
             //Email
             if (!Regex.IsMatch(user.Email,
                 @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
@@ -66,6 +51,24 @@ namespace Domain.Validators
             {
                 throw new InvalidEntityException(exceptionMessage.ToString());
             }
+            /*
+            if (user.Password == null)
+            {
+                return; // hot fix
+            }
+            //Password
+            if (!Regex.IsMatch(user.Password,
+                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$"))
+            {
+                exceptionMessage.Append(
+                    "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character. ");
+            }
+
+            if (user.Password is { Length: > 255 })
+            {
+                exceptionMessage.Append("Password cannot be longer than 255 characters. ");
+            }
+            */
         }
 
         public static void ValidateLogin(string email, string password)
