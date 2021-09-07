@@ -11,6 +11,10 @@ namespace ChatModule
 {
     public class LocationAPIController
     {
+        /// <summary>
+        /// Async method. Calls the location API and returns the user's location based on his IP.
+        /// </summary>
+        /// <returns>The location as an IpstackApiResult</returns>
         public async Task<IpstackApiResult> CallApiAsync()
         {
             IpstackApiResult result = null;

@@ -95,6 +95,19 @@ namespace UI.WPF.View
 
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
         {
+            await SendMessage();
+        }
+
+        private async void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                await SendMessage();
+            }
+        }
+
+        private async Task SendMessage()
+        {
             var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
             var text = MessageText.Text;
             MessageText.Clear();
@@ -105,12 +118,14 @@ namespace UI.WPF.View
             await _signalRClient.SendMessageAsync(currentConversationId, text);
         }
 
-        // use this to change between convs
+
+        // use this to change between conversations
         private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SendMessageBtn.IsEnabled == false)
             {
                 SendMessageBtn.IsEnabled = true;
+                MessageText.IsEnabled = true;
             }
             var item = (ConversationPreviewViewModel)ProximityConversationList.SelectedItem;
             var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
@@ -225,7 +240,7 @@ namespace UI.WPF.View
                 return;
             }
             CreateProximityChatName.Text = string.Empty; // reset the box
-            await _signalRClient.CreateProximityConversation(title);
+            await _signalRClient.CreateProximityConversationAsync(title);
             await _signalRClient.UpdateProximityChats();
         }
 
@@ -245,7 +260,12 @@ namespace UI.WPF.View
             btn.IsEnabled = false;
             //MessageBox.Show($"id : {id}");
         }
-        
+        private void ChatScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
         public void Dispose()
         {
             _signalRClient.MessageReceived -= OnMessageReceived;
