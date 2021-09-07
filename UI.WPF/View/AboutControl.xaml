@@ -132,7 +132,7 @@
                              Stroke="white"
                              Margin="30,10,30,0">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/profile.png"
+                                <ImageBrush ImageSource="../Assets/Rares.jpg"
                                         Stretch="Fill"></ImageBrush>
                             </Ellipse.Fill>
                         </Ellipse>
@@ -142,7 +142,7 @@
                              Stroke="white"
                              Margin="30,10,30,0">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/profile.png"
+                                <ImageBrush ImageSource="../Assets/Alexandra.jpg"
                                         Stretch="Fill"></ImageBrush>
                             </Ellipse.Fill>
                         </Ellipse>
@@ -196,7 +196,7 @@
                              Stroke="white"
                              Margin="30,0,30,0">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/profile.png"
+                                <ImageBrush ImageSource="../Assets/David.jpg"
                                         Stretch="Fill"></ImageBrush>
                             </Ellipse.Fill>
                         </Ellipse>
