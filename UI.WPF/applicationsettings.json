@@ -1,9 +1,10 @@
 {
-    "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
-    //"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
-    //"ConnectionString": "Data Source=DESKTOP-RI8OBR6;Initial Catalog=GeoChat_DB;Integrated Security=True",
-    //"ConnectionString": "Data Source=.\\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True",
-    //"ConnectionString": "Data Source=DESKTOP-IQTUEBV\\SQLEXPRESS01;Initial Catalog=GeoChat_DB;Integrated Security=True",
-    "EncryptedToken": "",
-    "UserId": 0
+  "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
+  //"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
+  //"ConnectionString": "Data Source=DESKTOP-RI8OBR6;Initial Catalog=GeoChat_DB;Integrated Security=True",
+  //"ConnectionString": "Data Source=.\\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True",
+  //"ConnectionString": "Data Source=DESKTOP-IQTUEBV\\SQLEXPRESS01;Initial Catalog=GeoChat_DB;Integrated Security=True",
+  //"ConnectionString": "Data Source=79.113.39.95,1433;Initial Catalog=GeoChat_DB;Integrated Security=False;User ID=geochatdbuser;Password=geochatdbuser;",
+  "EncryptedToken": "",
+  "UserId": 0
 }
