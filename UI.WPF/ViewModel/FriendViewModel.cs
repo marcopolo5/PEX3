@@ -18,8 +18,10 @@ namespace UI.WPF.ViewModel
         private Visibility _candAddFriend;
         private Visibility _friendRequestSent;
         private Visibility _isFriend;
+        private string _joinDate;
+        private int _reputation;
 
-        public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status)
+        public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, string joinDate, int reputation)
         {
             _status = status;
             UpdateStatusColor();
@@ -27,6 +29,8 @@ namespace UI.WPF.ViewModel
             _email = email;
             _statusMessage = statusMessage;
             _profilePicture = image;
+            _joinDate = joinDate;
+            _reputation = reputation;
         }
 
         public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, int friendRequestId)
@@ -179,6 +183,26 @@ namespace UI.WPF.ViewModel
             {
                 _status = value;
                 OnPropertyChanged(nameof(Status));
+            }
+        }
+
+        public string JoinDate
+        {
+            get { return _joinDate; }
+            set
+            {
+                _joinDate = value;
+                OnPropertyChanged(nameof(JoinDate));
+            }
+        }
+
+        public int Reputation
+        {
+            get { return _reputation; }
+            set
+            {
+                _reputation = value;
+                OnPropertyChanged(nameof(Reputation));
             }
         }
     }

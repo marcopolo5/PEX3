@@ -390,7 +390,7 @@
                                 Margin="0 3">
                         <materialDesign:PackIcon Kind="DateRange"
                                                  Foreground="#112152" />
-                        <TextBlock Text="JoinDate of the user"
+                        <TextBlock Text="{Binding JoinDate}"
                                    Margin="10 0"
                                    Foreground="#112152" />
                     </StackPanel>
@@ -398,7 +398,7 @@
                                 Margin="0 3">
                         <materialDesign:PackIcon Kind="StarRate"
                                                  Foreground="#112152" />
-                        <TextBlock Text="Reputation of the user"
+                        <TextBlock Text="{Binding Reputation}"
                                    Margin="10 0"
                                    Foreground="#112152" />
                     </StackPanel>

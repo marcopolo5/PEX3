@@ -25,5 +25,7 @@ namespace AccountModule.Controllers
         {
             return await _profileRepository.ReadAsync(userId);
         }
+
+ 
     }
 }

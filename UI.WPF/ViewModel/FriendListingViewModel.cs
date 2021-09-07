@@ -43,7 +43,7 @@ namespace UI.WPF.ViewModel
         {
             foreach (var friend in ApplicationUserController.CurrentUser.Friends.ToList())
             {
-                yield return new FriendViewModel(friend.LastName + " " + friend.FirstName, friend.Email, friend.Profile.StatusMessage, BitmapImageLoader.LoadImage(friend.Profile.Image), friend.Profile.Status);
+                yield return new FriendViewModel(friend.Profile.DisplayName, friend.Email, friend.Profile.StatusMessage, BitmapImageLoader.LoadImage(friend.Profile.Image), friend.Profile.Status, friend.JoinDate.ToString("dd.MM.yyyy"), friend.Profile.Reputation);
             }
         }
 

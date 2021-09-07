@@ -100,7 +100,7 @@ namespace UI.WPF.View
                 }
                 finally
                 {
-                    var userUIModel = new FriendViewModel(user.FirstName + " " + user.LastName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status);
+                    var userUIModel = new FriendViewModel(user.Profile.DisplayName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status,user.JoinDate.ToString("dd.MM.yyyy"),user.Profile.Reputation);
 
                     // Check if the user already sent a friend request to the current user
                     var friendRequestReceived = await _friendRequestController.FriendRequestExists(user.Id, ApplicationUserController.CurrentUser.Id);
@@ -202,7 +202,7 @@ namespace UI.WPF.View
             MainGrid.DataContext = selectedUser;
             MainGrid.ColumnDefinitions[1].Width = new GridLength(250);
             UserProfileMenu.Visibility = Visibility.Visible;
-            // pentru Adina: aici nu mai trebuie modificat nimic, trebuie doar sa faci bind la atributele din FriendViewModel catre cele din xaml (model cum am facut la linia 298)
+            
         }
     }
 }
