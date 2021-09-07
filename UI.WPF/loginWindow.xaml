@@ -196,10 +196,10 @@
                         </Style>
                     </Button.Resources>
                 </Button>
-               
+
 
                 <TextBlock x:Name ="goToRegisterButton" 
-                           PreviewMouseDown ="goToRegisterButton_PreviewMouseDown" 
+                           PreviewMouseDown ="GoToRegisterButton_PreviewMouseDown" 
                            Grid.Column="1" Grid.Row="8" 
                            Grid.ColumnSpan="4" 
                            FontSize="25" 
@@ -221,22 +221,41 @@
                     </TextBlock.Style>
                 </TextBlock>
 
+                <!-- Minimize and Close buttons -->
+                <Grid x:Name="CloseAndMinimizeButtons"
+                      Grid.Row="1"
+                      Grid.Column="2"
+                      Grid.ColumnSpan="3"
+                      Width="60"
+                      Height="30"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Margin="0 -10 12 0"
+                      >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button x:Name ="closeButton"
-                        Grid.Column="2" 
-                        Grid.Row="1" 
-                        Grid.ColumnSpan="3" 
-                        BorderThickness="0" 
-                        BorderBrush="Transparent"
-                        Width="50" 
-                        Height="50" 
-                        Margin="800,-10,0,100" 
-                        Click="closeButton_Click" >
-                    <Button.Background>
-                        <ImageBrush ImageSource="Assets/close.png" Stretch="Uniform"/>
-                    </Button.Background>
-                </Button>
-
+                    <Button x:Name ="MinimizeButton" 
+                            Click="MinimizeButton_Click"
+                            Style="{StaticResource MinimizeWindowButton}"
+                            Grid.Column="0"
+                            >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./Assets/close.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name ="CloseButton" 
+                            Click="CloseButton_Click"
+                            Grid.Column="1"
+                            Style="{StaticResource CloseWindowButton}"
+                            >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./Assets/close.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
 
             </Grid>
         </Border>

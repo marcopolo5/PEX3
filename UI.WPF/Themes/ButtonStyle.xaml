@@ -79,7 +79,82 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+
+    <Style x:Key="CloseWindowButton" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="MinWidth" Value="30"/>
+        <Setter Property="MaxHeight" Value="30"/>
+        <Setter Property="MaxWidth" Value="30"/>
+        <Setter Property="Foreground" Value="LightGray"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            CornerRadius="12"
+                            >
+                        <materialDesign:PackIcon Kind="WindowClose"
+                                                 Margin="2"
+                                                 Width="22"
+                                                 Height="22"/>
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Border.Background>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BG" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#ff5050" Opacity="0.7"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MinimizeWindowButton" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="MinWidth" Value="30"/>
+        <Setter Property="MaxHeight" Value="30"/>
+        <Setter Property="MaxWidth" Value="30"/>
+        <Setter Property="Foreground" Value="LightGray"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BG"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            CornerRadius="12"
+                            >
+                        <materialDesign:PackIcon Kind="WindowMinimize"
+                                                 Margin="4"
+                                                 Width="20"
+                                                 Height="20"/>
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Border.Background>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BG" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="White" Opacity="0.1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Small Buttons -->
     <Style x:Key="IsFriendButton" TargetType="{x:Type Button}">
         <Setter Property="MinHeight" Value="40"/>

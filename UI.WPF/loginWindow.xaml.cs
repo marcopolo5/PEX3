@@ -19,17 +19,23 @@ namespace UI.WPF
             InitializeComponent();
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
 
-        private void goToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void GoToRegisterButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Hide();
             new RegisterWindow().ShowDialog();
             ShowDialog();
         }
+
 
         /// <summary>
         /// Handler for classic login use case.
@@ -55,6 +61,7 @@ namespace UI.WPF
             // catch(Exception exception){ } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
         }
 
+
         /// <summary>
         /// Handler for Google authentication login and/or register.
         /// </summary>
@@ -77,5 +84,7 @@ namespace UI.WPF
             }
             //catch(Exception exception) { } - Commented: Not catching unexpected exceptions while in development TODO: uncomment before release
         }
+
+
     }
 }

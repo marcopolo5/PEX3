@@ -21,7 +21,6 @@ namespace UI.WPF
         private readonly ApplicationUserController _userController = new();
         private readonly SettingsControl _settingsControl = new();
 
-        private bool closeButtonVisibilityFlag = true;
         private bool showFriendListFlag = false;
 
         public string AppFontFamily { get; set; }
@@ -54,9 +53,40 @@ namespace UI.WPF
             }
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+
+        /// <summary>
+        /// Drag and move the window 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+
+        /// <summary>
+        /// Closes the window and dispose data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            _chatControl.Dispose();
+            _proximityChatControl?.Dispose();
+            await _signalRClient.DisposeAsync();
+            Environment.Exit(0);
+        }
+
+
+        /// <summary>
+        /// Minimizes the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
 
         private async void SignOut_Selected(object sender, RoutedEventArgs e)
@@ -73,42 +103,29 @@ namespace UI.WPF
         private void HomeContent_Selected(object sender, RoutedEventArgs e)
         {
             mainContentControl.Content = _aboutControl;
-            closeButtonVisibilityFlag = true;
             ShowHideElements();
         }
 
         private void ProfileContent_Selected(object sender, RoutedEventArgs e)
         {
             mainContentControl.Content = _profileControl;
-            closeButtonVisibilityFlag = true;
             ShowHideElements();
         }
 
         private void AddFriendContent_Selected(object sender, RoutedEventArgs e)
         {
             mainContentControl.Content = _addFriendControl;
-            closeButtonVisibilityFlag = false;
             ShowHideElements();
-        }
-
-        private async void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            _chatControl.Dispose();
-            _proximityChatControl?.Dispose();
-            await _signalRClient.DisposeAsync();
-            Environment.Exit(0);
         }
 
         private void ChatContent_Selected(object sender, RoutedEventArgs e)
         {
-            closeButtonVisibilityFlag = true;
             mainContentControl.Content = _chatControl;
             ShowHideElements();
         }
 
         private void ProximityChatContent_Selected(object sender, RoutedEventArgs e)
         {
-            closeButtonVisibilityFlag = true;
             mainContentControl.Content = _proximityChatControl;
             ShowHideElements();
 
@@ -116,25 +133,38 @@ namespace UI.WPF
 
         private void SettingsContent_Selected(object sender, RoutedEventArgs e)
         {
-            closeButtonVisibilityFlag = true;
             mainContentControl.Content = _settingsControl;
             ShowHideElements();
         }
 
+
+        /// <summary>
+        /// Initially intended for responsive design and multiple elements to be shown/hidden
+        /// Currently only hide the FriendList
+        /// </summary>
         private void ShowHideElements()
         {
-            if(closeButtonVisibilityFlag == true)
-                closeButton.Visibility = Visibility.Visible;
-            else
-                closeButton.Visibility = Visibility.Hidden;
             HideFriendList();
         }
 
+
+        /// <summary>
+        /// Hide friend list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawerEffectBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             HideFriendList();
         }
 
+
+        /// <summary>
+        /// Set the the visibility flag of the friend list
+        /// The flag does not let the friend list to be opened again if it is already opened
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FriendList_Selected(object sender, RoutedEventArgs e)
         {
             showFriendListFlag = !showFriendListFlag;
@@ -144,6 +174,10 @@ namespace UI.WPF
                 HideFriendList();
         }
 
+
+        /// <summary>
+        /// Hide friend list and remove the drawer effect
+        /// </summary>
         private void HideFriendList()
         {
             DrawerEffectBorder.Visibility = Visibility.Hidden;
@@ -152,6 +186,10 @@ namespace UI.WPF
             MainMenuListView.SelectedItem = null;
         }
 
+
+        /// <summary>
+        /// Show friend list and make the drawer effect visible
+        /// </summary>
         private void ShowFriendList()
         {
             DrawerEffectBorder.Visibility = Visibility.Visible;

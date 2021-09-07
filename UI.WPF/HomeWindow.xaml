@@ -9,7 +9,7 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:UC="clr-namespace:UI.WPF.View"
         fw:AcrylicWindow.Enabled="False"
-        MouseDown="Window_MouseDown"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Title="loggedInWindow"
         Height="800"
         Width="1200"
@@ -162,12 +162,41 @@
                 Margin="-2,0,0,0">
             <Grid>
                 <ContentControl x:Name="mainContentControl"/>
-
-                <Button x:Name ="closeButton" Grid.Column="3" Grid.Row="1" BorderThickness="0" BorderBrush="Transparent" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,20,20,30" Click="CloseButton_Click">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Assets/close.png" Stretch="Uniform"/>
-                    </Button.Background>
-                </Button>
+            
+                <!-- Minimize and Close buttons -->
+                <Grid x:Name="CloseAndMinimizeButtons"
+                      Grid.Row="1"
+                      Grid.Column="3"
+                      Width="60"
+                      Height="30"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Margin="0 12 12 0"
+                      >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button x:Name ="MinimizeButton" 
+                            Click="MinimizeButton_Click"
+                            Style="{StaticResource MinimizeWindowButton}"
+                            Grid.Column="0"
+                            >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./Assets/close.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name ="CloseButton" 
+                            Click="CloseButton_Click"
+                            Grid.Column="1"
+                            Style="{StaticResource CloseWindowButton}"
+                            >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./Assets/close.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
             </Grid>
         </Border>
 

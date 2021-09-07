@@ -41,14 +41,19 @@ namespace UI.WPF
             ShowDialog();
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         } 
 
         private void grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            DragMove();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }

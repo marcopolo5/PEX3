@@ -353,7 +353,8 @@
                 Opacity="0.9"
                 Margin="-2,0,0,0">
             <StackPanel>
-                <Button HorizontalAlignment="Right"
+                
+                <Button HorizontalAlignment="Left"
                         Margin="10"
                         Style="{StaticResource MaterialDesignFlatButton}"
                         Click="CloseUserPanel_Click">
