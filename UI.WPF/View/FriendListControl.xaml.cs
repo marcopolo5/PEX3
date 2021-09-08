@@ -42,6 +42,7 @@ namespace UI.WPF.View
         {
             var button = sender as Button;
             var selectedFriend = button.DataContext as FriendViewModel;
+            FriendProfileGrid.DataContext = selectedFriend;
 
             FriendListGrid.Visibility = Visibility.Hidden;
             FriendProfileGrid.Visibility = Visibility.Visible;
