@@ -17,9 +17,9 @@ namespace Domain.Validators
                 exceptionMessage.Append("Display name cannot contain non-ASCII characters. ");
             }
 
-            if (profile.DisplayName.Length > 20)
+            if (profile.DisplayName.Length > 255)
             {
-                exceptionMessage.Append("Display name cannot be longer than 20 characters. ");
+                exceptionMessage.Append("Display name cannot be longer than 255 characters. ");
             }
 
             if (profile.DisplayName.Length == 0)
@@ -32,9 +32,9 @@ namespace Domain.Validators
                 exceptionMessage.Append("About cannot contain non-ASCII characters. ");
             }
 
-            if (profile.StatusMessage.Length > 20)
+            if (profile.StatusMessage.Length > 1024)
             {
-                exceptionMessage.Append("About cannot be longer than 20 characters. ");
+                exceptionMessage.Append("About cannot be longer than 1024 characters. ");
             }
 
             if (exceptionMessage.Length != 0)
