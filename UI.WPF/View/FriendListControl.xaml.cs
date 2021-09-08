@@ -27,7 +27,10 @@ namespace UI.WPF.View
         // TODO: Create new conversation or open existing one 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var button = sender as Button;
+            var selectedUserToBeRemoved = button.DataContext as FriendViewModel;
+            HomeWindow win = (HomeWindow)Window.GetWindow(this);
+            win.OpenChatWithFriend(selectedUserToBeRemoved.Email);
         }
 
         private async void RemoveFriendButton_Click(object sender, RoutedEventArgs e)

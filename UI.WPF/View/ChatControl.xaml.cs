@@ -50,6 +50,18 @@ namespace UI.WPF.View
         }
 
 
+        public void GoToFriendConversation(string friendEmail)
+        {
+            for (int i = 0; i < ConversationList.Items.Count; i++)
+            {
+                if (((ConversationPreviewViewModel)ConversationList.Items[i]).FriendEmail.Equals(friendEmail))
+                {
+                    ConversationList.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+        
 
         private void OnMessageReceived(Message message)
         {
@@ -100,6 +112,7 @@ namespace UI.WPF.View
             string statusMessage;
             var profilePictureArray = ImageHelper.GetImageBytes("../../../Assets/profile.png"); // maybe refactor this
             var userStatus = UserStatus.Away; /// momentan folosim away pt group chat
+            string friendEmail = string.Empty;
 
             // if the conversation is a group chat use its title as a conversation name
             if (conversation.Type == Domain.ConversationTypes.Group)
@@ -115,7 +128,7 @@ namespace UI.WPF.View
                 userStatus = friend.Profile.Status;
                 statusMessage = friend.Profile.StatusMessage;
                 profilePictureArray = friend.Profile.Image;
-                
+                friendEmail = friend.Email;
             }
             // if the conversation is a promiximity chat do nothing :)
             else
@@ -144,7 +157,8 @@ namespace UI.WPF.View
                 LastMessage = lastTextMessage,
                 UserStatus = userStatus,
                 StatusMessage = statusMessage,
-                AccountProfilePictureArray = profilePictureArray
+                AccountProfilePictureArray = profilePictureArray,
+                FriendEmail = friendEmail
             };
 
             return conversationPreview;

@@ -8,5 +8,6 @@
         {
             FriendListingViewModel = new FriendListingViewModel();
         }
+
     }
 }

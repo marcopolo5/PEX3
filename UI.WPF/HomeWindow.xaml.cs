@@ -196,5 +196,16 @@ namespace UI.WPF
             FriendListGrid.Visibility = Visibility.Visible;
             showFriendListFlag = true;
         }
+
+        /// <summary>
+        /// Open the chat with the selected friend
+        /// Must only be called from friend list - "send message" button
+        /// </summary>
+        public void OpenChatWithFriend(string friendEmail)
+        {
+            mainContentControl.Content = _chatControl;
+            _chatControl.GoToFriendConversation(friendEmail);
+            ShowHideElements();
+        }
     }
 }

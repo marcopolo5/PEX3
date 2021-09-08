@@ -13,6 +13,20 @@ namespace UI.WPF.ViewModel
         private string _statusMessage;
         private bool _isMessageUnread;
         private UserStatus _userStatus;
+        private string _friendEmail; // TODO: Not usable on group chats
+
+        public string FriendEmail
+        {
+            get
+            {
+                return _friendEmail;
+            }
+            set
+            {
+                _friendEmail = value;
+                OnPropertyChanged(nameof(FriendEmail));
+            }
+        }
 
         public string StatusMessage
         { 
