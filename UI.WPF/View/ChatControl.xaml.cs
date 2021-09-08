@@ -1,5 +1,5 @@
 ﻿using AccountModule.Controllers;
-using SignalRModule;
+using SignalRClientModule;
 using Domain;
 using Domain.Helpers;
 using Domain.Models;

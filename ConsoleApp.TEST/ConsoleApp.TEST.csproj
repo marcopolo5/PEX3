@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChatModule\SignalRModule.csproj" />
+    <ProjectReference Include="..\ChatModule\SignalRClientModule.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 

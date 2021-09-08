@@ -1,5 +1,5 @@
 ﻿using AccountModule.Controllers;
-using SignalRModule;
+using SignalRClientModule;
 using System;
 using System.Windows;
 using System.Windows.Input;

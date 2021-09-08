@@ -1,4 +1,4 @@
-﻿using SignalRModule;
+﻿using SignalRClientModule;
 using Domain.Models;
 using System;
 using System.Net.Http;
