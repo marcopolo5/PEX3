@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Domain.Models
 {
@@ -9,5 +10,8 @@ namespace Domain.Models
         public int ConversationId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string TextMessage { get; set; }
+
+        [Description("ignore")]
+        public string UsersDisplayName { get; set; }
     }
 }

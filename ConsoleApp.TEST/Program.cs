@@ -1,4 +1,4 @@
-﻿using ChatModule;
+﻿using SignalRModule;
 using Domain.Models;
 using System;
 using System.Net.Http;

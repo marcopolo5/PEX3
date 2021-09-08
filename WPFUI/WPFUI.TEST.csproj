@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountModule\AccountModule.csproj" />
-    <ProjectReference Include="..\ChatModule\ChatModule.csproj" />
+    <ProjectReference Include="..\ChatModule\SignalRModule.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 

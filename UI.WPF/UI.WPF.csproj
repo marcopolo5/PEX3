@@ -26,6 +26,7 @@
 	  <None Remove="Assets\Denisa.jpeg" />
 	  <None Remove="Assets\google-logo.png" />
 	  <None Remove="Assets\google.png" />
+	  <None Remove="Assets\group.png" />
 	  <None Remove="Assets\logo.png" />
 	  <None Remove="Assets\Marco.jpeg" />
 	  <None Remove="Assets\profile.png" />
@@ -43,6 +44,7 @@
 	  <Resource Include="Assets\David.jpg" />
 	  <Resource Include="Assets\Denis.jpeg" />
 	  <Resource Include="Assets\Denisa.jpeg" />
+	  <Resource Include="Assets\group.png" />
 	  <Resource Include="Assets\Marco.jpeg" />
 	  <Resource Include="Assets\Rares.jpg" />
 	  <Resource Include="Assets\Sorina.jpeg" />
@@ -57,7 +59,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\AccountModule\AccountModule.csproj" />
-	  <ProjectReference Include="..\ChatModule\ChatModule.csproj" />
+	  <ProjectReference Include="..\ChatModule\SignalRModule.csproj" />
 	  <ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 

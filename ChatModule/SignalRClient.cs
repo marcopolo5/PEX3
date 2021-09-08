@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Domain.DTO;
 using Domain.Repositories;
 
-namespace ChatModule
+namespace SignalRModule
 {
     public class SignalRClient : IAsyncDisposable
     {
@@ -16,7 +16,7 @@ namespace ChatModule
 
         public readonly LocationAPIController _locationAPIController = new();
         public readonly UserRepository _userRepository = new();
-
+        public readonly SettingsRepository _settingsRepository = new();
         private HubConnection _connection;
 
 
@@ -50,8 +50,8 @@ namespace ChatModule
 
         public async Task InitializeConnectionAsync(int userId, string token)
         {
-            var url = @"http://79.113.39.95:5000/chat";
-
+            //var url = @"http://79.113.39.95:5000/chat";
+            var url = @"http://localhost:5000/chat";
             _connection = new HubConnectionBuilder()
                 .WithUrl(url, options =>
                 {
@@ -62,7 +62,7 @@ namespace ChatModule
 
             await _connection.StartAsync();
 
-            _connection.On<Message>("ReceiveMessage", (message) => {
+            _connection.On<Message>("ReceiveMessage", async (message) => {
                 var conversation = ApplicationUserController
                         .CurrentUser
                         .Conversations
@@ -71,6 +71,9 @@ namespace ChatModule
                 {
                     return;
                 }
+
+                await BindUsersNameToMessage(message);
+
                 conversation.Messages.Add(message);
                 MessageReceived?.Invoke(message);
             });
@@ -89,11 +92,16 @@ namespace ChatModule
             _connection.On("UpdateProximityChats", async () => {
                 await UpdateProximityChats();
             });
-
-            _connection.On<IEnumerable<ServerConversationDTO>>("ReceiveConversations", (conversations) => {
+            /// todo
+            _connection.On<IEnumerable<ServerConversationDTO>>("ReceiveConversations", async (conversations) => {
                 var convs = new List<Conversation>();
                 foreach (var servConv in conversations)
                 {
+                    Parallel.ForEach(servConv.Messages, async message =>
+                    {
+                        await BindUsersNameToMessage(message);
+                    });
+
                     if (ApplicationUserController.CurrentUser.Conversations.Where(conv => conv.Id == servConv.Id).Count() == 0)
                     {
                         convs.Add(new Conversation
@@ -128,6 +136,24 @@ namespace ChatModule
                  }
                  FriendshipUpdated?.Invoke(friendId, removeFriend);
              });
+        }
+
+        /// <summary>
+        /// It checks owner's settings and it binds owner's username or abbreviation to the message
+        /// </summary>
+        /// <param name="message">Message that needs to be updated with the display name</param>
+        private async Task BindUsersNameToMessage(Message message)
+        {
+            var settings = await _settingsRepository.ReadByUserIdAsync(message.SenderId);
+            var user = await _userRepository.ReadAsync(message.SenderId);
+            if (settings.Anonymity)
+            {
+                message.UsersDisplayName = $"{user.LastName[0]}.{user.FirstName[0]}.";
+            }
+            else
+            {
+                message.UsersDisplayName = $"{user.Profile.DisplayName}";
+            }
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿using AccountModule.Controllers;
-using ChatModule;
+using SignalRModule;
 using System;
 using System.Windows;
 using System.Windows.Input;
