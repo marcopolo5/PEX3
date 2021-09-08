@@ -8,7 +8,7 @@ namespace Domain
     /// <summary>
     /// A class that contains the information about the current logged in user.
     /// </summary>
-    public class CurrentUser : User 
+    public class CurrentUser : User
     {
         public List<User> Friends { get; set; } = new();
         public List<FriendRequest> FriendRequests { get; set; } = new();

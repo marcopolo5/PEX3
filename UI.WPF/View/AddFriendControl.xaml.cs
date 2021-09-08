@@ -100,7 +100,7 @@ namespace UI.WPF.View
                 }
                 finally
                 {
-                    var userUIModel = new FriendViewModel(user.Profile.DisplayName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status,user.JoinDate.ToString("dd.MM.yyyy"),user.Profile.Reputation);
+                    var userUIModel = new FriendViewModel(user.Profile.DisplayName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status, user.JoinDate.ToString("dd.MM.yyyy"), user.Profile.Reputation);
 
                     // Check if the user already sent a friend request to the current user
                     var friendRequestReceived = await _friendRequestController.FriendRequestExists(user.Id, ApplicationUserController.CurrentUser.Id);
@@ -162,7 +162,6 @@ namespace UI.WPF.View
 
         // TODO: The below 4 methods NEED REAL TIME UPDATE to avoid removing already removed item
         // NOT TODO: don't accept/deny the same friend request in user list and pending friend request list :D
-
         private async void AcceptFriendButtonFromUserList_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;

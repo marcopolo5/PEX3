@@ -18,7 +18,7 @@ namespace UI.WPF.ViewModel
         public FriendListingViewModel()
         {
             _friendViewModels = new List<FriendViewModel>();
-            foreach(var friendViewModel in GetFriendViewModels())
+            foreach (var friendViewModel in GetFriendViewModels())
             {
                 _friendViewModels.Add(friendViewModel);
             }
