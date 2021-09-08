@@ -39,7 +39,7 @@
                 <!-- Search User Input -->
                 <Border Grid.Row="0"
                             BorderThickness="1"
-                            Background="#162b6a"
+                            Background="{StaticResource LighterBlueTheme}"
                             Margin="30 45 30 20"
                             CornerRadius="10"
                             BorderBrush="{StaticResource DarkerGreyTheme}">
@@ -81,7 +81,7 @@
                 <!-- User List -->
                 <Border Grid.Row="1"
                             BorderThickness="1"
-                            Background="#162b6a"
+                            Background="{StaticResource LighterBlueTheme}"
                             Margin="30 0 30 5"
                             CornerRadius="10"
                             BorderBrush="{StaticResource DarkerGreyTheme}">
@@ -228,7 +228,7 @@
                 <!-- Friend Request List -->
                 <Border Grid.Row="2"
                             BorderThickness="1"
-                            Background="#162b6a"
+                            Background="{StaticResource LighterBlueTheme}"
                             Margin="30 5 30 0"
                             CornerRadius="10"
                             BorderBrush="{StaticResource DarkerGreyTheme}">

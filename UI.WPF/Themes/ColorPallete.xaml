@@ -4,6 +4,7 @@
     <!-- Theme Color Pallete -->
     <SolidColorBrush x:Key="DarkerGreyTheme" Color="#050424"/>
     <SolidColorBrush x:Key="BlueTheme" Color="#112152"/>
+    <SolidColorBrush x:Key="LighterBlueTheme" Color="#162b6a"/>
     <SolidColorBrush x:Key="GreyTheme" Color="#999a9e"/>
     <SolidColorBrush x:Key="YellowTheme" Color="#fae12c"/>
     <SolidColorBrush x:Key="YellowTheme_Hover" Color="#fbea6a"/>
@@ -12,6 +13,7 @@
 
     <Color x:Key="C_DarkerGreyTheme">#050424</Color>
     <Color x:Key="C_BlueTheme">#112152</Color>
+    <Color x:Key="C_LighterBlueTheme">#162b6a</Color>
     <Color x:Key="C_GreyTheme">#999a9e</Color>
     <Color x:Key="C_YellowTheme">#fae12c</Color>
     <Color x:Key="C_YellowTheme_Press">#958404</Color>

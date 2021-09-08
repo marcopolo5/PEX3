@@ -20,11 +20,13 @@ namespace UI.WPF.ViewModel
         private Visibility _isFriend;
         private string _joinDate;
         private int _reputation;
+        private string _availability;
 
         public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, string joinDate, int reputation)
         {
             _status = status;
             UpdateStatusColor();
+            UpdateAvailability();
             _displayName = displayName;
             _email = email;
             _statusMessage = statusMessage;
@@ -42,6 +44,19 @@ namespace UI.WPF.ViewModel
             _statusMessage = statusMessage;
             _profilePicture = image;
             _friendRequestId = friendRequestId;
+        }
+
+        public string Availability
+        {
+            get
+            {
+                return _availability;
+            }
+            set
+            {
+                _availability = value;
+                OnPropertyChanged(nameof(Availability));
+            }
         }
 
         public Visibility FriendRequestExists
@@ -103,17 +118,6 @@ namespace UI.WPF.ViewModel
                 _friendRequestId = value;
                 OnPropertyChanged(nameof(FriendRequestId));
             }
-        }
-
-        public void UpdateStatusColor()
-        {
-            StatusColor = Status switch
-            {
-                UserStatus.Online => "GreenYellow",
-                UserStatus.Away => "#FFC074",    // pale orange
-                UserStatus.Offline => "#6E7582", // gray
-                _ => "#6E7582",                  // default gray
-            };
         }
 
         public bool IsSelected
@@ -203,6 +207,30 @@ namespace UI.WPF.ViewModel
             {
                 _reputation = value;
                 OnPropertyChanged(nameof(Reputation));
+            }
+        }
+
+        public void UpdateStatusColor()
+        {
+            StatusColor = Status switch
+            {
+                UserStatus.Online => "GreenYellow",
+                UserStatus.Away => "#FFC074",    // pale orange
+                UserStatus.Offline => "#6E7582", // gray
+                _ => "#6E7582",                  // default gray
+            };
+        }
+
+        public void UpdateAvailability()
+        {
+            switch (_status)
+            {
+                case UserStatus.Online: _availability = "Online";
+                    break;
+                case UserStatus.Away: _availability = "Away";
+                    break;
+                case UserStatus.Offline: _availability = "Offline";
+                    break;
             }
         }
     }
