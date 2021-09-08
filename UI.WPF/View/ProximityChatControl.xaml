@@ -189,63 +189,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
-            <!--<Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Height="auto" Margin="10,0,0,0">
-                <Border Background="#F8F6F7" Height="40"  Width="300" CornerRadius="25" HorizontalAlignment="Left">
-                    <Grid Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="250"/>
-                            <ColumnDefinition Width="70"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" Source="/Assets/search.png" HorizontalAlignment="Center" Margin="10,5,0,11" Width="auto"/>
-                        <TextBox Grid.Column="1" x:Name="searchBox" FontSize="20" HorizontalAlignment="Stretch"
-                                             VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
-                                             BorderThickness="0" Background="Transparent" Margin="0,0,10,10" Foreground="LightGray">
-                        </TextBox>
-                    </Grid>
-                </Border>
-            </Border>
 
-            <Button x:Name="addConversation" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Right" Width="40" Height="40" Margin="10,20,10,20" Click="addConversation_Click" Style="{DynamicResource ButtonStyle1}" >
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="60"/>
-                    </Style>
-                </Button.Resources>
-                <Button.Content>
-                    <TextBlock Text="add"  />
-                </Button.Content>
-            </Button>
-            -->
-        <!--
-        <TextBox Grid.Column="0" Grid.Row="0" x:Name="searchBox" 
-                    FontSize="20" HorizontalAlignment="Stretch"
-                    Width="200"
-                    VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
-                    BorderThickness="0" Background="Transparent" Margin="0,0,10,10" Foreground="LightGray">
-        </TextBox>
-
-        <Button x:Name="AddConversation" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Left" Width="50" Height="40" Margin="10,20,10,20" Click="AddNewProximityConversation_Click" Style="{DynamicResource ButtonStyle1}" >
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="20"/>
-                </Style>
-            </Button.Resources>
-            <Button.Content>
-                <TextBlock Text="Create"  />
-            </Button.Content>
-        </Button>
-        <Button x:Name="Refresh" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#FF838383" HorizontalAlignment="Right" Width="120" Height="40" Margin="10,20,10,20" Click="Refresh_Click" Style="{DynamicResource ButtonStyle1}" >
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="20"/>
-                </Style>
-            </Button.Resources>
-            <Button.Content>
-                <TextBlock Text="Refresh"  />
-            </Button.Content>
-        </Button>
-        -->
         <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Height="auto" Margin="20,0,0,0">
             <Border Background="#F8F6F7" Height="40"  Width="200" CornerRadius="25" HorizontalAlignment="Left">
                 <Grid Height="50">
@@ -290,11 +234,13 @@
         </Button>
             
         <ScrollViewer Grid.Row="2" Grid.RowSpan="2"
+                      Margin="12 0 0 20"
                       PreviewMouseWheel="ChatScrollViewer_PreviewMouseWheel">
                 <ListView x:Name="ProximityConversationList" 
-                              Background="Transparent" 
-                              BorderThickness="0" 
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="ConversationList_SelectionChanged" >
+                            Background="Transparent" 
+                            BorderThickness="0" 
+                            ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                            SelectionChanged="ConversationList_SelectionChanged" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -306,8 +252,7 @@
 
                                 <Border Width="50" Height="50" CornerRadius="60" HorizontalAlignment="Center">
                                     <Border.Background>
-                                        <!--<ImageBrush ImageSource="/Assets/profile.png"/>-->
-                                    <ImageBrush ImageSource="{Binding AccountProfilePicture}"/>
+                                    <ImageBrush ImageSource="/Assets/group.png"/>
                                 </Border.Background>
                                 </Border>
 
@@ -323,7 +268,7 @@
                                 <StackPanel Grid.Column="1">
                                     <TextBlock Text="{Binding ConversationName}" 
                                                        Margin="10 0"
-                                                       Foreground="{ Binding NameColour}"
+                                                       Foreground="#FF838383"
                                                        FontSize="17"
                                                        FontWeight="DemiBold"/>
                                     <TextBlock Text="{Binding LastMessage}" 
@@ -342,7 +287,7 @@
 
             <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="60" Height="60" CornerRadius="60" HorizontalAlignment="Left" Margin="40,0,0,0">
                 <Border.Background>
-                    <ImageBrush x:Name="ProfilePicture" ImageSource="/Assets/profile.png"/>
+                    <ImageBrush x:Name="ProfilePicture" ImageSource="/Assets/group.png" Opacity="1"/>
                 </Border.Background>
             </Border>
             <!--conversation title-->
@@ -393,45 +338,6 @@
                     PreviewMouseWheel="ChatScrollViewer_PreviewMouseWheel">
                 <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,5" Background="#112152">
                     <!--chat conversation-->
-                    <!--
-                    <ListView x:Name="ChatProximityConversation" 
-                                  Background="Transparent" 
-                                  BorderThickness="0" 
-                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
-                                  VerticalAlignment="Bottom" 
-                                  Margin="10,0,30,0" >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="560"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Border Padding="5" Background="#112152" >
-                                        <Grid Background="#112152" >
-                                            <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="{Binding Alignment}">
-                                                <TextBlock  VerticalAlignment="Center" 
-                                                                Background="#FF838383" 
-                                                                TextWrapping="Wrap" 
-                                                                Text="{Binding TextMessage}" 
-                                                                FontSize="15" 
-                                                                Foreground="white" 
-                                                                FontFamily="Comic Sans MS"/>
-                                            </Border>
-                                            <Polygon Points="{Binding Positioning}" 
-                                                         Fill="#FF838383"
-                                                         Margin="{Binding Margins}"
-                                                         HorizontalAlignment="{Binding Alignment}"/>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    -->
-
                 <ListView x:Name="ChatProximityConversation" 
                                   Background="Red" 
                                   BorderThickness="0" 
@@ -452,6 +358,11 @@
                                         <Border CornerRadius="20" Background="#FF838383" Padding="10" Margin="20,0,50,0" HorizontalAlignment="{Binding Alignment}">
                                             <StackPanel Orientation="Horizontal" x:Name="MessageStackPanel">
                                                 <StackPanel Orientation="Vertical">
+                                                    <!-- message bubble -->
+                                                    <TextBlock VerticalAlignment="Top"
+                                                               FontSize="12"
+                                                               Foreground="#fae12c"
+                                                               Text="{Binding DisplayName}"/>
                                                     <TextBlock  VerticalAlignment="Center" 
                                                                 Background="#FF838383" 
                                                                 TextWrapping="Wrap"

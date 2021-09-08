@@ -1,5 +1,5 @@
 ﻿using AccountModule.Controllers;
-using ChatModule;
+using SignalRClientModule;
 using Domain;
 using Domain.Helpers;
 using Domain.Models;
@@ -30,7 +30,8 @@ namespace UI.WPF.View
         {
             ConversationPreviews = new();
             Messages = new();
-            var dummyMessageViewModel = new MessageViewModel(); // hotfix for RateUpButton and RateDownButton (sometimes content wasnt loaded)
+            // hotfix for RateUpButton and RateDownButton (sometimes content wasnt loaded):
+            var dummyMessageViewModel = new MessageViewModel(); 
             Messages.Add(dummyMessageViewModel);
             Messages.Remove(dummyMessageViewModel);
 
@@ -65,7 +66,8 @@ namespace UI.WPF.View
             {
                 Id = message.Id,
                 IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
-                TextMessage = message.TextMessage
+                TextMessage = message.TextMessage,
+                DisplayName = message.UsersDisplayName
             };
 
             if (ApplicationUserController.CurrentUser.CurrentConversationId != 0)
@@ -125,12 +127,10 @@ namespace UI.WPF.View
 
             ConversationTitle.Text = item.ConversationName;
             ConversationStatus.Text = item.StatusMessage;
-            ProfilePicture.ImageSource = item.AccountProfilePicture;
 
             Messages.Clear();
             ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);
-            // FakePopulateMessages(item.ConversationId);
             ChatScrollViewer.UpdateLayout();
             ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
         }
@@ -148,12 +148,14 @@ namespace UI.WPF.View
                 {
                     Id = message.Id,
                     IsSent = ApplicationUserController.CurrentUser.Id == message.SenderId ? true : false,
-                    TextMessage = message.TextMessage
+                    TextMessage = message.TextMessage,
+                    DisplayName = message.UsersDisplayName
                 };
 
                 Messages.Add(messageDto);
             }
         }
+
         /// <summary>
         /// Creates a ConversationPreviewDTO from a Conversation
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Dapper;
+using Domain.Models;
 
 namespace Domain.Repositories
 {
@@ -13,7 +14,18 @@ namespace Domain.Repositories
         /// Constructor
         /// </summary>
         public SettingsRepository() : base("Settings") { }
-
+        
+        public async Task<Settings> ReadByUserIdAsync(int userId)
+        {
+            Settings settings;
+            using (var connection = await CreateConnection())
+            {
+                var query = @"SELECT * FROM Settings WHERE userid=@UserId";
+                settings = await connection.QueryFirstOrDefaultAsync<Settings>(query, new { UserId = userId});
+            }
+            return settings;
+        }
+        
         public async Task ChangePassword(int userId, string newPassword)
         {
             using (var connection = await CreateConnection())

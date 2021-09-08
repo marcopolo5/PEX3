@@ -1,9 +1,12 @@
-﻿namespace UI.WPF.ViewModel
+﻿using Domain.Repositories;
+
+namespace UI.WPF.ViewModel
 {
     public class MessageViewModel : ViewModelBase
     {
         private int _id;
         private string _textMessage;
+        private string _displayName;
         public bool IsSent { get; set; }
 
         public int Id
@@ -16,6 +19,23 @@
             {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                if (IsSent)
+                {
+                    return "Me";
+                }
+                return _displayName;
+            }
+            set
+            {
+                _displayName = value;
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
 
