@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Helpers;
 using Domain.Models;
+using SignalRClientModule;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,8 @@ namespace UI.WPF.View
         private readonly ProfileController _profileController = new();
         private readonly FriendController _friendController = new();
         private readonly FriendRequestController _friendRequestController = new();
+        private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
+
 
         private ObservableCollection<FriendViewModel> Users { get; set; }
         private ObservableCollection<FriendViewModel> PendingFriendRequests { get; set; }
@@ -39,6 +42,9 @@ namespace UI.WPF.View
             GetPendingFriendRequests();
             PendindRequestsList.ItemsSource = PendingFriendRequests;
 
+
+            // WIRING UP EVENTS:
+            _signalRClient.FriendRequestReceivedd += ReceiveFriendRequest;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -66,7 +72,7 @@ namespace UI.WPF.View
                     }
                     var profile = await _profileController.GetProfile(friendRequest.SenderId);
                     var user = await _userController.GetUser(friendRequest.SenderId);
-                    var userUIModel = new FriendViewModel(profile.DisplayName, user.Email, profile.StatusMessage, BitmapImageLoader.LoadImage(profile.Image), profile.Status, friendRequest.Id);
+                    var userUIModel = new FriendViewModel(user.Id, profile.DisplayName, user.Email, profile.StatusMessage, BitmapImageLoader.LoadImage(profile.Image), profile.Status, friendRequest.Id);
                     PendingFriendRequests.Add(userUIModel);
                 }
                 catch (KeyNotFoundException) { }
@@ -100,7 +106,7 @@ namespace UI.WPF.View
                 }
                 finally
                 {
-                    var userUIModel = new FriendViewModel(user.Profile.DisplayName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status, user.JoinDate.ToString("dd.MM.yyyy"), user.Profile.Reputation);
+                    var userUIModel = new FriendViewModel(user.Id, user.Profile.DisplayName, user.Email, user.Profile.StatusMessage, BitmapImageLoader.LoadImage(user.Profile.Image), user.Profile.Status, user.JoinDate.ToString("dd.MM.yyyy"), user.Profile.Reputation);
 
                     // Check if the user already sent a friend request to the current user
                     var friendRequestReceived = await _friendRequestController.FriendRequestExists(user.Id, ApplicationUserController.CurrentUser.Id);
@@ -158,6 +164,8 @@ namespace UI.WPF.View
             button.IsEnabled = false;
             ((Border)button.Template.FindName("BG", button)).Background = Brushes.SteelBlue;
             button.Style = Application.Current.FindResource("FriendRequestSentButton") as Style;
+
+            await _signalRClient.SendFriendRequest(ApplicationUserController.CurrentUser.Id, selectedUser.Id);
         }
 
         // TODO: The below 4 methods NEED REAL TIME UPDATE to avoid removing already removed item
@@ -167,6 +175,7 @@ namespace UI.WPF.View
             var button = sender as Button;
             var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.AcceptFriendRequest(selectedUser.FriendRequestId);
+            await _signalRClient.AddOrRemoveFriend(selectedUser.Id, false); ///////////////
             Users.Remove(selectedUser);
         }
 
@@ -175,6 +184,7 @@ namespace UI.WPF.View
             var button = sender as Button;
             var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.DenyFriendRequest(selectedUser.FriendRequestId);
+            await _signalRClient.DenyFriendRequest(selectedUser.FriendRequestId); /////////////
             Users.Remove(selectedUser);
         }
 
@@ -183,6 +193,7 @@ namespace UI.WPF.View
             var button = sender as Button;
             var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.AcceptFriendRequest(selectedUser.FriendRequestId);
+            await _signalRClient.AddOrRemoveFriend(selectedUser.Id, false); ///////////////
             PendingFriendRequests.Remove(selectedUser);
         }
 
@@ -191,6 +202,7 @@ namespace UI.WPF.View
             var button = sender as Button;
             var selectedUser = button.DataContext as FriendViewModel;
             await _friendController.DenyFriendRequest(selectedUser.FriendRequestId);
+            await _signalRClient.DenyFriendRequest(selectedUser.FriendRequestId); /////////////
             PendingFriendRequests.Remove(selectedUser);
         }
 
@@ -202,6 +214,19 @@ namespace UI.WPF.View
             MainGrid.ColumnDefinitions[1].Width = new GridLength(250);
             UserProfileMenu.Visibility = Visibility.Visible;
             
+        }
+
+        /////////
+        private void ReceiveFriendRequest(User newFriend, FriendRequest friendRequest)
+        {
+            var friendViewModel = new FriendViewModel(newFriend.Id,
+                                        newFriend.Profile.DisplayName, 
+                                        newFriend.Email, 
+                                        newFriend.Profile.StatusMessage, 
+                                        BitmapImageLoader.LoadImage(newFriend.Profile.Image), 
+                                        newFriend.Profile.Status, 
+                                        friendRequest.Id);
+            PendingFriendRequests.Add(friendViewModel);
         }
     }
 }

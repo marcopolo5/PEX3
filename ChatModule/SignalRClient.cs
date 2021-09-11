@@ -14,9 +14,10 @@ namespace SignalRClientModule
     {
         private static SignalRClient _signalRClient;
 
-        public readonly LocationAPIController _locationAPIController = new();
-        public readonly UserRepository _userRepository = new();
-        public readonly SettingsRepository _settingsRepository = new();
+        private readonly LocationAPIController _locationAPIController = new();
+        private readonly UserRepository _userRepository = new();
+        private readonly SettingsRepository _settingsRepository = new();
+        private readonly FriendRequestRepository _friendRequestRepository = new();
         private HubConnection _connection;
 
 
@@ -28,10 +29,13 @@ namespace SignalRClientModule
         public event Action<IEnumerable<Conversation>> ConversationsReceived;
 
         /// <summary>
-        /// Takes the id of the friend and a boolean that tells if the friend needs to be removed or added (if true remove the friend)
+        /// Takes the friend user model and a boolean that tells if the friend needs to be removed or added (if true remove the friend)
         /// CurrentUser.Friends was already updated, use this only to update the UI
         /// </summary>
-        public event Action<int, bool> FriendshipUpdated;
+        public event Action<User, bool> FriendshipUpdated;
+        public event Action<FriendRequest> FriendRequestDenied;
+       
+        public event Action<User, FriendRequest> FriendRequestReceivedd;
 
         public static SignalRClient GetInstance()
         {
@@ -78,7 +82,6 @@ namespace SignalRClientModule
                 MessageReceived?.Invoke(message);
             });
 
-
             _connection.On<StatusModel>("ChangeStatus", (status) =>
             {
                 var friend = ApplicationUserController.CurrentUser.Friends.Where(f => f.Id == status.FriendId).FirstOrDefault();
@@ -92,7 +95,7 @@ namespace SignalRClientModule
             _connection.On("UpdateProximityChats", async () => {
                 await UpdateProximityChats();
             });
-            /// todo
+
             _connection.On<IEnumerable<ServerConversationDTO>>("ReceiveConversations", async (conversations) => {
                 var convs = new List<Conversation>();
                 foreach (var servConv in conversations)
@@ -121,39 +124,42 @@ namespace SignalRClientModule
                 ConversationsReceived?.Invoke(convs);
             });
 
+            _connection.On<int>("FriendRequestDenied", (friendRequestId) =>
+            {
+                var friendRequest = ApplicationUserController.CurrentUser
+                                                    .FriendRequests
+                                                    .FirstOrDefault(fr => fr.Id == friendRequestId);
+                if (friendRequest == null)
+                {
+                    return;
+                }
+                ApplicationUserController.CurrentUser.FriendRequests.Remove(friendRequest);
+                FriendRequestDenied?.Invoke(friendRequest);
+            });
+
+            _connection.On<int, int>("ReceiveFriendRequest", async (senderId, receiverId) =>
+            {
+                var friendRequest = await _friendRequestRepository.ReadAsync(senderId, receiverId);
+                ApplicationUserController.CurrentUser.FriendRequests.Add(friendRequest);
+                var friend = await _userRepository.ReadAsync(senderId);
+                FriendRequestReceivedd?.Invoke(friend, friendRequest);
+            });
 
             _connection.On<int, bool>("UpdateFriendship", async (friendId, removeFriend) =>
             {
+                User friend;
                 if (removeFriend)
                 {
-                    var friend = ApplicationUserController.CurrentUser.Friends.FirstOrDefault(f => f.Id == friendId);
+                    friend = ApplicationUserController.CurrentUser.Friends.FirstOrDefault(f => f.Id == friendId);
                     ApplicationUserController.CurrentUser.Friends.Remove(friend);
                 }
                 else
                 {
-                    var friend = await _userRepository.ReadAsync(friendId);
+                    friend = await _userRepository.ReadAsync(friendId);
                     ApplicationUserController.CurrentUser.Friends.Add(friend);
                 }
-                FriendshipUpdated?.Invoke(friendId, removeFriend);
+                FriendshipUpdated?.Invoke(friend, removeFriend);
             });
-        }
-
-        /// <summary>
-        /// It checks owner's settings and it binds owner's username or abbreviation to the message
-        /// </summary>
-        /// <param name="message">Message that needs to be updated with the display name</param>
-        private async Task BindUsersNameToMessage(Message message)
-        {
-            var settings = await _settingsRepository.ReadByUserIdAsync(message.SenderId);
-            var user = await _userRepository.ReadAsync(message.SenderId);
-            if (settings.Anonymity)
-            {
-                message.UsersDisplayName = $"{user.LastName[0]}.{user.FirstName[0]}.";
-            }
-            else
-            {
-                message.UsersDisplayName = $"{user.Profile.DisplayName}";
-            }
         }
 
         /// <summary>
@@ -166,6 +172,17 @@ namespace SignalRClientModule
         {
             await _connection.SendAsync("AddOrRemoveFriend", ApplicationUserController.CurrentUser.Id, friendUserId, wasFriendRemoved);
         }
+
+        public async Task SendFriendRequest(int senderId, int receiverId)
+        {
+            await _connection.SendAsync("SendFriendRequest", senderId, receiverId);
+        }
+
+        public async Task DenyFriendRequest(int friendRequestId)
+        {
+            await _connection.SendAsync("DenyFriendRequest", friendRequestId);
+        }
+
 
         /// <summary>
         /// Calls GetProximityConversationsList on server. Use this to check if there are new proximity chats in your area.
@@ -224,6 +241,24 @@ namespace SignalRClientModule
                 Latitude = location.Latitude
             };
             await _connection.SendAsync("CreateProximityConversation", createConversationDto);
+        }
+
+        /// <summary>
+        /// It checks owner's settings and it binds owner's username or abbreviation to the message
+        /// </summary>
+        /// <param name="message">Message that needs to be updated with the display name</param>
+        private async Task BindUsersNameToMessage(Message message)
+        {
+            var settings = await _settingsRepository.ReadByUserIdAsync(message.SenderId);
+            var user = await _userRepository.ReadAsync(message.SenderId);
+            if (settings.Anonymity)
+            {
+                message.UsersDisplayName = $"{user.LastName[0]}.{user.FirstName[0]}.";
+            }
+            else
+            {
+                message.UsersDisplayName = $"{user.Profile.DisplayName}";
+            }
         }
 
         /// <summary>

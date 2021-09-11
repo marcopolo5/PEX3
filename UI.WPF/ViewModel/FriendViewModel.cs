@@ -6,6 +6,7 @@ namespace UI.WPF.ViewModel
 {
     public class FriendViewModel : ViewModelBase
     {
+        private int _id;
         private bool _isSelected;
         private string _statusColor;
         private string _displayName;
@@ -22,8 +23,9 @@ namespace UI.WPF.ViewModel
         private int _reputation;
         private string _availability;
 
-        public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, string joinDate, int reputation)
+        public FriendViewModel(int id, string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, string joinDate, int reputation)
         {
+            _id = id;
             _status = status;
             UpdateStatusColor();
             UpdateAvailability();
@@ -35,8 +37,9 @@ namespace UI.WPF.ViewModel
             _reputation = reputation;
         }
 
-        public FriendViewModel(string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, int friendRequestId)
+        public FriendViewModel(int id, string displayName, string email, string statusMessage, BitmapImage image, UserStatus status, int friendRequestId)
         {
+            _id = id;
             _status = status;
             UpdateStatusColor();
             _displayName = displayName;
@@ -45,7 +48,10 @@ namespace UI.WPF.ViewModel
             _profilePicture = image;
             _friendRequestId = friendRequestId;
         }
-
+        public int Id
+        {
+            get => _id;
+        }
         public string Availability
         {
             get

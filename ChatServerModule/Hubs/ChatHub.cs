@@ -197,6 +197,22 @@ namespace ChatServerModule.Hubs
             }
         }
 
+        public async Task DenyFriendRequest(int friendRequestSenderId, int friendRequestId)
+        {
+            if (ConnectedUsers.ContainsKey(friendRequestSenderId))
+            {
+                await Clients.Clients(ConnectedUsers[friendRequestSenderId]).SendAsync("FriendRequestDenied", friendRequestId);
+            }
+        }
+
+        public async Task SendFriendRequest(int senderId, int receiverId)
+        {
+            if (ConnectedUsers.ContainsKey(receiverId))
+            {
+                await Clients.Client(ConnectedUsers[receiverId]).SendAsync("ReceiveFriendRequest", senderId, receiverId);
+            }
+        }
+
 
         ///// PRIVATE:
 

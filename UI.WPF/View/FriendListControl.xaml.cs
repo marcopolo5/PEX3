@@ -1,5 +1,6 @@
 ﻿using AccountModule.Controllers;
 using Domain.Models;
+using SignalRClientModule;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace UI.WPF.View
     public partial class FriendListControl : UserControl
     {
         private readonly FriendController _friendController = new();
-
+        private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
         public FriendListingViewModel FriendListingViewModel { get; }
         private ObservableCollection<FriendViewModel> FriendList { get; set; } = new();
         ObservableCollection<FriendViewModel> FriendListFiltered = new();
@@ -30,6 +31,10 @@ namespace UI.WPF.View
             GetFriendList();
             FriendListFiltered = new ObservableCollection<FriendViewModel>(FriendList);
             FriendListView.ItemsSource = FriendListFiltered;
+
+            // WIRING UP EVENTS
+            _signalRClient.StatusChanged += ChangeUserStatus;
+            _signalRClient.FriendshipUpdated += UpdateFriendship;
         }
 
 
@@ -39,7 +44,7 @@ namespace UI.WPF.View
             var friends = ApplicationUserController.CurrentUser.Friends;
             foreach (User friend in friends)
             {
-                FriendList.Add(new FriendViewModel(friend.Profile.DisplayName, friend.Email, friend.Profile.StatusMessage, BitmapImageLoader.LoadImage(friend.Profile.Image), friend.Profile.Status, friend.JoinDate.ToString("dd.MM.yyyy"), friend.Profile.Reputation));
+                FriendList.Add(new FriendViewModel(friend.Id, friend.Profile.DisplayName, friend.Email, friend.Profile.StatusMessage, BitmapImageLoader.LoadImage(friend.Profile.Image), friend.Profile.Status, friend.JoinDate.ToString("dd.MM.yyyy"), friend.Profile.Reputation));
             }
         }
 
@@ -98,6 +103,7 @@ namespace UI.WPF.View
             var button = sender as Button;
             var selectedUserToBeRemoved = button.DataContext as FriendViewModel;
             await _friendController.DeleteFriend(selectedUserToBeRemoved.Email);
+            await _signalRClient.AddOrRemoveFriend(selectedUserToBeRemoved.Id, true); //////
             FriendList.Remove(selectedUserToBeRemoved);
             FriendListFiltered.Remove(selectedUserToBeRemoved);
         }
@@ -116,6 +122,58 @@ namespace UI.WPF.View
         {
             FriendProfileGrid.Visibility = Visibility.Hidden;
             FriendListGrid.Visibility = Visibility.Visible;
+        }
+
+
+        ////////
+        private void ChangeUserStatus(StatusModel newStatus)
+        {
+            var friendViewModel = FriendList.FirstOrDefault(fwm => fwm.Id == newStatus.FriendId);
+            if (friendViewModel != null)
+            {
+                friendViewModel.Status = newStatus.NewStatus;
+                friendViewModel.UpdateStatusColor();
+            }
+            var filteredFriendViewModel = FriendList.FirstOrDefault(fwm => fwm.Id == newStatus.FriendId);
+            if (filteredFriendViewModel != null)
+            {
+                filteredFriendViewModel.Status = newStatus.NewStatus;
+                filteredFriendViewModel.UpdateStatusColor();
+            }
+
+        }
+
+        private void UpdateFriendship(User friend, bool remove)
+        {
+            if (remove)
+            {
+                var friendViewModel = FriendList.FirstOrDefault(fwm => fwm.Id == friend.Id);
+                if (friendViewModel != null)
+                {
+                    FriendList.Remove(friendViewModel);
+                }
+                var filteredFriendViewModel = FriendListFiltered.FirstOrDefault(fwm => fwm.Id == friend.Id);
+                if (filteredFriendViewModel != null)
+                {
+                    FriendListFiltered.Remove(friendViewModel);
+                }
+                return;
+            }
+            
+            var newFriendViewModel = new FriendViewModel(friend.Id, 
+                                            friend.Profile.DisplayName,
+                                            friend.Email,
+                                            friend.Profile.StatusMessage, 
+                                            BitmapImageLoader.LoadImage(friend.Profile.Image),
+                                            friend.Profile.Status, 
+                                            friend.JoinDate.ToString("dd.MM.yyyy"),
+                                            friend.Profile.Reputation);
+
+            FriendList.Add(newFriendViewModel);
+            if (Filter(newFriendViewModel))
+            {
+                FriendListFiltered.Add(newFriendViewModel);
+            }
         }
 
     }
