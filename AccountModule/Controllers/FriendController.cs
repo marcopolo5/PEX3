@@ -17,6 +17,7 @@ namespace AccountModule.Controllers
         {
             var friend = await _userRepository.ReadAsync(friendEmail);
             await _friendRepository.DeleteFriend(ApplicationUserController.CurrentUser.Id, friend.Id);
+            await _conversationRepository.DeleteAsync(ApplicationUserController.CurrentUser.Id, friend.Id);
         }
 
         public async Task<bool> FriendshipExists(int userId, int friendId)

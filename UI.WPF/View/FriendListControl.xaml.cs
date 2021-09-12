@@ -15,7 +15,7 @@ namespace UI.WPF.View
     /// <summary>
     /// Interaction logic for FriendListControl.xaml
     /// </summary>
-    public partial class FriendListControl : UserControl
+    public partial class FriendListControl : UserControl, IDisposable
     {
         private readonly FriendController _friendController = new();
         private readonly SignalRClient _signalRClient = SignalRClient.GetInstance();
@@ -176,5 +176,10 @@ namespace UI.WPF.View
             }
         }
 
+        public void Dispose()
+        {
+            //_signalRClient.StatusChanged -= ChangeUserStatus;
+            //_signalRClient.FriendshipUpdated -= UpdateFriendship;
+        }
     }
 }

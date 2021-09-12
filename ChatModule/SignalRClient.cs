@@ -18,6 +18,7 @@ namespace SignalRClientModule
         private readonly UserRepository _userRepository = new();
         private readonly SettingsRepository _settingsRepository = new();
         private readonly FriendRequestRepository _friendRequestRepository = new();
+        private readonly ConversationRepository _conversationRepository = new();
         private HubConnection _connection;
 
 
@@ -27,6 +28,10 @@ namespace SignalRClientModule
         public event Action<StatusModel> StatusChanged;
 
         public event Action<IEnumerable<Conversation>> ConversationsReceived;
+
+        public event Action<Conversation> ConversationReceived;
+
+        public event Action<string> ConversationRemoved;
 
         /// <summary>
         /// Takes the friend user model and a boolean that tells if the friend needs to be removed or added (if true remove the friend)
@@ -152,11 +157,14 @@ namespace SignalRClientModule
                 {
                     friend = ApplicationUserController.CurrentUser.Friends.FirstOrDefault(f => f.Id == friendId);
                     ApplicationUserController.CurrentUser.Friends.Remove(friend);
+                    ConversationRemoved?.Invoke(friend.Email);
                 }
                 else
                 {
                     friend = await _userRepository.ReadAsync(friendId);
                     ApplicationUserController.CurrentUser.Friends.Add(friend);
+                    var conversation = await _conversationRepository.ReadAsync(ApplicationUserController.CurrentUser.Id, friendId);
+                    ConversationReceived?.Invoke(conversation);
                 }
                 FriendshipUpdated?.Invoke(friend, removeFriend);
             });

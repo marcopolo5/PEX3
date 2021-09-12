@@ -74,22 +74,24 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border x:Name="BG" 
+                                Background="#112152" 
+                                BorderBrush="White"
+                                BorderThickness="3"
+                                CornerRadius="40">
+                            <TextBlock     Text="{TemplateBinding Content}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       Foreground="White"/>
+
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BG" Property="Background" Value="#fae12c"/>
                             </Trigger>
-
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#112152"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="#112152"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BG" Property="Background" Value="#ffe000"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -199,39 +201,6 @@
                         VerticalAlignment="Center"
                         FontSize="20" />
 
-        <!--
-            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Height="auto" Margin="10,0,0,0">
-                <Border Background="#F8F6F7" Height="40"  Width="300" CornerRadius="25" HorizontalAlignment="Left">
-                    <Grid Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="250"/>
-                            <ColumnDefinition Width="70"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" Source="/Assets/search.png" HorizontalAlignment="Center" Margin="10,5,0,11" Width="auto"/>
-                        <TextBox Grid.Column="1" x:Name="searchBox" FontSize="20" HorizontalAlignment="Stretch"
-                                             VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Left"
-                                             BorderThickness="0" Background="Transparent" Margin="0,0,10,10" Foreground="LightGray">
-                        </TextBox>
-                    </Grid>
-                </Border>
-            </Border>
-            <Button x:Name="addConversation" 
-                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
-                    Background="#FF838383" HorizontalAlignment="Right"
-                    Width="40" Height="40" Margin="10,20,10,20" 
-                    Style="{DynamicResource ButtonStyle1}" >
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="60"/>
-                    </Style>
-                </Button.Resources>
-                <Button.Content>
-                    <TextBlock Text="add"  />
-                </Button.Content>
-            </Button>
-            -->
-
         <ScrollViewer Grid.Row="2" Grid.RowSpan="2"
                       PreviewMouseWheel="ChatScrollViewer_PreviewMouseWheel"
                       Margin="12 0 0 15">
@@ -317,20 +286,17 @@
                         Grid.Column="2" 
                         Grid.Row="4" 
                         Margin="20,17,20,17" 
-                        Background="#112152" 
                         HorizontalAlignment="Center" 
                         Width="50" 
                         Click="SendMessage_Click" 
                         Style="{DynamicResource ButtonStyle1}"
-                        IsEnabled="False">
+                        IsEnabled="False"
+                        Content="Send">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="60"/>
                 </Style>
             </Button.Resources>
-            <Button.Content>
-                <TextBlock Text="send" Foreground="White"/>
-            </Button.Content>
         </Button>
 
         <ScrollViewer  x:Name="ChatScrollViewer" 

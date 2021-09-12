@@ -95,6 +95,7 @@ namespace UI.WPF
             await _userController.Logout();
             _chatControl?.Dispose();
             _proximityChatControl?.Dispose();
+            _addFriendControl.Dispose();
             await _signalRClient.DisposeAsync();
             //new MainWindow().ShowDialog();
             //ShowDialog();

@@ -87,7 +87,32 @@ namespace Domain.Repositories
 				return conversations;
 			}
 		}
+		public async Task<Conversation> ReadAsync(int userId, int friendId)
+        {
+			var getConvIdSql = @"SELECT conversationid FROM Group_Members WHERE userid=@UserOne INTERSECT SELECT conversationid FROM Group_Members WHERE userid=@UserTwo";
+			int convId;
+			using (var connection = await CreateConnection())
+			{
+				convId = await connection.QueryFirstAsync<int>(getConvIdSql, new { UserOne = userId, UserTwo = friendId });
+			}
+			var conv = await base.ReadAsync(convId);
+			await MapConversationMessages(conv);
+			await MapConversationParticipants(conv);
+			return conv;
+		}
 
+		public async Task DeleteAsync(int userId, int friendId)
+        {
+			var getConvIdSql = @"SELECT conversationid FROM Group_Members WHERE userid=@UserOne INTERSECT SELECT conversationid FROM Group_Members WHERE userid=@UserTwo";
+			int convId;
+			using (var connection = await CreateConnection())
+            {
+				convId = await connection.QueryFirstAsync<int>(getConvIdSql, new { UserOne = userId, UserTwo = friendId });
+				await connection.ExecuteAsync("DELETE FROM Messages WHERE conversationid=@Id", new { Id = convId });
+				await connection.ExecuteAsync("DELETE FROM Group_Members WHERE userid=@UserOne OR userid=@UserTwo", new { UserOne = userId, UserTwo = friendId });
+				await connection.ExecuteAsync("DELETE FROM [Conversations] WHERE id=@Id", new { Id = convId });
+            }
+		}
 
 		/// <summary>
 		/// Async method.

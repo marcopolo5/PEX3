@@ -19,7 +19,7 @@ namespace UI.WPF.View
     /// <summary>
     /// Interaction logic for AddFriendControl.xaml
     /// </summary>
-    public partial class AddFriendControl : UserControl
+    public partial class AddFriendControl : UserControl, IDisposable
     {
         private readonly UserController _userController = new();
         private readonly ProfileController _profileController = new();
@@ -164,7 +164,6 @@ namespace UI.WPF.View
             button.IsEnabled = false;
             ((Border)button.Template.FindName("BG", button)).Background = Brushes.SteelBlue;
             button.Style = Application.Current.FindResource("FriendRequestSentButton") as Style;
-
             await _signalRClient.SendFriendRequest(ApplicationUserController.CurrentUser.Id, selectedUser.Id);
         }
 
@@ -227,6 +226,11 @@ namespace UI.WPF.View
                                         newFriend.Profile.Status, 
                                         friendRequest.Id);
             PendingFriendRequests.Add(friendViewModel);
+        }
+
+        public void Dispose()
+        {
+            _signalRClient.FriendRequestReceivedd -= ReceiveFriendRequest;
         }
     }
 }

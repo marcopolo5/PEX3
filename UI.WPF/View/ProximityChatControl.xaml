@@ -74,22 +74,24 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border x:Name="BG" 
+                                Background="#112152"
+                                BorderBrush="White"
+                                BorderThickness="3"
+                                CornerRadius="40">
+                            <TextBlock     Text="{TemplateBinding Content}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       Foreground="White"/>
+
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BG" Property="Background" Value="#fae12c"/>
                             </Trigger>
-
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#112152"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="#112152"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BG" Property="Background" Value="#ffe000"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -209,28 +211,25 @@
         <Button x:Name="CreateProximityChatButton" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                 Background="#FF838383" HorizontalAlignment="Right"
                 Width="60" Height="40" Margin="10,20,80,20" Click="AddNewProximityConversation_Click" 
-                Style="{DynamicResource ButtonStyle1}" >
+                Style="{DynamicResource ButtonStyle1}"
+                Content="Create">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
-            <Button.Content>
-                <TextBlock Text="Create"  />
-            </Button.Content>
         </Button>
         <Button x:Name="Refresh" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
                 Background="#FF838383" HorizontalAlignment="Right" 
                 Width="60" Height="40" Margin="10,20,10,20" Click="Refresh_Click" 
-                Style="{DynamicResource ButtonStyle1}" >
+                Style="{DynamicResource ButtonStyle1}" 
+                Content="Refresh">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
-            <Button.Content>
-                <TextBlock Text="Refresh"  />
-            </Button.Content>
+
         </Button>
             
         <ScrollViewer Grid.Row="2" Grid.RowSpan="2"
@@ -316,20 +315,19 @@
                         Grid.Column="2" 
                         Grid.Row="4" 
                         Margin="20,17,20,17" 
-                        Background="#112152" 
+
                         HorizontalAlignment="Center" 
                         Width="50" 
                         Click="SendMessage_Click" 
                         Style="{DynamicResource ButtonStyle1}"
-                        IsEnabled="False">
+                        IsEnabled="False"
+                        Content="Send">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
                     </Style>
                 </Button.Resources>
-                <Button.Content>
-                    <TextBlock Text="send" Foreground="White"/>
-                </Button.Content>
+
             </Button>
 
             <ScrollViewer  x:Name="ChatScrollViewer" 

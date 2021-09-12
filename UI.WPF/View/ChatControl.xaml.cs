@@ -37,6 +37,8 @@ namespace UI.WPF.View
             // wire up events:
             _signalRClient.MessageReceived += OnMessageReceived;
             _signalRClient.StatusChanged += OnUserChangedStatus;
+            _signalRClient.ConversationReceived += OnConversationReceived;
+            _signalRClient.ConversationRemoved += OnConversationRemoved;
 
             // initialize the window
             InitializeComponent();
@@ -97,7 +99,17 @@ namespace UI.WPF.View
                 .Where(c => c.Participants.Count(u => u.Id == statusModel.FriendId) == 1)
                 .FirstOrDefault();
             var conversationPreview = ConversationPreviews.FirstOrDefault(c => c.ConversationId == conversation.Id);
+            if (conversationPreview == null)
+            {
+                return;
+            }
             conversationPreview.UserStatus = statusModel.NewStatus;
+        }
+
+        private void OnConversationRemoved(string friendEmail)
+        {
+            var conv = ConversationPreviews.FirstOrDefault(cp => cp.FriendEmail == friendEmail);
+            ConversationPreviews.Remove(conv);
         }
 
         /// <summary>
@@ -236,10 +248,22 @@ namespace UI.WPF.View
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
+
+        private void OnConversationReceived(Conversation conversation)
+        {
+            if (conversation.Type == ConversationTypes.ProximityGroup)
+            {
+                return;
+            }
+            var convPreview = GetPreviewFromConversation(conversation);
+            ConversationPreviews.Add(convPreview);
+        }
         public void Dispose()
         {
             _signalRClient.MessageReceived -= OnMessageReceived;
             _signalRClient.StatusChanged -= OnUserChangedStatus;
+            _signalRClient.ConversationReceived -= OnConversationReceived;
+            _signalRClient.ConversationRemoved -= OnConversationRemoved;
         }
     }
 }
