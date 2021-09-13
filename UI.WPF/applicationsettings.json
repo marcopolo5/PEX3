@@ -1,5 +1,6 @@
 {
-  "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
+  //"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=GeoChat_DB",
+  "ConnectionString": "workstation id=geochatDB.mssql.somee.com;packet size=4096;user id=david433_SQLLogin_1;pwd=8f73q871bl;data source=geochatDB.mssql.somee.com;persist security info=False;initial catalog=geochatDB",
   //"ConnectionString": "Data Source=DESKTOP-RI8OBR6;Initial Catalog=GeoChat_DB;Integrated Security=True",
   //"ConnectionString": "Data Source=.\\MSSQLSERVER02;Initial Catalog=GeoChat_DB;Integrated Security=True",
   //"ConnectionString": "Data Source=DESKTOP-IQTUEBV\\SQLEXPRESS01;Initial Catalog=GeoChat_DB;Integrated Security=True",
