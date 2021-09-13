@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using UI.WPF.ViewModel;
+using UI.WPF.Common;
 
 namespace UI.WPF.View
 {
@@ -110,6 +111,16 @@ namespace UI.WPF.View
         {
             var conv = ConversationPreviews.FirstOrDefault(cp => cp.FriendEmail == friendEmail);
             ConversationPreviews.Remove(conv);
+            if (ApplicationUserController.CurrentUser.CurrentConversationId == conv.ConversationId)
+            {
+                Messages.Clear();
+                SendMessageBtn.IsEnabled = false;
+                MessageText.IsEnabled = false;
+
+                ConversationTitle.Text = "Open a conversation";
+                ConversationStatus.Text = "Click on a conversation to start chatting";
+                ProfilePicture.ImageSource = BitmapImageLoader.LoadImage(ImageHelper.GetImageBytes("../../../Assets/profile.png"));
+            }
         }
 
         /// <summary>
@@ -203,13 +214,20 @@ namespace UI.WPF.View
         // use this to change between convs
         private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            var item = (ConversationPreviewViewModel)ConversationList.SelectedItem;
+            var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
+            if (conversationPreview == null)
+            {
+                return;
+            }
+
             if (SendMessageBtn.IsEnabled == false)
             {
                 SendMessageBtn.IsEnabled = true;
                 MessageText.IsEnabled = true;
             }
-            var item = (ConversationPreviewViewModel)ConversationList.SelectedItem;
-            var conversationPreview = ConversationPreviews.FirstOrDefault(cp => cp.ConversationId == item.ConversationId);
+
             conversationPreview.UnreadMessage = false;
 
             ConversationTitle.Text = item.ConversationName;

@@ -164,6 +164,7 @@ namespace SignalRClientModule
                     friend = await _userRepository.ReadAsync(friendId);
                     ApplicationUserController.CurrentUser.Friends.Add(friend);
                     var conversation = await _conversationRepository.ReadAsync(ApplicationUserController.CurrentUser.Id, friendId);
+                    ApplicationUserController.CurrentUser.Conversations.Add(conversation);
                     ConversationReceived?.Invoke(conversation);
                 }
                 FriendshipUpdated?.Invoke(friend, removeFriend);

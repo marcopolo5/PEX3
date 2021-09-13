@@ -178,8 +178,8 @@ namespace UI.WPF.View
 
         public void Dispose()
         {
-            //_signalRClient.StatusChanged -= ChangeUserStatus;
-            //_signalRClient.FriendshipUpdated -= UpdateFriendship;
+            _signalRClient.StatusChanged -= ChangeUserStatus;
+            _signalRClient.FriendshipUpdated -= UpdateFriendship;
         }
     }
 }
