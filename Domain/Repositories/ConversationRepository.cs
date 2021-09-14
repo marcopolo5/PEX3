@@ -39,12 +39,19 @@ namespace Domain.Repositories
 		{
 			using (var connection = await CreateConnection())
 			{
-				await base.CreateAsync(conversation);
+				await connection.ExecuteAsync("INSERT INTO Conversations(createdat, updatedat, title, type) VALUES(@CreatedAt, @UpdatedAt, @Title, @Type)",
+					new
+					{
+						CreatedAt = conversation.CreatedAt,
+						UpdatedAt = conversation.UpdatedAt,
+						Title = conversation.Title,
+						Type = conversation.Type
+					});
 				var conversationId = await GetAvailableId() - 1;
 				foreach (var participant in conversation.Participants)
 				{
 					var sql = $@"insert into Group_Members values(@ParticipantId, @ConversationId)";
-					await connection.QueryAsync(sql,
+					await connection.ExecuteAsync(sql,
 						new {ParticipantId = participant.Id, ConversationId = conversationId});
 				}
 			}

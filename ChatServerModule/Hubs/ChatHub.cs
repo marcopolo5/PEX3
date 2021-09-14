@@ -169,10 +169,10 @@ namespace ChatServerModule.Hubs
                 Console.WriteLine($"{conversation.Location} | {conversation.Latitude} | {conversation.Longitude}");
                 // calculate distance in km and check if it s higher than userProximityRadius, if so go to the next conversation
                 
-                if (distance / 1000 > userProximityRadius)
-                {
-                    continue;
-                }
+                //if (distance / 1000 > userProximityRadius)
+                //{
+                //    continue;
+                //}
 
                 // add current user to the conversation
                 _conversationRepo.AddUserToConversation(locationDTO.UserId, conversation.Id);

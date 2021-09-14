@@ -19,7 +19,7 @@ namespace ChatServerModule.MiniRepo
         public IEnumerable<int> GetConversationsParticipants(int conversationId)
         {
             IEnumerable<int> result;
-            var sql = $"SELECT userid FROM [Group_Members] WHERE conversationid=@ConversationId;";
+            var sql = $"SELECT userid FROM [Group_Members] WHERE conversationid=@ConversationId";
 
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -33,7 +33,8 @@ namespace ChatServerModule.MiniRepo
             IEnumerable<Conversation> conversations;
             using (var connection = new SqlConnection(_connectionString))
             {
-                conversations = connection.Query<Conversation>($"SELECT * FROM [Conversations] WHERE location=@Location", new { Location = location });
+                //conversations = connection.Query<Conversation>($"SELECT * FROM [Conversations] WHERE location=@Location", new { Location = location });
+                conversations = connection.Query<Conversation>($"SELECT * FROM [Conversations] WHERE type=2");
                 foreach (var conversation in conversations)
                 {
                     MapConversationMessages(conversation);

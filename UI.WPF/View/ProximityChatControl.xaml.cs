@@ -178,6 +178,7 @@ namespace UI.WPF.View
             // if the conversation is a private chat get the name of the other participant(friend) and use it as a conversation name
             else if (conversation.Type == Domain.ConversationTypes.Private)
             {
+
                 var friend = conversation.Participants.FirstOrDefault(p => p.Id != ApplicationUserController.CurrentUser.Id);
                 conversationName = friend.Profile.DisplayName;
                 userStatus = friend.Profile.Status;

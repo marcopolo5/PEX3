@@ -106,6 +106,10 @@ namespace SignalRClientModule
                 var convs = new List<Conversation>();
                 foreach (var servConv in conversations)
                 {
+                    if (servConv.Type != Domain.ConversationTypes.ProximityGroup)
+                    {
+                        continue;
+                    }
                     Parallel.ForEach(servConv.Messages, async message =>
                     {
                         await BindUsersNameToMessage(message);
