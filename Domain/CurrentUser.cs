@@ -23,6 +23,7 @@ namespace Domain
         public bool IsBannedFromProximity { get; set; }
 
         public int CurrentConversationId { get; set; }
+        public int CurrentProximityConversationId { get; set; }
 
         private readonly IAppConfiguration _appConfiguration = new AppConfiguration();
         

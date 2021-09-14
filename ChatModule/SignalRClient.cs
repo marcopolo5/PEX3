@@ -68,6 +68,7 @@ namespace SignalRClientModule
                     options.Headers.Add("userId", userId.ToString());
                     options.Headers.Add("loginToken", token);
                 })
+                .WithAutomaticReconnect()
                 .Build();
 
             await _connection.StartAsync();

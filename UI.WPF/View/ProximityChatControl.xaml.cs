@@ -57,7 +57,7 @@ namespace UI.WPF.View
             }
             //update the conversation preview:
             conversationPreview.LastMessage = message.TextMessage;
-            if (conversationPreview.ConversationId != ApplicationUserController.CurrentUser.CurrentConversationId)
+            if (conversationPreview.ConversationId != ApplicationUserController.CurrentUser.CurrentProximityConversationId)
             {
                 conversationPreview.UnreadMessage = true;
             }
@@ -70,7 +70,7 @@ namespace UI.WPF.View
                 DisplayName = message.UsersDisplayName
             };
 
-            if (ApplicationUserController.CurrentUser.CurrentConversationId != 0)
+            if (ApplicationUserController.CurrentUser.CurrentProximityConversationId != 0)
             {
                 Messages.Add(messageDto);
                 ChatScrollViewer.UpdateLayout();
@@ -102,7 +102,7 @@ namespace UI.WPF.View
 
         private async Task SendMessage()
         {
-            var currentConversationId = ApplicationUserController.CurrentUser.CurrentConversationId;
+            var currentConversationId = ApplicationUserController.CurrentUser.CurrentProximityConversationId;
             var text = MessageText.Text;
             MessageText.Clear();
             if (string.IsNullOrWhiteSpace(text))
@@ -129,7 +129,7 @@ namespace UI.WPF.View
             ConversationStatus.Text = item.StatusMessage;
 
             Messages.Clear();
-            ApplicationUserController.CurrentUser.CurrentConversationId = item.ConversationId;
+            ApplicationUserController.CurrentUser.CurrentProximityConversationId = item.ConversationId;
             PopulateMessages(item.ConversationId);
             ChatScrollViewer.UpdateLayout();
             ChatScrollViewer.ScrollToVerticalOffset(double.MaxValue);
