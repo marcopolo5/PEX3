@@ -32,6 +32,14 @@ namespace Domain.Repositories
         {
         }
 
+        public async Task LogoutAsync(int id)
+        {
+            var url = "UPDATE Users SET token=0, lastupdate=@Now WHERE id=@Id";
+            using (var connection = await CreateConnection())
+            {
+                await connection.ExecuteAsync(url, new { Now = DateTime.Now, Id = id });
+            }
+        }
 
         /// <summary>
         /// Async method. Inserts a user into the database.

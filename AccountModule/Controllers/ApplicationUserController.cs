@@ -109,7 +109,8 @@ namespace AccountModule.Controllers
             User user = CurrentUser;
             user.Token = "0";
             user.LastUpdate = DateTime.Now;
-            await _userRepository.UpdateAsync(user);
+            //await _userRepository.UpdateAsync(user);
+            await _userRepository.LogoutAsync(CurrentUser.Id);
 
             // deleting token from disk and memory:
             if (CurrentUser.ClearData() == false)
